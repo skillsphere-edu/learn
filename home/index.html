@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkillSphere — Learn. Grow. Lead.</title>
+<title>SkillSphere Test File</title>
 <meta name="description" content="SkillSphere is a student-led upskilling platform offering certified courses, verified credentials, and real-world skills for the next generation of professionals.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1583,7 +1583,7 @@ footer {
         </div>
         <div class="course-footer">
           <span class="course-price">₹1,499</span>
-          <button class="enroll-btn">Enroll Now</button>
+          <button class="enroll-btn" data-link="https://naufil7706.github.io/SkillSphere/courses/fullstack-web-development-bootcamp.html">Enroll Now</button>
         </div>
       </div>
 
@@ -1784,7 +1784,7 @@ footer {
     </div><!-- /courses-grid -->
 
     <div class="courses-cta reveal">
-      <p>More courses in Finance, Accounting, Data Analysis & more — launching soon.</p>
+      <p>Courses in Finance, Accounting, Data Analysis & more — launching soon.</p>
       <button class="btn-ghost" onclick="document.querySelector('footer').scrollIntoView({behavior:'smooth'})">
         Get notified of new courses ↓
       </button>
@@ -1948,10 +1948,17 @@ function filterCourses(cat, btn) {
 /* ── Enroll button (placeholder) ── */
 document.querySelectorAll('.enroll-btn').forEach(btn => {
   btn.addEventListener('click', function() {
-    const title = this.closest('.course-card').querySelector('.course-title').textContent;
-    alert('📚 ' + title + '\n\nCourse enrollment coming soon!\nFor now, reach out to us at hello@skillsphere.in');
+    const link = this.dataset.link;
+
+    if (link) {
+      window.open(link, '_blank');
+
+    } else {
+      alert('Course link not added yet.');
+    }
   });
 });
+
 
 /* ── Smooth active nav highlight ── */
 const sections = document.querySelectorAll('section[id], div[id="hero"]');
