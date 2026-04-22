@@ -61,9 +61,9 @@ nav {
   justify-content: space-between;
   padding: 0 5%;
   height: 62px;
-  background: rgba(5,9,15,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(201,139,10,0.12);
+  background: rgba(5, 9, 15, 0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(201, 139, 10, 0.12);
 }
 
 .nav-logo {
@@ -122,6 +122,23 @@ nav {
   transition: background 0.2s;
 }
 .btn-nav:hover { background: var(--gold-l); }
+
+/* Mobile menu toggle */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
 
 /* ─────────────────────────────────────────────
    BREADCRUMB
@@ -857,6 +874,32 @@ footer {
 .footer-bottom .tagline { color: var(--gold); font-size: 0.72rem; font-weight: 600; }
 
 /* ─────────────────────────────────────────────
+   MOBILE MENU
+───────────────────────────────────────────── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 66px; left: 0; right: 0;
+  background: rgba(5,9,15,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,139,10,0.12);
+  padding: 1.5rem 5%;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 999;
+}
+
+.mobile-menu.open { display: flex; }
+
+.mobile-menu a {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--off);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ─────────────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -874,6 +917,8 @@ footer {
   .review-summary { flex-direction: column; gap: 1rem; }
   .instructor-card { flex-direction: column; }
   .footer-inner  { grid-template-columns: 1fr; }
+  nav .nav-links, nav .nav-cta { display: none; }
+  .nav-hamburger   { display: flex; }
 }
 
 </style>
@@ -881,7 +926,7 @@ footer {
 <body>
 
 <!-- ═══════════ NAV ═══════════ -->
-<nav>
+<nav id="main-nav">
   <div class="nav-logo">
     <div class="logo-sphere"></div>
     <span>Skill<em>Sphere</em></span>
@@ -892,13 +937,25 @@ footer {
 	<a href="https://naufil7706.github.io/SkillSphere/home/#founders">Founders</a>
     <a href="https://naufil7706.github.io/SkillSphere/courses">Courses</a>
   </div>
+  
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://naufil7706.github.io/SkillSphere/home/" onclick="toggleMenu()">Home</a>
+  <a href="https://naufil7706.github.io/SkillSphere/home/#about"    onclick="toggleMenu()">About SkillSphere</a>
+  <a href="https://naufil7706.github.io/SkillSphere/home/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://naufil7706.github.io/SkillSphere/courses"  onclick="toggleMenu()">Our Courses</a>
+</div>
+
 
 <!-- ═══════════ BREADCRUMB ═══════════ -->
 <div class="breadcrumb-bar">
   <a href="https://naufil7706.github.io/SkillSphere/home">Home</a><span>›</span>
   <a href="https://naufil7706.github.io/SkillSphere/courses">Courses</a><span>›</span>
-  <a href="#">Technology</a><span>›</span>
   Full Stack Web Development Bootcamp
 </div>
 
@@ -1310,6 +1367,11 @@ footer {
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
+/* ── Mobile menu ── */
+function toggleMenu() {
+  const m = document.getElementById('mobile-menu');
+  m.classList.toggle('open');
+}
 /* ── Tab switcher ── */
 function switchTab(btn, id) {
   document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
