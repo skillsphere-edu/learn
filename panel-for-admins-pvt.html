@@ -242,17 +242,18 @@ try {
   document.getElementById("certDate").innerText =
   "Issued on: " + new Date().toLocaleDateString();
   // Generate PDF
-  setTimeout(async () => {
-  await html2pdf().set({
-    margin: 0,
-    filename: `${name}.pdf`,
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: { scale: 3 },
-    jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
-  }).from(document.getElementById("certificate")).save();
+  // Ensure full render before PDF
+await new Promise(resolve => setTimeout(resolve, 1200));
 
-  status.innerText = "✅ Certificate issued successfully";
-}, 800);
+await html2pdf().set({
+  margin: 0,
+  filename: `${name}.pdf`,
+  image: { type: 'jpeg', quality: 1 },
+  html2canvas: { scale: 3, useCORS: true },
+  jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
+}).from(document.getElementById("certificate")).save();
+
+status.innerText = "✅ Certificate issued successfully";
 
 }
 </script>
