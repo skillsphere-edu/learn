@@ -233,7 +233,7 @@ async function verifyCert() {
   loader.style.display = "block";
 
   try {
-    const res = await fetch(`https://YOUR-WORKER.workers.dev/verify?id=${id}`);
+    const res = await fetch(`https://skillsphere-verify.skillsphere-work.workers.dev/verify?id=${id}`);
     const data = await res.json();
 
     loader.style.display = "none";
