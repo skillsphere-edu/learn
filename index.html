@@ -1102,13 +1102,13 @@ font-style: bold;
 /* view all row */
 .courses-cta {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 1.25rem;
 }
 
 .courses-cta p {
   font-size: 0.88rem;
   color: var(--muted);
-  margin-bottom: 1.2rem;
+  margin-top: 1.25rem;
 }
 
 /* ─────────────────────────────────────────────
@@ -1118,7 +1118,7 @@ font-style: bold;
   background: var(--navy-3);
   border-top: 1px solid rgba(201,139,10,0.1);
   border-bottom: 1px solid rgba(201,139,10,0.1);
-  padding: 5rem 5%;
+  padding: 4rem 5%;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1557,15 +1557,6 @@ footer {
       </div>
     </div>
 
-    <!-- Category filter tabs -->
-    <div class="cat-tabs reveal">
-      <button class="cat-tab active" onclick="filterCourses('all',this)">All Courses</button>
-      <button class="cat-tab" onclick="filterCourses('beginner',this)">Beginner</button>
-      <button class="cat-tab" onclick="filterCourses('inter',this)">Intermediate</button>
-      <button class="cat-tab" onclick="filterCourses('hard',this)">Expert</button>
-      <button class="cat-tab" onclick="filterCourses('ai',this)">AI</button>
-    </div>
-
     <div class="courses-grid" id="courses-grid">
 
       <!-- COURSE 1 -->
@@ -1654,142 +1645,13 @@ footer {
           <button class="enroll-btn">Enroll Now</button>
         </div>
       </div>
-
-      <!-- COURSE 5 -->
-      <div class="course-card reveal" data-cat="ai">
-        <div class="course-thumb th-ai">
-          <span class="thumb-emoji">🤖</span>
-          <div class="course-badge badge-ai">AI</div>
-          
-        </div>
-        <div class="course-body">
-          <div class="course-title">AI &amp; Prompt Engineering for Beginners</div>
-          <div class="course-desc">Unlock the power of large language models. Build AI-powered workflows, master prompt design, and stay ahead of the curve.</div>
-          <div class="course-meta">
-            <span>⏱ 18 hrs</span>
-            <span>⭐ 5.0 (44)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹799</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- COURSE 6 -->
-      <div class="course-card reveal" data-cat="inter">
-        <div class="course-thumb th-inter">
-          <span class="thumb-emoji">📊</span>
-          <div class="course-badge badge-inter">Intermediate</div>
-		  
-        </div>
-        <div class="course-body">
-          <div class="course-title">Data Analytics with Python &amp; Excel</div>
-          <div class="course-desc">Analyse real datasets, build dashboards, and tell compelling stories with data. No prior coding experience needed.</div>
-          <div class="course-meta">
-            <span>⏱ 36 hrs</span>
-            <span>⭐ 4.7 (156)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹1,299</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- COURSE 7 -->
-      <div class="course-card reveal" data-cat="hard">
-        <div class="course-thumb th-hard">
-          <span class="thumb-emoji">💰</span>
-          <div class="course-badge badge-hard">Expert</div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Personal Finance &amp; Investment Basics</div>
-          <div class="course-desc">Budgeting, mutual funds, SIPs, stocks, and tax planning — build the financial literacy your school never taught you.</div>
-          <div class="course-meta">
-            <span>⏱ 14 hrs</span>
-            <span>⭐ 4.8 (203)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹599</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- COURSE 8 -->
-      <div class="course-card reveal" data-cat="ai">
-        <div class="course-thumb th-ai">
-          <span class="thumb-emoji">🎤</span>
-          <div class="course-badge badge-ai">AI</div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Public Speaking &amp; Professional Communication</div>
-          <div class="course-desc">Speak with authority, present with confidence, and communicate clearly — in meetings, interviews, and on stage.</div>
-          <div class="course-meta">
-            <span>⏱ 12 hrs</span>
-            <span>⭐ 4.9 (178)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹699</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-	  
-	  <!-- COURSE 9 -->
-      <div class="course-card reveal" data-cat="ai">
-        <div class="course-thumb th-ai">
-          <span class="thumb-emoji">🎤</span>
-          <div class="course-badge badge-ai">AI</div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Public Speaking &amp; Professional Communication</div>
-          <div class="course-desc">Speak with authority, present with confidence, and communicate clearly — in meetings, interviews, and on stage.</div>
-          <div class="course-meta">
-            <span>⏱ 12 hrs</span>
-            <span>⭐ 4.9 (178)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹699</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-	  
-	  <!-- COURSE 10 -->
-      <div class="course-card reveal" data-cat="beginner">
-        <div class="course-thumb th-beginner">
-          <span class="thumb-emoji">🎤</span>
-          <div class="course-badge badge-beginner">Beginner</div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Public Speaking &amp; Professional Communication</div>
-          <div class="course-desc">Speak with authority, present with confidence, and communicate clearly — in meetings, interviews, and on stage.</div>
-          <div class="course-meta">
-            <span>⏱ 12 hrs</span>
-            <span>⭐ 4.9 (178)</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <span class="course-price">₹699</span>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
     </div><!-- /courses-grid -->
 
     <div class="courses-cta reveal">
-      <p>Courses in Finance, Accounting, Data Analysis & more — launching soon.</p>
-      <button class="btn-ghost" onclick="document.querySelector('footer').scrollIntoView({behavior:'smooth'})">
-        Get notified of new courses ↓
+      <button class="btn-ghost" onclick="window.location.href='https://skillsphere-edu.github.io/learn/courses'">
+        Browse All Courses →
       </button>
+	  <p>More Courses in Finance, Accounting, Data Analysis &amp; other categories — Launching Soon.</p>
     </div>
   </div>
 </section>
@@ -1798,9 +1660,12 @@ footer {
 <!-- ═══════════ CTA BAND ═══════════ -->
 <div class="cta-band">
   <h2>Ready to Start <em style="font-style:italic;color:var(--gold-l)">Learning?</em></h2>
-  <p>Join thousands of learners earning skills and certificates that actually open doors.</p>
-  <button class="btn-gold" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'})">
-    Browse All Courses →
+  <p>Join thousands of learners earning skills and certificates that actually open doors. Stay Notified on all Updates.</p>  
+  <button class="btn-gold" onclick="window.location.href='https://www.linkedin.com/company/skillsphere001'">
+    Our LinkedIn Page ↗
+  </button>
+  <button class="btn-gold" onclick="window.location.href='https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S'">
+    Our WhatsApp Group ↗
   </button>
 </div>
 
@@ -1823,9 +1688,10 @@ footer {
     <div class="footer-col">
       <h4>Navigate</h4>
       <ul>
-        <li><a href="#about">About SkillSphere</a></li>
-        <li><a href="#founders">Meet the Founders</a></li>
-        <li><a href="#courses">All Courses</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+		<li><a href="#about">About Us</a></li>
+		<li><a href="#">Verify Certificate</a></li>
+		<li><a href="#">Privacy Policy</a></li>
       </ul>
     </div>
 
