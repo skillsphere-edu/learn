@@ -10,8 +10,8 @@
 
 <style>
 body {
-  background:#070b14;
-  color:#fff;
+  background:#ffffff;
+  color:#111;
   font-family: Inter, sans-serif;
   display:flex;
   justify-content:center;
@@ -74,8 +74,16 @@ button {
   width:1123px;
   height:794px;
   padding:60px;
-  background:#0b0f1a;
-  color:#fff;
+  background:
+  linear-gradient(#ffffff, #ffffff),
+  repeating-linear-gradient(
+    45deg,
+    rgba(212,175,55,0.02),
+    rgba(212,175,55,0.02) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  color:#111;
   font-family: 'Georgia', serif;
   position:relative;
   box-sizing:border-box;
@@ -99,7 +107,7 @@ button {
     left:50%;
     transform:translate(-50%, -50%);
     font-size:120px;
-    color:rgba(212,175,55,0.05);
+    color:rgba(212,175,55,0.08);
     letter-spacing:10px;
     pointer-events:none;
   ">
@@ -108,8 +116,8 @@ button {
 
   <!-- HEADER -->
   <div style="text-align:center;">
-    <h1 style="font-size:48px; letter-spacing:3px;">SkillSphere</h1>
-    <p style="color:#d4af37; letter-spacing:4px; font-size:14px;">
+    <h1 style="font-size:42px; letter-spacing:4px; color:#222;">SkillSphere</h1>
+    <p style="color:#b8962e; letter-spacing:5px; font-size:13px;">
       CERTIFICATE OF COMPLETION
     </p>
   </div>
@@ -119,17 +127,18 @@ button {
     <p style="font-size:18px;">This is to certify that</p>
 
     <h2 id="certName" style="
-      font-size:40px;
-      margin:20px 0;
-      color:#d4af37;
+      font-size:42px;
+      color:#b8962e;
+      letter-spacing:1px;
       font-weight:600;
     "></h2>
 
     <p style="font-size:18px;">has successfully completed the course</p>
 
     <h3 id="certCourse" style="
-      font-size:26px;
-      margin:15px 0;
+      font-size:22px;
+      color:#222;
+      font-weight:500;
     "></h3>
 
     <p id="certDate" style="margin-top:15px; color:#ccc;"></p>
@@ -148,16 +157,21 @@ button {
 
     <!-- SIGNATURE -->
 <div style="text-align:left;">
-  <img src="Sign.png" style="height:50px; margin-bottom:6px;">
+  <img src="Sign.png" style="height:50px; filter: contrast(1.2);">
   <p style="margin:0; font-size:14px;"><strong>Naufil U. Ansari</strong></p>
   <p style="margin:0; font-size:13px; color:#aaa;">Co-Founder, SkillSphere</p>
 </div>
 
     <!-- QR -->
     <div style="text-align:center;">
-      <div id="qr"></div>
-      <p id="certId" style="font-size:12px; margin-top:5px;"></p>
-    </div>
+  <div id="qr" style="margin:auto;"></div>
+  <p id="certId" style="
+    font-size:11px;
+    margin-top:6px;
+    color:#555;
+    letter-spacing:1px;
+  "></p>
+</div>
 
   </div>
 
@@ -224,9 +238,15 @@ try {
 
   // Prepare certificate UI
   const cert = document.getElementById("certificate");
-  cert.style.display = "block";
-  cert.style.visibility = "visible";
-  cert.style.zIndex = "1";
+
+// Reset positioning for PDF capture
+cert.style.display = "block";
+cert.style.visibility = "visible";
+cert.style.position = "absolute";
+cert.style.top = "0";
+cert.style.left = "0";
+cert.style.margin = "0";
+cert.style.zIndex = "1";
   document.getElementById("certName").innerText = name;
   document.getElementById("certCourse").innerText = course;
   document.getElementById("certId").innerText = id;
@@ -246,18 +266,22 @@ try {
 await new Promise(resolve => setTimeout(resolve, 1200));
 
 await html2pdf().set({
-  margin: 0,
+  margin: [0, 0, 0, 0],
   filename: `${name}.pdf`,
   image: { type: 'jpeg', quality: 1 },
   html2canvas: { scale: 3, useCORS: true },
-  jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' }
-}).from(document.getElementById("certificate")).save();
+  jsPDF: { unit: 'px', format: [1123, 794], orientation: 'landscape' },
+  pagebreak: { mode: ['avoid-all'] }
+}).from(cert).save();
 
 status.innerText = "✅ Certificate issued successfully";
 
-}
 cert.style.visibility = "hidden";
-cert.style.zIndex = "-1";
+cert.style.display = "none";
+cert.style.position = "fixed"; // restore original behavior
+cert.style.top = "-9999px";
+}
+
 </script>
 
 </body>
