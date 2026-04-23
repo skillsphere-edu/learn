@@ -32,17 +32,22 @@
 body {
   background: radial-gradient(circle at 20% 20%, #0f172a, #070b14);
   color: var(--text);
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* CONTAINER */
 .container {
-  width:100%;
-  max-width:520px;
-  padding:20px;
+  width: 100%;
+  max-width: 520px;
+  padding: 20px;
+  margin: auto;
+
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* CARD */
@@ -51,7 +56,7 @@ body {
   backdrop-filter: blur(20px);
   border:1px solid var(--border);
   border-radius:20px;
-  padding:35px;
+  padding:60px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.5);
   text-align:center;
   animation: fadeIn 0.6s ease;
@@ -189,6 +194,21 @@ button:hover {
   font-size:12px;
   color: var(--muted);
 }
+
+.footer2-bottom {
+  width: 100%;
+  margin-top: auto;
+  padding: 1.5rem 5%;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.footer2-bottom span { font-size: 0.75rem; color: var(--muted); }
+.footer2-bottom .tagline { color: var(--gold); font-size: 0.72rem; font-weight: 600; }
 </style>
 </head>
 
@@ -217,9 +237,16 @@ button:hover {
     <div class="footer">
       Secure verification powered by SkillSphere
     </div>
-
+	
   </div>
-</div>
+  </div>
+  
+  <div class="footer2-bottom">
+    <span>© 2026 SkillSphere. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
+    <span>Hosted on GitHub Pages.</span>
+    <span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
 
 <script>
 async function verifyCert() {
