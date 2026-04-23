@@ -210,9 +210,11 @@ async function issueCertificate() {
   });
 
   // Generate PDF
+  setTimeout(async () => {
   await html2pdf().from(document.getElementById("certificate")).save(`${name}.pdf`);
-
   status.innerText = "✅ Certificate issued successfully";
+}, 800);
+
 }
 </script>
 
