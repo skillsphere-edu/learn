@@ -242,23 +242,28 @@ async function verifyCert() {
     if (data.valid) {
       resultBox.className = "result verified";
       resultBox.innerHTML = `
-        <h3 style="color:#2ecc71;">✔ Certificate Verified</h3>
+  <h3 style="color:#2ecc71;">✔ Certificate Verified</h3>
 
-        <div class="row">
-          <div class="label">Course</div>
-          <div class="value">${data.course}</div>
-        </div>
+  <div class="row">
+    <div class="label">Name</div>
+    <div class="value">${data.name}</div>
+  </div>
 
-        <div class="row">
-          <div class="label">Issued On</div>
-          <div class="value">${data.issued}</div>
-        </div>
+  <div class="row">
+    <div class="label">Course</div>
+    <div class="value">${data.course}</div>
+  </div>
 
-        <div class="row">
-          <div class="label">Certificate ID</div>
-          <div class="value">${id}</div>
-        </div>
-      `;
+  <div class="row">
+    <div class="label">Issued On</div>
+    <div class="value">${data.issued}</div>
+  </div>
+
+  <div class="row">
+    <div class="label">Certificate ID</div>
+    <div class="value">${id}</div>
+  </div>
+`;
     } else {
       resultBox.className = "result notfound";
       resultBox.innerHTML = `
