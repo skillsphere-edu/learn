@@ -434,19 +434,20 @@ nav {
   display: flex;
   gap: 0.5rem;
   font-size: 0.8rem;
-  color: rgba(244,241,235,0.8);
+  color: var(--white);
   align-items: flex-start;
 }
 
 .ci-check { color: var(--green); flex-shrink: 0; margin-top: 0.05rem; }
 
-.guarantee {
+.card-lastline {
   text-align: center;
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 0.9rem;
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.85rem;
+  color: var(--off);
+  margin-top: 0.75rem;
+  margin-bottom: -0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.25);
 }
 
 /* ─────────────────────────────────────────────
@@ -499,10 +500,11 @@ nav {
 
 /* ─── WHAT YOU'LL LEARN ─── */
 .what-learn {
-  background: var(--navy-3);
+  background: rgba(255,255,255,0.02);
   border: 1px solid rgba(201,139,10,0.12);
   border-radius: 9px;
   padding: 1.5rem;
+  margin-top: 4rem;
   margin-bottom: 2rem;
 }
 
@@ -1023,8 +1025,22 @@ footer {
       </div>
 
       <div class="instructor-mini">
-        <div class="inst-av">AM</div>
-        <span>By <a href="#">Aryan Mehta</a> · Co-Founder &amp; Lead Instructor, SkillSphere</span>
+        <div class="inst-av">NA</div>
+        <span>By <a href="#">Naufil U. Ansari</a> · COO &amp; Co-Founder, SkillSphere</span>
+      </div>
+	        
+		<div class="what-learn">
+        <h3>What you'll learn</h3>
+        <div class="learn-grid">
+          <div class="learn-item"><span class="learn-check">✓</span><span>Build responsive UIs with HTML, CSS &amp; JavaScript</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Create React applications with Hooks &amp; Context API</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Build REST APIs with Node.js &amp; Express.js</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Design and query MongoDB databases</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Deploy apps to the cloud (Vercel, Render)</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Implement authentication — JWT &amp; OAuth</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Work with Git &amp; GitHub for version control</span></div>
+          <div class="learn-item"><span class="learn-check">✓</span><span>Earn a verified, employer-trusted certificate</span></div>
+        </div>
       </div>
     </div>
 
@@ -1044,7 +1060,7 @@ footer {
         </div>
 
         <button class="btn-enroll">Enroll Now →</button>
-        <button class="btn-preview">Try Free Preview</button>
+
 
         <ul class="course-includes">
           <li><span class="ci-check">✓</span><span>48 hours of HD video lectures</span></li>
@@ -1056,7 +1072,7 @@ footer {
           <li><span class="ci-check">✓</span><span>Downloadable resources &amp; slides</span></li>
         </ul>
 
-        <div class="guarantee">🔒 30-Day Money-Back Guarantee</div>
+        <div class="card-lastline">📢 Limited Seats Available!</div>
       </div>
     </div>
 
@@ -1080,33 +1096,10 @@ footer {
     <!-- ── TAB: OVERVIEW ── -->
     <div class="tab-panel active" id="tab-overview">
 
-      <div class="what-learn">
-        <h3>What you'll learn</h3>
-        <div class="learn-grid">
-          <div class="learn-item"><span class="learn-check">✓</span><span>Build responsive UIs with HTML, CSS &amp; JavaScript</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Create React applications with Hooks &amp; Context API</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Build REST APIs with Node.js &amp; Express.js</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Design and query MongoDB databases</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Deploy apps to the cloud (Vercel, Render)</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Implement authentication — JWT &amp; OAuth</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Work with Git &amp; GitHub for version control</span></div>
-          <div class="learn-item"><span class="learn-check">✓</span><span>Earn a verified, employer-trusted certificate</span></div>
-        </div>
-      </div>
-
       <div class="overview-body">
         <p style="margin-bottom:1rem">This comprehensive bootcamp takes you from complete beginner to a job-ready full stack developer. Every module is built around industry practice — not textbook theory. You'll leave with a portfolio of 8 real projects that employers actually care about.</p>
         <p style="margin-bottom:1rem">Unlike traditional online courses that dump 100 hours of content on you, this bootcamp is designed around project milestones. Each section ends with a project that reinforces everything you just learned. By the end, you'll have a portfolio, a certificate, and the confidence to apply.</p>
         <p>Whether you're a student looking for your first role, a working professional making a pivot, or someone who's just always wanted to build things — this course meets you where you are.</p>
-      </div>
-
-      <div style="margin-top:2rem; padding:1.4rem; background:var(--navy-3); border:1px solid rgba(255,255,255,0.06); border-radius:9px;">
-        <h3 style="font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:600; margin-bottom:1rem;">Requirements</h3>
-        <ul style="list-style:none; display:flex; flex-direction:column; gap:.5rem;">
-          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>No prior coding experience required — we start from absolute zero</span></li>
-          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>A laptop or PC with internet access</span></li>
-          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>Dedication and willingness to build things — not just watch videos</span></li>
-        </ul>
       </div>
 
       <div style="margin-top:1.2rem; padding:1.4rem; background:var(--navy-3); border:1px solid rgba(255,255,255,0.06); border-radius:9px;">
@@ -1117,6 +1110,15 @@ footer {
           <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>Entrepreneurs who want to build and launch their own web products</span></li>
         </ul>
       </div>
+	  
+      <div style="margin-top:2rem; padding:1.4rem; background:var(--navy-3); border:1px solid rgba(255,255,255,0.06); border-radius:9px;">
+        <h3 style="font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:600; margin-bottom:1rem;">Requirements</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:.5rem;">
+          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>No prior coding experience required — we start from absolute zero</span></li>
+          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>A laptop or PC with internet access</span></li>
+          <li style="font-size:.83rem; color:var(--muted); display:flex; gap:.5rem;"><span style="color:var(--gold-l)">→</span><span>Dedication and willingness to build things — not just watch videos</span></li>
+        </ul>
+      </div>	  
     </div>
 
     <!-- ── TAB: CURRICULUM ── -->
