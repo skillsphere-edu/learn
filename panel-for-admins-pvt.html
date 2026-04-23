@@ -53,9 +53,6 @@ button {
 
 #certificate {
   display:none;
-  position: fixed;
-  top: -9999px;
-  left: -9999px;
 }
 </style>
 </head>
@@ -226,7 +223,10 @@ try {
 }
 
   // Prepare certificate UI
-  document.getElementById("certificate").style.display = "block";
+  const cert = document.getElementById("certificate");
+  cert.style.display = "block";
+  cert.style.visibility = "visible";
+  cert.style.zIndex = "1";
   document.getElementById("certName").innerText = name;
   document.getElementById("certCourse").innerText = course;
   document.getElementById("certId").innerText = id;
@@ -256,6 +256,8 @@ await html2pdf().set({
 status.innerText = "✅ Certificate issued successfully";
 
 }
+cert.style.visibility = "hidden";
+cert.style.zIndex = "-1";
 </script>
 
 </body>
