@@ -74,12 +74,77 @@ button {
 
 <div id="status"></div>
 
-<div id="certificate">
-  <h1>SkillSphere Certificate</h1>
-  <h2 id="certName"></h2>
-  <p id="certCourse"></p>
-  <p id="certId"></p>
-  <div id="qr"></div>
+<div id="certificate" style="
+  display:none;
+  width:1000px;
+  padding:60px;
+  background:linear-gradient(135deg,#0b0f1a,#121829);
+  color:#fff;
+  border:10px solid #d4af37;
+  text-align:center;
+  font-family: Georgia, serif;
+  position:relative;
+">
+
+  <!-- Brand -->
+  <h1 style="font-size:42px; letter-spacing:2px;">SkillSphere</h1>
+  <p style="color:#d4af37; letter-spacing:3px; font-size:14px;">
+    CERTIFICATE OF COMPLETION
+  </p>
+
+  <!-- Content -->
+  <p style="margin-top:40px; font-size:18px;">
+    This is to certify that
+  </p>
+
+  <h2 id="certName" style="
+    font-size:36px;
+    margin:20px 0;
+    color:#d4af37;
+    font-weight:600;
+  "></h2>
+
+  <p style="font-size:18px;">
+    has successfully completed the course
+  </p>
+
+  <h3 id="certCourse" style="
+    font-size:24px;
+    margin:15px 0;
+  "></h3>
+
+  <p id="certDate" style="margin-top:20px; color:#ccc;"></p>
+
+  <!-- QR -->
+  <div style="margin-top:40px;">
+    <div id="qr"></div>
+  </div>
+
+  <!-- ID -->
+  <p id="certId" style="
+    margin-top:20px;
+    font-size:14px;
+    color:#aaa;
+  "></p>
+
+  <!-- Signatures -->
+  <div style="
+    margin-top:60px;
+    display:flex;
+    justify-content:space-between;
+    padding:0 40px;
+  ">
+    <div>
+      <p>____________________</p>
+      <p>Founder, SkillSphere</p>
+    </div>
+
+    <div>
+      <p>____________________</p>
+      <p>Authorized Signature</p>
+    </div>
+  </div>
+
 </div>
 
 </div>
