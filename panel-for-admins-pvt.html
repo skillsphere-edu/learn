@@ -123,6 +123,7 @@ async function issueCertificate() {
     },
     body: JSON.stringify({
       id,
+      name,
       course,
       issued: new Date().toISOString().split("T")[0],
       signature
