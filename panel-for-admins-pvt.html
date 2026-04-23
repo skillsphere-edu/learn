@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SkillSphere Admin</title>
+<style>
+body { background:#0b0f1a; color:#fff; font-family:sans-serif; padding:40px;}
+input,button { padding:10px; margin:10px 0; width:100%; }
+</style>
+</head>
+<body>
+
+<h2>Issue Certificate</h2>
+
+<input id="name" placeholder="Student Name">
+<input id="course" placeholder="Course Name">
+
+<button onclick="generate()">Generate Certificate</button>
+
+<pre id="output"></pre>
+
+<script>
+const SECRET = "SKILLSPHERE_ULTRA_SECRET_2026";
+
+async function sha256(text){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+
+function generateID(){
+  return "SS-" + Math.random().toString(36).substring(2,8).toUpperCase();
+}
+
+async function generate(){
+  const name = document.getElementById("name").value;
+  const course = document.getElementById("course").value;
+
+  const id = generateID();
+  const signature = await sha256(id + SECRET);
+
+  const obj = {
+    key: id,
+    value: {
+      course: course,
+      issued: new Date().toISOString().split("T")[0],
+      signature: signature
+    }
+  };
+
+  document.getElementById("output").innerText =
+`UPLOAD THIS TO KV:
+
+KEY: ${id}
+
+VALUE:
+${JSON.stringify(obj.value, null, 2)}
+
+NAME (PRIVATE): ${name}
+`;
+}
+</script>
+
+</body>
+</html>
