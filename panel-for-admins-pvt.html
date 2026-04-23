@@ -64,6 +64,7 @@ button {
 
 <input id="name" placeholder="Student Name">
 <input id="course" placeholder="Course Name">
+<input id="desc" placeholder="Description">
 
 <button onclick="issueCertificate()">Issue Certificate</button>
 
@@ -148,23 +149,29 @@ button {
     <p style="font-size:18px;">has successfully completed the course</p>
 
     <h3 id="certCourse" style="
-  font-size:20px;
+  font-size:25px;
+  color:#454590;
+  font-weight:500;
+  letter-spacing:0.5px;
+"></h3>
+
+<h3 id="certDesc" style="
+  font-size:15px;
   color:#222;
   font-weight:500;
   letter-spacing:0.5px;
 "></h3>
 
-    <p id="certDate" style="margin-top:15px; color:#ccc;"></p>
-  </div>
+    
 
   <div style="
   position:absolute;
   left:90px;
   bottom:130px;
-  width:90px;
-  height:90px;
+  width:110px;
+  height:110px;
   border-radius:50%;
-  border:4px solid #d4af37;
+  border:3px solid #d4af37;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -190,7 +197,7 @@ button {
 
     <!-- SIGNATURE -->
 <div style="text-align:left;">
-  <img src="Sign.png" style="height:55px; margin-bottom:4px; filter: contrast(1.2);">
+  <img src="Sign.png" style="height:75px; margin-bottom:1px; filter: contrast(1.2);">
   
   <div style="
     width:160px;
@@ -199,9 +206,9 @@ button {
   "></div>
 
   <p style="margin:4px 0 0; font-size:14px;"><strong>Naufil U. Ansari</strong></p>
-  <p style="margin:0; font-size:12px; color:#777;">Co-Founder, SkillSphere</p>
+  <p style="margin:0; font-size:12px; color:#777;">COO &amp; Co-Founder, SkillSphere</p>
 </div>
-
+<p id="certDate" style="margin-left:-45px; color:#454590;"></p>
     <!-- QR -->
     <div style="text-align:center;">
   <div id="qr" style="margin:auto;"></div>
@@ -212,6 +219,7 @@ button {
   letter-spacing:2px;
   font-family: monospace;
 "></p>
+  </div>
 </div>
 
   </div>
@@ -238,6 +246,7 @@ async function issueCertificate() {
 
   const name = document.getElementById("name").value;
   const course = document.getElementById("course").value;
+  const desc = document.getElementById("desc").value;
   const status = document.getElementById("status");
 
   if (!name || !course) {
@@ -290,6 +299,7 @@ cert.style.margin = "0";
 cert.style.zIndex = "1";
   document.getElementById("certName").innerText = name;
   document.getElementById("certCourse").innerText = course;
+  document.getElementById("certDesc").innerText = desc;
   document.getElementById("certId").innerText = id;
 
   document.getElementById("qr").innerHTML = "";
