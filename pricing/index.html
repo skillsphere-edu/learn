@@ -319,7 +319,7 @@ nav {
   border: 1px solid rgba(201,139,10,0.15);
   border-radius: 40px;
   padding: 0.35rem 0.5rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 0.5rem;
   position: relative;
   z-index: 1;
 }
@@ -418,9 +418,13 @@ nav {
 
 /* elite */
 .plan-elite::before { background: linear-gradient(90deg, var(--blue), #4fa0ff); }
-.plan-elite:hover   { border-color: rgba(26,104,214,0.3); }
+.plan-elite:hover   { 
+	transform: scale(1.035) translateY(-6px);
+	border-color: rgba(26,104,214,0.3); 
+	box-shadow: 0 24px 64px rgba(26,104,214,0.18), 0 0 0 1px rgba(26,104,214,0.15);
+}
 
-/* ambient glow behind pro */
+/* ambient glow behind pro/elite */
 .plan-pro::after {
   content: '';
   position: absolute;
@@ -428,9 +432,30 @@ nav {
   background: radial-gradient(ellipse at 50% -20%, rgba(201,139,10,0.07) 0%, transparent 65%);
   pointer-events: none;
 }
+.plan-elite::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% -20%, rgba(26,104,214,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
 
 /* featured badge */
-.featured-badge {
+.featured-badge-elite {
+  position: absolute;
+  top: 1rem; right: 1.2rem;
+  background: #7ab8ff;
+  color: #07090e;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+}
+
+/* featured badge */
+.featured-badge-pro {
   position: absolute;
   top: 1rem; right: 1.2rem;
   background: var(--gold);
@@ -629,7 +654,7 @@ nav {
 }
 
 .trust-inner {
-  max-width: 900px;
+  max-width: 1080px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -1047,7 +1072,9 @@ footer {
 
   .plan-pro { transform: none; }
   .plan-pro:hover { transform: translateY(-6px); }
-
+  .plan-elite { transform: none; }
+  .plan-elite:hover { transform: translateY(-6px); }
+	
   .compare-header-grid,
   .compare-row {
     grid-template-columns: 1.6fr repeat(3, 1fr);
@@ -1120,8 +1147,9 @@ footer {
     <!-- billing toggle -->
     <div class="billing-toggle reveal" id="billing-toggle">
       <span class="toggle-label active" id="lbl-monthly" onclick="setBilling('monthly')">Monthly</span>
-      <span class="toggle-label" id="lbl-annual" onclick="setBilling('annual')">Annual <span class="save-tag">Save 30%</span></span>
+      <span class="toggle-label" id="lbl-annual" onclick="setBilling('annual')">Annual</span>
     </div>
+	<span class="save-tag">Save 30%</span>
   </div>
 </div>
 
@@ -1150,7 +1178,7 @@ footer {
         </li>
         <li>
           <span class="feat-icon">✓</span>
-          <span>SkillSphere <strong>verified certificate</strong> (paid add-on)</span>
+          <span>SkillSphere <strong>Verified Certificate</strong> (Paid add-on)</span>
         </li>
         <li>
           <span class="feat-icon">✓</span>
@@ -1162,15 +1190,11 @@ footer {
         </li>
         <li class="feat-muted">
           <span class="feat-icon">–</span>
-          <span>Premium courses</span>
-        </li>
-        <li class="feat-muted">
-          <span class="feat-icon">–</span>
           <span>Live doubt sessions</span>
         </li>
-        <li class="feat-muted">
+		<li class="feat-muted">
           <span class="feat-icon">–</span>
-          <span>Priority certificate dispatch</span>
+          <span>1-on-1 mentorship sessions</span>
         </li>
       </ul>
 
@@ -1182,7 +1206,7 @@ footer {
 
     <!-- ── PRO ── -->
     <div class="plan-card plan-pro reveal">
-      <div class="featured-badge">Most Popular</div>
+      <div class="featured-badge-pro">Most Popular</div>
       <div class="plan-icon">⚡</div>
       <div class="plan-name">Pro</div>
       <div class="plan-tagline">Everything you need to upskill fast and get recognised.</div>
@@ -1203,15 +1227,11 @@ footer {
         </li>
         <li>
           <span class="feat-icon">✓</span>
-          <span>Verified SkillSphere <strong>certificate included</strong></span>
+          <span>Verified SkillSphere <strong>Certificate Included </strong>(at No Cost)</span>
         </li>
         <li>
           <span class="feat-icon">✓</span>
           <span>Live monthly <strong>doubt sessions</strong></span>
-        </li>
-        <li>
-          <span class="feat-icon">✓</span>
-          <span>Priority certificate dispatch (48 hrs)</span>
         </li>
         <li>
           <span class="feat-icon">✓</span>
@@ -1235,6 +1255,7 @@ footer {
 
     <!-- ── ELITE ── -->
     <div class="plan-card plan-elite reveal">
+	  <div class="featured-badge-elite">Supreme</div>
       <div class="plan-icon">👑</div>
       <div class="plan-name">Elite</div>
       <div class="plan-tagline">For the serious learner who wants every advantage.</div>
@@ -1263,19 +1284,11 @@ footer {
         </li>
         <li>
           <span class="feat-icon">✓</span>
-          <span>Interview prep with a founder</span>
+          <span>Interview Prep with a Founder</span>
         </li>
         <li>
           <span class="feat-icon">✓</span>
-          <span>Dedicated course completion path</span>
-        </li>
-        <li>
-          <span class="feat-icon">✓</span>
-          <span>Instant certificate dispatch (24 hrs)</span>
-        </li>
-        <li>
-          <span class="feat-icon">✓</span>
-          <span>Private Elite community channel</span>
+          <span>Private Elite Community Channel</span>
         </li>
       </ul>
 
