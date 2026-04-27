@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Courses — SkillSphere</title>
-<meta name="description" content="Browse certified courses across Accounting, Finance, Data Analysis and more. All courses include a verified SkillSphere certificate.">
+<title>All Courses — SkillSphere Edu</title>
+<meta name="description" content="Browse certified courses across Accounting, Finance, Data Analysis and more. All courses include a verified SkillSphere Edu Certificate.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
@@ -80,40 +80,11 @@ nav {
   flex-shrink: 0;
 }
 
-.logo-sphere {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  position: relative;
-  background: conic-gradient(
-    from 200deg at 40% 45%,
-    #c98b0a 0%,
-    #e9a81c 18%,
-    #1a68d6 38%,
-    #05090f 55%,
-    #0b1120 68%,
-    #c98b0a 85%,
-    #e9a81c 100%
-  );
-  box-shadow: 0 0 22px rgba(201,139,10,0.4), 0 0 6px rgba(201,139,10,0.2);
-  animation: spherePulse 4s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-@keyframes spherePulse {
-  0%, 100% { box-shadow: 0 0 22px rgba(201,139,10,0.4), 0 0 6px rgba(201,139,10,0.2); }
-  50%       { box-shadow: 0 0 32px rgba(201,139,10,0.6), 0 0 12px rgba(201,139,10,0.3); }
-}
-
-.logo-sphere::after {
-  content: '';
-  position: absolute;
-  top: 5px; left: 7px;
-  width: 10px; height: 6px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 50%;
-  transform: rotate(-30deg);
-  filter: blur(2px);
+.logo-icon {
+  height: 70px;
+  width: 70px;
+  filter: contrast(1.1) saturate(1.2);
+  transition: transform 0.3s ease;
 }
 
 .nav-logo span em { font-style: normal; color: var(--gold-l); }
@@ -768,8 +739,8 @@ footer {
 <!-- ═══════════ NAV ═══════════ -->
 <nav id="main-nav">
   <div class="nav-logo">
-    <div class="logo-sphere"></div>
-    <span>Skill<em>Sphere</em></span>
+    <img src="assets/logotp.png" alt="SkillSphere Logo" class="logo-icon">
+    <span>Skill<em>Sphere</em> Edu</span>
   </div>
   <div class="nav-links">
 	<a href="https://skillsphere-edu.github.io/learn">Home</a>
@@ -788,7 +759,7 @@ footer {
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu">
   <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
-  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere Edu</a>
   <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
   <a href="https://skillsphere-edu.github.io/learn/courses"  onclick="toggleMenu()">Our Courses</a>
   <a href="https://skillsphere-edu.github.io/learn/plans"  onclick="toggleMenu()">Our Subscription Plans</a>
@@ -800,7 +771,7 @@ footer {
   <div class="archive-hero-inner">
     <span class="hero-kicker">All Courses</span>
     <h1>Expand Your <em>Horizons</em></h1>
-    <p>8 certified courses across Technology, Design, Business, Marketing and more — all including a verified SkillSphere certificate.</p>
+    <p>8 certified courses across Technology, Design, Business, Marketing and more — all including a verified SkillSphere Edu Certificate.</p>
 
     <div class="search-wrap">
       <input
@@ -1000,7 +971,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Full Stack Web Development Bootcamp</div>
-          <div class="course-instructor">by Aryan Mehta · SkillSphere</div>
+          <div class="course-instructor">by Aryan Mehta · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.9 (312)</span>
             <span>⏱ 48 hrs</span>
@@ -1032,7 +1003,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">UI/UX Design: Wireframe to Prototype</div>
-          <div class="course-instructor">by Neha Joshi · SkillSphere</div>
+          <div class="course-instructor">by Neha Joshi · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.9 (241)</span>
             <span>⏱ 28 hrs</span>
@@ -1064,7 +1035,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Introduction to Entrepreneurship</div>
-          <div class="course-instructor">by SkillSphere Founders</div>
+          <div class="course-instructor">by SkillSphere Edu Founders</div>
           <div class="course-meta-row">
             <span>⭐ 4.8 (890)</span>
             <span>⏱ 8 hrs</span>
@@ -1095,7 +1066,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Digital Marketing &amp; Growth Strategy</div>
-          <div class="course-instructor">by Priya Sharma · SkillSphere</div>
+          <div class="course-instructor">by Priya Sharma · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.8 (198)</span>
             <span>⏱ 32 hrs</span>
@@ -1128,7 +1099,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">AI &amp; Prompt Engineering for Beginners</div>
-          <div class="course-instructor">by Dev Kapoor · SkillSphere</div>
+          <div class="course-instructor">by Dev Kapoor · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 5.0 (44)</span>
             <span>⏱ 18 hrs</span>
@@ -1159,7 +1130,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Data Analytics with Python &amp; Excel</div>
-          <div class="course-instructor">by Rohan Das · SkillSphere</div>
+          <div class="course-instructor">by Rohan Das · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.7 (156)</span>
             <span>⏱ 36 hrs</span>
@@ -1191,7 +1162,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Personal Finance &amp; Investment Basics</div>
-          <div class="course-instructor">by Ankita Rao · SkillSphere</div>
+          <div class="course-instructor">by Ankita Rao · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.8 (203)</span>
             <span>⏱ 14 hrs</span>
@@ -1222,7 +1193,7 @@ footer {
         </div>
         <div class="course-body">
           <div class="course-title">Public Speaking &amp; Professional Communication</div>
-          <div class="course-instructor">by Vivek Nair · SkillSphere</div>
+          <div class="course-instructor">by Vivek Nair · SkillSphere Edu</div>
           <div class="course-meta-row">
             <span>⭐ 4.9 (178)</span>
             <span>⏱ 12 hrs</span>
@@ -1263,8 +1234,7 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="nav-logo">
-        <div class="logo-sphere" style="width:28px;height:28px"></div>
-        <span>Skill<em>Sphere</em></span>
+        <span>Skill<em>Sphere</em> Edu</span>
       </div>
       <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
       <div class="footer-socials">
@@ -1306,7 +1276,7 @@ footer {
    </div>
    
     <div class="footer-bottom">
-    <span>© 2026 SkillSphere. All rights reserved.</span>
+    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
 	<span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
 	<span>Hosted on GitHub Pages.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
