@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Stack Web Development Bootcamp — SkillSphere</title>
-<meta name="description" content="Master HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build 8 real projects and land your first developer job — backed by a verified SkillSphere certificate.">
+<title>Full Stack Web Development Bootcamp — SkillSphere Edu</title>
+<meta name="description" content="Master HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build 8 real projects and land your first developer job — backed by a verified SkillSphere Edu Certificate.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
@@ -78,40 +78,11 @@ nav {
   flex-shrink: 0;
 }
 
-.logo-sphere {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  position: relative;
-  background: conic-gradient(
-    from 200deg at 40% 45%,
-    #c98b0a 0%,
-    #e9a81c 18%,
-    #1a68d6 38%,
-    #05090f 55%,
-    #0b1120 68%,
-    #c98b0a 85%,
-    #e9a81c 100%
-  );
-  box-shadow: 0 0 22px rgba(201,139,10,0.4), 0 0 6px rgba(201,139,10,0.2);
-  animation: spherePulse 4s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-@keyframes spherePulse {
-  0%, 100% { box-shadow: 0 0 22px rgba(201,139,10,0.4), 0 0 6px rgba(201,139,10,0.2); }
-  50%       { box-shadow: 0 0 32px rgba(201,139,10,0.6), 0 0 12px rgba(201,139,10,0.3); }
-}
-
-.logo-sphere::after {
-  content: '';
-  position: absolute;
-  top: 5px; left: 7px;
-  width: 10px; height: 6px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 50%;
-  transform: rotate(-30deg);
-  filter: blur(2px);
+.logo-icon {
+  height: 70px;
+  width: 70px;
+  filter: contrast(1.1) saturate(1.2);
+  transition: transform 0.3s ease;
 }
 
 .nav-logo span em { font-style: normal; color: var(--gold-l); }
@@ -962,8 +933,8 @@ footer {
 <!-- ═══════════ NAV ═══════════ -->
 <nav id="main-nav">
   <div class="nav-logo">
-    <div class="logo-sphere"></div>
-    <span>Skill<em>Sphere</em></span>
+    <img src="assets/logotp.png" alt="SkillSphere Edu Logo" class="logo-icon">
+    <span>Skill<em>Sphere</em> Edu</span>
   </div>
   <div class="nav-links">
 	<a href="https://skillsphere-edu.github.io/learn">Home</a>
@@ -982,7 +953,7 @@ footer {
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu">
   <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
-  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere Edu</a>
   <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
   <a href="https://skillsphere-edu.github.io/learn/courses"  onclick="toggleMenu()">Our Courses</a>
   <a href="https://skillsphere-edu.github.io/learn/plans"  onclick="toggleMenu()">Our Subscription Plans</a>
@@ -1012,7 +983,7 @@ footer {
       <h1>Full Stack Web Development Bootcamp</h1>
 
       <p class="course-hero-sub">
-        Master HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build 8 real-world projects and land your first developer job — backed by a verified SkillSphere certificate.
+        Master HTML, CSS, JavaScript, React, Node.js, and MongoDB. Build 8 real-world projects and land your first developer job — backed by a verified SkillSphere Edu Certificate.
       </p>
 
       <div class="course-stats-row">
@@ -1030,7 +1001,7 @@ footer {
 
       <div class="instructor-mini">
         <div class="inst-av">NA</div>
-        <span>By <a href="#">Naufil U. Ansari</a> · COO &amp; Co-Founder, SkillSphere</span>
+        <span>By <a href="#">Naufil U. Ansari</a> · COO &amp; Co-Founder, SkillSphere Edu</span>
       </div>
 	        
 		<div class="what-learn">
@@ -1069,7 +1040,7 @@ footer {
         <ul class="course-includes">
           <li><span class="ci-check">✓</span><span>48 hours of HD video lectures</span></li>
           <li><span class="ci-check">✓</span><span>8 real-world projects to build</span></li>
-          <li><span class="ci-check">✓</span><span>Verified SkillSphere Certificate</span></li>
+          <li><span class="ci-check">✓</span><span>Verified SkillSphere Edu Certificate</span></li>
           <li><span class="ci-check">✓</span><span>Lifetime access + future updates</span></li>
           <li><span class="ci-check">✓</span><span>Certificate shareable on LinkedIn</span></li>
           <li><span class="ci-check">✓</span><span>Community Q&amp;A forum access</span></li>
@@ -1215,10 +1186,10 @@ footer {
     <!-- ── TAB: INSTRUCTOR ── -->
     <div class="tab-panel" id="tab-instructor">
       <div class="instructor-card">
-        <div class="inst-avatar-lg">AM</div>
+        <div class="inst-avatar-lg">NA</div>
         <div>
-          <h3 class="inst-name">Aryan Mehta</h3>
-          <div class="inst-title">Co-Founder &amp; CTO, SkillSphere</div>
+          <h3 class="inst-name">Naufil Ansari</h3>
+          <div class="inst-title">Co-Founder &amp; COO, SkillSphere Edu</div>
           <div class="inst-stats">
             <span>⭐ 4.9 Instructor Rating</span>
             <span>👤 3,240 Students</span>
@@ -1226,8 +1197,8 @@ footer {
             <span>🏆 SkillSphere Co-Founder</span>
           </div>
           <p class="inst-bio">
-            Aryan is a full-stack developer and the technical backbone of SkillSphere. With deep expertise in the MERN stack, cloud architecture, and developer tooling, his courses are known for their clarity, real-world relevance, and hands-on project approach.<br><br>
-            Before SkillSphere, Aryan built production applications used by thousands of users, and has mentored dozens of junior developers through their first industry roles. His teaching philosophy: you only truly learn by building, so every lesson culminates in something real.
+            Naufil is the operational and technical backbone of SkillSphere Edu. With deep expertise in the MERN stack, cloud architecture, and developer tooling, his courses are known for their clarity, real-world relevance, and hands-on project approach.<br><br>
+            Before SkillSphere Edu, Naufil built production applications used by thousands of users, and has mentored dozens of junior developers through their first industry roles. His teaching philosophy: you only truly learn by building, so every lesson culminates in something real.
           </p>
         </div>
       </div>
@@ -1270,7 +1241,7 @@ footer {
           </div>
           <div class="review-date">March 28, 2025</div>
         </div>
-        <p class="review-text">Worth every rupee. The certificate is beautiful and my interviewer was genuinely impressed that they could verify it on the spot. SkillSphere is doing something genuinely different in the edtech space. Already enrolled in the UI/UX course next.</p>
+        <p class="review-text">Worth every rupee. The certificate is beautiful and my interviewer was genuinely impressed that they could verify it on the spot. SkillSphere Edu is doing something genuinely different in the edtech space. Already enrolled in the UI/UX course next.</p>
       </div>
 
       <div class="review-card">
@@ -1353,8 +1324,7 @@ footer {
   <div class="footer-inner">
     <div class="footer-brand">
       <div class="nav-logo">
-        <div class="logo-sphere" style="width:28px;height:28px"></div>
-        <span>Skill<em>Sphere</em></span>
+        <span>Skill<em>Sphere</em> Edu</span>
       </div>
       <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
       <div class="footer-socials">
@@ -1396,7 +1366,7 @@ footer {
    </div>
    
     <div class="footer-bottom">
-    <span>© 2026 SkillSphere. All rights reserved.</span>
+    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
 	<span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
 	<span>Hosted on GitHub Pages.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
