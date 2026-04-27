@@ -128,7 +128,6 @@ nav {
 }
 .btn-nav:hover { background: var(--gold-l); }
 
-/* Mobile menu toggle */
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -208,7 +207,6 @@ nav {
   line-height: 1.75;
 }
 
-/* Search bar */
 .search-wrap {
   max-width: 580px;
   margin: 0 auto;
@@ -345,7 +343,6 @@ nav {
   border-radius: 20px;
 }
 
-/* Mobile filter toggle */
 .filter-toggle-bar {
   display: none;
   align-items: center;
@@ -418,9 +415,6 @@ nav {
   box-shadow: 0 14px 44px rgba(0,0,0,0.32);
 }
 
-/* card hidden state for filtering */
-.course-card.hidden { display: none; }
-
 .course-thumb {
   height: 152px;
   display: flex;
@@ -430,7 +424,6 @@ nav {
   overflow: hidden;
 }
 
-/* unique gradients */
 .th-1 { background: linear-gradient(140deg, #050f22, #0c2557, #1a3a80); }
 .th-2 { background: linear-gradient(140deg, #180a02, #4a2208, #7a3a0a); }
 .th-3 { background: linear-gradient(140deg, #120523, #2d0d52, #4a1580); }
@@ -440,7 +433,6 @@ nav {
 .th-7 { background: linear-gradient(140deg, #0f0505, #3a0f0f, #5a1515); }
 .th-8 { background: linear-gradient(140deg, #080520, #1a0a40, #300f70); }
 
-/* subtle grid on thumbs */
 .course-thumb::after {
   content: '';
   position: absolute;
@@ -453,7 +445,6 @@ nav {
 
 .thumb-emoji { font-size: 2.8rem; position: relative; z-index: 1; }
 
-/* badges */
 .badge {
   display: inline-block;
   font-size: 0.62rem;
@@ -576,10 +567,13 @@ nav {
   margin-top: 2.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .pag-btn {
-  width: 36px; height: 36px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
   border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.82rem;
@@ -589,9 +583,18 @@ nav {
   background: var(--navy-3);
   color: var(--muted);
   font-family: 'DM Sans', sans-serif;
+  user-select: none;
 }
 .pag-btn.active  { background: var(--gold); color: #07090e; border-color: var(--gold); font-weight: 700; }
-.pag-btn:hover:not(.active) { border-color: rgba(201,139,10,0.3); color: var(--gold-ll); }
+.pag-btn:hover:not(.active):not(.disabled) { border-color: rgba(201,139,10,0.3); color: var(--gold-ll); }
+.pag-btn.disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+
+/* page info text */
+.pag-info {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0 0.4rem;
+}
 
 /* ─────────────────────────────────────────────
    FOOTER
@@ -601,7 +604,6 @@ footer {
   border-top: 1px solid rgba(201,139,10,0.08);
   padding: 3.5rem 5% 2rem;
 }
-
 
 .footer-inner {
   display: grid;
@@ -743,15 +745,15 @@ footer {
     <span>Skill<em>Sphere</em> Edu</span>
   </div>
   <div class="nav-links">
-	<a href="https://skillsphere-edu.github.io/learn">Home</a>
-	<a href="https://skillsphere-edu.github.io/learn/#about">About</a>
-	<a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
     <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
-	<a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
-	<a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+    <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
   </div>
-	
-	<div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
     <span></span><span></span><span></span>
   </div>
 </nav>
@@ -759,10 +761,10 @@ footer {
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobile-menu">
   <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
-  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
   <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
-  <a href="https://skillsphere-edu.github.io/learn/courses"  onclick="toggleMenu()">Our Courses</a>
-  <a href="https://skillsphere-edu.github.io/learn/plans"  onclick="toggleMenu()">Our Subscription Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Subscription Plans</a>
   <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
 </div>
 
@@ -771,21 +773,20 @@ footer {
   <div class="archive-hero-inner">
     <span class="hero-kicker">All Courses</span>
     <h1>Expand Your <em>Horizons</em></h1>
-    <p>8 certified courses across Technology, Design, Business, Marketing and more — all including a verified SkillSphere Edu Certificate.</p>
+    <p id="hero-count-text">8 certified courses across Technology, Design, Business, Marketing and more — all including a verified SkillSphere Edu Certificate.</p>
 
     <div class="search-wrap">
       <input
         type="text"
         id="search-input"
         placeholder="Search courses, skills, topics..."
-        oninput="applyFilters()"
+        oninput="handleFilterChange()"
         autocomplete="off"
       >
-      <button class="search-btn" onclick="applyFilters()">Search</button>
+      <button class="search-btn" onclick="handleFilterChange()">Search</button>
     </div>
   </div>
 </div>
-
 
 <!-- ═══════════ ARCHIVE LAYOUT ═══════════ -->
 <div class="archive-layout">
@@ -809,35 +810,35 @@ footer {
         <h4>Category</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="tech" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check cat-filter" value="tech" onchange="handleFilterChange()">
             <span class="filter-label">Technology</span>
           </div>
           <span class="filter-count">3</span>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="design" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check cat-filter" value="design" onchange="handleFilterChange()">
             <span class="filter-label">Design</span>
           </div>
           <span class="filter-count">1</span>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="biz" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check cat-filter" value="biz" onchange="handleFilterChange()">
             <span class="filter-label">Business</span>
           </div>
           <span class="filter-count">1</span>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="mkt" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check cat-filter" value="mkt" onchange="handleFilterChange()">
             <span class="filter-label">Marketing</span>
           </div>
           <span class="filter-count">2</span>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="fin" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check cat-filter" value="fin" onchange="handleFilterChange()">
             <span class="filter-label">Finance</span>
           </div>
           <span class="filter-count">1</span>
@@ -849,19 +850,19 @@ footer {
         <h4>Level</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="beginner" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check lvl-filter" value="beginner" onchange="handleFilterChange()">
             <span class="filter-label">Beginner</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="intermediate" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check lvl-filter" value="intermediate" onchange="handleFilterChange()">
             <span class="filter-label">Intermediate</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="all-levels" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check lvl-filter" value="all-levels" onchange="handleFilterChange()">
             <span class="filter-label">All Levels</span>
           </div>
         </label>
@@ -872,25 +873,25 @@ footer {
         <h4>Price</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="free" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check price-filter" value="free" onchange="handleFilterChange()">
             <span class="filter-label">Free</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="under500" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check price-filter" value="under500" onchange="handleFilterChange()">
             <span class="filter-label">Under ₹500</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="500to1500" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check price-filter" value="500to1500" onchange="handleFilterChange()">
             <span class="filter-label">₹500 – ₹1,500</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="above1500" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check price-filter" value="above1500" onchange="handleFilterChange()">
             <span class="filter-label">Above ₹1,500</span>
           </div>
         </label>
@@ -901,19 +902,19 @@ footer {
         <h4>Duration</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="short" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check dur-filter" value="short" onchange="handleFilterChange()">
             <span class="filter-label">Under 15 hrs</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="medium" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check dur-filter" value="medium" onchange="handleFilterChange()">
             <span class="filter-label">15 – 35 hrs</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="long" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check dur-filter" value="long" onchange="handleFilterChange()">
             <span class="filter-label">35+ hrs</span>
           </div>
         </label>
@@ -924,13 +925,13 @@ footer {
         <h4>Minimum Rating</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.8" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check rat-filter" value="4.8" onchange="handleFilterChange()">
             <span class="filter-label">⭐ 4.8 &amp; above</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="applyFilters()">
+            <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="handleFilterChange()">
             <span class="filter-label">⭐ 4.5 &amp; above</span>
           </div>
         </label>
@@ -943,7 +944,7 @@ footer {
 
     <div class="sort-row">
       <span class="results-count">Showing <strong id="count-label">8</strong> courses</span>
-      <select class="sort-select" onchange="applyFilters()">
+      <select class="sort-select" id="sort-select" onchange="handleFilterChange()">
         <option value="popular">Sort: Most Popular</option>
         <option value="newest">Newest First</option>
         <option value="price-asc">Price: Low to High</option>
@@ -952,264 +953,8 @@ footer {
       </select>
     </div>
 
-    <!-- GRID -->
-    <div class="courses-grid" id="courses-grid">
-
-      <!-- ── COURSE 1 ── -->
-      <div class="course-card"
-        data-cat="tech"
-        data-level="all-levels"
-        data-price="1499"
-        data-rating="4.9"
-        data-hours="48"
-        data-title="Full Stack Web Development Bootcamp"
-        data-popular="1312">
-        <div class="course-thumb th-1">
-          <span class="thumb-emoji">💻</span>
-          <div class="card-badge-pos"><span class="badge badge-tech">Technology</span></div>
-          <div class="card-badge-pos-r"><span class="badge badge-hot">Bestseller</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Full Stack Web Development Bootcamp</div>
-          <div class="course-instructor">by Aryan Mehta · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.9 (312)</span>
-            <span>⏱ 48 hrs</span>
-            <span>📶 All levels</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹1,499</span>
-            <span class="price-orig">₹2,999</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 2 ── -->
-      <div class="course-card"
-        data-cat="design"
-        data-level="beginner"
-        data-price="1199"
-        data-rating="4.9"
-        data-hours="28"
-        data-title="UI/UX Design Wireframe to Prototype"
-        data-popular="1241">
-        <div class="course-thumb th-3">
-          <span class="thumb-emoji">🎨</span>
-          <div class="card-badge-pos"><span class="badge badge-design">Design</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">UI/UX Design: Wireframe to Prototype</div>
-          <div class="course-instructor">by Neha Joshi · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.9 (241)</span>
-            <span>⏱ 28 hrs</span>
-            <span>📶 Beginner</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹1,199</span>
-            <span class="price-orig">₹2,499</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 3 ── -->
-      <div class="course-card"
-        data-cat="biz"
-        data-level="beginner"
-        data-price="0"
-        data-rating="4.8"
-        data-hours="8"
-        data-title="Introduction to Entrepreneurship"
-        data-popular="890">
-        <div class="course-thumb th-5">
-          <span class="thumb-emoji">🚀</span>
-          <div class="card-badge-pos"><span class="badge badge-free">Free</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Introduction to Entrepreneurship</div>
-          <div class="course-instructor">by SkillSphere Edu Founders</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.8 (890)</span>
-            <span>⏱ 8 hrs</span>
-            <span>📶 Beginner</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-free">Free</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 4 ── -->
-      <div class="course-card"
-        data-cat="mkt"
-        data-level="intermediate"
-        data-price="999"
-        data-rating="4.8"
-        data-hours="32"
-        data-title="Digital Marketing and Growth Strategy"
-        data-popular="1198">
-        <div class="course-thumb th-2">
-          <span class="thumb-emoji">📈</span>
-          <div class="card-badge-pos"><span class="badge badge-mkt">Marketing</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Digital Marketing &amp; Growth Strategy</div>
-          <div class="course-instructor">by Priya Sharma · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.8 (198)</span>
-            <span>⏱ 32 hrs</span>
-            <span>📶 Intermediate</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹999</span>
-            <span class="price-orig">₹1,999</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 5 ── -->
-      <div class="course-card"
-        data-cat="tech"
-        data-level="beginner"
-        data-price="799"
-        data-rating="5.0"
-        data-hours="18"
-        data-title="AI and Prompt Engineering for Beginners"
-        data-popular="1044">
-        <div class="course-thumb th-4">
-          <span class="thumb-emoji">🤖</span>
-          <div class="card-badge-pos"><span class="badge badge-tech">Technology</span></div>
-          <div class="card-badge-pos-r"><span class="badge badge-new">New</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">AI &amp; Prompt Engineering for Beginners</div>
-          <div class="course-instructor">by Dev Kapoor · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 5.0 (44)</span>
-            <span>⏱ 18 hrs</span>
-            <span>📶 Beginner</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹799</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 6 ── -->
-      <div class="course-card"
-        data-cat="tech"
-        data-level="intermediate"
-        data-price="1299"
-        data-rating="4.7"
-        data-hours="36"
-        data-title="Data Analytics with Python and Excel"
-        data-popular="1156">
-        <div class="course-thumb th-4" style="background:linear-gradient(140deg,#050e1a,#0c2040,#1a3060)">
-          <span class="thumb-emoji">📊</span>
-          <div class="card-badge-pos"><span class="badge badge-tech">Technology</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Data Analytics with Python &amp; Excel</div>
-          <div class="course-instructor">by Rohan Das · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.7 (156)</span>
-            <span>⏱ 36 hrs</span>
-            <span>📶 Intermediate</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹1,299</span>
-            <span class="price-orig">₹2,599</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 7 ── -->
-      <div class="course-card"
-        data-cat="fin"
-        data-level="beginner"
-        data-price="599"
-        data-rating="4.8"
-        data-hours="14"
-        data-title="Personal Finance and Investment Basics"
-        data-popular="1203">
-        <div class="course-thumb th-7">
-          <span class="thumb-emoji">💰</span>
-          <div class="card-badge-pos"><span class="badge badge-fin">Finance</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Personal Finance &amp; Investment Basics</div>
-          <div class="course-instructor">by Ankita Rao · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.8 (203)</span>
-            <span>⏱ 14 hrs</span>
-            <span>📶 Beginner</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹599</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-      <!-- ── COURSE 8 ── -->
-      <div class="course-card"
-        data-cat="mkt"
-        data-level="beginner"
-        data-price="699"
-        data-rating="4.9"
-        data-hours="12"
-        data-title="Public Speaking and Professional Communication"
-        data-popular="1178">
-        <div class="course-thumb th-8">
-          <span class="thumb-emoji">🎤</span>
-          <div class="card-badge-pos"><span class="badge badge-comm">Communication</span></div>
-        </div>
-        <div class="course-body">
-          <div class="course-title">Public Speaking &amp; Professional Communication</div>
-          <div class="course-instructor">by Vivek Nair · SkillSphere Edu</div>
-          <div class="course-meta-row">
-            <span>⭐ 4.9 (178)</span>
-            <span>⏱ 12 hrs</span>
-            <span>📶 Beginner</span>
-            <span>🎓 Certificate</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price-wrap">
-            <span class="price-main">₹699</span>
-          </div>
-          <button class="enroll-btn">Enroll Now</button>
-        </div>
-      </div>
-
-    </div><!-- /courses-grid -->
+    <!-- GRID — rendered by JS -->
+    <div class="courses-grid" id="courses-grid"></div>
 
     <!-- No results message -->
     <div class="no-results" id="no-results">
@@ -1217,13 +962,8 @@ footer {
       <p>Try adjusting your filters or search term.</p>
     </div>
 
-    <!-- Pagination (shown only when all filters clear) -->
-    <div class="pagination" id="pagination">
-      <div class="pag-btn active">1</div>
-      <div class="pag-btn">2</div>
-      <div class="pag-btn">3</div>
-      <div class="pag-btn">›</div>
-    </div>
+    <!-- Pagination — always rendered by JS -->
+    <div class="pagination" id="pagination"></div>
 
   </main>
 </div><!-- /archive-layout -->
@@ -1240,7 +980,7 @@ footer {
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/skillsphere001" class="social-chip">LinkedIn</a>
         <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chip">WhatsApp</a>
-		<a href="mailto:skillsphere.work@gmail.com" class="social-chip">Mail</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chip">Mail</a>
       </div>
     </div>
 
@@ -1248,19 +988,19 @@ footer {
       <h4>Navigate</h4>
       <ul>
         <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
-		<li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
-		<li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
-		<li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
       <h4>Courses</h4>
       <ul>
-        <li><a href="#courses">Full Stack Dev</a></li>
-        <li><a href="#courses">UI/UX Design</a></li>
-        <li><a href="#courses">Digital Marketing</a></li>
-        <li><a href="#courses">Data Analytics</a></li>
+        <li><a href="#courses-grid">Full Stack Dev</a></li>
+        <li><a href="#courses-grid">UI/UX Design</a></li>
+        <li><a href="#courses-grid">Digital Marketing</a></li>
+        <li><a href="#courses-grid">Data Analytics</a></li>
       </ul>
     </div>
 
@@ -1273,30 +1013,430 @@ footer {
         <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
       </ul>
     </div>
-   </div>
-   
-    <div class="footer-bottom">
+  </div>
+
+  <div class="footer-bottom">
     <span>© 2026 SkillSphere Edu. All rights reserved.</span>
-	<span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
-	<span>Hosted on GitHub Pages.</span>
+    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
+    <span>Hosted on GitHub Pages.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
-	</div>
   </div>
 </footer>
 
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
-const cards = Array.from(document.querySelectorAll('.course-card'));
-const grid  = document.getElementById('courses-grid');
 
-/* ── Mobile menu ── */
-function toggleMenu() {
-  const m = document.getElementById('mobile-menu');
-  m.classList.toggle('open');
+/* ════════════════════════════════════════════════
+   COURSE DATA
+   Add new courses here — pagination is automatic.
+   Max 15 per page.
+════════════════════════════════════════════════ */
+const COURSES = [
+  {
+    id: 1,
+    cat: 'tech',
+    level: 'all-levels',
+    price: 1499,
+    origPrice: 2999,
+    rating: 4.9,
+    reviews: 312,
+    hours: 48,
+    title: 'Full Stack Web Development Bootcamp',
+    instructor: 'Naufil U. Ansari · SkillSphere Edu',
+    emoji: '💻',
+    thumb: 'th-1',
+    catBadge: { cls: 'badge-tech', label: 'Technology' },
+    rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
+	link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
+    popular: 1312
+  },
+  {
+    id: 2,
+    cat: 'design',
+    level: 'beginner',
+    price: 1199,
+    origPrice: 2499,
+    rating: 4.9,
+    reviews: 241,
+    hours: 28,
+    title: 'UI/UX Design: Wireframe to Prototype',
+    instructor: 'Neha Joshi · SkillSphere Edu',
+    emoji: '🎨',
+    thumb: 'th-2',
+    catBadge: { cls: 'badge-design', label: 'Design' },
+    rightBadge: null,
+    popular: 1241
+  },
+  {
+    id: 3,
+    cat: 'biz',
+    level: 'beginner',
+    price: 0,
+    origPrice: null,
+    rating: 4.8,
+    reviews: 890,
+    hours: 8,
+    title: 'Introduction to Entrepreneurship',
+    instructor: 'SkillSphere Edu Founders',
+    emoji: '🚀',
+    thumb: 'th-3',
+    catBadge: { cls: 'badge-free', label: 'Free' },
+    rightBadge: null,
+    popular: 890
+  },
+  {
+    id: 4,
+    cat: 'mkt',
+    level: 'intermediate',
+    price: 999,
+    origPrice: 1999,
+    rating: 4.8,
+    reviews: 198,
+    hours: 32,
+    title: 'Digital Marketing & Growth Strategy',
+    instructor: 'Priya Sharma · SkillSphere Edu',
+    emoji: '📈',
+    thumb: 'th-4',
+    catBadge: { cls: 'badge-mkt', label: 'Marketing' },
+    rightBadge: null,
+    popular: 1198
+  },
+  {
+    id: 5,
+    cat: 'tech',
+    level: 'beginner',
+    price: 799,
+    origPrice: null,
+    rating: 5.0,
+    reviews: 44,
+    hours: 18,
+    title: 'AI & Prompt Engineering for Beginners',
+    instructor: 'Dev Kapoor · SkillSphere Edu',
+    emoji: '🤖',
+    thumb: 'th-5',
+    catBadge: { cls: 'badge-tech', label: 'Technology' },
+    rightBadge: { cls: 'badge-new', label: 'New' },
+    popular: 1044
+  },
+  {
+    id: 6,
+    cat: 'tech',
+    level: 'intermediate',
+    price: 1299,
+    origPrice: 2599,
+    rating: 4.7,
+    reviews: 156,
+    hours: 36,
+    title: 'Data Analytics with Python & Excel',
+    instructor: 'Rohan Das · SkillSphere Edu',
+    emoji: '📊',
+    thumb: 'th-6',
+    thumbStyle: 'background:linear-gradient(140deg,#050e1a,#0c2040,#1a3060)',
+    catBadge: { cls: 'badge-tech', label: 'Technology' },
+    rightBadge: null,
+    popular: 1156
+  },
+  {
+    id: 7,
+    cat: 'fin',
+    level: 'beginner',
+    price: 599,
+    origPrice: null,
+    rating: 4.8,
+    reviews: 203,
+    hours: 14,
+    title: 'Personal Finance & Investment Basics',
+    instructor: 'Ankita Rao · SkillSphere Edu',
+    emoji: '💰',
+    thumb: 'th-7',
+    catBadge: { cls: 'badge-fin', label: 'Finance' },
+    rightBadge: null,
+    popular: 1203
+  },
+  {
+    id: 8,
+    cat: 'mkt',
+    level: 'beginner',
+    price: 699,
+    origPrice: null,
+    rating: 4.9,
+    reviews: 178,
+    hours: 12,
+    title: 'Public Speaking & Professional Communication',
+    instructor: 'Vivek Nair · SkillSphere Edu',
+    emoji: '🎤',
+    thumb: 'th-8',
+    catBadge: { cls: 'badge-comm', label: 'Communication' },
+    rightBadge: null,
+    popular: 1178
+  },
+  {
+    id: 9,
+    cat: 'tech',
+    level: 'all-levels',
+    price: 1499,
+    origPrice: 2999,
+    rating: 4.9,
+    reviews: 312,
+    hours: 48,
+    title: 'Full Stack Web Development Bootcamp',
+    instructor: 'Naufil U. Ansari · SkillSphere Edu',
+    emoji: '💻',
+    thumb: 'th-1',
+    catBadge: { cls: 'badge-biz', label: 'Business' },
+    rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
+	link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
+    popular: 1312
+  }
+ 
+  /* ── Add more courses below in the same format ──
+  ,{
+    id: 9,
+    cat: 'tech',
+    level: 'beginner',
+    price: 899,
+    origPrice: 1799,
+    rating: 4.6,
+    reviews: 77,
+    hours: 22,
+    title: 'Your New Course Title',
+    instructor: 'Instructor Name · SkillSphere',
+    emoji: '🧠',
+    thumb: 'th-6',
+    catBadge: { cls: 'badge-tech', label: 'Technology' },
+    rightBadge: null,
+	link: 'Your Link',
+    popular: 800
+  }
+  */
+];
+
+/* ════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════ */
+const PER_PAGE = 15;
+let currentPage = 1;
+let filteredCourses = []; // full filtered+sorted list across ALL pages
+
+/* ════════════════════════════════════════════════
+   CARD BUILDER
+════════════════════════════════════════════════ */
+function buildCard(c) {
+  const priceHTML = c.price === 0
+    ? `<span class="price-free">Free</span>`
+    : `<span class="price-main">₹${c.price.toLocaleString('en-IN')}</span>${c.origPrice ? `<span class="price-orig">₹${c.origPrice.toLocaleString('en-IN')}</span>` : ''}`;
+
+  const rightBadgeHTML = c.rightBadge
+    ? `<div class="card-badge-pos-r"><span class="badge ${c.rightBadge.cls}">${c.rightBadge.label}</span></div>`
+    : '';
+
+  const thumbStyleAttr = c.thumbStyle ? ` style="${c.thumbStyle}"` : '';
+  const levelLabel = c.level === 'all-levels' ? 'All levels' : c.level.charAt(0).toUpperCase() + c.level.slice(1);
+
+  return `
+    <div class="course-card">
+      <div class="course-thumb ${c.thumb}"${thumbStyleAttr}>
+        <span class="thumb-emoji">${c.emoji}</span>
+        <div class="card-badge-pos"><span class="badge ${c.catBadge.cls}">${c.catBadge.label}</span></div>
+        ${rightBadgeHTML}
+      </div>
+      <div class="course-body">
+        <div class="course-title">${c.title}</div>
+        <div class="course-instructor">by ${c.instructor}</div>
+        <div class="course-meta-row">
+          <span>⭐ ${c.rating} (${c.reviews})</span>
+          <span>⏱ ${c.hours} hrs</span>
+          <span>📶 ${levelLabel}</span>
+          <span>🎓 Certificate</span>
+        </div>
+      </div>
+      <div class="course-footer">
+        <div class="price-wrap">${priceHTML}</div>
+        <a href="${c.link || '#'}" target="_blank" rel="noopener noreferrer" class="enroll-btn">Enroll Now</a>
+      </div>
+    </div>`;
 }
 
-/* ── Mobile filters ── */
+/* ════════════════════════════════════════════════
+   PAGINATION BUILDER
+   Smart: shows prev / page numbers / next
+   Collapses to ellipsis for large page counts
+════════════════════════════════════════════════ */
+function buildPagination(totalPages) {
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+
+  let html = '';
+
+  // Prev button
+  html += `<div class="pag-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="goToPage(${currentPage - 1})">‹ Prev</div>`;
+
+  // Page number buttons — smart ellipsis for 5+ pages
+  if (totalPages <= 7) {
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<div class="pag-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</div>`;
+    }
+  } else {
+    // Always show first, last, currentPage ± 1, with ellipsis
+    const pages = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(p => p >= 1 && p <= totalPages));
+    const sorted = [...pages].sort((a, b) => a - b);
+
+    let prev = 0;
+    for (const p of sorted) {
+      if (p - prev > 1) html += `<div class="pag-btn disabled">…</div>`;
+      html += `<div class="pag-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</div>`;
+      prev = p;
+    }
+  }
+
+  // Next button
+  html += `<div class="pag-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="goToPage(${currentPage + 1})">Next ›</div>`;
+
+  // Page info
+  const start = (currentPage - 1) * PER_PAGE + 1;
+  const end   = Math.min(currentPage * PER_PAGE, filteredCourses.length);
+  html += `<span class="pag-info">Showing ${start}–${end} of ${filteredCourses.length}</span>`;
+
+  pag.innerHTML = html;
+}
+
+/* ════════════════════════════════════════════════
+   GO TO PAGE
+   Scrolls back to top of grid for UX comfort
+════════════════════════════════════════════════ */
+function goToPage(page) {
+  const totalPages = Math.ceil(filteredCourses.length / PER_PAGE);
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  renderPage();
+  // Scroll to top of the courses area smoothly
+  document.querySelector('.archive-layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ════════════════════════════════════════════════
+   RENDER CURRENT PAGE
+   Uses the already-filtered/sorted filteredCourses
+════════════════════════════════════════════════ */
+function renderPage() {
+  const grid      = document.getElementById('courses-grid');
+  const noResults = document.getElementById('no-results');
+
+  if (filteredCourses.length === 0) {
+    grid.innerHTML = '';
+    noResults.classList.add('show');
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  noResults.classList.remove('show');
+
+  // Slice out just this page's courses
+  const start  = (currentPage - 1) * PER_PAGE;
+  const end    = start + PER_PAGE;
+  const pageCourses = filteredCourses.slice(start, end);
+
+  grid.innerHTML = pageCourses.map(buildCard).join('');
+
+  // Update count label
+  document.getElementById('count-label').textContent = filteredCourses.length;
+
+  // Render pagination
+  const totalPages = Math.ceil(filteredCourses.length / PER_PAGE);
+  buildPagination(totalPages);
+}
+
+/* ════════════════════════════════════════════════
+   FILTER + SORT — operates on ALL courses
+   Resets to page 1 on any filter/sort change
+════════════════════════════════════════════════ */
+function handleFilterChange() {
+  currentPage = 1; // always reset to page 1 when filters change
+  applyFiltersAndSort();
+}
+
+function applyFiltersAndSort() {
+  const query        = document.getElementById('search-input').value.toLowerCase().trim();
+  const sortVal      = document.getElementById('sort-select').value;
+  const catChecked   = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
+  const lvlChecked   = [...document.querySelectorAll('.lvl-filter:checked')].map(c => c.value);
+  const priceChecked = [...document.querySelectorAll('.price-filter:checked')].map(c => c.value);
+  const durChecked   = [...document.querySelectorAll('.dur-filter:checked')].map(c => c.value);
+  const ratChecked   = [...document.querySelectorAll('.rat-filter:checked')].map(c => parseFloat(c.value));
+
+  // ── Filter across ALL courses ──
+  let result = COURSES.filter(c => {
+    if (query && !c.title.toLowerCase().includes(query)) return false;
+    if (catChecked.length && !catChecked.includes(c.cat)) return false;
+    if (lvlChecked.length && !lvlChecked.includes(c.level)) return false;
+
+    if (priceChecked.length) {
+      const match = priceChecked.some(p => {
+        if (p === 'free')      return c.price === 0;
+        if (p === 'under500')  return c.price > 0 && c.price < 500;
+        if (p === '500to1500') return c.price >= 500 && c.price <= 1500;
+        if (p === 'above1500') return c.price > 1500;
+        return false;
+      });
+      if (!match) return false;
+    }
+
+    if (durChecked.length) {
+      const match = durChecked.some(d => {
+        if (d === 'short')  return c.hours < 15;
+        if (d === 'medium') return c.hours >= 15 && c.hours <= 35;
+        if (d === 'long')   return c.hours > 35;
+        return false;
+      });
+      if (!match) return false;
+    }
+
+    if (ratChecked.length) {
+      const minRat = Math.min(...ratChecked);
+      if (c.rating < minRat) return false;
+    }
+
+    return true;
+  });
+
+  // ── Sort ──
+  result.sort((a, b) => {
+    if (sortVal === 'popular')    return b.popular - a.popular;
+    if (sortVal === 'newest')     return b.id - a.id;
+    if (sortVal === 'price-asc')  return a.price - b.price;
+    if (sortVal === 'price-desc') return b.price - a.price;
+    if (sortVal === 'rating')     return b.rating - a.rating;
+    return 0;
+  });
+
+  filteredCourses = result;
+  renderPage();
+}
+
+/* ════════════════════════════════════════════════
+   CLEAR ALL FILTERS
+════════════════════════════════════════════════ */
+function clearFilters() {
+  document.querySelectorAll('.filter-check').forEach(cb => cb.checked = false);
+  document.getElementById('search-input').value = '';
+  document.getElementById('sort-select').value = 'popular';
+  handleFilterChange();
+}
+
+/* ════════════════════════════════════════════════
+   ENROLL HANDLER
+════════════════════════════════════════════════ */
+function handleEnroll() {
+  alert('Enrollment coming soon!\n\nReach out at skillsphere.work@gmail.com to get early access.');
+}
+
+/* ════════════════════════════════════════════════
+   MOBILE MENU & FILTERS
+════════════════════════════════════════════════ */
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+
 function toggleFilters() {
   const panel = document.getElementById('filter-panel');
   const icon  = document.getElementById('filter-toggle-icon');
@@ -1304,107 +1444,17 @@ function toggleFilters() {
   icon.textContent = panel.classList.contains('mobile-open') ? '▲' : '▼';
 }
 
-/* ── Clear all filters ── */
-function clearFilters() {
-  document.querySelectorAll('.filter-check').forEach(cb => cb.checked = false);
-  document.getElementById('search-input').value = '';
-  document.querySelector('.sort-select').value = 'popular';
-  applyFilters();
-}
-
-/* ── Main filter + sort + search ── */
-function applyFilters() {
-  const query      = document.getElementById('search-input').value.toLowerCase().trim();
-  const sortVal    = document.querySelector('.sort-select').value;
-  const catChecked = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
-  const lvlChecked = [...document.querySelectorAll('.lvl-filter:checked')].map(c => c.value);
-  const priceChecked = [...document.querySelectorAll('.price-filter:checked')].map(c => c.value);
-  const durChecked = [...document.querySelectorAll('.dur-filter:checked')].map(c => c.value);
-  const ratChecked = [...document.querySelectorAll('.rat-filter:checked')].map(c => parseFloat(c.value));
-
-  // Filter
-  let visible = cards.filter(card => {
-    const cat    = card.dataset.cat;
-    const level  = card.dataset.level;
-    const price  = parseInt(card.dataset.price);
-    const rating = parseFloat(card.dataset.rating);
-    const hours  = parseInt(card.dataset.hours);
-    const title  = card.dataset.title.toLowerCase();
-
-    if (query && !title.includes(query)) return false;
-    if (catChecked.length && !catChecked.includes(cat)) return false;
-    if (lvlChecked.length && !lvlChecked.includes(level)) return false;
-
-    if (priceChecked.length) {
-      const priceMatch = priceChecked.some(p => {
-        if (p === 'free')      return price === 0;
-        if (p === 'under500')  return price > 0 && price < 500;
-        if (p === '500to1500') return price >= 500 && price <= 1500;
-        if (p === 'above1500') return price > 1500;
-        return false;
-      });
-      if (!priceMatch) return false;
-    }
-
-    if (durChecked.length) {
-      const durMatch = durChecked.some(d => {
-        if (d === 'short')  return hours < 15;
-        if (d === 'medium') return hours >= 15 && hours <= 35;
-        if (d === 'long')   return hours > 35;
-        return false;
-      });
-      if (!durMatch) return false;
-    }
-
-    if (ratChecked.length) {
-      const minRat = Math.min(...ratChecked);
-      if (rating < minRat) return false;
-    }
-
-    return true;
-  });
-
-  // Sort
-  visible.sort((a, b) => {
-    if (sortVal === 'popular')    return parseInt(b.dataset.popular) - parseInt(a.dataset.popular);
-    if (sortVal === 'newest')     return b.dataset.title.localeCompare(a.dataset.title);
-    if (sortVal === 'price-asc')  return parseInt(a.dataset.price) - parseInt(b.dataset.price);
-    if (sortVal === 'price-desc') return parseInt(b.dataset.price) - parseInt(a.dataset.price);
-    if (sortVal === 'rating')     return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
-    return 0;
-  });
-
-  // Show / hide
-  const hiddenSet = new Set(cards.filter(c => !visible.includes(c)));
-  cards.forEach(c => c.classList.toggle('hidden', hiddenSet.has(c)));
-
-  // Re-order DOM
-  visible.forEach(c => grid.appendChild(c));
-
-  // Count
-  document.getElementById('count-label').textContent = visible.length;
-
-  // No results
-  document.getElementById('no-results').classList.toggle('show', visible.length === 0);
-
-  // Pagination — hide when filtering/searching
-  const isFiltering = query || catChecked.length || lvlChecked.length ||
-                      priceChecked.length || durChecked.length || ratChecked.length;
-  document.getElementById('pagination').style.display = isFiltering ? 'none' : '';
-}
-
-/* ── Enroll buttons ── */
-document.querySelectorAll('.enroll-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    alert('Enrollment coming soon!\n\nReach out at hello@skillsphere.in to get early access.');
-  });
-});
-
 /* ── Nav scroll shadow ── */
 window.addEventListener('scroll', () => {
   document.getElementById('main-nav').style.boxShadow =
     window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.4)' : 'none';
 });
+
+/* ════════════════════════════════════════════════
+   INIT — render on load
+════════════════════════════════════════════════ */
+applyFiltersAndSort();
+
 </script>
 
 </body>
