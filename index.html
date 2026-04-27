@@ -100,7 +100,18 @@ nav {
   letter-spacing: 0.01em;
   flex-shrink: 0;
 }
+	
+.logo-icon {
+  height: 38px;
+  width: 38px;
+  filter: contrast(1.1) saturate(1.2);
+  transition: transform 0.3s ease;
+}
 
+.nav-logo:hover .logo-icon {
+  transform: scale(1.08);
+}
+	
 .logo-sphere {
   width: 36px;
   height: 36px;
@@ -1293,7 +1304,7 @@ footer {
 <!-- ═══════════ NAVIGATION ═══════════ -->
 <nav id="main-nav">
   <div class="nav-logo">
-    <div class="logo-sphere"></div>
+    <img src="assets/logo.svg" alt="SkillSphere Edu Logo" class="logo-icon">
     <span>Skill<em>Sphere</em> Edu</span>
   </div>
 
