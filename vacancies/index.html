@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Vacancies — SkillSphere Edu</title>
+<meta name="description" content="Explore job vacancies and career opportunities posted by SkillSphere Edu and its partner network.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --navy:#05090f;--navy-2:#0b1120;--navy-3:#111a2e;--navy-4:#192338;--navy-5:#1e2c44;
+  --gold:#c98b0a;--gold-l:#e9a81c;--gold-ll:#f5c84a;
+  --white:#f4f1eb;--off:#ddd8ce;--muted:#6e80a0;--muted-2:#3e4f6a;
+  --blue:#1a68d6;--green:#0d9464;
+}
+body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;line-height:1.15;letter-spacing:-0.01em}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:var(--navy-5);border-radius:10px}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(5,9,15,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(201,139,10,.1);transition:height .3s,border-bottom-color .3s}
+.nav-logo{display:flex;align-items:center;gap:11px;font-weight:600;font-size:1.1rem;letter-spacing:.01em;flex-shrink:0}
+
+.logo-icon {
+  height: 70px;
+  width: 70px;
+  filter: contrast(1.1) saturate(1.2);
+  transition: transform 0.3s ease;
+}
+
+.nav-logo span em{font-style:normal;color:var(--gold-l)}
+.nav-links{display:flex;align-items:center;gap:2.2rem;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.nav-links a{color:var(--muted);transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--gold-l);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav-links a:hover{color:var(--white)}.nav-links a:hover::after{transform:scaleX(1)}
+
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(5,9,15,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,139,10,.12);padding:1.5rem 5%;flex-direction:column;gap:1.2rem;z-index:999}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:1rem;font-weight:500;color:var(--off);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+
+/* PAGE HERO */
+.page-hero{padding:140px 5% 70px;background:var(--navy-2);position:relative;overflow:hidden;border-bottom:1px solid rgba(201,139,10,.1)}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,139,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,139,10,.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(26,104,214,.07) 0%,transparent 65%);top:-200px;right:-100px;pointer-events:none}
+.page-hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(201,139,10,.1);border:1px solid rgba(201,139,10,.25);border-radius:40px;padding:.35rem 1rem .35rem .6rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ll);margin-bottom:1.2rem}
+.eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--gold-ll);box-shadow:0 0 8px var(--gold-ll);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.page-title{font-size:clamp(2.4rem,4vw,3.4rem);font-weight:700;margin-bottom:.8rem}
+.page-title em{font-style:italic;color:var(--gold-l)}
+.page-sub{font-size:.95rem;color:var(--muted);max-width:580px;line-height:1.8}
+
+/* STATS */
+.stats-strip{background:var(--navy-3);border-bottom:1px solid rgba(201,139,10,.08);padding:2rem 5%}
+.stats-strip-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold-l);display:block;line-height:1}
+.stat-lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem}
+
+/* MAIN */
+.jobs-main{max-width:1180px;margin:0 auto;padding:3.5rem 5% 5rem}
+
+/* CONTROLS */
+.controls-bar{display:flex;align-items:flex-end;gap:.8rem;flex-wrap:wrap;background:var(--navy-3);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:1.4rem 1.8rem;margin-bottom:2rem}
+.ctrl-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:130px}
+.ctrl-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.ctrl-select{background:var(--navy-4);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:.55rem 1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.82rem;appearance:none;-webkit-appearance:none;width:100%;outline:none;cursor:pointer;transition:border-color .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236e80a0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.ctrl-select:focus{border-color:rgba(201,139,10,.4)}
+.ctrl-select option{background:var(--navy-3)}
+.ctrl-divider{width:1px;background:rgba(255,255,255,.06);align-self:stretch;margin:0 2px}
+.ctrl-clear-btn{background:transparent;border:1px solid rgba(201,139,10,.25);color:var(--gold);padding:.55rem 1.1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em;align-self:flex-end;white-space:nowrap}
+.ctrl-clear-btn:hover{background:rgba(201,139,10,.1)}
+.controls-row-2{display:flex;align-items:flex-end;gap:.8rem;flex-wrap:wrap;background:var(--navy-3);border:1px solid rgba(255,255,255,.05);border-top:none;border-radius:0 0 10px 10px;padding:.9rem 1.8rem 1.2rem;margin-top:-14px;margin-bottom:2rem}
+
+/* TABS */
+.type-tabs{display:flex;gap:.4rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.type-tab{font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:.4rem 1rem;border-radius:40px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px}
+.type-tab:hover,.type-tab.active{background:rgba(201,139,10,.1);border-color:rgba(201,139,10,.35);color:var(--gold-ll)}
+.tab-count{background:rgba(201,139,10,.15);color:var(--gold);font-size:.65rem;font-weight:700;padding:1px 7px;border-radius:10px}
+
+/* RESULTS META */
+.results-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem}
+.results-meta span{font-size:.78rem;color:var(--muted)}
+.results-meta strong{color:var(--gold-l)}
+
+/* JOB CARDS */
+.jobs-list{display:flex;flex-direction:column;gap:1rem}
+.job-card{background:var(--navy-2);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:1.5rem 1.8rem;display:grid;grid-template-columns:52px 1fr auto;gap:1.4rem;align-items:center;transition:transform .25s,border-color .25s,box-shadow .25s;position:relative;overflow:hidden}
+.job-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--card-accent,rgba(255,255,255,.08));border-radius:10px 0 0 10px}
+.job-card:hover{transform:translateX(4px);border-color:rgba(201,139,10,.18);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.job-logo{width:52px;height:52px;border-radius:8px;flex-shrink:0;background:var(--logo-bg,rgba(26,104,214,.15));border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--logo-color,var(--gold-l))}
+.job-body{min-width:0}
+.job-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:.3rem}
+.job-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--white)}
+.job-company{font-size:.82rem;color:var(--muted);margin-bottom:.7rem;font-weight:500}
+.job-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.7rem}
+.tag{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:.5rem .5rem;border-radius:3px}
+.tag-open{background:rgba(13,148,100,.18);color:#4de6b0;border:1px solid rgba(13,148,100,.3)}
+.tag-closed{background:rgba(110,128,160,.12);color:var(--muted);border:1px solid rgba(110,128,160,.18)}
+.tag-type{background:rgba(201,139,10,.12);color:var(--gold-ll);border:1px solid rgba(201,139,10,.22)}
+.tag-mode{background:rgba(26,104,214,.12);color:#7ab8ff;border:1px solid rgba(26,104,214,.22)}
+.tag-dept{background:rgba(255,255,255,.05);color:var(--off);border:1px solid rgba(255,255,255,.09)}
+.job-meta{display:flex;align-items:center;gap:1.2rem;font-size:.72rem;color:var(--muted-2);flex-wrap:wrap}
+.job-meta-item{display:flex;align-items:center;gap:4px}
+.job-desc{font-size:.78rem;color:var(--muted);line-height:1.7;margin-top:.6rem}
+.salary-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(201,139,10,.08);border:1px solid rgba(201,139,10,.18);border-radius:4px;padding:.18rem .65rem;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--gold-ll)}
+.job-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.job-date{font-size:.68rem;color:var(--muted-2);white-space:nowrap}
+
+/* APPLY BUTTON */
+.apply-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#07090e;font-size:.75rem;font-weight:700;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;white-space:nowrap;text-decoration:none}
+.apply-btn:hover{background:var(--gold-l);box-shadow:0 0 20px rgba(201,139,10,.45);transform:translateY(-1px)}
+.apply-btn-disabled{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);color:var(--muted-2);font-size:.75rem;font-weight:600;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid rgba(255,255,255,.06);white-space:nowrap;cursor:default}
+.apply-btn-closed{display:inline-flex;align-items:center;gap:6px;background:rgba(110,128,160,.08);color:var(--muted);font-size:.75rem;font-weight:600;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid rgba(110,128,160,.15);white-space:nowrap;cursor:default}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:5rem 1rem}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.5}
+.empty-state h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--muted);margin-bottom:.5rem}
+.empty-state p{font-size:.85rem;color:var(--muted-2)}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2.5rem;flex-wrap:wrap}
+.pg-btn{width:36px;height:36px;border-radius:5px;border:1px solid rgba(255,255,255,.08);background:var(--navy-3);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.pg-btn:hover:not(:disabled){background:rgba(201,139,10,.12);border-color:rgba(201,139,10,.35);color:var(--gold-ll)}
+.pg-btn.active{background:var(--gold);border-color:var(--gold);color:#07090e;font-weight:700}
+.pg-btn:disabled{opacity:.25;cursor:not-allowed}
+.pg-ellipsis{font-size:.75rem;color:var(--muted-2);padding:0 4px}
+
+/* FOOTER */
+footer{background:var(--navy);border-top:1px solid rgba(201,139,10,.08);padding:3.5rem 5% 2rem}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto 3rem}
+.footer-brand .nav-logo{margin-bottom:.9rem}
+.footer-brand p{font-size:.83rem;color:var(--muted);line-height:1.75;max-width:280px}
+.footer-socials{display:flex;gap:.5rem;margin-top:1rem}
+
+.social-chipft {
+  width: 75px; height: 30px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--blue);
+  transition: all 0.2s;
+}
+
+.social-chip{padding:.28rem .75rem;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:.72rem;font-weight:700;color:var(--blue);transition:all .2s}
+.social-chip:hover{background:rgba(201,139,10,.1);border-color:rgba(201,139,10,.3);color:var(--gold-ll)}
+.footer-col h4{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.footer-col li a{font-size:.83rem;color:rgba(244,241,235,.55);transition:color .2s}
+.footer-col li a:hover{color:var(--gold-ll)}
+.footer-bottom{max-width:1180px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.footer-bottom span{font-size:.75rem;color:var(--muted)}
+.footer-bottom .tagline{color:var(--gold);font-size:.72rem;font-weight:600}
+
+@media(max-width:860px){nav .nav-links{display:none}.nav-hamburger{display:flex}.stats-strip-inner{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr 1fr}.job-card{grid-template-columns:44px 1fr auto;gap:1rem;padding:1.2rem 1.4rem}}
+@media(max-width:600px){.job-card{grid-template-columns:1fr}.job-right{flex-direction:row;align-items:center}.controls-bar,.controls-row-2{flex-direction:column;align-items:stretch}.ctrl-divider{display:none}.ctrl-group{min-width:unset}}
+@media(max-width:560px){.footer-inner{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-logo">
+    <img src="assets/logotp.png" alt="SkillSphere Edu Logo" class="logo-icon">
+    <span>Skill<em>Sphere</em> Edu</span>
+  </div>
+  <div class="nav-links">
+    <div class="nav-links">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+	<a href="https://skillsphere-edu.github.io/learn/events">Events</a>
+	<a href="#">Vacancies</a>
+	<a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+  </div>
+  <div class="nav-hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://skillsphere-edu.github.io/learn" onclick="toggleMenu()">Home</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses"  onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans"  onclick="toggleMenu()">Our Subscription Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/events"  onclick="toggleMenu()">Our Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies"  onclick="toggleMenu()">Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-eyebrow"><span class="eyebrow-dot"></span> Internships · Articleships · Full-Time · Remote</div>
+    <h1 class="page-title">All <em>Vacancies</em></h1>
+    <p class="page-sub">Hand-picked opportunities for CA Students and Dropouts — from articleships and internships to full-time roles at top firms.</p>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div><span class="stat-val" id="stat-total">0</span><div class="stat-lbl">Total Vacancies</div></div>
+    <div><span class="stat-val" id="stat-open">0</span><div class="stat-lbl">Open Now</div></div>
+    <div><span class="stat-val" id="stat-closed">0</span><div class="stat-lbl">Closed</div></div>
+    <div><span class="stat-val" id="stat-co">0</span><div class="stat-lbl">Companies</div></div>
+  </div>
+</div>
+
+<div class="jobs-main">
+  <!-- FILTERS ROW 1: Year / Month -->
+  <div class="controls-bar">
+    <div class="ctrl-group">
+      <label class="ctrl-label">Year</label>
+      <select class="ctrl-select" id="filter-year" onchange="onYearChange()"><option value="">All Years</option></select>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label class="ctrl-label">Month</label>
+      <select class="ctrl-select" id="filter-month" onchange="onMonthChange()"><option value="">All Months</option></select>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label class="ctrl-label">Location</label>
+      <select class="ctrl-select" id="filter-loc" onchange="onLocChange()"><option value="">All Locations</option></select>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label class="ctrl-label">Department</label>
+      <select class="ctrl-select" id="filter-dept" onchange="onDeptChange()"><option value="">All Departments</option></select>
+    </div>
+    <button class="ctrl-clear-btn" id="clear-btn" onclick="clearFilters()" style="display:none">✕ Clear Filters</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="type-tabs">
+    <button class="type-tab active" onclick="setTab(this,'all')">All Vacancies <span class="tab-count" id="cnt-all">0</span></button>
+    <button class="type-tab" onclick="setTab(this,'open')">Open <span class="tab-count" id="cnt-open">0</span></button>
+    <button class="type-tab" onclick="setTab(this,'closed')">Closed <span class="tab-count" id="cnt-closed">0</span></button>
+  </div>
+
+  <div class="results-meta">
+    <span id="res-text"></span>
+    <span id="pg-text"></span>
+  </div>
+  <div class="jobs-list" id="jobs-list"></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">
+	  <span>Skill<em>Sphere</em> Edu</span></div>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+		<a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Navigate</h4><ul>
+      <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Courses</h4><ul>
+      <li><a href="#">Full Stack Dev</a></li>
+	  <li><a href="#">UI/UX Design</a></li>
+      <li><a href="#">Digital Marketing</a></li>
+	  <li><a href="#">Data Analytics</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="https://skillsphere-edu.github.io/learn/#founders">Talk to a Founder</a></li>
+      <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+      <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+      <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
+    <span>Hosted on GitHub Pages.</span>
+	<span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   VACANCY DATA
+   ───────────────────────────────────────────────────────
+   To add a new vacancy, copy one of the objects below
+   and paste it at the TOP of the array (inside the [ ]).
+
+   Fields:
+     id       – unique string, e.g. 'j12'
+     title    – job title
+     company  – company / firm name
+     loc      – city or "Remote"
+     type     – Articleship | Internship | Full-time | Part-time | Contract | Freelance
+     mode     – On-site | Hybrid | Remote
+     dept     – Audit & Assurance | Taxation | Finance | Accounting | Advisory | Technology | Marketing | Operations | Other
+     salary   – e.g. '₹15,000/month' or '₹6–10 LPA'  (leave '' if not disclosed)
+     date     – YYYY-MM-DD  (date posted)
+     status   – 'open' | 'closed'
+     link     – full URL for apply / info page  (leave '' if none)
+     desc     – short description of the role
+   ═══════════════════════════════════════════════════════ */
+
+const JOBS = [
+  {id:'j1',title:'Article Trainee – Audit & Assurance',company:'RKCA & Co. LLP',loc:'Gurugram',type:'Articleship',mode:'On-site',dept:'Audit & Assurance',salary:'₹10,000–18,000/month',date:'2025-10-20',status:'open',link:'',desc:'3-year articleship with hands-on exposure to statutory audits, internal audits, and financial statement preparation for listed and unlisted clients.'},
+  {id:'j2',title:'Finance Intern – Corporate Treasury',company:'Helios Global Solutions',loc:'New Delhi',type:'Internship',mode:'Hybrid',dept:'Finance',salary:'₹15,000/month',date:'2025-10-08',status:'open',link:'',desc:'2-month internship supporting the treasury team with cash flow forecasting, bank reconciliation, and MIS reporting.'},
+  {id:'j3',title:'Taxation Executive – Direct Tax',company:'FinTax Advisory LLP',loc:'Mumbai',type:'Full-time',mode:'On-site',dept:'Taxation',salary:'₹5–8 LPA',date:'2025-09-25',status:'open',link:'',desc:'Prepare and review ITR filings, handle tax notices, conduct tax planning for HNI and corporate clients.'},
+  {id:'j4',title:'Junior Accountant',company:'StartupBase India',loc:'Bengaluru',type:'Full-time',mode:'Hybrid',dept:'Accounting',salary:'₹4–6 LPA',date:'2025-09-12',status:'open',link:'',desc:'Manage day-to-day bookkeeping, accounts payable/receivable, and monthly MIS reports using Tally and Zoho Books.'},
+  {id:'j5',title:'GST Compliance Trainee',company:'IndirectTax Experts',loc:'Remote',type:'Internship',mode:'Remote',dept:'Taxation',salary:'₹12,000/month',date:'2025-08-28',status:'closed',link:'',desc:'Support GST return filing (GSTR-1, GSTR-3B), reconciliation, and ITC matching for 50+ clients under supervision.'},
+  {id:'j6',title:'Audit Intern',company:'Walker Chandiok & Co LLP',loc:'Hyderabad',type:'Internship',mode:'On-site',dept:'Audit & Assurance',salary:'₹18,000/month',date:'2025-08-15',status:'closed',link:'',desc:'4-month internship supporting senior auditors on listed company engagements. Exposure to risk assessment and working paper preparation.'},
+  {id:'j7',title:'Financial Analyst – FP&A',company:'Nykaa',loc:'Mumbai',type:'Full-time',mode:'Hybrid',dept:'Finance',salary:'₹8–12 LPA',date:'2025-07-30',status:'open',link:'',desc:'Drive financial planning and analysis, build P&L models, and partner with business heads on budget variance analysis.'},
+  {id:'j8',title:'Advisory Consultant – Risk',company:'Deloitte India',loc:'Gurugram',type:'Full-time',mode:'Hybrid',dept:'Advisory',salary:'₹10–16 LPA',date:'2025-07-14',status:'open',link:'',desc:'Work on enterprise risk management, internal controls, and SOX compliance projects for multinational clients.'},
+  {id:'j9',title:'Accounts Executive',company:'Piramal Group',loc:'New Delhi',type:'Full-time',mode:'On-site',dept:'Accounting',salary:'₹5–7 LPA',date:'2025-06-22',status:'closed',link:'',desc:'Handle vendor payments, ledger reconciliations, TDS filings, and month-end close activities in SAP environment.'},
+  {id:'j10',title:'Tax Analyst – International Tax',company:'Grant Thornton Bharat',loc:'Bengaluru',type:'Full-time',mode:'Hybrid',dept:'Taxation',salary:'₹9–14 LPA',date:'2025-06-05',status:'open',link:'',desc:'Advise on cross-border tax structures, transfer pricing documentation, and FEMA/RBI compliance for global clients.'},
+];
+
+/* ── Constants ── */
+const DEPT_ACCENTS={'Audit & Assurance':'#e9a81c','Taxation':'#4de6b0','Finance':'#7ab8ff','Accounting':'#c084fc','Advisory':'#f97316','Technology':'#38bdf8','Marketing':'#fb7185','Operations':'#a3e635','Other':'#94a3b8'};
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const IPP = 20;
+
+let tab='all', yr='', mo='', loc='', dept='', pg=1;
+
+/* ── Helpers ── */
+function ymd(d){return new Date(d+'T00:00:00')}
+function getYr(d){return ymd(d).getFullYear().toString()}
+function getMo(d){const dt=ymd(d);return`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`}
+function fmt(d){return ymd(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}
+function ago(d){const diff=Math.floor((Date.now()-ymd(d))/86400000);if(diff===0)return'Today';if(diff===1)return'Yesterday';if(diff<7)return`${diff}d ago`;if(diff<30)return`${Math.floor(diff/7)}w ago`;if(diff<365)return`${Math.floor(diff/30)}mo ago`;return`${Math.floor(diff/365)}y ago`}
+
+/* ── Build dropdowns ── */
+function buildDropdowns(){
+  // Year
+  const years=[...new Set(JOBS.map(j=>getYr(j.date)))].sort((a,b)=>b-a);
+  const ys=document.getElementById('filter-year');
+  ys.innerHTML='<option value="">All Years</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+  if(yr)ys.value=yr;
+
+  // Month (filtered by selected year)
+  const pool=yr?JOBS.filter(j=>getYr(j.date)===yr):JOBS;
+  const mos=[...new Set(pool.map(j=>getMo(j.date)))].sort((a,b)=>b.localeCompare(a));
+  const ms=document.getElementById('filter-month');
+  ms.innerHTML='<option value="">All Months</option>'+mos.map(m=>{const[y,n]=m.split('-');return`<option value="${m}">${MONTHS[parseInt(n)-1]} ${y}</option>`}).join('');
+  if(mo&&mos.includes(mo))ms.value=mo;
+
+  // Location
+  const locs=[...new Set(JOBS.map(j=>j.loc).filter(Boolean))].sort();
+  const ls=document.getElementById('filter-loc');
+  ls.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');
+  if(loc)ls.value=loc;
+
+  // Department
+  const depts=[...new Set(JOBS.map(j=>j.dept).filter(Boolean))].sort();
+  const ds=document.getElementById('filter-dept');
+  ds.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
+  if(dept)ds.value=dept;
+
+  updateClearBtn();
+}
+
+function updateClearBtn(){
+  document.getElementById('clear-btn').style.display=(yr||mo||loc||dept)?'':'none';
+}
+
+function onYearChange(){yr=document.getElementById('filter-year').value;mo='';pg=1;buildDropdowns();render()}
+function onMonthChange(){mo=document.getElementById('filter-month').value;pg=1;updateClearBtn();render()}
+function onLocChange(){loc=document.getElementById('filter-loc').value;pg=1;updateClearBtn();render()}
+function onDeptChange(){dept=document.getElementById('filter-dept').value;pg=1;updateClearBtn();render()}
+function clearFilters(){yr='';mo='';loc='';dept='';pg=1;buildDropdowns();render()}
+function setTab(btn,t){document.querySelectorAll('.type-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');tab=t;pg=1;render()}
+
+/* ── Filtering ── */
+function applyFilters(pool){
+  return pool.filter(j=>{
+    if(tab!=='all'&&j.status!==tab)return false;
+    if(mo&&getMo(j.date)!==mo)return false;
+    if(yr&&!mo&&getYr(j.date)!==yr)return false;
+    if(loc&&j.loc!==loc)return false;
+    if(dept&&j.dept!==dept)return false;
+    return true;
+  }).sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+/* ── Render ── */
+function render(){
+  const f=applyFilters(JOBS),tot=f.length,tpg=Math.max(1,Math.ceil(tot/IPP));
+  if(pg>tpg)pg=tpg;
+  const slice=f.slice((pg-1)*IPP,pg*IPP);
+
+  // Stats (always from full dataset)
+  document.getElementById('stat-total').textContent=JOBS.length;
+  document.getElementById('stat-open').textContent=JOBS.filter(j=>j.status==='open').length;
+  document.getElementById('stat-closed').textContent=JOBS.filter(j=>j.status==='closed').length;
+  document.getElementById('stat-co').textContent=[...new Set(JOBS.map(j=>j.company))].length;
+
+  // Tab counts (respect date filters but not status tab)
+  const dateFiltered=JOBS.filter(j=>{
+    if(mo&&getMo(j.date)!==mo)return false;
+    if(yr&&!mo&&getYr(j.date)!==yr)return false;
+    if(loc&&j.loc!==loc)return false;
+    if(dept&&j.dept!==dept)return false;
+    return true;
+  });
+  document.getElementById('cnt-all').textContent=dateFiltered.length;
+  document.getElementById('cnt-open').textContent=dateFiltered.filter(j=>j.status==='open').length;
+  document.getElementById('cnt-closed').textContent=dateFiltered.filter(j=>j.status==='closed').length;
+
+  document.getElementById('res-text').innerHTML=`Showing <strong>${slice.length}</strong> of <strong>${tot}</strong> vacancies`;
+  document.getElementById('pg-text').innerHTML=tpg>1?`Page <strong>${pg}</strong> of <strong>${tpg}</strong>`:'';
+  document.getElementById('jobs-list').innerHTML=slice.length?slice.map(cardHTML).join(''):`<div class="empty-state"><div class="empty-icon">💼</div><h3>No vacancies found</h3><p>Try adjusting your filters.</p></div>`;
+  renderPgs(tpg);
+}
+
+function cardHTML(j){
+  const acc=j.status==='open'?'rgba(13,148,100,.7)':'rgba(110,128,160,.3)';
+  const dc=DEPT_ACCENTS[j.dept]||'#94a3b8';
+  const logoBg=`color-mix(in srgb,${dc} 15%,#192338)`;
+  const stag=j.status==='open'?'<span class="tag tag-open">Open</span>':'<span class="tag tag-closed">Closed</span>';
+
+  let applyEl='';
+  if(j.status==='closed'){
+    applyEl='<span class="apply-btn-closed">Position Closed</span>';
+  } else if(j.link){
+    applyEl=`<a class="apply-btn" href="${j.link}" target="_blank" rel="noopener noreferrer">Apply Now <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`;
+  } else {
+    applyEl='<span class="apply-btn-disabled">Link Coming Soon</span>';
+  }
+
+  return`<div class="job-card" style="--card-accent:${acc}">
+    <div class="job-logo" style="--logo-bg:${logoBg};--logo-color:${dc}">${j.company.charAt(0).toUpperCase()}</div>
+    <div class="job-body">
+      <div class="job-top"><span class="job-title">${j.title}</span>${stag}</div>
+      <div class="job-company">${j.company} &nbsp;·&nbsp; ${j.loc||'Location TBA'}</div>
+      <div class="job-tags">
+        <span class="tag tag-type">${j.type}</span>
+        <span class="tag tag-mode">${j.mode}</span>
+        <span class="tag tag-dept">${j.dept}</span>
+        ${j.salary?`<span class="salary-pill">${j.salary}</span>`:''}
+      </div>
+      <div class="job-meta">
+        <span class="job-meta-item">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Posted ${fmt(j.date)}
+        </span>
+      </div>
+      ${j.desc?`<div class="job-desc">${j.desc}</div>`:''}
+    </div>
+    <div class="job-right">
+      <div class="job-date">${ago(j.date)}</div>
+      ${applyEl}
+    </div>
+  </div>`;
+}
+
+/* ── Pagination ── */
+function renderPgs(tpg){
+  const p=document.getElementById('pagination');if(tpg<=1){p.innerHTML='';return}
+  const nums=pgNums(pg,tpg);
+  let h=`<button class="pg-btn" onclick="goPage(${pg-1})" ${pg===1?'disabled':''}>&#8249;</button>`;
+  nums.forEach(n=>h+=n==='...'?`<span class="pg-ellipsis">…</span>`:`<button class="pg-btn${n===pg?' active':''}" onclick="goPage(${n})">${n}</button>`);
+  h+=`<button class="pg-btn" onclick="goPage(${pg+1})" ${pg===tpg?'disabled':''}>&#8250;</button>`;
+  p.innerHTML=h;
+}
+function pgNums(cur,tot){if(tot<=7)return Array.from({length:tot},(_,i)=>i+1);const p=[1];if(cur>3)p.push('...');for(let i=Math.max(2,cur-1);i<=Math.min(tot-1,cur+1);i++)p.push(i);if(cur<tot-2)p.push('...');p.push(tot);return p}
+function goPage(n){pg=n;render();window.scrollTo({top:document.querySelector('.jobs-main').offsetTop-80,behavior:'smooth'})}
+
+/* ── Nav ── */
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMobile(){document.getElementById('mobile-menu').classList.remove('open')}
+window.addEventListener('scroll',()=>{const n=document.getElementById('main-nav');n.style.height=window.scrollY>60?'56px':'66px';n.style.borderBottomColor=window.scrollY>60?'rgba(201,139,10,.18)':'rgba(201,139,10,.1)'});
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded',()=>{buildDropdowns();render()});
+</script>
+</body>
+</html>
