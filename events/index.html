@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — SkillSphere Edu</title>
+<meta name="description" content="Upcoming and past events by SkillSphere Edu — workshops, masterclasses, webinars and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --navy:#05090f;--navy-2:#0b1120;--navy-3:#111a2e;--navy-4:#192338;--navy-5:#1e2c44;
+  --gold:#c98b0a;--gold-l:#e9a81c;--gold-ll:#f5c84a;
+  --white:#f4f1eb;--off:#ddd8ce;--muted:#6e80a0;--muted-2:#3e4f6a;
+  --blue:#1a68d6;--green:#0d9464;
+}
+body{background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;line-height:1.65;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;line-height:1.15;letter-spacing:-0.01em}
+a{color:inherit;text-decoration:none}
+button{font-family:'DM Sans',sans-serif;cursor:pointer}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:var(--navy-5);border-radius:10px}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(5,9,15,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(201,139,10,.1);transition:height .3s,border-bottom-color .3s}
+.nav-logo{display:flex;align-items:center;gap:11px;font-weight:600;font-size:1.1rem;letter-spacing:.01em;flex-shrink:0}
+
+.logo-icon {
+  height: 70px;
+  width: 70px;
+  filter: contrast(1.1) saturate(1.2);
+  transition: transform 0.3s ease;
+}
+
+.nav-logo span em{font-style:normal;color:var(--gold-l)}
+
+.nav-links{display:flex;align-items:center;gap:2.2rem;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.nav-links a{color:var(--muted);transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--gold-l);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .3s}
+.mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(5,9,15,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,139,10,.12);padding:1.5rem 5%;flex-direction:column;gap:1.2rem;z-index:999}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:1rem;font-weight:500;color:var(--off);padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+
+/* PAGE HERO */
+.page-hero{padding:140px 5% 70px;background:var(--navy-2);position:relative;overflow:hidden;border-bottom:1px solid rgba(201,139,10,.1)}
+.page-hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,139,10,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,139,10,.03) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,139,10,.08) 0%,transparent 65%);top:-200px;right:-100px;pointer-events:none}
+.page-hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(201,139,10,.1);border:1px solid rgba(201,139,10,.25);border-radius:40px;padding:.35rem 1rem .35rem .6rem;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ll);margin-bottom:1.2rem}
+.eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--gold-ll);box-shadow:0 0 8px var(--gold-ll);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.page-title{font-size:clamp(2.4rem,4vw,3.4rem);font-weight:700;margin-bottom:.8rem}
+.page-title em{font-style:italic;color:var(--gold-l)}
+.page-sub{font-size:.95rem;color:var(--muted);max-width:560px;line-height:1.8}
+
+/* STATS */
+.stats-strip{background:var(--navy-3);border-bottom:1px solid rgba(201,139,10,.08);padding:2rem 5%}
+.stats-strip-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold-l);display:block;line-height:1}
+.stat-lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem}
+
+/* MAIN */
+.events-main{max-width:1180px;margin:0 auto;padding:3.5rem 5% 5rem}
+
+/* CONTROLS */
+.controls-bar{display:flex;align-items:flex-end;gap:.8rem;flex-wrap:wrap;background:var(--navy-3);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:1.4rem 1.8rem;margin-bottom:2rem}
+.ctrl-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:130px}
+.ctrl-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.ctrl-select{background:var(--navy-4);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:.55rem 1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.82rem;appearance:none;-webkit-appearance:none;width:100%;outline:none;cursor:pointer;transition:border-color .2s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236e80a0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.ctrl-select:focus{border-color:rgba(201,139,10,.4)}
+.ctrl-select option{background:var(--navy-3)}
+.ctrl-divider{width:1px;background:rgba(255,255,255,.06);align-self:stretch;margin:0 2px}
+.ctrl-clear-btn{background:transparent;border:1px solid rgba(201,139,10,.25);color:var(--gold);padding:.55rem 1.1rem;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.04em;align-self:flex-end;white-space:nowrap}
+.ctrl-clear-btn:hover{background:rgba(201,139,10,.1)}
+
+/* TABS */
+.type-tabs{display:flex;gap:.4rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.type-tab{font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:.4rem 1rem;border-radius:40px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px}
+.type-tab:hover,.type-tab.active{background:rgba(201,139,10,.1);border-color:rgba(201,139,10,.35);color:var(--gold-ll)}
+.tab-count{background:rgba(201,139,10,.15);color:var(--gold);font-size:.65rem;font-weight:700;padding:1px 7px;border-radius:10px}
+
+/* RESULTS META */
+.results-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;flex-wrap:wrap;gap:.5rem}
+.results-meta span{font-size:.78rem;color:var(--muted)}
+.results-meta strong{color:var(--gold-l)}
+
+/* EVENT CARDS */
+.events-list{display:flex;flex-direction:column;gap:1rem}
+.event-card{background:var(--navy-2);border:1px solid rgba(255,255,255,.05);border-radius:10px;overflow:hidden;display:grid;grid-template-columns:72px 2px 1fr auto;align-items:stretch;transition:transform .25s,border-color .25s,box-shadow .25s;position:relative}
+.event-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--card-accent,rgba(255,255,255,.1));border-radius:10px 0 0 10px}
+.event-card:hover{transform:translateX(4px);border-color:rgba(201,139,10,.18);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.card-date-col{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.4rem .5rem;text-align:center}
+.card-day{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--gold-l);line-height:1}
+.card-mon{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:2px}
+.card-yr{font-size:.6rem;color:var(--muted-2);margin-top:1px}
+.card-divider{width:1px;background:rgba(255,255,255,.05);flex-shrink:0}
+.card-body{padding:1.4rem 1.6rem;flex:1;min-width:0}
+.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:.45rem}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.card-desc{font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:.8rem}
+.card-meta{display:flex;align-items:center;gap:1.2rem;font-size:.72rem;color:var(--muted-2);flex-wrap:wrap}
+.card-meta-item{display:flex;align-items:center;gap:5px}
+.badge{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:.2rem .6rem;border-radius:3px}
+.badge-upcoming{background:rgba(13,148,100,.18);color:#4de6b0;border:1px solid rgba(13,148,100,.3)}
+.badge-past{background:rgba(110,128,160,.15);color:var(--muted);border:1px solid rgba(110,128,160,.2)}
+.badge-cat{background:rgba(201,139,10,.12);color:var(--gold-ll);border:1px solid rgba(201,139,10,.22)}
+
+/* REGISTER / ACTION COLUMN */
+.card-action-col{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding:1.2rem 1.6rem;gap:8px;flex-shrink:0}
+
+/* REGISTER BUTTON */
+.register-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#07090e;font-size:.75rem;font-weight:700;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.06em;text-transform:uppercase;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;white-space:nowrap;text-decoration:none}
+.register-btn:hover{background:var(--gold-l);box-shadow:0 0 20px rgba(201,139,10,.45);transform:translateY(-1px)}
+.register-btn-past{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);color:var(--muted-2);font-size:.75rem;font-weight:600;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid rgba(255,255,255,.06);white-space:nowrap;cursor:default}
+.register-btn-soon{display:inline-flex;align-items:center;gap:6px;background:rgba(201,139,10,.08);color:var(--muted);font-size:.75rem;font-weight:600;padding:.5rem 1.1rem;border-radius:5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid rgba(201,139,10,.15);white-space:nowrap;cursor:default}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:5rem 1rem}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.5}
+.empty-state h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--muted);margin-bottom:.5rem}
+.empty-state p{font-size:.85rem;color:var(--muted-2)}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:2.5rem;flex-wrap:wrap}
+.pg-btn{width:36px;height:36px;border-radius:5px;border:1px solid rgba(255,255,255,.08);background:var(--navy-3);color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.pg-btn:hover:not(:disabled){background:rgba(201,139,10,.12);border-color:rgba(201,139,10,.35);color:var(--gold-ll)}
+.pg-btn.active{background:var(--gold);border-color:var(--gold);color:#07090e;font-weight:700}
+.pg-btn:disabled{opacity:.25;cursor:not-allowed}
+.pg-ellipsis{font-size:.75rem;color:var(--muted-2);padding:0 4px}
+
+/* FOOTER */
+footer{background:var(--navy);border-top:1px solid rgba(201,139,10,.08);padding:3.5rem 5% 2rem}
+
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto 3rem}
+
+.footer-brand .nav-logo{margin-bottom:.9rem}
+
+.footer-brand p{font-size:.83rem;color:var(--muted);line-height:1.75;max-width:280px}
+
+.footer-socials{display:flex;gap:.5rem;margin-top:1rem}
+
+.social-chip{padding:.28rem .75rem;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:.72rem;font-weight:700;color:var(--blue);transition:all .2s}
+.social-chip:hover{background:rgba(201,139,10,.1);border-color:rgba(201,139,10,.3);color:var(--gold-ll)}
+
+.social-chipft {
+  width: 75px; height: 30px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--blue);
+  transition: all 0.2s;
+}
+.footer-col h4{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.footer-col li a{font-size:.83rem;color:rgba(244,241,235,.55);transition:color .2s}
+.footer-col li a:hover{color:var(--gold-ll)}
+.footer-bottom{max-width:1180px;margin:0 auto;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.footer-bottom span{font-size:.75rem;color:var(--muted)}
+.footer-bottom .tagline{color:var(--gold);font-size:.72rem;font-weight:600}
+
+@media(max-width:860px){nav .nav-links{display:none}.nav-hamburger{display:flex}.stats-strip-inner{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr 1fr}.event-card{grid-template-columns:64px 2px 1fr auto}}
+@media(max-width:600px){.event-card{grid-template-columns:1fr}.card-date-col{flex-direction:row;gap:6px;justify-content:flex-start;padding:.8rem 1.2rem 0}.card-divider{display:none}.card-action-col{flex-direction:row;padding:.4rem 1.2rem 1rem;justify-content:flex-start}.controls-bar{flex-direction:column;align-items:stretch}.ctrl-divider{display:none}.ctrl-group{min-width:unset}}
+@media(max-width:560px){.footer-inner{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <div class="nav-logo">
+    <img src="assets/logotp.png" alt="SkillSphere Edu Logo" class="logo-icon">
+    <span>Skill<em>Sphere</em> Edu</span>
+  </div>
+  <div class="nav-links">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+    <a href="#">Events</a>
+	<a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
+	<a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+  </div>
+  
+  <div class="nav-hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://skillsphere-edu.github.io/learn" onclick="toggleMenu()">Home</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about"    onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses"  onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans"  onclick="toggleMenu()">Our Subscription Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/events"  onclick="toggleMenu()">Our Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies"  onclick="toggleMenu()">Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+<div class="page-hero">
+  <div class="hero-glow"></div>
+  <div class="page-hero-inner">
+    <div class="page-eyebrow"><span class="eyebrow-dot"></span> Workshops · Webinars · Masterclasses</div>
+    <h1 class="page-title">SkillSphere Edu <em>Events</em></h1>
+    <p class="page-sub">Stay connected with everything happening at SkillSphere Edu — from upcoming workshops to past sessions worth revisiting.</p>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div><span class="stat-val" id="stat-total">0</span><div class="stat-lbl">Total Events</div></div>
+    <div><span class="stat-val" id="stat-upcoming">0</span><div class="stat-lbl">Upcoming</div></div>
+    <div><span class="stat-val" id="stat-past">0</span><div class="stat-lbl">Past Events</div></div>
+    <div><span class="stat-val" id="stat-cats">0</span><div class="stat-lbl">Categories</div></div>
+  </div>
+</div>
+
+<div class="events-main">
+  <div class="controls-bar">
+    <div class="ctrl-group">
+      <label class="ctrl-label">Year</label>
+      <select class="ctrl-select" id="filter-year" onchange="onYearChange()"><option value="">All Years</option></select>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label class="ctrl-label">Month</label>
+      <select class="ctrl-select" id="filter-month" onchange="onMonthChange()"><option value="">All Months</option></select>
+    </div>
+    <div class="ctrl-divider"></div>
+    <div class="ctrl-group">
+      <label class="ctrl-label">Category</label>
+      <select class="ctrl-select" id="filter-cat" onchange="onCatChange()"><option value="">All Categories</option></select>
+    </div>
+    <button class="ctrl-clear-btn" id="clear-btn" onclick="clearFilters()" style="display:none">✕ Clear Filters</button>
+  </div>
+
+  <div class="type-tabs">
+    <button class="type-tab active" onclick="setTab(this,'all')">All Events <span class="tab-count" id="cnt-all">0</span></button>
+    <button class="type-tab" onclick="setTab(this,'upcoming')">Upcoming <span class="tab-count" id="cnt-up">0</span></button>
+    <button class="type-tab" onclick="setTab(this,'past')">Past <span class="tab-count" id="cnt-past">0</span></button>
+  </div>
+
+  <div class="results-meta">
+    <span id="res-text"></span>
+    <span id="pg-text"></span>
+  </div>
+  <div class="events-list" id="events-list"></div>
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">
+		<span>Skill<em>Sphere</em> Edu</span></div>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+		<a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Navigate</h4><ul>
+      <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+      <li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Courses</h4><ul>
+      <li><a href="#">Full Stack Dev</a></li>
+	  <li><a href="#">UI/UX Design</a></li>
+      <li><a href="#">Digital Marketing</a></li>
+	  <li><a href="#">Data Analytics</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul>
+      <li><a href="https://skillsphere-edu.github.io/learn/#founders">Talk to a Founder</a></li>
+      <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+      <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+      <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
+    <span>Hosted on GitHub Pages.</span>
+	<span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   EVENT DATA
+   ───────────────────────────────────────────────────────
+   To add a new event, copy one of the objects below
+   and paste it at the TOP of the array (inside the [ ]).
+
+   Fields:
+     id    – unique string, e.g. 'e11'
+     title – event title
+     date  – YYYY-MM-DD
+     type  – 'upcoming' | 'past'
+     cat   – Workshop | Webinar | Masterclass | Conference |
+             Hackathon | Seminar | Panel | Other
+     loc   – location or platform, e.g. 'Online · Zoom'
+     link  – full URL for registration/info (leave '' if none)
+     desc  – short description of the event
+   ═══════════════════════════════════════════════════════ */
+
+const EVENTS = [
+  {id:'e11',title:'Demo Entrepreneurship Kickstart Session',date:'2026-05-02',type:'upcoming',cat:'Webinar',loc:'Online · Google Meet',link:'m',desc:'How to validate a business idea, build an MVP, and pitch to early-stage investors — all before clearing CA.'},
+  {id:'e1',title:'Financial Modelling Masterclass',date:'2025-11-20',type:'upcoming',cat:'Masterclass',loc:'Online · Zoom',link:'',desc:'Deep-dive into advanced financial modelling techniques used by Big 4 firms. Includes live case studies and a verified certificate.'},
+  {id:'e2',title:'CA Career Pathways Webinar',date:'2025-10-30',type:'upcoming',cat:'Webinar',loc:'Online · Teams',link:'',desc:'Our founders and guest CAs walk you through every career route after CA Foundation, Inter, and Final.'},
+  {id:'e3',title:'Excel for Accountants Bootcamp',date:'2025-10-12',type:'past',cat:'Workshop',loc:'Gurugram Hub',link:'',desc:'Practical Excel mastery tailored for CA students — pivot tables, dynamic dashboards, VLOOKUP, and automation.'},
+  {id:'e4',title:'SkillSphere Edu Launch Event',date:'2025-09-01',type:'past',cat:'Conference',loc:'New Delhi',link:'',desc:'The inaugural event that brought together 150+ CA students to celebrate the launch of SkillSphere Edu.'},
+  {id:'e5',title:'GST & Indirect Tax Workshop',date:'2025-08-18',type:'past',cat:'Workshop',loc:'Online · Zoom',link:'',desc:'Comprehensive 4-hour workshop on GST compliance, return filing, and recent amendments.'},
+  {id:'e6',title:'Resume & LinkedIn Workshop',date:'2025-08-02',type:'past',cat:'Workshop',loc:'Online',link:'',desc:'How to craft a CA student resume that stands out and optimise your LinkedIn for recruiter visibility.'},
+  {id:'e7',title:'Audit Techniques Seminar',date:'2025-07-15',type:'past',cat:'Seminar',loc:'Bengaluru',link:'',desc:'Led by CA finalists and article trainees on practical audit fieldwork and documentation standards.'},
+  {id:'e8',title:'Public Speaking & Communication Panel',date:'2025-06-28',type:'past',cat:'Panel',loc:'Online',link:'',desc:'Panel of student leaders on developing executive communication skills for client-facing roles.'},
+  {id:'e9',title:'Python for Finance Workshop',date:'2025-06-10',type:'past',cat:'Workshop',loc:'Online · Zoom',link:'',desc:'Introduction to Python scripting for financial analysis — pandas, data visualisation, and automation basics.'},
+  {id:'e10',title:'Entrepreneurship Kickstart Session',date:'2025-05-22',type:'past',cat:'Seminar',loc:'Hyderabad',link:'',desc:'How to validate a business idea, build an MVP, and pitch to early-stage investors — all before clearing CA.'},
+];
+
+/* ── Constants ── */
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const IPP = 20;
+
+let tab='all', yr='', mo='', cat='', pg=1;
+
+/* ── Helpers ── */
+function ymd(d){return new Date(d+'T00:00:00')}
+function getYr(d){return ymd(d).getFullYear().toString()}
+function getMo(d){const dt=ymd(d);return`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}`}
+function fmt(d){return ymd(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}
+
+/* ── Build dropdowns ── */
+function buildDropdowns(){
+  // Year
+  const years=[...new Set(EVENTS.map(e=>getYr(e.date)))].sort((a,b)=>b-a);
+  const ys=document.getElementById('filter-year');
+  ys.innerHTML='<option value="">All Years</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+  if(yr)ys.value=yr;
+
+  // Month (filtered by year)
+  const pool=yr?EVENTS.filter(e=>getYr(e.date)===yr):EVENTS;
+  const mos=[...new Set(pool.map(e=>getMo(e.date)))].sort((a,b)=>b.localeCompare(a));
+  const ms=document.getElementById('filter-month');
+  ms.innerHTML='<option value="">All Months</option>'+mos.map(m=>{const[y,n]=m.split('-');return`<option value="${m}">${MONTHS[parseInt(n)-1]} ${y}</option>`}).join('');
+  if(mo&&mos.includes(mo))ms.value=mo;
+
+  // Category
+  const cats=[...new Set(EVENTS.map(e=>e.cat).filter(Boolean))].sort();
+  const cs=document.getElementById('filter-cat');
+  cs.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option value="${c}">${c}</option>`).join('');
+  if(cat)cs.value=cat;
+
+  updateClearBtn();
+}
+
+function updateClearBtn(){
+  document.getElementById('clear-btn').style.display=(yr||mo||cat)?'':'none';
+}
+
+function onYearChange(){yr=document.getElementById('filter-year').value;mo='';pg=1;buildDropdowns();render()}
+function onMonthChange(){mo=document.getElementById('filter-month').value;pg=1;updateClearBtn();render()}
+function onCatChange(){cat=document.getElementById('filter-cat').value;pg=1;updateClearBtn();render()}
+function clearFilters(){yr='';mo='';cat='';pg=1;buildDropdowns();render()}
+function setTab(btn,t){document.querySelectorAll('.type-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');tab=t;pg=1;render()}
+
+/* ── Filtering ── */
+function applyFilters(pool){
+  return pool.filter(e=>{
+    if(tab!=='all'&&e.type!==tab)return false;
+    if(mo&&getMo(e.date)!==mo)return false;
+    if(yr&&!mo&&getYr(e.date)!==yr)return false;
+    if(cat&&e.cat!==cat)return false;
+    return true;
+  }).sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+/* ── Render ── */
+function render(){
+  const f=applyFilters(EVENTS),tot=f.length,tpg=Math.max(1,Math.ceil(tot/IPP));
+  if(pg>tpg)pg=tpg;
+  const slice=f.slice((pg-1)*IPP,pg*IPP);
+
+  document.getElementById('stat-total').textContent=EVENTS.length;
+  document.getElementById('stat-upcoming').textContent=EVENTS.filter(e=>e.type==='upcoming').length;
+  document.getElementById('stat-past').textContent=EVENTS.filter(e=>e.type==='past').length;
+  document.getElementById('stat-cats').textContent=[...new Set(EVENTS.map(e=>e.cat))].length;
+
+  // Tab counts (respect date+cat filters but not status tab)
+  const dateFiltered=EVENTS.filter(e=>{
+    if(mo&&getMo(e.date)!==mo)return false;
+    if(yr&&!mo&&getYr(e.date)!==yr)return false;
+    if(cat&&e.cat!==cat)return false;
+    return true;
+  });
+  document.getElementById('cnt-all').textContent=dateFiltered.length;
+  document.getElementById('cnt-up').textContent=dateFiltered.filter(e=>e.type==='upcoming').length;
+  document.getElementById('cnt-past').textContent=dateFiltered.filter(e=>e.type==='past').length;
+
+  document.getElementById('res-text').innerHTML=`Showing <strong>${slice.length}</strong> of <strong>${tot}</strong> events`;
+  document.getElementById('pg-text').innerHTML=tpg>1?`Page <strong>${pg}</strong> of <strong>${tpg}</strong>`:'';
+  document.getElementById('events-list').innerHTML=slice.length?slice.map(cardHTML).join(''):`<div class="empty-state"><div class="empty-icon">📅</div><h3>No events found</h3><p>Try adjusting your filters.</p></div>`;
+  renderPgs(tpg);
+}
+
+function cardHTML(e){
+  const d=ymd(e.date);
+  const acc=e.type==='upcoming'?'rgba(13,148,100,.7)':'rgba(110,128,160,.3)';
+  const tb=e.type==='upcoming'?'<span class="badge badge-upcoming">Upcoming</span>':'<span class="badge badge-past">Past</span>';
+
+  let actionEl='';
+  if(e.type==='past'){
+    actionEl='<span class="register-btn-past">Event Ended</span>';
+  } else if(e.link){
+    actionEl=`<a class="register-btn" href="${e.link}" target="_blank" rel="noopener noreferrer">Register Now <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`;
+  } else {
+    actionEl='<span class="register-btn-soon">Link Coming Soon</span>';
+  }
+
+  return`<div class="event-card" style="--card-accent:${acc}">
+    <div class="card-date-col">
+      <div class="card-day">${String(d.getDate()).padStart(2,'0')}</div>
+      <div class="card-mon">${MONTHS[d.getMonth()].slice(0,3)}</div>
+      <div class="card-yr">${d.getFullYear()}</div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body">
+      <div class="card-top">${tb}<span class="badge badge-cat">${e.cat}</span></div>
+      <div class="card-title">${e.title}</div>
+      ${e.desc?`<div class="card-desc">${e.desc}</div>`:''}
+      <div class="card-meta">
+        <span class="card-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${e.loc||'TBA'}
+        </span>
+        <span class="card-meta-item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          ${fmt(e.date)}
+        </span>
+      </div>
+    </div>
+    <div class="card-action-col">${actionEl}</div>
+  </div>`;
+}
+
+/* ── Pagination ── */
+function renderPgs(tpg){
+  const p=document.getElementById('pagination');if(tpg<=1){p.innerHTML='';return}
+  const nums=pgNums(pg,tpg);
+  let h=`<button class="pg-btn" onclick="goPage(${pg-1})" ${pg===1?'disabled':''}>&#8249;</button>`;
+  nums.forEach(n=>h+=n==='...'?`<span class="pg-ellipsis">…</span>`:`<button class="pg-btn${n===pg?' active':''}" onclick="goPage(${n})">${n}</button>`);
+  h+=`<button class="pg-btn" onclick="goPage(${pg+1})" ${pg===tpg?'disabled':''}>&#8250;</button>`;
+  p.innerHTML=h;
+}
+function pgNums(cur,tot){if(tot<=7)return Array.from({length:tot},(_,i)=>i+1);const p=[1];if(cur>3)p.push('...');for(let i=Math.max(2,cur-1);i<=Math.min(tot-1,cur+1);i++)p.push(i);if(cur<tot-2)p.push('...');p.push(tot);return p}
+function goPage(n){pg=n;render();window.scrollTo({top:document.querySelector('.events-main').offsetTop-80,behavior:'smooth'})}
+
+/* ── Nav ── */
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMobile(){document.getElementById('mobile-menu').classList.remove('open')}
+window.addEventListener('scroll',()=>{const n=document.getElementById('main-nav');n.style.height=window.scrollY>60?'56px':'66px';n.style.borderBottomColor=window.scrollY>60?'rgba(201,139,10,.18)':'rgba(201,139,10,.1)'});
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded',()=>{buildDropdowns();render()});
+</script>
+</body>
+</html>
