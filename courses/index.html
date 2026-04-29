@@ -814,10 +814,10 @@ footer {
         <h4>Category</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="tech" onchange="handleFilterChange()">
-            <span class="filter-label">Technology</span>
+            <input type="checkbox" class="filter-check cat-filter" value="data" onchange="handleFilterChange()">
+            <span class="filter-label">Data Analysis</span>
           </div>
-          <span class="filter-count">3</span>
+          <span class="filter-count">1</span>
         </label>
         <label class="filter-row">
           <div class="filter-left">
@@ -1041,158 +1041,20 @@ const COURSES = [
   {
     id: 1,
     cat: 'tech',
-    level: 'all-levels',
-    price: 1499,
-    origPrice: 2999,
-    rating: 4.9,
-    reviews: 312,
-    hours: 48,
-    title: 'Full Stack Web Development Bootcamp',
-    instructor: 'Naufil U. Ansari · SkillSphere Edu',
-    emoji: '💻',
-    thumb: 'th-1',
-    catBadge: { cls: 'badge-tech', label: 'Technology' },
-    rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
-	link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
-    popular: 1312
-  },
-  {
-    id: 2,
-    cat: 'design',
     level: 'beginner',
-    price: 1199,
-    origPrice: 2499,
-    rating: 4.9,
-    reviews: 241,
-    hours: 28,
-    title: 'UI/UX Design: Wireframe to Prototype',
-    instructor: 'Neha Joshi · SkillSphere Edu',
-    emoji: '🎨',
-    thumb: 'th-2',
-    catBadge: { cls: 'badge-design', label: 'Design' },
-    rightBadge: null,
-    popular: 1241
-  },
-  {
-    id: 3,
-    cat: 'biz',
-    level: 'beginner',
-    price: 0,
-    origPrice: null,
-    rating: 4.8,
-    reviews: 890,
-    hours: 8,
-    title: 'Introduction to Entrepreneurship',
-    instructor: 'SkillSphere Edu Founders',
-    emoji: '🚀',
-    thumb: 'th-3',
-    catBadge: { cls: 'badge-free', label: 'Free' },
-    rightBadge: null,
-    popular: 890
-  },
-  {
-    id: 4,
-    cat: 'mkt',
-    level: 'intermediate',
-    price: 999,
-    origPrice: 1999,
-    rating: 4.8,
-    reviews: 198,
-    hours: 32,
-    title: 'Digital Marketing & Growth Strategy',
-    instructor: 'Priya Sharma · SkillSphere Edu',
-    emoji: '📈',
-    thumb: 'th-4',
-    catBadge: { cls: 'badge-mkt', label: 'Marketing' },
-    rightBadge: null,
-    popular: 1198
-  },
-  {
-    id: 5,
-    cat: 'tech',
-    level: 'beginner',
-    price: 799,
-    origPrice: null,
+    price: 149,
+    origPrice: 499,
     rating: 5.0,
-    reviews: 44,
-    hours: 18,
-    title: 'AI & Prompt Engineering for Beginners',
-    instructor: 'Dev Kapoor · SkillSphere Edu',
-    emoji: '🤖',
-    thumb: 'th-5',
-    catBadge: { cls: 'badge-tech', label: 'Technology' },
-    rightBadge: { cls: 'badge-new', label: 'New' },
-    popular: 1044
-  },
-  {
-    id: 6,
-    cat: 'tech',
-    level: 'intermediate',
-    price: 1299,
-    origPrice: 2599,
-    rating: 4.7,
-    reviews: 156,
-    hours: 36,
-    title: 'Data Analytics with Python & Excel',
-    instructor: 'Rohan Das · SkillSphere Edu',
-    emoji: '📊',
-    thumb: 'th-6',
-    thumbStyle: 'background:linear-gradient(140deg,#050e1a,#0c2040,#1a3060)',
-    catBadge: { cls: 'badge-tech', label: 'Technology' },
-    rightBadge: null,
-    popular: 1156
-  },
-  {
-    id: 7,
-    cat: 'fin',
-    level: 'beginner',
-    price: 599,
-    origPrice: null,
-    rating: 4.8,
-    reviews: 203,
-    hours: 14,
-    title: 'Personal Finance & Investment Basics',
-    instructor: 'Ankita Rao · SkillSphere Edu',
-    emoji: '💰',
-    thumb: 'th-7',
-    catBadge: { cls: 'badge-fin', label: 'Finance' },
-    rightBadge: null,
-    popular: 1203
-  },
-  {
-    id: 8,
-    cat: 'mkt',
-    level: 'beginner',
-    price: 699,
-    origPrice: null,
-    rating: 4.9,
-    reviews: 178,
-    hours: 12,
-    title: 'Public Speaking & Professional Communication',
-    instructor: 'Vivek Nair · SkillSphere Edu',
-    emoji: '🎤',
-    thumb: 'th-8',
-    catBadge: { cls: 'badge-comm', label: 'Communication' },
-    rightBadge: null,
-    popular: 1178
-  },
-  {
-    id: 9,
-    cat: 'tech',
-    level: 'all-levels',
-    price: 1499,
-    origPrice: 2999,
-    rating: 4.9,
-    reviews: 312,
-    hours: 48,
-    title: 'Full Stack Web Development Bootcamp',
+    reviews: 10,
+    hours: 6,
+    title: 'Excel Essentials',
     instructor: 'Naufil U. Ansari · SkillSphere Edu',
-    emoji: '💻',
-    thumb: 'th-1',
-    catBadge: { cls: 'badge-biz', label: 'Business' },
+    emoji: '📊',
+    thumb: 'th-5',
+    catBadge: { cls: 'badge-free', label: 'Data Analysis' },
     rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
 	link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
-    popular: 1312
+    popular: 0
   }
  
   /* ── Add more courses below in the same format ──
