@@ -814,6 +814,27 @@ footer {
         <h4>Category</h4>
         <label class="filter-row">
           <div class="filter-left">
+            <input type="checkbox" class="filter-check cat-filter" value="accounting" onchange="handleFilterChange()">
+            <span class="filter-label">Accounting</span>
+          </div>
+          <span class="filter-count">0</span>
+        </label>
+        <label class="filter-row">
+          <div class="filter-left">
+            <input type="checkbox" class="filter-check cat-filter" value="audit" onchange="handleFilterChange()">
+            <span class="filter-label">Auditing</span>
+          </div>
+          <span class="filter-count">0</span>
+        </label>
+        <label class="filter-row">
+          <div class="filter-left">
+            <input type="checkbox" class="filter-check cat-filter" value="bizfin" onchange="handleFilterChange()">
+            <span class="filter-label">Business &amp; Finance</span>
+          </div>
+          <span class="filter-count">0</span>
+        </label>
+        <label class="filter-row">
+          <div class="filter-left">
             <input type="checkbox" class="filter-check cat-filter" value="data" onchange="handleFilterChange()">
             <span class="filter-label">Data Analysis</span>
           </div>
@@ -821,31 +842,10 @@ footer {
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="design" onchange="handleFilterChange()">
-            <span class="filter-label">Design</span>
+            <input type="checkbox" class="filter-check cat-filter" value="tax" onchange="handleFilterChange()">
+            <span class="filter-label">Taxation</span>
           </div>
-          <span class="filter-count">1</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="biz" onchange="handleFilterChange()">
-            <span class="filter-label">Business</span>
-          </div>
-          <span class="filter-count">1</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="mkt" onchange="handleFilterChange()">
-            <span class="filter-label">Marketing</span>
-          </div>
-          <span class="filter-count">2</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="fin" onchange="handleFilterChange()">
-            <span class="filter-label">Finance</span>
-          </div>
-          <span class="filter-count">1</span>
+          <span class="filter-count">0</span>
         </label>
       </div>
 
@@ -866,8 +866,14 @@ footer {
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="all-levels" onchange="handleFilterChange()">
-            <span class="filter-label">All Levels</span>
+            <input type="checkbox" class="filter-check lvl-filter" value="extreme" onchange="handleFilterChange()">
+            <span class="filter-label">Extreme</span>
+          </div>
+        </label>
+        <label class="filter-row">
+          <div class="filter-left">
+            <input type="checkbox" class="filter-check lvl-filter" value="mixed" onchange="handleFilterChange()">
+            <span class="filter-label">Mixed</span>
           </div>
         </label>
       </div>
@@ -883,20 +889,20 @@ footer {
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="under500" onchange="handleFilterChange()">
-            <span class="filter-label">Under ₹500</span>
+            <input type="checkbox" class="filter-check price-filter" value="under250" onchange="handleFilterChange()">
+            <span class="filter-label">Under ₹250</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="500to1500" onchange="handleFilterChange()">
-            <span class="filter-label">₹500 – ₹1,500</span>
+            <input type="checkbox" class="filter-check price-filter" value="250to500" onchange="handleFilterChange()">
+            <span class="filter-label">₹250 – ₹500</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
             <input type="checkbox" class="filter-check price-filter" value="above1500" onchange="handleFilterChange()">
-            <span class="filter-label">Above ₹1,500</span>
+            <span class="filter-label">Above ₹500</span>
           </div>
         </label>
       </div>
@@ -907,19 +913,19 @@ footer {
         <label class="filter-row">
           <div class="filter-left">
             <input type="checkbox" class="filter-check dur-filter" value="short" onchange="handleFilterChange()">
-            <span class="filter-label">Under 15 hrs</span>
+            <span class="filter-label">Under 5 hrs</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
             <input type="checkbox" class="filter-check dur-filter" value="medium" onchange="handleFilterChange()">
-            <span class="filter-label">15 – 35 hrs</span>
+            <span class="filter-label">5 – 15 hrs</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
             <input type="checkbox" class="filter-check dur-filter" value="long" onchange="handleFilterChange()">
-            <span class="filter-label">35+ hrs</span>
+            <span class="filter-label">15+ hrs</span>
           </div>
         </label>
       </div>
@@ -929,14 +935,14 @@ footer {
         <h4>Minimum Rating</h4>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.8" onchange="handleFilterChange()">
-            <span class="filter-label">⭐ 4.8 &amp; above</span>
+            <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="handleFilterChange()">
+            <span class="filter-label">⭐ 4.5 &amp; above</span>
           </div>
         </label>
         <label class="filter-row">
           <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="handleFilterChange()">
-            <span class="filter-label">⭐ 4.5 &amp; above</span>
+            <input type="checkbox" class="filter-check rat-filter" value="4.0" onchange="handleFilterChange()">
+            <span class="filter-label">⭐ 4.0 &amp; above</span>
           </div>
         </label>
       </div>
@@ -1040,20 +1046,20 @@ footer {
 const COURSES = [
   {
     id: 1,
-    cat: 'tech',
+    cat: 'data',
     level: 'beginner',
     price: 149,
     origPrice: 499,
     rating: 5.0,
     reviews: 10,
-    hours: 6,
+    hours: 4,
     title: 'Excel Essentials',
     instructor: 'Naufil U. Ansari · SkillSphere Edu',
     emoji: '📊',
     thumb: 'th-5',
     catBadge: { cls: 'badge-free', label: 'Data Analysis' },
     rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
-	link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
+	  link: 'https://skillsphere-edu.github.io/learn/courses/fullstack-web-development-bootcamp.html',
     popular: 0
   }
  
@@ -1073,7 +1079,7 @@ const COURSES = [
     thumb: 'th-6',
     catBadge: { cls: 'badge-tech', label: 'Technology' },
     rightBadge: null,
-	link: 'Your Link',
+	  link: 'Your Link',
     popular: 800
   }
   */
@@ -1240,9 +1246,9 @@ function applyFiltersAndSort() {
     if (priceChecked.length) {
       const match = priceChecked.some(p => {
         if (p === 'free')      return c.price === 0;
-        if (p === 'under500')  return c.price > 0 && c.price < 500;
-        if (p === '500to1500') return c.price >= 500 && c.price <= 1500;
-        if (p === 'above1500') return c.price > 1500;
+        if (p === 'under250')  return c.price > 0 && c.price < 250;
+        if (p === '250to500') return c.price >= 250 && c.price <= 500;
+        if (p === 'above500') return c.price > 500;
         return false;
       });
       if (!match) return false;
@@ -1250,9 +1256,9 @@ function applyFiltersAndSort() {
 
     if (durChecked.length) {
       const match = durChecked.some(d => {
-        if (d === 'short')  return c.hours < 15;
-        if (d === 'medium') return c.hours >= 15 && c.hours <= 35;
-        if (d === 'long')   return c.hours > 35;
+        if (d === 'short')  return c.hours < 5;
+        if (d === 'medium') return c.hours >= 5 && c.hours <= 15;
+        if (d === 'long')   return c.hours > 15;
         return false;
       });
       if (!match) return false;
