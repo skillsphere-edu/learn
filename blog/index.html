@@ -415,6 +415,12 @@
 </div>
 
 <script>
+/* ── Mobile menu ── */
+function toggleMenu() {
+  const m = document.getElementById('mobile-menu');
+  m.classList.toggle('open');
+}
+
 /* ─── ALL ARTICLES DATA ─── */
 const ALL_ARTICLES = [
   { cat:'career',  thumb:'th-career',  icon:'🚀', badge:'ab-career',  label:'🚀 Career',      title:'How to Build a CV That Actually Gets Noticed in 2026',                         desc:'Most CVs look the same. Here\'s what CA students and fresh graduates can do differently — from formatting and keywords to the projects employers actually search for.',       author:'NA', name:'Naufil U. Ansari', read:'6 min' },

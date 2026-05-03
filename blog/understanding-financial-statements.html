@@ -953,6 +953,12 @@
 </div>
 
 <script>
+  /* ── Mobile menu ── */
+function toggleMenu() {
+  const m = document.getElementById('mobile-menu');
+  m.classList.toggle('open');
+}
+
   // Reading progress
   function updateProgress() {
     const docH = document.documentElement.scrollHeight - window.innerHeight;
