@@ -983,14 +983,27 @@
   updateProgress();
 
   // Smooth scroll for TOC links
-  document.querySelectorAll('.toc-item').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const id = link.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
-    });
+document.querySelectorAll('.toc-item').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+
+    const id = link.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+
+    if (target) {
+      window.scrollTo({
+        top: target.getBoundingClientRect().top + window.scrollY - 90,
+        behavior: 'smooth'
+      });
+    }
+
+    // ✅ Close ONLY on mobile
+    const mobileToc = document.getElementById('mobileToc');
+    if (window.innerWidth <= 860 && mobileToc.classList.contains('open')) {
+      mobileToc.classList.remove('open');
+    }
   });
+});
 
   // Copy link
   function copyLink() {
