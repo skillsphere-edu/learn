@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding Financial Statements — SkillSphere Edu Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & ROOT ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    :root {
+      --navy:    #05090f;
+      --navy-2:  #0b1120;
+      --navy-3:  #111a2e;
+      --navy-4:  #192338;
+      --navy-5:  #1e2c44;
+      --gold:    #c98b0a;
+      --gold-l:  #e9a81c;
+      --gold-ll: #f5c84a;
+      --gold-p:  #fdf0c8;
+      --white:   #f4f1eb;
+      --off:     #ddd8ce;
+      --muted:   #6e80a0;
+      --muted-2: #3e4f6a;
+      --blue:    #1a68d6;
+      --green:   #0d9464;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy); }
+    ::-webkit-scrollbar-thumb { background: var(--navy-5); border-radius: 10px; }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-ll));
+      z-index: 1100; width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 66px;
+      background: rgba(5, 9, 15, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(201, 139, 10, 0.1);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      display: flex; align-items: center;
+      gap: 11px; font-weight: 600;
+      font-size: 1.1rem; letter-spacing: 0.01em; flex-shrink: 0;
+    }
+    .logo-icon { height: 70px; width: 70px; filter: contrast(1.1) saturate(1.2); }
+    .nav-logo span em { font-style: normal; color: var(--gold-l); }
+
+    .nav-links {
+      display: flex; align-items: center;
+      gap: 2.2rem; font-size: 0.82rem;
+      font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .nav-links a {
+      color: var(--muted); transition: color 0.2s;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 1px; background: var(--gold-l);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.25s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--gold-ll); }
+    .nav-links a.active::after { transform: scaleX(1); }
+
+    .nav-cta {
+      background: var(--gold); color: #07090e;
+      font-size: 0.78rem; font-weight: 700;
+      padding: 0.6rem 1.4rem; border-radius: 4px;
+      letter-spacing: 0.07em; text-transform: uppercase; border: none;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--gold-l); box-shadow: 0 0 24px rgba(201,139,10,0.45); transform: translateY(-1px); }
+
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; }
+
+    .mobile-menu {
+      display: none; position: fixed; top: 66px; left: 0; right: 0;
+      background: rgba(5,9,15,0.98); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,139,10,0.12);
+      padding: 1.5rem 5%; flex-direction: column; gap: 1.2rem; z-index: 999;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1rem; font-weight: 500; color: var(--off); padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    /* ── PAGE ── */
+    .page { padding-top: 66px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      max-width: 1180px; margin: 0 auto;
+      padding: 1.5rem 5% 0;
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; color: var(--muted-2);
+    }
+    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--gold-ll); }
+    .breadcrumb span:last-child { color: var(--off); }
+
+    /* ── ARTICLE HEADER ── */
+    .article-header {
+      max-width: 1180px; margin: 0 auto;
+      padding: 2.5rem 5% 0;
+    }
+    .article-badge {
+      display: inline-block;
+      font-size: 0.62rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      padding: 0.22rem 0.55rem; border-radius: 3px; margin-bottom: 1.2rem;
+    }
+    .ab-finance { background: rgba(201,139,10,0.18); color: var(--gold-ll); border: 1px solid rgba(201,139,10,0.3); }
+
+    .article-title {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700; color: var(--white);
+      line-height: 1.15; max-width: 820px; margin-bottom: 1rem;
+    }
+    .article-title em { font-style: italic; color: var(--gold-l); }
+
+    .article-subtitle {
+      font-size: 1rem; color: var(--muted);
+      line-height: 1.8; max-width: 680px; margin-bottom: 2rem;
+    }
+
+    .article-meta-row {
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .meta-author { display: flex; align-items: center; gap: 0.75rem; }
+    .meta-avatar-lg {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201,139,10,0.25), rgba(26,104,214,0.25));
+      border: 1px solid rgba(201,139,10,0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem; font-weight: 700; color: var(--gold-ll); flex-shrink: 0;
+    }
+    .author-info .name { font-size: 0.9rem; font-weight: 600; color: var(--white); }
+    .author-info .role { font-size: 0.75rem; color: var(--muted-2); }
+    .meta-divider { width: 1px; height: 30px; background: rgba(255,255,255,0.08); }
+    .meta-stat .label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted-2); display: block; }
+    .meta-stat .value { font-size: 0.85rem; color: var(--off); font-weight: 500; }
+    .meta-actions { margin-left: auto; display: flex; gap: 0.5rem; }
+    .action-btn {
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--muted); background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px; padding: 0.45rem 1rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .action-btn:hover { color: var(--gold-ll); border-color: rgba(201,139,10,0.3); background: rgba(201,139,10,0.06); }
+
+    /* ── BANNER ── */
+    .article-banner {
+      max-width: 1180px; margin: 0 auto;
+      padding: 2rem 5% 0;
+    }
+    .banner-img {
+      width: 100%;
+      height: clamp(200px, 28vw, 360px);
+      border-radius: 10px;
+      background: linear-gradient(140deg, #180a02 0%, #4a2208 45%, #7a3a0a 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .banner-img::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .banner-icon { font-size: 8rem; position: relative; z-index: 1; }
+
+    /* ── CONTENT LAYOUT ── */
+    .content-layout {
+      max-width: 1180px; margin: 0 auto;
+      padding: 3rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* ── TOC ── */
+    .toc-wrap {
+      position: sticky;
+      top: 82px;
+      max-height: calc(100vh - 98px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
+      scrollbar-color: var(--navy-5) transparent;
+    }
+    .toc-wrap::-webkit-scrollbar { width: 3px; }
+    .toc-wrap::-webkit-scrollbar-thumb { background: var(--navy-5); border-radius: 10px; }
+    .toc-card {
+      background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+    .toc-header {
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--muted-2);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .toc-header::before { content: '—'; color: var(--gold); }
+    .toc-list { padding: 0.6rem 0; }
+    .toc-item {
+      display: block;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.8rem; color: var(--muted);
+      border-left: 2px solid transparent;
+      transition: all 0.2s; line-height: 1.45;
+    }
+    .toc-item:hover { color: var(--off); border-left-color: rgba(201,139,10,0.3); background: rgba(201,139,10,0.04); }
+    .toc-item.active { color: var(--gold-ll); border-left-color: var(--gold); background: rgba(201,139,10,0.06); font-weight: 500; }
+    .toc-item.sub { padding-left: 2rem; font-size: 0.75rem; color: var(--muted-2); }
+    .toc-item.sub:hover, .toc-item.sub.active { color: var(--muted); }
+
+    .toc-footer {
+      padding: 0.9rem 1.2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .toc-prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.68rem; color: var(--muted-2); margin-bottom: 0.5rem;
+    }
+    .toc-prog-track { height: 2px; background: var(--navy-5); border-radius: 10px; }
+    .toc-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-ll));
+      border-radius: 10px; width: 0%;
+      transition: width 0.2s;
+    }
+
+    /* mobile TOC — hidden desktop, shown mobile only */
+    #mobileToc { display: none; }
+    @media (max-width: 860px) {
+      #mobileToc { display: none; }          /* hidden until toggled */
+      #mobileToc.open { display: block; margin-bottom: 2rem; }
+    }
+    .toc-toggle {
+      display: none;
+      align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--gold); background: var(--navy-3);
+      border: 1px solid rgba(201,139,10,0.25);
+      border-radius: 5px; padding: 0.55rem 1rem;
+      cursor: pointer; margin-bottom: 1.5rem;
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body { min-width: 0; }
+
+    .intro-box {
+      background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.9rem; color: var(--off); line-height: 1.75;
+    }
+    .intro-box strong { color: var(--gold-ll); }
+
+    .article-body h2 {
+      font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+      font-weight: 700; color: var(--white);
+      margin: 3rem 0 1rem; padding-top: 0.25rem;
+    }
+    .article-body h2:first-of-type { margin-top: 0; }
+    .article-body h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--off); margin: 2rem 0 0.75rem;
+    }
+    .article-body p { font-size: 0.92rem; color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; }
+    .article-body p strong { color: var(--off); font-weight: 600; }
+    .article-body ul, .article-body ol { margin: 1rem 0 1.5rem 1.25rem; }
+    .article-body li { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-bottom: 0.4rem; }
+    .article-body li strong { color: var(--off); }
+    .article-body a { color: var(--gold-l); text-decoration: underline; text-decoration-color: rgba(201,139,10,0.35); }
+    .article-body a:hover { text-decoration-color: var(--gold-l); }
+
+    .article-body blockquote {
+      background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 3px solid rgba(26,104,214,0.6);
+      border-radius: 0 8px 8px 0;
+      padding: 1.4rem 1.75rem;
+      margin: 2rem 0; position: relative;
+    }
+    .article-body blockquote::before {
+      content: '"'; position: absolute;
+      top: -0.5rem; left: 1.1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; color: var(--blue); line-height: 1; opacity: 0.3;
+    }
+    .article-body blockquote p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic;
+      color: var(--off); margin: 0; line-height: 1.65;
+    }
+    .article-body blockquote cite {
+      display: block; margin-top: 0.75rem;
+      font-size: 0.75rem; color: var(--muted-2); font-style: normal;
+    }
+
+    .callout {
+      display: flex; gap: 1rem;
+      background: rgba(201,139,10,0.06);
+      border: 1px solid rgba(201,139,10,0.15);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem; margin: 2rem 0;
+    }
+    .callout-icon { font-size: 1.2rem; flex-shrink: 0; padding-top: 0.1rem; }
+    .callout-text { font-size: 0.88rem; color: var(--off); line-height: 1.7; }
+    .callout-text strong { color: var(--gold-ll); }
+
+    .table-wrap {
+      overflow-x: auto; margin: 2rem 0;
+      border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+    }
+    .article-body table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .article-body thead { background: var(--navy-4); }
+    .article-body th {
+      text-align: left; padding: 0.8rem 1rem;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--muted-2); border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .article-body td {
+      padding: 0.75rem 1rem; color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top;
+    }
+    .article-body tbody tr:last-child td { border-bottom: none; }
+    .article-body tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .article-body td strong { color: var(--off); }
+
+    .section-break { height: 1px; background: rgba(255,255,255,0.05); margin: 3rem 0; }
+
+    /* ── ARTICLE FOOTER ── */
+    .article-footer { margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+    .tags-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .tags-label { font-size: 0.72rem; color: var(--muted-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .tag {
+      font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.75rem;
+      background: var(--navy-3); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 40px; color: var(--muted);
+      cursor: pointer; transition: all 0.2s;
+    }
+    .tag:hover { color: var(--gold-ll); border-color: rgba(201,139,10,0.3); background: rgba(201,139,10,0.06); }
+
+    .author-card {
+      background: var(--navy-3); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; padding: 1.75rem;
+      display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 3rem;
+    }
+    .author-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--blue), var(--gold));
+    }
+    .author-card { position: relative; overflow: hidden; }
+    .author-avatar-lg {
+      width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(201,139,10,0.2), rgba(26,104,214,0.2));
+      border: 2px solid rgba(201,139,10,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--gold-ll);
+    }
+    .author-card-info h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 0.2rem; }
+    .author-card-info .role { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.8rem; }
+    .author-card-info p { font-size: 0.83rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+    .author-links { display: flex; gap: 0.5rem; }
+    .author-link {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--blue); background: rgba(26,104,214,0.1); border: 1px solid rgba(26,104,214,0.2);
+      border-radius: 4px; padding: 0.3rem 0.75rem; transition: all 0.2s;
+    }
+    .author-link:hover { background: rgba(201,139,10,0.12); border-color: rgba(201,139,10,0.3); color: var(--gold-ll); }
+
+    /* ── RELATED ── */
+    .related-section {
+      background: var(--navy-2);
+      border-top: 1px solid rgba(201,139,10,0.08);
+      padding: 4rem 5%;
+    }
+    .related-inner { max-width: 1180px; margin: 0 auto; }
+    .section-kicker {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--gold); display: block; margin-bottom: 0.8rem;
+    }
+    .section-kicker::before { content: '— '; }
+    .related-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; margin-top: 1.5rem;
+    }
+    .related-card {
+      background: var(--navy-3); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; overflow: hidden;
+      transition: transform 0.28s, border-color 0.28s, box-shadow 0.28s;
+      cursor: pointer;
+    }
+    .related-card:hover { transform: translateY(-5px); border-color: rgba(201,139,10,0.25); box-shadow: 0 16px 48px rgba(0,0,0,0.35); }
+    .related-thumb {
+      height: 130px; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .related-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .related-thumb .thumb-icon { font-size: 2.5rem; position: relative; z-index: 1; }
+    .th-career { background: linear-gradient(140deg,#051208 0%,#0d3018 55%,#144d26 100%); }
+    .th-ca     { background: linear-gradient(140deg,#100218 0%,#2a0840 55%,#4a1878 100%); }
+    .th-tech   { background: linear-gradient(140deg,#050e1a 0%,#0a2040 55%,#1a68d6 130%); }
+    .related-body { padding: 1.1rem 1.2rem 1.3rem; }
+    .related-cat {
+      font-size: 0.62rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.5rem;
+    }
+    .rc-career { color: #4de6b0; }
+    .rc-ca     { color: #d4a0ff; }
+    .rc-tech   { color: #7ab8ff; }
+    .related-body h4 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--off); line-height: 1.4; margin-bottom: 0.5rem;
+    }
+    .related-body span { font-size: 0.73rem; color: var(--muted-2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); border-top: 1px solid rgba(201,139,10,0.08);
+      padding: 3.5rem 5% 2rem;
+    }
+    .footer-inner {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; max-width: 1180px; margin: 0 auto 3rem;
+    }
+    .footer-brand .nav-logo { margin-bottom: 0.9rem; }
+    .footer-brand p { font-size: 0.83rem; color: var(--muted); line-height: 1.75; max-width: 280px; }
+    .footer-socials { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .social-chipft {
+      width: 90px; height: 30px; border-radius: 6px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; color: var(--blue); transition: all 0.2s;
+    }
+    .social-chipft:hover { background: rgba(201,139,10,0.12); border-color: rgba(201,139,10,0.3); color: var(--gold-ll); }
+    .footer-col h4 {
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-col li a { font-size: 0.83rem; color: rgba(244,241,235,0.55); transition: color 0.2s; }
+    .footer-col li a:hover { color: var(--gold-ll); }
+    .footer-bottom {
+      max-width: 1180px; margin: 0 auto; padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.8rem;
+    }
+    .footer-bottom span { font-size: 0.75rem; color: var(--muted); }
+    .footer-bottom .tagline { color: var(--gold); font-size: 0.72rem; font-weight: 600; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .content-layout { gap: 2.5rem; }
+    }
+    @media (max-width: 860px) {
+      .content-layout { grid-template-columns: 1fr; }
+      #desktopToc { display: none; }
+      .toc-toggle { display: flex; }
+      .meta-actions { display: none; }
+      .meta-divider { display: none; }
+      .related-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      nav .nav-links, nav .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 560px) {
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .author-card { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="https://skillsphere-edu.github.io/learn" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu Logo" class="logo-icon"> 
+    <span>Skill<em>Sphere</em> Edu</span>
+  </a>
+  <div class="nav-links">
+    <a href="https://skillsphere-edu.github.io/learn">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+	  <a href="https://skillsphere-edu.github.io/learn/events">Events</a>
+    <a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
+    <a href="https://skillsphere-edu.github.io/learn/blog">Blog</a>
+    <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+  </div>
+
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Subscription Plans</a>
+	<a href="https://skillsphere-edu.github.io/learn/events"  onclick="toggleMenu()">Our Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies"  onclick="toggleMenu()">Articleship &amp; Training Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/blog"  onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Your Certificate</a>
+</div>
+
+<div class="page">
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb" aria-label="breadcrumb">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <span>/</span>
+    <a href="https://skillsphere-edu.github.io/learn/blog">Blog &amp; Insights</a>
+    <span>/</span>
+    <span>Understanding Financial Statements</span>
+  </div>
+
+  <!-- ARTICLE HEADER -->
+  <div class="article-header">
+    <span class="article-badge ab-finance">💰 Finance</span>
+    <h1 class="article-title">Understanding Financial Statements: A CA Student's <em>Practical Guide</em></h1>
+    <p class="article-subtitle">Balance sheets, P&L accounts, and cash flow statements demystified — with real-world examples from Indian businesses and the interpretation skills that actually matter on the job.</p>
+    <div class="article-meta-row">
+      <div class="meta-author">
+        <div class="meta-avatar-lg">PG</div>
+        <div class="author-info">
+          <div class="name">Priyanshi Goswami</div>
+          <div class="role">CEO & Founder · SkillSphere Edu</div>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Published</span>
+        <span class="value">April 28, 2026</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Read Time</span>
+        <span class="value">⏱ 8 min</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Category</span>
+        <span class="value">Finance</span>
+      </div>
+      <div class="meta-actions">
+        <button class="action-btn" onclick="copyLink()">🔗 Copy Link</button>
+        <a href="https://www.linkedin.com/company/skillsphere001" class="action-btn">in Share</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNER -->
+  <div class="article-banner">
+    <div class="banner-img">
+      <span class="banner-icon">📊</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-layout">
+
+    <!-- ARTICLE BODY -->
+    <main class="article-body">
+
+      <!-- Mobile TOC toggle -->
+      <button class="toc-toggle" onclick="document.getElementById('mobileToc').classList.toggle('open')">
+        — On This Page ▾
+      </button>
+      <div class="toc-wrap" id="mobileToc">
+        <div class="toc-card" style="margin-bottom:2rem;">
+          <div class="toc-header">On This Page</div>
+          <div class="toc-list">
+            <a href="#intro"           class="toc-item">Introduction</a>
+            <a href="#balance-sheet"   class="toc-item">The Balance Sheet</a>
+            <a href="#assets"          class="toc-item sub">↳ Assets</a>
+            <a href="#liabilities"     class="toc-item sub">↳ Liabilities & Equity</a>
+            <a href="#pl"              class="toc-item">Profit & Loss Account</a>
+            <a href="#revenue"         class="toc-item sub">↳ Revenue Line Items</a>
+            <a href="#expenses"        class="toc-item sub">↳ Operating Expenses</a>
+            <a href="#cashflow"        class="toc-item">Cash Flow Statement</a>
+            <a href="#operating"       class="toc-item sub">↳ Operating Activities</a>
+            <a href="#investing"       class="toc-item sub">↳ Investing & Financing</a>
+            <a href="#ratios"          class="toc-item">Key Financial Ratios</a>
+            <a href="#indian-context"  class="toc-item">Indian Business Context</a>
+            <a href="#common-mistakes" class="toc-item">Common Mistakes</a>
+            <a href="#conclusion"      class="toc-item">Conclusion</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-box" id="intro">
+        <strong>In this article:</strong> We walk through all three core financial statements — Balance Sheet, P&L Account, and Cash Flow Statement — with plain-language explanations, an Indian business context, and the key ratios your articleship firm will expect you to know.
+      </div>
+
+      <p>When you first sit across from a set of financial statements in your articleship, it can feel like reading a language you've studied in theory but never spoken aloud. The numbers are there. The formats are familiar from your ICAI textbooks. But <strong>knowing what a number means in isolation is completely different from understanding what it tells you</strong> about the business it represents.</p>
+
+      <p>This guide is written for CA students at the Inter and Final stages, and fresh articleship entrants. We'll work through each statement methodically — not just defining terms, but showing you how to read them the way a working professional does.</p>
+
+      <h2 id="balance-sheet">The Balance Sheet: A Snapshot of Financial Health</h2>
+      <p>The Balance Sheet tells you what a company owns, what it owes, and what's left over for shareholders at a specific point in time. It always balances because of the fundamental accounting equation:</p>
+
+      <div class="callout">
+        <span class="callout-icon">⚖️</span>
+        <div class="callout-text"><strong>Assets = Liabilities + Shareholders' Equity</strong><br/>Every rupee a company has came from somewhere — either borrowed (liabilities) or invested/earned (equity). This equation must always hold.</div>
+      </div>
+
+      <h3 id="assets">Assets: What the Company Owns</h3>
+      <p>Assets are split into <strong>Non-Current Assets</strong> (held for more than one year) and <strong>Current Assets</strong> (converted to cash within a year).</p>
+      <ul>
+        <li><strong>Non-Current:</strong> Property, plant & equipment, intangibles, long-term investments, deferred tax assets</li>
+        <li><strong>Current:</strong> Inventories, trade receivables, cash & cash equivalents, short-term investments</li>
+      </ul>
+      <p>When analysing asset composition, ask: <strong>Is this a capital-intensive business?</strong> A manufacturer will have heavy PP&E. An IT firm will have relatively light tangible assets but significant goodwill or capitalised software.</p>
+
+      <h3 id="liabilities">Liabilities & Equity: Where the Money Came From</h3>
+      <p>Liabilities are similarly split into current (due within a year) and non-current. Key items include long-term debt, provisions for employee benefits, and deferred tax liabilities.</p>
+      <p><strong>Equity</strong> represents the residual interest — share capital, retained earnings, and other reserves. A growing retained earnings balance across years means the company is reinvesting its profits — generally a positive sign.</p>
+
+      <div class="section-break"></div>
+      <h2 id="pl">The Profit & Loss Account: How Money Was Earned and Spent</h2>
+      <p>The P&L Account covers a <em>period of time</em> — typically a quarter or financial year — and shows how revenues were turned into profit or loss. In India, companies follow Schedule III of the Companies Act for presentation format.</p>
+
+      <h3 id="revenue">Revenue Line Items</h3>
+      <p>Revenue from Operations is the top line. Below it you'll typically find:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Line Item</th><th>What It Represents</th><th>Why It Matters</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Revenue from Operations</strong></td><td>Core business income</td><td>Growth rate signals business health</td></tr>
+            <tr><td><strong>Other Income</strong></td><td>Interest, dividends, asset gains</td><td>Watch if it masks core weakness</td></tr>
+            <tr><td><strong>Gross Profit</strong></td><td>Revenue minus Cost of Goods Sold</td><td>Gross margin reveals pricing power</td></tr>
+            <tr><td><strong>EBITDA</strong></td><td>Earnings before interest, tax, D&A</td><td>Proxy for operating cash generation</td></tr>
+            <tr><td><strong>PAT (Net Profit)</strong></td><td>Bottom-line after all deductions</td><td>Profit attributable to shareholders</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="expenses">Operating Expenses: Where the Money Goes</h3>
+      <p>Indian companies present expenses by nature — materials, employee costs, depreciation, other expenses. Understanding the expense structure is crucial: high employee costs relative to revenue may limit scalability; high raw material costs signal commodity price exposure.</p>
+
+      <blockquote>
+        <p>The P&L tells you how the business performed. The Balance Sheet tells you how it survived. Read them together, never in isolation.</p>
+        <cite>— Common wisdom in audit firms</cite>
+      </blockquote>
+
+      <div class="section-break"></div>
+      <h2 id="cashflow">The Cash Flow Statement: Where Cash Actually Moved</h2>
+      <p>The Cash Flow Statement is arguably the most important financial statement for understanding real financial health — and the one CA students most often overlook. A company can show a profit on the P&L and still run out of cash.</p>
+
+      <h3 id="operating">Operating Activities</h3>
+      <p>This section shows cash generated from the core business. A healthy company consistently generates <strong>positive operating cash flow</strong> roughly aligned with its net profit. Large, persistent divergences are red flags — investigate rising receivables, inventory build-ups, or aggressive revenue recognition.</p>
+
+      <h3 id="investing">Investing & Financing Activities</h3>
+      <p><strong>Investing activities</strong> cover capital expenditure, proceeds from asset sales, and investment transactions. <strong>Financing activities</strong> include borrowings, repayments, dividends paid, and equity issuances. Heavy borrowing to fund operations — rather than growth — is a warning sign.</p>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text"><strong>Quick Pattern Check:</strong> Positive Operating CF + Negative Investing CF (capex) + Small Financing CF = mature, self-funded business. Often the healthiest pattern you'll see.</div>
+      </div>
+
+      <div class="section-break"></div>
+      <h2 id="ratios">Key Financial Ratios Every CA Student Should Know</h2>
+      <p>Ratios give context to numbers. A net profit of ₹50 crore means nothing without knowing the revenue, industry average, and prior year figure.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Ratio</th><th>Formula</th><th>What It Tells You</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Current Ratio</strong></td><td>Current Assets ÷ Current Liabilities</td><td>Short-term liquidity. Below 1 = stress.</td></tr>
+            <tr><td><strong>Gross Margin %</strong></td><td>Gross Profit ÷ Revenue × 100</td><td>Pricing power & cost efficiency</td></tr>
+            <tr><td><strong>Net Profit Margin</strong></td><td>PAT ÷ Revenue × 100</td><td>Overall profitability after all costs</td></tr>
+            <tr><td><strong>Debt-to-Equity</strong></td><td>Total Debt ÷ Shareholders' Equity</td><td>Financial leverage. High = risky.</td></tr>
+            <tr><td><strong>Return on Equity</strong></td><td>PAT ÷ Average Equity × 100</td><td>How well management uses shareholder funds</td></tr>
+            <tr><td><strong>Receivables Days</strong></td><td>(Debtors ÷ Revenue) × 365</td><td>How fast customers pay. Rising = concern.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-break"></div>
+      <h2 id="indian-context">Reading Financials in the Indian Context</h2>
+      <p>Indian financial statements under Ind AS have features that differ from IFRS and US GAAP:</p>
+      <ul>
+        <li><strong>Schedule III Format:</strong> Presentation of Balance Sheet and P&L is prescribed under the Companies Act 2013. Know this format before opening any Indian annual report.</li>
+        <li><strong>Related Party Transactions:</strong> Ind AS 24 disclosures are critical for promoter-controlled companies where related-party dealings can significantly affect profitability.</li>
+        <li><strong>Deferred Tax (Ind AS 12):</strong> Timing differences between accounting profit and taxable income create deferred tax assets/liabilities that appear on the Balance Sheet.</li>
+        <li><strong>MSME Disclosure:</strong> Companies must separately disclose outstanding dues to MSMEs — directly relevant for audit work around vendor payments.</li>
+      </ul>
+
+      <div class="section-break"></div>
+      <h2 id="common-mistakes">Common Mistakes Students Make</h2>
+      <ol>
+        <li><strong>Reading in isolation:</strong> Always compare at least 2–3 years. A one-year snapshot is nearly meaningless without trend context.</li>
+        <li><strong>Ignoring the Notes to Accounts:</strong> The most important information is often buried here — accounting policy changes, contingent liabilities, litigation disclosures.</li>
+        <li><strong>Confusing Profit with Cash:</strong> High PAT with low Operating CF should immediately raise suspicion. Investigate the working capital changes.</li>
+        <li><strong>Memorising formats without understanding flows:</strong> ICAI exams reward format knowledge. Actual articleship work rewards understanding. Invest time in both.</li>
+        <li><strong>Not asking why:</strong> When a number looks unusual, ask your supervisor. The habit of curiosity separates average article clerks from exceptional ones.</li>
+      </ol>
+
+      <div class="section-break"></div>
+      <h2 id="conclusion">Putting It All Together</h2>
+      <p>Financial statements are a language. Like any language, you get better with exposure and practice. The best way to accelerate is to pick up a real Indian company's Annual Report — start with a business you're familiar with — and work through it section by section with this guide beside you.</p>
+      <p>Pay attention to what the management says in the MD&A, then verify it against the actual numbers. Does their story match what the statements show? That critical habit is exactly what auditors are trained to develop.</p>
+
+      <div class="callout">
+        <span class="callout-icon">🎓</span>
+        <div class="callout-text"><strong>Want to go deeper?</strong> SkillSphere Edu's upcoming <a href="https://skillsphere-edu.github.io/learn/courses">Financial Statements Analysis course</a> covers ratio analysis, working capital management, and reading Indian annual reports — with a verified certificate included.</div>
+      </div>
+
+      <!-- ARTICLE FOOTER -->
+      <div class="article-footer">
+        <div class="tags-row">
+          <span class="tags-label">Tags:</span>
+          <span class="tag">Finance</span>
+          <span class="tag">Balance Sheet</span>
+          <span class="tag">Ind AS</span>
+          <span class="tag">CA Students</span>
+          <span class="tag">Articleship</span>
+          <span class="tag">Financial Analysis</span>
+        </div>
+        <div class="author-card">
+          <div class="author-avatar-lg">PG</div>
+          <div class="author-card-info">
+            <h4>Priyanshi Goswami</h4>
+            <div class="role">CEO & Founder · SkillSphere Edu · CA Finalist · Audit Executive, RKCA & Co. LLP</div>
+            <p>The visionary behind SkillSphere Edu. Priyanshi writes about financial literacy, the CA journey, and practical skills that bridge the gap between classroom education and professional life.</p>
+            <div class="author-links">
+              <a href="https://www.linkedin.com/in/priyanshi-goswami-229785219/" class="author-link">LinkedIn ↗</a>
+              <a href="mailto:Priyanshinicasagurugram@gmail.com" class="author-link">Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- DESKTOP TOC -->
+    <aside class="toc-wrap" id="desktopToc">
+      <div class="toc-card">
+        <div class="toc-header">On This Page</div>
+        <div class="toc-list" id="tocList">
+          <a href="#intro"           class="toc-item">Introduction</a>
+          <a href="#balance-sheet"   class="toc-item">The Balance Sheet</a>
+          <a href="#assets"          class="toc-item sub">↳ Assets</a>
+          <a href="#liabilities"     class="toc-item sub">↳ Liabilities & Equity</a>
+          <a href="#pl"              class="toc-item">Profit & Loss Account</a>
+          <a href="#revenue"         class="toc-item sub">↳ Revenue Line Items</a>
+          <a href="#expenses"        class="toc-item sub">↳ Operating Expenses</a>
+          <a href="#cashflow"        class="toc-item">Cash Flow Statement</a>
+          <a href="#operating"       class="toc-item sub">↳ Operating Activities</a>
+          <a href="#investing"       class="toc-item sub">↳ Investing & Financing</a>
+          <a href="#ratios"          class="toc-item">Key Financial Ratios</a>
+          <a href="#indian-context"  class="toc-item">Indian Business Context</a>
+          <a href="#common-mistakes" class="toc-item">Common Mistakes</a>
+          <a href="#conclusion"      class="toc-item">Conclusion</a>
+        </div>
+        <div class="toc-footer">
+          <div class="toc-prog-label">
+            <span>Reading progress</span>
+            <span id="progPct">0%</span>
+          </div>
+          <div class="toc-prog-track">
+            <div class="toc-prog-fill" id="progFill"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div><!-- /content-layout -->
+
+  <!-- RELATED -->
+  <section class="related-section">
+    <div class="related-inner">
+      <span class="section-kicker">You Might Also Like</span>
+      <div class="related-grid">
+        <a href="sse-blog-archive-v2.html" class="related-card">
+          <div class="related-thumb th-career"><span class="thumb-icon">🚀</span></div>
+          <div class="related-body">
+            <div class="related-cat rc-career">🚀 Career</div>
+            <h4>How to Build a CV That Actually Gets Noticed in 2026</h4>
+            <span>6 min read · Naufil U. Ansari</span>
+          </div>
+        </a>
+        <a href="sse-blog-archive-v2.html" class="related-card">
+          <div class="related-thumb th-ca"><span class="thumb-icon">📋</span></div>
+          <div class="related-body">
+            <div class="related-cat rc-ca">📋 CA Journey</div>
+            <h4>Articleship in 2026: What No One Tells You Before You Start</h4>
+            <span>10 min read · Mishthi Arora</span>
+          </div>
+        </a>
+        <a href="sse-blog-archive-v2.html" class="related-card">
+          <div class="related-thumb th-ca"><span class="thumb-icon">💰</span></div>
+          <div class="related-body">
+            <div class="related-cat rc-ca">📋 CA Journey</div>
+            <h4>GST Reconciliation Made Simple: A Beginner's Walkthrough</h4>
+            <span>11 min read · Mishthi Arora</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <span>Skill<em>Sphere</em> Edu</span>
+      </div>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+		     <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Courses</h4>
+      <ul>
+        <li><a href="#courses-grid">Full Stack Dev</a></li>
+        <li><a href="#courses-grid">UI/UX Design</a></li>
+        <li><a href="#courses-grid">Digital Marketing</a></li>
+        <li><a href="#courses-grid">Data Analytics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://skillsphere-edu.github.io/learn/#founders">Talk to a Founder</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+        <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
+    <span>Hosted on GitHub Pages.</span>
+    <span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  // Reading progress
+  function updateProgress() {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    const fill = document.getElementById('progFill');
+    const label = document.getElementById('progPct');
+    if (fill) fill.style.width = pct + '%';
+    if (label) label.textContent = Math.round(pct) + '%';
+  }
+
+  // Active TOC via IntersectionObserver
+  const headings = document.querySelectorAll('.article-body h2[id], .article-body h3[id], .intro-box[id]');
+  const tocLinks = document.querySelectorAll('.toc-item');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        if (id) document.querySelectorAll(`.toc-item[href="#${id}"]`).forEach(l => l.classList.add('active'));
+      }
+    });
+  }, { rootMargin: '-10% 0% -80% 0%', threshold: 0 });
+
+  headings.forEach(h => observer.observe(h));
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Smooth scroll for TOC links
+  document.querySelectorAll('.toc-item').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+    });
+  });
+
+  // Copy link
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('.action-btn');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = orig; }, 1800);
+    });
+  }
+</script>
+</body>
+</html>
