@@ -1,71 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Courses — SkillSphere Edu</title>
-<meta name="description" content="Browse certified courses across Accounting, Finance, Data Analysis and more. All courses include a verified SkillSphere Edu Certificate.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  gtag('config', 'G-231C0271DH');
-</script>
+  <title>All Courses — SkillSphere Edu | Certified Upskilling Courses</title>
+  <meta name="description" content="Browse all certified courses at SkillSphere Edu — Excel, UI/UX, Digital Marketing, Data Analysis and more. Every course includes a verified SkillSphere Edu Certificate.">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/courses">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
+
+  <meta property="og:title" content="All Courses — SkillSphere Edu">
+  <meta property="og:description" content="Certified courses in Finance, Tech, Design & more. Learn. Grow. Lead.">
+  <meta property="og:url" content="https://skillsphere-edu.github.io/learn/courses">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://skillsphere-edu.github.io/learn/assets/preview-v2.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "SkillSphere Edu — All Courses",
+    "url": "https://skillsphere-edu.github.io/learn/courses",
+    "description": "Certified courses in Finance, Technology, Design, Marketing and more.",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Excel Essentials",
+        "url": "https://skillsphere-edu.github.io/learn/courses/excel-essentials.html"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-231C0271DH');
+  </script>
 
 <style>
-
-/* ─────────────────────────────────────────────
-   RESET & ROOT
-───────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-
+/* ════════════════════════════════════════
+   DESIGN TOKENS — Forensic Case-File Palette
+════════════════════════════════════════ */
 :root {
-  --navy:   #05090f;
-  --navy-2: #0b1120;
-  --navy-3: #111a2e;
-  --navy-4: #192338;
-  --navy-5: #1e2c44;
-  --gold:   #c98b0a;
-  --gold-l: #e9a81c;
-  --gold-ll:#f5c84a;
-  --white:  #f4f1eb;
-  --off:    #ddd8ce;
-  --muted:  #6e80a0;
-  --muted-2:#3e4f6a;
-  --blue:   #1a68d6;
-  --green:  #0d9464;
-  --red:    #c03535;
+  --paper:        #f0ead6;
+  --paper-dark:   #e0d8be;
+  --paper-stain:  #d4c9a8;
+  --paper-deep:   #c9bfa0;
+  --ink:          #1a1209;
+  --ink-faded:    #3d3120;
+  --ink-muted:    #6b5f45;
+  --red-tape:     #c0272d;
+  --red-dark:     #8b1a1e;
+  --red-hover:    #a82020;
+  --stamp-green:  #1a4d2e;
+  --stamp-blue:   #1a3a6e;
+  --gold:         #b07d1a;
+  --gold-l:       #c98b0a;
+
+  --display:      'Bebas Neue', sans-serif;
+  --typewriter:   'Courier Prime', monospace;
+  --mono:         'IBM Plex Mono', monospace;
+  --stamp-font:   'Special Elite', cursive;
 }
 
+/* ════════════════════════════════════════
+   RESET
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
 body {
-  background: var(--navy);
-  color: var(--white);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--typewriter);
   line-height: 1.65;
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; line-height: 1.15; }
-a { color: inherit; text-decoration: none; }
-button, input, select { font-family: 'DM Sans', sans-serif; }
+a    { color: inherit; text-decoration: none; }
+img  { display: block; max-width: 100%; }
+button, input, select { font-family: var(--typewriter); cursor: pointer; }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  line-height: 1;
+  letter-spacing: 1px;
+}
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--navy); }
-::-webkit-scrollbar-thumb { background: var(--navy-5); border-radius: 10px; }
+::-webkit-scrollbar-track  { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb  { background: var(--paper-stain); border-radius: 10px; }
 
-/* ─────────────────────────────────────────────
+/* ════════════════════════════════════════
+   NOISE TEXTURE
+════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeUp    { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scrollTape{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════════════════════
    NAVIGATION
-───────────────────────────────────────────── */
+════════════════════════════════════════ */
 nav {
-  position: sticky;
+  position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
   display: flex;
@@ -73,70 +137,75 @@ nav {
   justify-content: space-between;
   padding: 0 5%;
   height: 66px;
-  background: rgba(5, 9, 15, 0.85);
+  background: rgba(240, 234, 214, 0.92);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(201, 139, 10, 0.1);
-  transition: background 0.3s;
+  border-bottom: 2px solid var(--paper-stain);
+  transition: height 0.3s, background 0.3s;
 }
 
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 11px;
-  font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: 0.01em;
   flex-shrink: 0;
 }
 
+.nav-brand-text {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 1;
+}
+.nav-brand-text em { font-style: normal; color: var(--red-tape); }
+
 .logo-icon {
-  height: 70px;
-  width: 70px;
+  height: 44px; width: 44px;
   filter: contrast(1.1) saturate(1.2);
-  transition: transform 0.3s ease;
 }
 
-.nav-logo span em { font-style: normal; color: var(--gold-l); }
+.nav-stamp {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+}
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 2rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.nav-links a { color: var(--muted); transition: color 0.2s; }
-.nav-links a:hover { color: var(--white); }
-
-.nav-right { display: flex; align-items: center; gap: 0.9rem; }
-
-.nav-avatar {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: rgba(201,139,10,0.15);
-  border: 1px solid rgba(201,139,10,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.68rem; font-weight: 700; color: var(--gold-ll);
-}
-
-.btn-nav {
-  background: var(--gold);
-  color: #07090e;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.78rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.52rem 1.1rem;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
 }
-.btn-nav:hover { background: var(--gold-l); }
+
+.nav-links a {
+  color: var(--ink-faded);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--red-tape);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--red-tape); }
 
 .nav-hamburger {
   display: none;
@@ -145,231 +214,436 @@ nav {
   cursor: pointer;
   padding: 4px;
 }
-
 .nav-hamburger span {
   display: block;
   width: 22px; height: 2px;
-  background: var(--white);
-  border-radius: 2px;
+  background: var(--ink);
+  border-radius: 1px;
   transition: all 0.3s;
 }
 
-/* ─────────────────────────────────────────────
-   HERO BANNER
-───────────────────────────────────────────── */
+/* ════════════════════════════════════════
+   MOBILE MENU
+════════════════════════════════════════ */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 66px; left: 0; right: 0;
+  background: rgba(240,234,214,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--paper-stain);
+  padding: 1.5rem 5%;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 999;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--paper-stain);
+}
+.mobile-menu a:hover { color: var(--red-tape); }
+
+/* ════════════════════════════════════════
+   HERO — EVIDENCE CATALOGUE
+════════════════════════════════════════ */
 .archive-hero {
-  background: var(--navy-2);
-  border-bottom: 1px solid rgba(201,139,10,0.1);
+  margin-top: 66px;
+  background: var(--paper-dark);
+  border-bottom: 2px solid var(--paper-stain);
   padding: 4.5rem 5% 3.5rem;
-  text-align: center;
   position: relative;
   overflow: hidden;
 }
 
+/* Notebook lines */
 .archive-hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(201,139,10,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,139,10,0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 31px,
+    rgba(180,160,100,.2) 31px,
+    rgba(180,160,100,.2) 32px
+  );
   pointer-events: none;
 }
 
+/* Red margin line */
 .archive-hero::after {
   content: '';
   position: absolute;
-  width: 700px; height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(201,139,10,0.07) 0%, transparent 65%);
-  top: -150px; left: 50%; transform: translateX(-50%);
+  top: 0; left: 72px; bottom: 0;
+  width: 1px;
+  background: rgba(192,39,45,.22);
   pointer-events: none;
 }
 
-.archive-hero-inner { position: relative; z-index: 1; }
-
-.hero-kicker {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--gold);
-  display: block;
-  margin-bottom: 0.75rem;
+.archive-hero-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
 }
-.hero-kicker::before { content: '— '; }
+
+.hero-text-col {}
+
+.case-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  animation: fadeUp .5s ease both;
+}
+.case-label::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--red-tape);
+}
 
 .archive-hero h1 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 700;
-  margin-bottom: 0.8rem;
-  color: var(--white);
+  font-family: var(--display);
+  font-size: clamp(52px, 7vw, 96px);
+  line-height: 0.92;
+  color: var(--ink);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  animation: fadeUp .5s ease .08s both;
+}
+.archive-hero h1 em {
+  font-style: normal;
+  color: var(--red-tape);
+  display: block;
 }
 
-.archive-hero h1 em { font-style: italic; color: var(--gold-l); }
+.hero-stamp-badge {
+  display: inline-block;
+  font-family: var(--stamp-font);
+  font-size: 0.9rem;
+  color: var(--stamp-green);
+  border: 2px solid var(--stamp-green);
+  border-radius: 3px;
+  padding: 3px 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.75;
+  transform: rotate(-2deg);
+  margin: 10px 0 18px;
+  display: inline-block;
+  animation: fadeUp .5s ease .16s both;
+}
 
 .archive-hero p {
-  font-size: 0.95rem;
-  color: var(--muted);
-  max-width: 520px;
-  margin: 0 auto 2rem;
-  line-height: 1.75;
+  font-family: var(--typewriter);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  max-width: 480px;
+  line-height: 1.85;
+  animation: fadeUp .5s ease .24s both;
 }
 
+/* Search box — forensic style */
 .search-wrap {
-  max-width: 580px;
-  margin: 0 auto;
+  margin-top: 1.8rem;
   display: flex;
-  background: var(--navy-3);
-  border: 1px solid rgba(201,139,10,0.22);
-  border-radius: 8px;
-  padding: 0.35rem 0.35rem 0.35rem 1.1rem;
-  gap: 0.4rem;
-  transition: border-color 0.2s;
+  background: var(--paper);
+  border: 2px solid var(--paper-stain);
+  border-radius: 3px;
+  padding: 0;
+  overflow: hidden;
+  max-width: 520px;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  animation: fadeUp .5s ease .32s both;
 }
-.search-wrap:focus-within { border-color: rgba(201,139,10,0.45); }
+.search-wrap:focus-within {
+  border-color: var(--red-tape);
+  box-shadow: 3px 3px 0 rgba(192,39,45,0.25);
+}
 
 .search-wrap input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
-  color: var(--white);
-  font-size: 0.9rem;
-  padding: 0.45rem 0;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  padding: 0.7rem 1rem;
+  letter-spacing: 0.05em;
 }
-.search-wrap input::placeholder { color: var(--muted-2); }
+.search-wrap input::placeholder { color: var(--ink-muted); }
 
 .search-btn {
-  background: var(--gold);
-  color: #07090e;
+  background: var(--red-tape);
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  padding: 0.55rem 1.4rem;
-  font-size: 0.82rem;
+  padding: 0 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: background 0.2s;
   white-space: nowrap;
 }
-.search-btn:hover { background: var(--gold-l); }
+.search-btn:hover { background: var(--red-hover); }
 
-/* ─────────────────────────────────────────────
+/* Hero meta strip */
+.hero-meta-strip {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  animation: fadeUp .5s ease .4s both;
+}
+
+.hero-meta-item {
+  text-align: center;
+}
+.hero-meta-val {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: var(--red-tape);
+  display: block;
+  line-height: 1;
+}
+.hero-meta-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  display: block;
+  margin-top: 3px;
+}
+
+/* Hero side — case file card */
+.hero-case-card {
+  background: var(--ink);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 3px;
+  padding: 1.6rem 1.4rem;
+  min-width: 200px;
+  box-shadow: 8px 8px 0 var(--paper-stain);
+  animation: fadeUp .5s ease .2s both;
+}
+
+.hcc-bar {
+  background: var(--red-tape);
+  margin: -1.6rem -1.4rem 1.2rem;
+  padding: 0.5rem 1rem;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.hcc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.hcc-row:last-child { border-bottom: none; }
+
+.hcc-key {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(240,234,214,0.4);
+}
+.hcc-val {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  color: var(--paper);
+  letter-spacing: 1px;
+}
+.hcc-val.red { color: var(--red-tape); }
+.hcc-val.green { color: #5de0a0; }
+
+/* ════════════════════════════════════════
+   TICKER TAPE
+════════════════════════════════════════ */
+.ticker-wrap {
+  background: var(--red-tape);
+  overflow: hidden;
+  padding: 9px 0;
+  border-top: 1px solid var(--red-dark);
+  border-bottom: 1px solid var(--red-dark);
+  position: relative;
+  z-index: 2;
+}
+.ticker-inner {
+  display: flex;
+  width: max-content;
+  animation: scrollTape 28s linear infinite;
+}
+.ticker-item {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0 36px;
+  white-space: nowrap;
+}
+.ticker-sep { color: rgba(255,255,255,0.4); }
+
+/* ════════════════════════════════════════
    ARCHIVE LAYOUT
-───────────────────────────────────────────── */
+════════════════════════════════════════ */
 .archive-layout {
   display: grid;
-  grid-template-columns: 248px 1fr;
+  grid-template-columns: 260px 1fr;
   gap: 2rem;
   max-width: 1260px;
   margin: 0 auto;
   padding: 2.5rem 5% 5rem;
   align-items: start;
+  position: relative;
+  z-index: 1;
 }
 
-/* ─────────────────────────────────────────────
+/* ════════════════════════════════════════
    FILTER SIDEBAR
-───────────────────────────────────────────── */
+════════════════════════════════════════ */
 .filter-panel {
-  background: var(--navy-2);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  padding: 1.5rem;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--paper-stain);
   position: sticky;
-  top: 72px;
+  top: 78px;
+  overflow: hidden;
 }
 
-.filter-panel-header {
+.filter-panel-bar {
+  background: var(--ink);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.4rem;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 0.7rem 1.1rem;
 }
-
-.filter-panel-header h3 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 600;
+.filter-panel-bar h3 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(240,234,214,0.7);
+  font-weight: 700;
 }
 
 .clear-btn {
-  font-size: 0.7rem;
-  color: var(--gold-l);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red-tape);
   background: none;
   border: none;
   cursor: pointer;
-  font-weight: 600;
-  padding: 0;
+  font-weight: 700;
   transition: opacity 0.2s;
 }
 .clear-btn:hover { opacity: 0.7; }
 
-.filter-group { margin-bottom: 1.4rem; }
-.filter-group:last-child { margin-bottom: 0; }
+.filter-inner { padding: 1.2rem 1.1rem; }
+
+.filter-group {
+  margin-bottom: 1.4rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px dashed var(--paper-stain);
+}
+.filter-group:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 
 .filter-group h4 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.72rem;
+  font-family: var(--mono);
+  font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-bottom: 0.75rem;
+  letter-spacing: 4px;
+  color: var(--red-tape);
+  margin-bottom: 0.7rem;
 }
 
 .filter-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.38rem 0;
+  padding: 0.3rem 0;
   cursor: pointer;
 }
+.filter-row:hover .filter-label { color: var(--ink); }
 
-.filter-row:hover .filter-label { color: var(--white); }
-
-.filter-left {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
+.filter-left { display: flex; align-items: center; gap: 0.55rem; }
 
 .filter-check {
-  width: 15px; height: 15px;
-  accent-color: var(--gold);
+  width: 13px; height: 13px;
+  accent-color: var(--red-tape);
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.filter-label { font-size: 0.83rem; color: rgba(244,241,235,0.72); transition: color 0.2s; }
-
-.filter-count {
-  font-size: 0.66rem;
-  color: var(--muted);
-  background: rgba(255,255,255,0.07);
-  padding: 0.1rem 0.45rem;
-  border-radius: 20px;
+.filter-label {
+  font-family: var(--typewriter);
+  font-size: 0.8rem;
+  color: var(--ink-faded);
+  transition: color 0.2s;
 }
 
+.filter-count {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  color: var(--ink-muted);
+  background: var(--paper-stain);
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+}
+
+/* Mobile filter toggle */
 .filter-toggle-bar {
   display: none;
   align-items: center;
   justify-content: space-between;
-  background: var(--navy-3);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 7px;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
   padding: 0.75rem 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: 2px 2px 0 var(--paper-stain);
 }
 
-/* ─────────────────────────────────────────────
-   MAIN CONTENT AREA
-───────────────────────────────────────────── */
+/* ════════════════════════════════════════
+   MAIN CONTENT
+════════════════════════════════════════ */
 .courses-main { min-width: 0; }
 
 .sort-row {
@@ -379,66 +653,104 @@ nav {
   margin-bottom: 1.4rem;
   flex-wrap: wrap;
   gap: 0.8rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--paper-stain);
 }
 
 .results-count {
-  font-size: 0.85rem;
-  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
-
-.results-count strong { color: var(--white); }
+.results-count strong { color: var(--red-tape); }
 
 .sort-select {
-  background: var(--navy-3);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 5px;
-  color: var(--white);
-  font-size: 0.82rem;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  color: var(--ink-faded);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
   padding: 0.42rem 0.85rem;
   outline: none;
   cursor: pointer;
   transition: border-color 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
 }
-.sort-select:focus { border-color: rgba(201,139,10,0.35); }
+.sort-select:focus { border-color: var(--red-tape); }
 
-/* ─── COURSE GRID ─── */
+/* ════════════════════════════════════════
+   COURSE GRID
+════════════════════════════════════════ */
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+  gap: 1.3rem;
 }
 
-/* ─── COURSE CARD ─── */
+/* ════════════════════════════════════════
+   COURSE CARD
+════════════════════════════════════════ */
 .course-card {
-  background: var(--navy-3);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 10px;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
   overflow: hidden;
-  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  box-shadow: 4px 4px 0 var(--paper-stain);
+  transition: transform 0.28s, box-shadow 0.28s;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+.course-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--paper-stain);
+  transition: background 0.3s;
+}
+.course-card:hover::before { background: var(--red-tape); }
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 8px 0 var(--paper-stain);
 }
 
-.course-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(201,139,10,0.25);
-  box-shadow: 0 14px 44px rgba(0,0,0,0.32);
+/* Notebook lines on card */
+.course-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 23px,
+    rgba(180,160,100,.1) 23px,
+    rgba(180,160,100,.1) 24px
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .course-thumb {
-  height: 152px;
+  height: 148px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
-.th-1 { background: linear-gradient(140deg, #050f22, #0c2557, #1a3a80); }
+/* Thumb gradients */
+.th-1 { background: linear-gradient(140deg, #0a1628, #1a3868, #2a5490); }
 .th-2 { background: linear-gradient(140deg, #180a02, #4a2208, #7a3a0a); }
-.th-3 { background: linear-gradient(140deg, #120523, #2d0d52, #4a1580); }
+.th-3 { background: linear-gradient(140deg, #080520, #1a0a40, #300f70); }
 .th-4 { background: linear-gradient(140deg, #050e1a, #0c2040, #1a4060); }
-.th-5 { background: linear-gradient(140deg, #080f05, #1a3510, #2a5018); }
+.th-5 { background: linear-gradient(140deg, #081a0c, #163d1e, #1a4d26); }
 .th-6 { background: linear-gradient(140deg, #060512, #1a1040, #2a1a70); }
 .th-7 { background: linear-gradient(140deg, #0f0505, #3a0f0f, #5a1515); }
 .th-8 { background: linear-gradient(140deg, #080520, #1a0a40, #300f70); }
@@ -448,70 +760,87 @@ nav {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
-.thumb-emoji { font-size: 2.8rem; position: relative; z-index: 1; }
-
-.badge {
-  display: inline-block;
-  font-size: 0.62rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  padding: 0.2rem 0.55rem;
-  border-radius: 3px;
+.thumb-emoji {
+  font-size: 2.6rem;
+  position: relative;
+  z-index: 1;
 }
-.badge-tech   { background: rgba(26,104,214,0.25); color: #7ab8ff; border: 1px solid rgba(26,104,214,0.32); }
-.badge-biz    { background: rgba(201,139,10,0.2);  color: var(--gold-ll); border: 1px solid rgba(201,139,10,0.35); }
-.badge-design { background: rgba(150,40,200,0.22); color: #d47aff; border: 1px solid rgba(150,40,200,0.32); }
-.badge-mkt    { background: rgba(13,148,100,0.2);  color: #4de6b0; border: 1px solid rgba(13,148,100,0.32); }
-.badge-fin    { background: rgba(192,53,53,0.2);   color: #ff9090; border: 1px solid rgba(192,53,53,0.3); }
-.badge-comm   { background: rgba(150,40,200,0.2);  color: #d47aff; border: 1px solid rgba(150,40,200,0.3); }
-.badge-free   { background: rgba(13,148,100,0.22); color: #4de6b0; border: 1px solid rgba(13,148,100,0.32); }
-.badge-new    { background: rgba(192,53,53,0.22);  color: #ff8a8a; border: 1px solid rgba(192,53,53,0.3); }
-.badge-hot    { background: rgba(192,53,53,0.22);  color: #ff8a8a; border: 1px solid rgba(192,53,53,0.3); }
 
 .card-badge-pos {
   position: absolute;
   top: 10px; left: 10px;
   z-index: 2;
 }
-
 .card-badge-pos-r {
   position: absolute;
   top: 10px; right: 10px;
   z-index: 2;
 }
 
+/* Badges */
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+}
+.badge-tech    { background: rgba(26,58,110,0.35); color: #90c0ff; border: 1px solid rgba(26,58,110,0.5); }
+.badge-biz     { background: rgba(176,125,26,0.25); color: #e0a84a; border: 1px solid rgba(176,125,26,0.4); }
+.badge-design  { background: rgba(150,40,200,0.22); color: #d47aff; border: 1px solid rgba(150,40,200,0.32); }
+.badge-mkt     { background: rgba(26,77,46,0.3); color: #5de0a0; border: 1px solid rgba(26,77,46,0.4); }
+.badge-fin     { background: rgba(192,39,45,0.25); color: #ff9090; border: 1px solid rgba(192,39,45,0.4); }
+.badge-data    { background: rgba(26,77,46,0.3); color: #5de0a0; border: 1px solid rgba(26,77,46,0.4); }
+.badge-comm    { background: rgba(150,40,200,0.2); color: #d47aff; border: 1px solid rgba(150,40,200,0.3); }
+.badge-free    { background: rgba(26,77,46,0.28); color: #fff; border: 1px solid rgba(26,77,46,0.35); }
+.badge-new     { background: rgba(100,30,160,0.3); color: #e0b0ff; border: 1px solid rgba(100,30,160,0.4); }
+.badge-hot     { background: rgba(192,39,45,0.25); color: #ff9090; border: 1px solid rgba(192,39,45,0.4); }
+.badge-beginner{ background: rgba(26,77,46,0.3); color: #5de0a0; border: 1px solid rgba(26,77,46,0.4); }
+.badge-inter   { background: rgba(192,39,45,0.25); color: #ff9090; border: 1px solid rgba(192,39,45,0.4); }
+.badge-hard    { background: rgba(139,26,30,0.3); color: #ffb0b0; border: 1px solid rgba(139,26,30,0.4); }
+
 .course-body {
   padding: 1.1rem 1.2rem 0;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .course-title {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 600;
-  line-height: 1.45;
-  margin-bottom: 0.35rem;
-  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  margin-bottom: 0.3rem;
+  color: var(--ink);
 }
 
 .course-instructor {
-  font-size: 0.74rem;
-  color: var(--muted);
+  font-family: var(--typewriter);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
   margin-bottom: 0.55rem;
+  font-style: italic;
 }
 
 .course-meta-row {
   display: flex;
-  gap: 0.85rem;
-  font-size: 0.7rem;
-  color: var(--muted-2);
+  gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--ink-faded);
   flex-wrap: wrap;
+  letter-spacing: 0.5px;
 }
 
 .course-footer {
@@ -520,57 +849,122 @@ nav {
   justify-content: space-between;
   padding: 0.85rem 1.2rem;
   margin-top: 0.85rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--paper-stain);
+  position: relative;
+  z-index: 1;
 }
 
 .price-wrap { display: flex; align-items: baseline; gap: 0.4rem; }
 
 .price-main {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--gold-ll);
+  font-family: var(--display);
+  font-size: 1.6rem;
+  color: var(--ink);
+  letter-spacing: 1px;
+  line-height: 1;
 }
-
 .price-free {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #4de6b0;
+  font-family: var(--display);
+  font-size: 1.5rem;
+  color: var(--stamp-green);
+  letter-spacing: 1px;
+  line-height: 1;
 }
-
 .price-orig {
-  font-size: 0.72rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
   text-decoration: line-through;
-  color: var(--muted);
+  color: var(--ink-muted);
 }
 
 .enroll-btn {
-  font-size: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
   font-weight: 700;
-  color: var(--gold);
-  border: 1px solid rgba(201,139,10,0.32);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red-tape);
+  border: 1px solid rgba(192,39,45,0.4);
   background: transparent;
-  padding: 0.32rem 0.78rem;
-  border-radius: 4px;
+  padding: 0.35rem 0.8rem;
+  border-radius: 2px;
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.02em;
+  box-shadow: 1px 1px 0 rgba(192,39,45,0.2);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
 }
-.enroll-btn:hover { background: var(--gold); color: #07090e; }
+.enroll-btn:hover { background: var(--red-tape); color: #fff; box-shadow: 2px 2px 0 var(--red-dark); }
 
-/* ─── NO RESULTS ─── */
+/* Coming soon overlay */
+.coming-soon-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(240,234,214,0.88);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 3px;
+}
+.cs-pill {
+  background: var(--paper);
+  border: 1px solid var(--paper-stain);
+  border-radius: 2px;
+  padding: 0.5rem 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--ink-muted);
+  box-shadow: 2px 2px 0 var(--paper-stain);
+}
+
+/* ════════════════════════════════════════
+   NO RESULTS
+════════════════════════════════════════ */
 .no-results {
   display: none;
+  grid-column: 1 / -1;
   text-align: center;
   padding: 4rem 2rem;
-  grid-column: 1 / -1;
+  border: 2px dashed var(--paper-stain);
+  border-radius: 3px;
 }
 .no-results.show { display: block; }
-.no-results h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--white); }
-.no-results p  { font-size: 0.85rem; color: var(--muted); }
 
-/* ─── PAGINATION ─── */
+.no-results-stamp {
+  font-family: var(--stamp-font);
+  font-size: 1.6rem;
+  color: var(--red-tape);
+  border: 3px solid var(--red-tape);
+  display: inline-block;
+  padding: 0.3rem 1.4rem;
+  border-radius: 3px;
+  transform: rotate(-4deg);
+  margin-bottom: 1.2rem;
+  opacity: 0.7;
+  letter-spacing: 3px;
+}
+
+.no-results h3 {
+  font-family: var(--display);
+  font-size: 2rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.no-results p {
+  font-family: var(--typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+/* ════════════════════════════════════════
+   PAGINATION
+════════════════════════════════════════ */
 .pagination {
   display: flex;
   gap: 0.4rem;
@@ -584,35 +978,41 @@ nav {
   min-width: 36px;
   height: 36px;
   padding: 0 10px;
-  border-radius: 6px;
+  border-radius: 2px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.82rem;
-  border: 1px solid rgba(255,255,255,0.08);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--paper-stain);
   cursor: pointer;
   transition: all 0.2s;
-  background: var(--navy-3);
-  color: var(--muted);
-  font-family: 'DM Sans', sans-serif;
+  background: var(--paper-dark);
+  color: var(--ink-faded);
   user-select: none;
+  box-shadow: 1px 1px 0 var(--paper-stain);
 }
-.pag-btn.active  { background: var(--gold); color: #07090e; border-color: var(--gold); font-weight: 700; }
-.pag-btn:hover:not(.active):not(.disabled) { border-color: rgba(201,139,10,0.3); color: var(--gold-ll); }
-.pag-btn.disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+.pag-btn.active  { background: var(--red-tape); color: #fff; border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); }
+.pag-btn:hover:not(.active):not(.disabled) { border-color: var(--red-tape); color: var(--red-tape); }
+.pag-btn.disabled { opacity: 0.35; cursor: default; pointer-events: none; }
 
-/* page info text */
 .pag-info {
-  font-size: 0.75rem;
-  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
   margin: 0 0.4rem;
 }
 
-/* ─────────────────────────────────────────────
+/* ════════════════════════════════════════
    FOOTER
-───────────────────────────────────────────── */
+════════════════════════════════════════ */
 footer {
-  background: var(--navy);
-  border-top: 1px solid rgba(201,139,10,0.08);
-  padding: 3.5rem 5% 2rem;
+  background: var(--paper-dark);
+  border-top: 2px solid var(--paper-stain);
+  padding: 3rem 5% 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-inner {
@@ -623,66 +1023,77 @@ footer {
   margin: 0 auto 3rem;
 }
 
-.footer-brand .nav-logo { margin-bottom: 0.9rem; }
+.footer-brand-text {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.footer-brand-text em { font-style: normal; color: var(--red-tape); }
 
 .footer-brand p {
-  font-size: 0.83rem;
-  color: var(--muted);
+  font-family: var(--typewriter);
+  font-size: 0.82rem;
+  color: var(--ink-muted);
   line-height: 1.75;
   max-width: 280px;
 }
 
 .footer-socials {
   display: flex;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   margin-top: 1rem;
 }
 
 .social-chipft {
-  width: 90px; height: 30px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  height: 28px;
+  padding: 0 0.8rem;
+  border-radius: 2px;
+  background: var(--paper);
+  border: 1px solid var(--paper-stain);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
   font-weight: 700;
-  color: var(--blue);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-faded);
   transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
 }
-
-.social-chipft:hover {
-  background: rgba(201,139,10,0.12);
-  border-color: rgba(201,139,10,0.3);
-  color: var(--gold-ll);
-}
+.social-chipft:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
 
 .footer-col h4 {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.72rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--muted);
+  letter-spacing: 4px;
+  color: var(--ink-muted);
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--paper-stain);
 }
 
 .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-
 .footer-col li a {
-  font-size: 0.83rem;
-  color: rgba(244,241,235,0.55);
+  font-family: var(--typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-faded);
   transition: color 0.2s;
 }
-
-.footer-col li a:hover { color: var(--gold-ll); }
+.footer-col li a:hover { color: var(--red-tape); }
 
 .footer-bottom {
   max-width: 1180px;
   margin: 0 auto;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  border-top: 1px solid var(--paper-stain);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -690,79 +1101,65 @@ footer {
   gap: 0.8rem;
 }
 
-.footer-bottom span { font-size: 0.75rem; color: var(--muted); }
-.footer-bottom .tagline { color: var(--gold); font-size: 0.72rem; font-weight: 600; }
-
-/* ─────────────────────────────────────────────
-   MOBILE MENU
-───────────────────────────────────────────── */
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 66px; left: 0; right: 0;
-  background: rgba(5,9,15,0.98);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(201,139,10,0.12);
-  padding: 1.5rem 5%;
-  flex-direction: column;
-  gap: 1.2rem;
-  z-index: 999;
+.footer-bottom span {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  letter-spacing: 1px;
 }
+.footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
 
-.mobile-menu.open { display: flex; }
-
-.mobile-menu a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--off);
-  padding: 0.4rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-/* ─────────────────────────────────────────────
+/* ════════════════════════════════════════
    RESPONSIVE
-───────────────────────────────────────────── */
+════════════════════════════════════════ */
 @media (max-width: 1050px) {
   .courses-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 860px) {
+  .archive-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-case-card { display: none; }
+  nav .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
   .archive-layout { grid-template-columns: 1fr; }
   .filter-panel { position: static; display: none; }
   .filter-panel.mobile-open { display: block; }
   .filter-toggle-bar { display: flex; }
-  nav .nav-links, nav .nav-cta { display: none; }
-  .nav-hamburger { display: flex; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 560px) {
-  .footer-inner  { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 540px) {
   .courses-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
   .sort-row { flex-direction: column; align-items: flex-start; }
+  .archive-hero { padding: 3rem 5% 2.5rem; }
+  .archive-hero::after { left: 28px; }
 }
-
 </style>
 </head>
 <body>
 
 <!-- ═══════════ NAV ═══════════ -->
 <nav id="main-nav">
-  <a href="https://skillsphere-edu.github.io/learn" class="nav-logo">
-    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu Logo" class="logo-icon"> 
-    <span>Skill<em>Sphere</em> Edu</span>
+  <a href="https://skillsphere-edu.github.io/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Case File · EST. 2026</span>
+    </div>
   </a>
+
   <div class="nav-links">
-    <a href="https://skillsphere-edu.github.io/learn">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
     <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
     <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
-    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses" class="active">Courses</a>
     <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
-	  <a href="https://skillsphere-edu.github.io/learn/events">Events</a>
-<a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
-<a href="https://skillsphere-edu.github.io/learn/blog">Blog</a>
+    <a href="https://skillsphere-edu.github.io/learn/events">Events</a>
+    <a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
+    <a href="https://skillsphere-edu.github.io/learn/blog">Blog</a>
     <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
   </div>
 
@@ -771,38 +1168,110 @@ footer {
   </div>
 </nav>
 
-<!-- Mobile menu -->
+<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobile-menu">
   <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
   <a href="https://skillsphere-edu.github.io/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
   <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
   <a href="https://skillsphere-edu.github.io/learn/courses" onclick="toggleMenu()">Our Courses</a>
-  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Subscription Plans</a>
-	<a href="https://skillsphere-edu.github.io/learn/events"  onclick="toggleMenu()">Our Events</a>
-  <a href="https://skillsphere-edu.github.io/learn/vacancies"  onclick="toggleMenu()">Articleship &amp; Training Vacancies</a>
-  <a href="https://skillsphere-edu.github.io/learn/blog"  onclick="toggleMenu()">Blog &amp; Insights</a>
-  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Your Certificate</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/events" onclick="toggleMenu()">Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies" onclick="toggleMenu()">Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
 </div>
+
 
 <!-- ═══════════ HERO ═══════════ -->
 <div class="archive-hero">
   <div class="archive-hero-inner">
-    <span class="hero-kicker">All Courses</span>
-    <h1>Expand Your <em>Horizons</em></h1>
-    <p id="hero-count-text">8 certified courses across Technology, Design, Business, Marketing and more — all including a verified SkillSphere Edu Certificate.</p>
+    <div class="hero-text-col">
+      <div class="case-label">Evidence Catalogue · Case No. SSE-2026</div>
 
-    <div class="search-wrap">
-      <input
-        type="text"
-        id="search-input"
-        placeholder="Search courses, skills, topics..."
-        oninput="handleFilterChange()"
-        autocomplete="off"
-      >
-      <button class="search-btn" onclick="handleFilterChange()">Search</button>
+      <h1>All<br><em>Courses</em></h1>
+
+      <span class="hero-stamp-badge">Certified · Verified</span>
+
+      <p id="hero-count-text">Certified courses across Finance, Data, Design & more — every enrolment includes a verified SkillSphere Edu Certificate.</p>
+
+      <div class="search-wrap">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search courses, skills, topics..."
+          oninput="handleFilterChange()"
+          autocomplete="off"
+          aria-label="Search courses"
+        >
+        <button class="search-btn" onclick="handleFilterChange()">Search</button>
+      </div>
+
+      <div class="hero-meta-strip" id="hero-meta-strip">
+        <div class="hero-meta-item">
+          <span class="hero-meta-val" id="meta-total">—</span>
+          <span class="hero-meta-lbl">Courses</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val" id="meta-free">—</span>
+          <span class="hero-meta-lbl">Free</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-val" id="meta-cert">100%</span>
+          <span class="hero-meta-lbl">Certified</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case file info card — right col -->
+    <div class="hero-case-card">
+      <div class="hcc-bar">Evidence File</div>
+      <div class="hcc-row">
+        <span class="hcc-key">File No.</span>
+        <span class="hcc-val">SSE-2026</span>
+      </div>
+      <div class="hcc-row">
+        <span class="hcc-key">Status</span>
+        <span class="hcc-val green">Active</span>
+      </div>
+      <div class="hcc-row">
+        <span class="hcc-key">Courses</span>
+        <span class="hcc-val red" id="hcc-courses">—</span>
+      </div>
+      <div class="hcc-row">
+        <span class="hcc-key">Certs</span>
+        <span class="hcc-val">100%</span>
+      </div>
+      <div class="hcc-row">
+        <span class="hcc-key">Origin</span>
+        <span class="hcc-val">India</span>
+      </div>
     </div>
   </div>
 </div>
+
+
+<!-- ═══════════ TICKER ═══════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Excel Essentials <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">UI/UX Design <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Digital Marketing <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Entrepreneurship <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Verified Certificates <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">CA Prep <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Data Analysis <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Practical Skills <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Excel Essentials <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">UI/UX Design <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Digital Marketing <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Entrepreneurship <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Verified Certificates <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">CA Prep <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Data Analysis <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Practical Skills <span class="ticker-sep">///</span></span>
+  </div>
+</div>
+
 
 <!-- ═══════════ ARCHIVE LAYOUT ═══════════ -->
 <div class="archive-layout">
@@ -811,162 +1280,165 @@ footer {
   <aside>
     <!-- Mobile toggle -->
     <div class="filter-toggle-bar" onclick="toggleFilters()">
-      <span>🔧 Filters</span>
+      <span>⚙ Filters</span>
       <span id="filter-toggle-icon">▼</span>
     </div>
 
     <div class="filter-panel" id="filter-panel">
-      <div class="filter-panel-header">
-        <h3>Filter Courses</h3>
-        <button class="clear-btn" onclick="clearFilters()">Clear all</button>
+      <div class="filter-panel-bar">
+        <h3>Filter Panel</h3>
+        <button class="clear-btn" onclick="clearFilters()">Clear All</button>
       </div>
+      <div class="filter-inner">
 
-      <!-- Category -->
-      <div class="filter-group">
-        <h4>Category</h4>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="accounting" onchange="handleFilterChange()">
-            <span class="filter-label">Accounting</span>
-          </div>
-          <span class="filter-count">0</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="audit" onchange="handleFilterChange()">
-            <span class="filter-label">Auditing</span>
-          </div>
-          <span class="filter-count">0</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="bizfin" onchange="handleFilterChange()">
-            <span class="filter-label">Business &amp; Finance</span>
-          </div>
-          <span class="filter-count">0</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="data" onchange="handleFilterChange()">
-            <span class="filter-label">Data Analysis</span>
-          </div>
-          <span class="filter-count">1</span>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check cat-filter" value="tax" onchange="handleFilterChange()">
-            <span class="filter-label">Taxation</span>
-          </div>
-          <span class="filter-count">0</span>
-        </label>
-      </div>
+        <!-- Category -->
+        <div class="filter-group">
+          <h4>Category</h4>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check cat-filter" value="accounting" onchange="handleFilterChange()">
+              <span class="filter-label">Accounting</span>
+            </div>
+            <span class="filter-count">0</span>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check cat-filter" value="audit" onchange="handleFilterChange()">
+              <span class="filter-label">Auditing</span>
+            </div>
+            <span class="filter-count">0</span>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check cat-filter" value="bizfin" onchange="handleFilterChange()">
+              <span class="filter-label">Business &amp; Finance</span>
+            </div>
+            <span class="filter-count">0</span>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check cat-filter" value="data" onchange="handleFilterChange()">
+              <span class="filter-label">Data Analysis</span>
+            </div>
+            <span class="filter-count">1</span>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check cat-filter" value="tax" onchange="handleFilterChange()">
+              <span class="filter-label">Taxation</span>
+            </div>
+            <span class="filter-count">0</span>
+          </label>
+        </div>
 
-      <!-- Level -->
-      <div class="filter-group">
-        <h4>Level</h4>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="beginner" onchange="handleFilterChange()">
-            <span class="filter-label">Beginner</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="intermediate" onchange="handleFilterChange()">
-            <span class="filter-label">Intermediate</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="expert" onchange="handleFilterChange()">
-            <span class="filter-label">Expert</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check lvl-filter" value="mixed" onchange="handleFilterChange()">
-            <span class="filter-label">Mixed</span>
-          </div>
-        </label>
-      </div>
+        <!-- Level -->
+        <div class="filter-group">
+          <h4>Level</h4>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check lvl-filter" value="beginner" onchange="handleFilterChange()">
+              <span class="filter-label">Beginner</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check lvl-filter" value="intermediate" onchange="handleFilterChange()">
+              <span class="filter-label">Intermediate</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check lvl-filter" value="expert" onchange="handleFilterChange()">
+              <span class="filter-label">Expert</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check lvl-filter" value="mixed" onchange="handleFilterChange()">
+              <span class="filter-label">Mixed</span>
+            </div>
+          </label>
+        </div>
 
-      <!-- Price -->
-      <div class="filter-group">
-        <h4>Price</h4>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="free" onchange="handleFilterChange()">
-            <span class="filter-label">Free</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="under250" onchange="handleFilterChange()">
-            <span class="filter-label">Under ₹250</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="250to500" onchange="handleFilterChange()">
-            <span class="filter-label">₹250 – ₹500</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check price-filter" value="above1500" onchange="handleFilterChange()">
-            <span class="filter-label">Above ₹500</span>
-          </div>
-        </label>
-      </div>
+        <!-- Price -->
+        <div class="filter-group">
+          <h4>Price</h4>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check price-filter" value="free" onchange="handleFilterChange()">
+              <span class="filter-label">Free</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check price-filter" value="under250" onchange="handleFilterChange()">
+              <span class="filter-label">Under ₹250</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check price-filter" value="250to500" onchange="handleFilterChange()">
+              <span class="filter-label">₹250 – ₹500</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check price-filter" value="above500" onchange="handleFilterChange()">
+              <span class="filter-label">Above ₹500</span>
+            </div>
+          </label>
+        </div>
 
-      <!-- Duration -->
-      <div class="filter-group">
-        <h4>Duration</h4>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="short" onchange="handleFilterChange()">
-            <span class="filter-label">Under 5 hrs</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="medium" onchange="handleFilterChange()">
-            <span class="filter-label">5 – 15 hrs</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check dur-filter" value="long" onchange="handleFilterChange()">
-            <span class="filter-label">15+ hrs</span>
-          </div>
-        </label>
-      </div>
+        <!-- Duration -->
+        <div class="filter-group">
+          <h4>Duration</h4>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check dur-filter" value="short" onchange="handleFilterChange()">
+              <span class="filter-label">Under 5 hrs</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check dur-filter" value="medium" onchange="handleFilterChange()">
+              <span class="filter-label">5 – 15 hrs</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check dur-filter" value="long" onchange="handleFilterChange()">
+              <span class="filter-label">15+ hrs</span>
+            </div>
+          </label>
+        </div>
 
-      <!-- Rating -->
-      <div class="filter-group">
-        <h4>Minimum Rating</h4>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="handleFilterChange()">
-            <span class="filter-label">⭐ 4.5 &amp; above</span>
-          </div>
-        </label>
-        <label class="filter-row">
-          <div class="filter-left">
-            <input type="checkbox" class="filter-check rat-filter" value="4.0" onchange="handleFilterChange()">
-            <span class="filter-label">⭐ 4.0 &amp; above</span>
-          </div>
-        </label>
-      </div>
-    </div>
+        <!-- Rating -->
+        <div class="filter-group">
+          <h4>Min. Rating</h4>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check rat-filter" value="4.5" onchange="handleFilterChange()">
+              <span class="filter-label">⭐ 4.5 &amp; above</span>
+            </div>
+          </label>
+          <label class="filter-row">
+            <div class="filter-left">
+              <input type="checkbox" class="filter-check rat-filter" value="4.0" onchange="handleFilterChange()">
+              <span class="filter-label">⭐ 4.0 &amp; above</span>
+            </div>
+          </label>
+        </div>
+
+      </div><!-- /filter-inner -->
+    </div><!-- /filter-panel -->
   </aside>
 
-  <!-- ── MAIN ── -->
+  <!-- ── MAIN CONTENT ── -->
   <main class="courses-main">
 
     <div class="sort-row">
-      <span class="results-count">Showing <strong id="count-label">8</strong> courses</span>
-      <select class="sort-select" id="sort-select" onchange="handleFilterChange()">
+      <span class="results-count">Showing <strong id="count-label">—</strong> courses</span>
+      <select class="sort-select" id="sort-select" onchange="handleFilterChange()" aria-label="Sort courses">
         <option value="popular">Sort: Most Popular</option>
         <option value="newest">Newest First</option>
         <option value="price-asc">Price: Low to High</option>
@@ -975,34 +1447,34 @@ footer {
       </select>
     </div>
 
-    <!-- GRID — rendered by JS -->
+    <!-- Grid -->
     <div class="courses-grid" id="courses-grid"></div>
 
-    <!-- No results message -->
+    <!-- No results -->
     <div class="no-results" id="no-results">
-      <h3>No courses found</h3>
+      <div class="no-results-stamp">No Match</div>
+      <h3>Evidence Not Found</h3>
       <p>Try adjusting your filters or search term.</p>
     </div>
 
-    <!-- Pagination — always rendered by JS -->
+    <!-- Pagination -->
     <div class="pagination" id="pagination"></div>
 
   </main>
-</div><!-- /archive-layout -->
+</div>
 
 
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <div class="nav-logo">
-        <span>Skill<em>Sphere</em> Edu</span>
-      </div>
+      <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
       <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
         <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
-		     <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
         <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
       </div>
     </div>
@@ -1020,10 +1492,10 @@ footer {
     <div class="footer-col">
       <h4>Courses</h4>
       <ul>
-        <li><a href="#courses-grid">Full Stack Dev</a></li>
-        <li><a href="#courses-grid">UI/UX Design</a></li>
-        <li><a href="#courses-grid">Digital Marketing</a></li>
-        <li><a href="#courses-grid">Data Analytics</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses/excel-essentials.html">Excel Essentials</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">UI/UX Design</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">Digital Marketing</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">Data Analytics</a></li>
       </ul>
     </div>
 
@@ -1039,9 +1511,8 @@ footer {
   </div>
 
   <div class="footer-bottom">
-    <span>© 2026 SkillSphere Edu. All rights reserved.</span>
-    <span>Website Designed by Naufil U. Ansari, COO &amp; Co-Founder.</span>
-    <span>Hosted on GitHub Pages.</span>
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
   </div>
 </footer>
@@ -1049,7 +1520,6 @@ footer {
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
-
 /* ════════════════════════════════════════════════
    COURSE DATA
    Add new courses here — pagination is automatic.
@@ -1060,7 +1530,7 @@ const COURSES = [
     id: 1,
     cat: 'data',
     level: 'beginner',
-    price: 149,
+    price: 0,
     origPrice: 499,
     rating: 5.0,
     reviews: 10,
@@ -1069,29 +1539,29 @@ const COURSES = [
     instructor: 'Naufil U. Ansari · SkillSphere Edu',
     emoji: '📊',
     thumb: 'th-5',
-    catBadge: { cls: 'badge-free', label: 'Data Analysis' },
+    catBadge: { cls: 'badge-data', label: 'Data Analysis' },
     rightBadge: { cls: 'badge-hot', label: 'Bestseller' },
-	  link: 'https://skillsphere-edu.github.io/learn/courses/excel-essentials.html',
-    popular: 0
+    link: 'https://skillsphere-edu.github.io/learn/courses/excel-essentials.html',
+    popular: 999
   }
- 
+
   /* ── Add more courses below in the same format ──
   ,{
-    id: 9,
+    id: 2,
     cat: 'tech',
-    level: 'beginner',
+    level: 'intermediate',
     price: 899,
     origPrice: 1799,
     rating: 4.6,
     reviews: 77,
     hours: 22,
     title: 'Your New Course Title',
-    instructor: 'Instructor Name · SkillSphere',
+    instructor: 'Instructor Name · SkillSphere Edu',
     emoji: '🧠',
     thumb: 'th-6',
     catBadge: { cls: 'badge-tech', label: 'Technology' },
     rightBadge: null,
-	  link: 'Your Link',
+    link: 'https://...',
     popular: 800
   }
   */
@@ -1102,7 +1572,20 @@ const COURSES = [
 ════════════════════════════════════════════════ */
 const PER_PAGE = 15;
 let currentPage = 1;
-let filteredCourses = []; // full filtered+sorted list across ALL pages
+let filteredCourses = [];
+
+/* ════════════════════════════════════════════════
+   INIT META
+════════════════════════════════════════════════ */
+function initMeta() {
+  const total = COURSES.length;
+  const free  = COURSES.filter(c => c.price === 0).length;
+  document.getElementById('meta-total').textContent  = total;
+  document.getElementById('meta-free').textContent   = free;
+  document.getElementById('hcc-courses').textContent = total;
+  document.getElementById('hero-count-text').textContent =
+    `${total} certified course${total !== 1 ? 's' : ''} across Finance, Data, Design & more — every enrolment includes a verified SkillSphere Edu Certificate.`;
+}
 
 /* ════════════════════════════════════════════════
    CARD BUILDER
@@ -1116,12 +1599,11 @@ function buildCard(c) {
     ? `<div class="card-badge-pos-r"><span class="badge ${c.rightBadge.cls}">${c.rightBadge.label}</span></div>`
     : '';
 
-  const thumbStyleAttr = c.thumbStyle ? ` style="${c.thumbStyle}"` : '';
-  const levelLabel = c.level === 'all-levels' ? 'All levels' : c.level.charAt(0).toUpperCase() + c.level.slice(1);
+  const levelLabel = { beginner:'Beginner', intermediate:'Intermediate', expert:'Expert', mixed:'All Levels' }[c.level] || c.level;
 
   return `
-    <div class="course-card">
-      <div class="course-thumb ${c.thumb}"${thumbStyleAttr}>
+    <div class="course-card reveal">
+      <div class="course-thumb ${c.thumb}">
         <span class="thumb-emoji">${c.emoji}</span>
         <div class="card-badge-pos"><span class="badge ${c.catBadge.cls}">${c.catBadge.label}</span></div>
         ${rightBadgeHTML}
@@ -1145,28 +1627,21 @@ function buildCard(c) {
 
 /* ════════════════════════════════════════════════
    PAGINATION BUILDER
-   Smart: shows prev / page numbers / next
-   Collapses to ellipsis for large page counts
 ════════════════════════════════════════════════ */
 function buildPagination(totalPages) {
   const pag = document.getElementById('pagination');
   if (totalPages <= 1) { pag.innerHTML = ''; return; }
 
   let html = '';
-
-  // Prev button
   html += `<div class="pag-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="goToPage(${currentPage - 1})">‹ Prev</div>`;
 
-  // Page number buttons — smart ellipsis for 5+ pages
   if (totalPages <= 7) {
     for (let i = 1; i <= totalPages; i++) {
       html += `<div class="pag-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</div>`;
     }
   } else {
-    // Always show first, last, currentPage ± 1, with ellipsis
     const pages = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(p => p >= 1 && p <= totalPages));
     const sorted = [...pages].sort((a, b) => a - b);
-
     let prev = 0;
     for (const p of sorted) {
       if (p - prev > 1) html += `<div class="pag-btn disabled">…</div>`;
@@ -1175,33 +1650,28 @@ function buildPagination(totalPages) {
     }
   }
 
-  // Next button
   html += `<div class="pag-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="goToPage(${currentPage + 1})">Next ›</div>`;
 
-  // Page info
   const start = (currentPage - 1) * PER_PAGE + 1;
   const end   = Math.min(currentPage * PER_PAGE, filteredCourses.length);
-  html += `<span class="pag-info">Showing ${start}–${end} of ${filteredCourses.length}</span>`;
+  html += `<span class="pag-info">${start}–${end} of ${filteredCourses.length}</span>`;
 
   pag.innerHTML = html;
 }
 
 /* ════════════════════════════════════════════════
    GO TO PAGE
-   Scrolls back to top of grid for UX comfort
 ════════════════════════════════════════════════ */
 function goToPage(page) {
   const totalPages = Math.ceil(filteredCourses.length / PER_PAGE);
   if (page < 1 || page > totalPages) return;
   currentPage = page;
   renderPage();
-  // Scroll to top of the courses area smoothly
   document.querySelector('.archive-layout').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 /* ════════════════════════════════════════════════
    RENDER CURRENT PAGE
-   Uses the already-filtered/sorted filteredCourses
 ════════════════════════════════════════════════ */
 function renderPage() {
   const grid      = document.getElementById('courses-grid');
@@ -1211,32 +1681,34 @@ function renderPage() {
     grid.innerHTML = '';
     noResults.classList.add('show');
     document.getElementById('pagination').innerHTML = '';
+    document.getElementById('count-label').textContent = '0';
     return;
   }
 
   noResults.classList.remove('show');
 
-  // Slice out just this page's courses
-  const start  = (currentPage - 1) * PER_PAGE;
-  const end    = start + PER_PAGE;
+  const start       = (currentPage - 1) * PER_PAGE;
+  const end         = start + PER_PAGE;
   const pageCourses = filteredCourses.slice(start, end);
 
   grid.innerHTML = pageCourses.map(buildCard).join('');
-
-  // Update count label
   document.getElementById('count-label').textContent = filteredCourses.length;
 
-  // Render pagination
-  const totalPages = Math.ceil(filteredCourses.length / PER_PAGE);
-  buildPagination(totalPages);
+  // Re-trigger reveal on new cards
+  setTimeout(() => {
+    grid.querySelectorAll('.reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 80);
+    });
+  }, 30);
+
+  buildPagination(Math.ceil(filteredCourses.length / PER_PAGE));
 }
 
 /* ════════════════════════════════════════════════
-   FILTER + SORT — operates on ALL courses
-   Resets to page 1 on any filter/sort change
+   FILTER + SORT
 ════════════════════════════════════════════════ */
 function handleFilterChange() {
-  currentPage = 1; // always reset to page 1 when filters change
+  currentPage = 1;
   applyFiltersAndSort();
 }
 
@@ -1249,16 +1721,15 @@ function applyFiltersAndSort() {
   const durChecked   = [...document.querySelectorAll('.dur-filter:checked')].map(c => c.value);
   const ratChecked   = [...document.querySelectorAll('.rat-filter:checked')].map(c => parseFloat(c.value));
 
-  // ── Filter across ALL courses ──
   let result = COURSES.filter(c => {
-    if (query && !c.title.toLowerCase().includes(query)) return false;
+    if (query && !c.title.toLowerCase().includes(query) && !c.instructor.toLowerCase().includes(query)) return false;
     if (catChecked.length && !catChecked.includes(c.cat)) return false;
     if (lvlChecked.length && !lvlChecked.includes(c.level)) return false;
 
     if (priceChecked.length) {
       const match = priceChecked.some(p => {
-        if (p === 'free')      return c.price === 0;
-        if (p === 'under250')  return c.price > 0 && c.price < 250;
+        if (p === 'free')     return c.price === 0;
+        if (p === 'under250') return c.price > 0 && c.price < 250;
         if (p === '250to500') return c.price >= 250 && c.price <= 500;
         if (p === 'above500') return c.price > 500;
         return false;
@@ -1284,7 +1755,6 @@ function applyFiltersAndSort() {
     return true;
   });
 
-  // ── Sort ──
   result.sort((a, b) => {
     if (sortVal === 'popular')    return b.popular - a.popular;
     if (sortVal === 'newest')     return b.id - a.id;
@@ -1299,7 +1769,7 @@ function applyFiltersAndSort() {
 }
 
 /* ════════════════════════════════════════════════
-   CLEAR ALL FILTERS
+   CLEAR FILTERS
 ════════════════════════════════════════════════ */
 function clearFilters() {
   document.querySelectorAll('.filter-check').forEach(cb => cb.checked = false);
@@ -1309,14 +1779,7 @@ function clearFilters() {
 }
 
 /* ════════════════════════════════════════════════
-   ENROLL HANDLER
-════════════════════════════════════════════════ */
-function handleEnroll() {
-  alert('Enrollment coming soon!\n\nReach out at skillsphere.work@gmail.com to get early access.');
-}
-
-/* ════════════════════════════════════════════════
-   MOBILE MENU & FILTERS
+   MOBILE MENU + FILTERS
 ════════════════════════════════════════════════ */
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
@@ -1329,17 +1792,32 @@ function toggleFilters() {
   icon.textContent = panel.classList.contains('mobile-open') ? '▲' : '▼';
 }
 
-/* ── Nav scroll shadow ── */
+/* Nav shrink on scroll */
 window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').style.boxShadow =
-    window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.4)' : 'none';
+  const nav = document.getElementById('main-nav');
+  nav.style.height = window.scrollY > 60 ? '56px' : '66px';
 });
 
-/* ════════════════════════════════════════════════
-   INIT — render on load
-════════════════════════════════════════════════ */
-applyFiltersAndSort();
+/* Scroll reveal observer */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
 
+function observeReveal() {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+}
+
+/* ════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+initMeta();
+applyFiltersAndSort();
+observeReveal();
 </script>
 
 </body>
