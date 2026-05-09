@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Subscription Plans | SkillSphere Edu — Free, Pro &amp; Elite</title>
+  <title>Subscription Plans | SkillSphere Edu — Free, Pro & Elite</title>
   <meta name="description" content="Choose your SkillSphere Edu plan. Starter is free forever. Pro gives unlimited course access with certificates. Elite adds 1-on-1 mentorship with founders.">
   <link rel="canonical" href="https://skillsphere-edu.github.io/learn/plans">
   <meta name="robots" content="index, follow">
@@ -11,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
 
-  <meta property="og:title" content="SkillSphere Edu Plans — Free, Pro &amp; Elite">
+  <meta property="og:title" content="SkillSphere Edu Plans — Free, Pro & Elite">
   <meta property="og:description" content="Practical skills. Verified certificates. Plans starting at ₹0.">
   <meta property="og:url" content="https://skillsphere-edu.github.io/learn/plans">
   <meta property="og:type" content="website">
@@ -30,10 +31,10 @@
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Special+Elite&amp;family=Courier+Prime:ital,wght@0,400;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -399,8 +400,6 @@ nav {
   gap: 1.2rem;
   animation: fadeUp .6s ease .3s both;
   flex-wrap: wrap;
-  margin-bottom: 30px;
-  margin-left: 490px;
 }
 
 .billing-toggle {
@@ -566,7 +565,6 @@ nav {
   box-shadow: 5px 5px 0 var(--paper-stain);
   position: relative;
   transition: transform 0.3s, box-shadow 0.3s;
-  animation: fadeUp .6s ease .3s both;
 }
 .plan-card:hover {
   transform: translateY(-5px);
@@ -1271,7 +1269,6 @@ footer {
 .footer-col li a:hover { color: var(--red-tape); }
 
 .footer-bottom {
-  max-width: 1180px;
   margin: 0 auto;
   padding-top: 1.5rem;
   border-top: 1px solid var(--paper-stain);
@@ -1286,7 +1283,7 @@ footer {
   font-family: var(--mono);
   font-size: 0.68rem;
   color: var(--ink-muted);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 .footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
 
@@ -1327,10 +1324,10 @@ footer {
 }
 </style>
 </head>
-<body class="js-ready">
+<body>
 
 <!-- ══════════ NAV ══════════ -->
-<nav id="main-nav" style="height: 56px;">
+<nav id="main-nav">
   <a href="https://skillsphere-edu.github.io/learn/" class="nav-logo">
     <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
     <div>
@@ -1386,7 +1383,13 @@ footer {
         Every plan delivers practical learning and verified credentials. Pick the one that fits your ambition — then start building skills that actually open doors.
       </p>
 
-      
+      <div class="billing-row">
+        <div class="billing-toggle" role="group" aria-label="Billing period">
+          <button class="toggle-opt active" id="opt-monthly" onclick="setBilling('monthly')">Monthly</button>
+          <button class="toggle-opt" id="opt-annual" onclick="setBilling('annual')">Annual</button>
+        </div>
+        <span class="save-stamp">Save 30% Annual</span>
+      </div>
     </div>
 
     <div class="hero-stamp-cluster" aria-hidden="true">
@@ -1397,13 +1400,13 @@ footer {
       </div>
       <div class="evidence-tag etag-red">
         <span class="etag-label">Pro Plan</span>
-        <span class="etag-val" id="hero-pro-val">₹349</span>
-        <span class="etag-sub" id="hero-pro-sub">Per Month (Annual)</span>
+        <span class="etag-val" id="hero-pro-val">₹499</span>
+        <span class="etag-sub" id="hero-pro-sub">Per Month</span>
       </div>
       <div class="evidence-tag etag-blue">
         <span class="etag-label">Elite Plan</span>
-        <span class="etag-val" id="hero-elite-val">₹699</span>
-        <span class="etag-sub" id="hero-elite-sub">Per Month (Annual)</span>
+        <span class="etag-val" id="hero-elite-val">₹999</span>
+        <span class="etag-sub" id="hero-elite-sub">Per Month</span>
       </div>
     </div>
   </div>
@@ -1434,7 +1437,7 @@ footer {
 <!-- ══════════ PLANS GRID ══════════ -->
 <section id="plans-grid-section">
   <div class="max-w">
-    <div class="plans-header reveal visible">
+    <div class="plans-header reveal">
       <span class="section-case">Evidence Catalogue · Subscription Plans</span>
       <div class="section-header">
         <h2 class="section-title">Pick Your <span style="color:var(--red-tape)">Plan</span></h2>
@@ -1442,16 +1445,10 @@ footer {
       </div>
     </div>
 
-    <div class="billing-row">
-        <div class="billing-toggle" role="group" aria-label="Billing period">
-          <button class="toggle-opt" id="opt-monthly" onclick="setBilling('monthly')">Monthly</button>
-          <button class="toggle-opt active" id="opt-annual" onclick="setBilling('annual')">Annual</button>
-        </div>
-        <span class="save-stamp">Save 30% Annual</span>
-      </div><div class="plans-grid">
+    <div class="plans-grid">
 
       <!-- ── STARTER ── -->
-      <div class="plan-card plan-starter reveal visible">
+      <div class="plan-card plan-starter reveal">
         <div class="plan-card-header">
           <div class="plan-dossier-tag">Entry-Level</div>
           <div class="plan-icon-row">
@@ -1503,7 +1500,7 @@ footer {
       </div>
 
       <!-- ── PRO ── -->
-      <div class="plan-card plan-pro reveal visible">
+      <div class="plan-card plan-pro reveal">
         <div class="plan-card-header">
           <div class="plan-dossier-tag">Most Popular</div>
           <div class="plan-icon-row">
@@ -1517,10 +1514,10 @@ footer {
         <div class="plan-price-block">
           <div class="price-row">
             <span class="price-symbol">₹</span>
-            <span class="price-amount" id="pro-price">349</span>
+            <span class="price-amount" id="pro-price">499</span>
             <span class="price-period" id="pro-period">/ month</span>
           </div>
-          <div class="price-note" id="pro-note">Billed ₹4,188/year · Save 30%</div>
+          <div class="price-note" id="pro-note">Billed monthly · Cancel anytime</div>
         </div>
 
         <div class="plan-features-block">
@@ -1557,7 +1554,7 @@ footer {
       </div>
 
       <!-- ── ELITE ── -->
-      <div class="plan-card plan-elite reveal visible">
+      <div class="plan-card plan-elite reveal">
         <div class="plan-card-header">
           <div class="plan-dossier-tag">Supreme</div>
           <div class="plan-icon-row">
@@ -1571,10 +1568,10 @@ footer {
         <div class="plan-price-block">
           <div class="price-row">
             <span class="price-symbol">₹</span>
-            <span class="price-amount" id="elite-price">699</span>
+            <span class="price-amount" id="elite-price">999</span>
             <span class="price-period" id="elite-period">/ month</span>
           </div>
-          <div class="price-note" id="elite-note">Billed ₹8,388/year · Save 30%</div>
+          <div class="price-note" id="elite-note">Billed monthly · Cancel anytime</div>
         </div>
 
         <div class="plan-features-block">
@@ -1653,7 +1650,7 @@ footer {
 <!-- ══════════ COMPARISON TABLE ══════════ -->
 <section id="compare">
   <div class="compare-inner">
-    <div class="reveal visible">
+    <div class="reveal">
       <span class="section-case">Evidence Locker · Full Comparison</span>
       <div class="section-header">
         <h2 class="section-title">Side-by-<span style="color:var(--red-tape)">Side</span></h2>
@@ -1662,7 +1659,7 @@ footer {
       <p style="font-family:var(--typewriter);font-size:.9rem;color:var(--ink-muted);line-height:1.8;max-width:480px;margin-bottom:0">Every feature, every plan. Choose with complete confidence.</p>
     </div>
 
-    <div class="compare-table-wrap reveal visible" role="table" aria-label="Plan comparison table">
+    <div class="compare-table-wrap reveal" role="table" aria-label="Plan comparison table">
       <div class="compare-head" role="row">
         <div class="ch-cell" role="columnheader">Feature</div>
         <div class="ch-cell starter-col" role="columnheader">Starter</div>
@@ -1765,7 +1762,7 @@ footer {
 <!-- ══════════ FAQ ══════════ -->
 <section id="faq">
   <div class="faq-inner">
-    <div class="reveal visible" style="text-align:center">
+    <div class="reveal" style="text-align:center">
       <span class="section-case" style="text-align:center;display:block">Deposition Transcripts · FAQs</span>
       <div class="section-header" style="justify-content:center;margin-bottom:0">
         <h2 class="section-title">Questions? <span style="color:var(--red-tape)">Answered.</span></h2>
@@ -1773,7 +1770,7 @@ footer {
       <p style="font-family:var(--typewriter);font-size:.9rem;color:var(--ink-muted);margin-top:0.6rem;line-height:1.8">Everything you need to know before signing up.</p>
     </div>
 
-    <div class="faq-list reveal visible">
+    <div class="faq-list reveal">
 
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
@@ -2004,7 +2001,5 @@ const sectionObserver = new IntersectionObserver((entries) => {
 
 sections.forEach(s => sectionObserver.observe(s));
 </script>
-
-
 </body>
 </html>
