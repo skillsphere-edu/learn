@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal — Access Required | SkillSphere Edu</title>
+  <meta name="description" content="Sign in to your SkillSphere Edu student portal to access certified courses, track your learning progress, and earn verified credentials.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/login.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK v10 Compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+  /* ═══════════════════════════════════════
+     DESIGN TOKENS
+  ═══════════════════════════════════════ */
+  :root {
+    --paper:       #f0ead6;
+    --paper-dark:  #e0d8be;
+    --paper-stain: #d4c9a8;
+    --ink:         #1a1209;
+    --ink-faded:   #3d3120;
+    --ink-muted:   #6b5f45;
+    --red-tape:    #c0272d;
+    --red-dark:    #8b1a1e;
+    --red-hover:   #a82020;
+    --stamp-green: #1a4d2e;
+    --stamp-blue:  #1a3a6e;
+    --display:     'Bebas Neue', sans-serif;
+    --typewriter:  'Courier Prime', monospace;
+    --mono:        'IBM Plex Mono', monospace;
+    --stamp:       'Special Elite', cursive;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--typewriter);
+    line-height: 1.65;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: var(--typewriter); cursor: pointer; }
+  h1, h2, h3, h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--paper-dark); }
+  ::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.45;
+  }
+
+  /* ═══════════════════════════════════════
+     NAVIGATION
+  ═══════════════════════════════════════ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 66px;
+    background: rgba(240,234,214,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 2px solid var(--paper-stain);
+    transition: height 0.3s;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
+  .nav-brand-text { font-family: var(--display); font-size: 1.6rem; letter-spacing: 2px; color: var(--ink); line-height: 1; }
+  .nav-brand-text em { font-style: normal; color: var(--red-tape); }
+  .logo-icon { height: 44px; width: 44px; filter: contrast(1.1) saturate(1.2); }
+  .nav-stamp { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--ink-muted); text-transform: uppercase; display: block; line-height: 1; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-links a { color: var(--ink-faded); transition: color 0.2s; position: relative; padding-bottom: 2px; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px; background: var(--red-tape); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta { background: var(--red-tape); color: #fff; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; padding: 0.55rem 1.2rem; border-radius: 3px; letter-spacing: 0.08em; text-transform: uppercase; border: none; transition: background 0.2s, transform 0.15s; cursor: pointer; }
+  .nav-cta:hover { background: var(--red-hover); transform: translateY(-1px); }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 1px; transition: all 0.3s; }
+  .mobile-menu { display: none; position: fixed; top: 66px; left: 0; right: 0; background: rgba(240,234,214,0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--paper-stain); padding: 1.5rem 5%; flex-direction: column; gap: 1.2rem; z-index: 999; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faded); padding: 0.5rem 0; border-bottom: 1px solid var(--paper-stain); }
+  .mobile-menu a:hover { color: var(--red-tape); }
+
+  /* ═══════════════════════════════════════
+     AUTH PAGE LAYOUT
+  ═══════════════════════════════════════ */
+  .auth-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 66px;
+  }
+
+  /* LEFT PANEL — dark/ink branding */
+  .auth-left {
+    background: var(--ink);
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .auth-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(255,255,255,0.025) 31px, rgba(255,255,255,0.025) 32px);
+    pointer-events: none;
+  }
+  .auth-left::after {
+    content: '';
+    position: absolute; right: -80px; bottom: -80px;
+    width: 400px; height: 400px; border-radius: 50%; opacity: 0.06;
+    background: repeating-radial-gradient(circle, #fff 0px, #fff 2px, transparent 2px, transparent 14px);
+    pointer-events: none;
+  }
+  .auth-case-num {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 5px;
+    color: var(--red-tape); text-transform: uppercase;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 1;
+  }
+  .auth-case-num::before { content: ''; width: 30px; height: 1px; background: var(--red-tape); }
+  .auth-heading {
+    font-family: var(--display);
+    font-size: clamp(52px, 5.5vw, 76px);
+    line-height: 0.95; color: var(--paper);
+    margin-bottom: 10px; position: relative; z-index: 1;
+  }
+  .auth-heading span { color: var(--red-tape); }
+  .auth-stamp {
+    display: inline-block; font-family: var(--stamp);
+    font-size: 0.85rem; color: var(--stamp-green);
+    border: 2px solid var(--stamp-green); border-radius: 3px;
+    padding: 3px 12px; letter-spacing: 3px; text-transform: uppercase;
+    opacity: 0.7; transform: rotate(-3deg);
+    margin: 16px 0 28px; position: relative; z-index: 1;
+  }
+  .auth-features { display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 1; }
+  .auth-feature { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 0.72rem; color: rgba(240,234,214,0.62); letter-spacing: 1px; }
+  .auth-feature::before { content: '▸'; color: var(--red-tape); font-size: 12px; flex-shrink: 0; }
+  .auth-secure-badge { display: flex; align-items: center; gap: 6px; margin-top: 36px; font-family: var(--mono); font-size: 0.6rem; color: rgba(240,234,214,0.25); letter-spacing: 2px; text-transform: uppercase; position: relative; z-index: 1; }
+
+  /* RIGHT PANEL */
+  .auth-right {
+    padding: 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--paper); position: relative;
+  }
+  .auth-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(180,160,100,.15) 31px, rgba(180,160,100,.15) 32px);
+    pointer-events: none;
+  }
+  .auth-right::after {
+    content: ''; position: absolute; top: 0; left: 52px; bottom: 0;
+    width: 1px; background: rgba(192,39,45,0.2); pointer-events: none;
+  }
+  .auth-form-wrap { position: relative; z-index: 1; max-width: 380px; }
+  .auth-form-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; color: var(--red-tape); text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .auth-form-heading { font-family: var(--display); font-size: 3rem; color: var(--ink); margin-bottom: 2rem; line-height: 1; }
+
+  /* Tabs */
+  .auth-tabs { display: flex; gap: 0; margin-bottom: 2rem; border: 1px solid var(--paper-stain); border-radius: 3px; overflow: hidden; box-shadow: 2px 2px 0 var(--paper-stain); }
+  .auth-tab { flex: 1; padding: 0.65rem; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; background: transparent; border: none; color: var(--ink-muted); cursor: pointer; transition: all 0.2s; }
+  .auth-tab.active { background: var(--red-tape); color: #fff; }
+  .auth-tab:not(.active):hover { background: var(--paper-dark); }
+
+  /* Forms */
+  .auth-form { display: flex; flex-direction: column; gap: 1rem; }
+  .auth-form.hidden { display: none; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .form-label { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: var(--ink-muted); }
+  .form-input { width: 100%; padding: 0.75rem 1rem; background: var(--paper-dark); border: 1px solid var(--paper-stain); border-radius: 3px; font-family: var(--typewriter); font-size: 0.9rem; color: var(--ink); outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-shadow: 2px 2px 0 var(--paper-stain); }
+  .form-input:focus { border-color: var(--red-tape); box-shadow: 2px 2px 0 rgba(192,39,45,0.2); }
+  .form-input.err { border-color: var(--red-tape); }
+  .form-input::placeholder { color: var(--ink-muted); opacity: 0.5; }
+  .form-error { font-family: var(--mono); font-size: 0.6rem; color: var(--red-tape); letter-spacing: 0.5px; display: none; margin-top: 2px; }
+  .form-error.show { display: block; }
+
+  /* Password strength meter */
+  .pw-strength-wrap { height: 3px; background: var(--paper-stain); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+  .pw-strength-bar { height: 100%; border-radius: 2px; transition: width 0.3s, background-color 0.3s; width: 0%; background: var(--red-tape); }
+
+  /* Buttons */
+  .btn-submit { width: 100%; padding: 0.9rem; background: var(--red-tape); color: #fff; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; border: none; border-radius: 3px; cursor: pointer; transition: background 0.2s, transform 0.15s; box-shadow: 3px 3px 0 var(--red-dark); }
+  .btn-submit:hover:not(:disabled) { background: var(--red-hover); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+  .btn-google { width: 100%; padding: 0.75rem; background: var(--paper-dark); border: 1px solid var(--paper-stain); border-radius: 3px; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faded); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 2px 2px 0 var(--paper-stain); }
+  .btn-google:hover { border-color: var(--ink-muted); color: var(--ink); background: var(--paper); }
+
+  .auth-divider { display: flex; align-items: center; gap: 1rem; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--paper-stain); }
+  .auth-divider span { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 2px; }
+
+  .auth-forgot { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted); letter-spacing: 1px; cursor: pointer; background: none; border: none; text-align: right; display: block; width: 100%; transition: color 0.2s; }
+  .auth-forgot:hover { color: var(--red-tape); }
+
+  .auth-terms { font-family: var(--mono); font-size: 0.58rem; color: var(--ink-muted); letter-spacing: 0.5px; line-height: 1.6; text-align: center; }
+  .auth-terms a { color: var(--red-tape); }
+  .auth-terms a:hover { text-decoration: underline; }
+
+  /* Toast notification */
+  .toast { position: fixed; top: 80px; right: 20px; z-index: 9999; padding: 0.85rem 1.4rem; border-radius: 3px; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; max-width: 340px; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); transform: translateX(140%); transition: transform 0.3s ease; line-height: 1.5; }
+  .toast.show { transform: translateX(0); }
+  .toast.error { background: var(--red-tape); color: #fff; border-left: 4px solid var(--red-dark); }
+  .toast.success { background: var(--stamp-green); color: #fff; border-left: 4px solid #0d3020; }
+  .toast.info { background: var(--ink); color: var(--paper); border-left: 4px solid var(--red-tape); }
+
+  /* Loading overlay */
+  .loading-overlay { position: fixed; inset: 0; background: rgba(240,234,214,0.85); display: none; align-items: center; justify-content: center; z-index: 9998; flex-direction: column; gap: 1rem; }
+  .loading-overlay.show { display: flex; }
+  .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--paper-stain); border-top-color: var(--red-tape); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .loading-msg { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-muted); letter-spacing: 2px; text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ═══════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════ */
+  footer { background: var(--paper-dark); border-top: 2px solid var(--paper-stain); padding: 3rem 5% 2rem; }
+  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1180px; margin: 0 auto 3rem; }
+  .footer-brand-text { font-family: var(--display); font-size: 1.6rem; letter-spacing: 2px; color: var(--ink); margin-bottom: 0.8rem; display: block; }
+  .footer-brand-text em { font-style: normal; color: var(--red-tape); }
+  .footer-brand p { font-family: var(--typewriter); font-size: 0.82rem; color: var(--ink-muted); line-height: 1.75; max-width: 280px; }
+  .footer-socials { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .social-chipft { height: 28px; padding: 0 0.8rem; border-radius: 2px; background: var(--paper); border: 1px solid var(--paper-stain); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faded); transition: all 0.2s; box-shadow: 1px 1px 0 var(--paper-stain); }
+  .social-chipft:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
+  .footer-col h4 { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; color: var(--ink-muted); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--paper-stain); }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+  .footer-col li a { font-family: var(--typewriter); font-size: 0.85rem; color: var(--ink-faded); transition: color 0.2s; }
+  .footer-col li a:hover { color: var(--red-tape); }
+  .footer-bottom { max-width: 1180px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid var(--paper-stain); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+  .footer-bottom span { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-muted); letter-spacing: 1px; }
+  .footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .auth-page { grid-template-columns: 1fr; }
+    .auth-left { display: none; }
+    .auth-right { padding: 100px 6% 60px; }
+    .auth-form-wrap { max-width: 100%; }
+    nav .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .footer-inner { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .auth-right { padding: 90px 5% 40px; }
+  }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <span class="loading-msg">Verifying credentials...</span>
+</div>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav id="main-nav">
+  <a href="/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Case File · EST. 2026</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="/learn/">Home</a>
+    <a href="/learn/#about">About</a>
+    <a href="/learn/#founders">Founders</a>
+    <a href="/learn/courses">Courses</a>
+    <a href="/learn/plans">Plans</a>
+    <a href="/learn/events">Events</a>
+    <a href="/learn/vacancies">Vacancies</a>
+    <a href="/learn/blog">Blog</a>
+    <a href="/learn/verify.html">Verify</a>
+  </div>
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/learn/" onclick="toggleMenu()">Home</a>
+  <a href="/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="/learn/plans" onclick="toggleMenu()">Our Plans</a>
+  <a href="/learn/events" onclick="toggleMenu()">Events</a>
+  <a href="/learn/vacancies" onclick="toggleMenu()">Vacancies</a>
+  <a href="/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+<!-- ═══════════════ AUTH PAGE ═══════════════ -->
+<div class="auth-page">
+
+  <!-- LEFT — branding panel -->
+  <div class="auth-left">
+    <div class="auth-case-num">ACCESS PORTAL · CASE FILE SSE-AUTH-2026</div>
+    <h1 class="auth-heading">Your<br>Learning<br><span>Awaits</span></h1>
+    <span class="auth-stamp">Secure · Verified · Certified</span>
+    <div class="auth-features">
+      <div class="auth-feature">Access all enrolled course content instantly</div>
+      <div class="auth-feature">Track progress across every lesson</div>
+      <div class="auth-feature">Download your verified certificates</div>
+      <div class="auth-feature">Resume exactly where you left off</div>
+      <div class="auth-feature">Join India's sharpest student community</div>
+    </div>
+    <div class="auth-secure-badge">🔒 &nbsp; 256-bit encrypted · Secured by Firebase</div>
+  </div>
+
+  <!-- RIGHT — form panel -->
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+      <span class="auth-form-tag">Case File · Access Required</span>
+      <div class="auth-form-heading" id="form-heading">Sign In</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">New Account</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="auth-form" id="form-signin">
+        <div class="form-group">
+          <label class="form-label" for="si-email">Email Address</label>
+          <input type="email" class="form-input" id="si-email" placeholder="your@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()">
+          <span class="form-error" id="si-email-err">Enter a valid email address.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="si-password">Password</label>
+          <input type="password" class="form-input" id="si-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()">
+          <span class="form-error" id="si-pass-err">Password is required.</span>
+          <button class="auth-forgot" type="button" onclick="forgotPassword()">Forgot password? →</button>
+        </div>
+        <button class="btn-submit" id="btn-signin" onclick="signIn()">Access Portal →</button>
+        <div class="auth-divider"><span>or continue with</span></div>
+        <button class="btn-google" onclick="signInWithGoogle()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.745 12.27c0-.79-.07-1.54-.19-2.27H12v4.3h6.58a5.63 5.63 0 01-2.44 3.69v3.07h3.95c2.31-2.13 3.65-5.27 3.65-8.79z" fill="#4285F4"/><path d="M12 24c3.3 0 6.07-1.09 8.09-2.96l-3.95-3.07a7.18 7.18 0 01-4.14 1.16c-3.18 0-5.87-2.15-6.83-5.03H1.1v3.17C3.1 21.3 7.27 24 12 24z" fill="#34A853"/><path d="M5.17 14.1A7.19 7.19 0 014.91 12c0-.73.13-1.44.26-2.1V6.73H1.1A12 12 0 000 12c0 1.93.46 3.76 1.1 5.27l4.07-3.17z" fill="#FBBC05"/><path d="M12 4.77c1.79 0 3.39.61 4.65 1.82l3.49-3.49C18.06 1.19 15.3 0 12 0 7.27 0 3.1 2.7 1.1 6.73l4.07 3.17C6.13 6.92 8.82 4.77 12 4.77z" fill="#EA4335"/></svg>
+          Sign in with Google
+        </button>
+      </div>
+
+      <!-- SIGN UP -->
+      <div class="auth-form hidden" id="form-signup">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="su-fn">First Name</label>
+            <input type="text" class="form-input" id="su-fn" placeholder="Priyanshi" autocomplete="given-name">
+            <span class="form-error" id="su-fn-err">First name required.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="su-ln">Last Name</label>
+            <input type="text" class="form-input" id="su-ln" placeholder="Goswami" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-email">Email Address</label>
+          <input type="email" class="form-input" id="su-email" placeholder="your@email.com" autocomplete="email">
+          <span class="form-error" id="su-email-err">Enter a valid email address.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-password">Password</label>
+          <input type="password" class="form-input" id="su-password" placeholder="Minimum 8 characters" autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+          <div class="pw-strength-wrap"><div class="pw-strength-bar" id="pw-bar"></div></div>
+          <span class="form-error" id="su-pass-err">Minimum 8 characters required.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-confirm">Confirm Password</label>
+          <input type="password" class="form-input" id="su-confirm" placeholder="Re-enter password" autocomplete="new-password">
+          <span class="form-error" id="su-confirm-err">Passwords do not match.</span>
+        </div>
+        <button class="btn-submit" id="btn-signup" onclick="signUp()">Create Account →</button>
+        <div class="auth-divider"><span>or</span></div>
+        <button class="btn-google" onclick="signInWithGoogle()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.745 12.27c0-.79-.07-1.54-.19-2.27H12v4.3h6.58a5.63 5.63 0 01-2.44 3.69v3.07h3.95c2.31-2.13 3.65-5.27 3.65-8.79z" fill="#4285F4"/><path d="M12 24c3.3 0 6.07-1.09 8.09-2.96l-3.95-3.07a7.18 7.18 0 01-4.14 1.16c-3.18 0-5.87-2.15-6.83-5.03H1.1v3.17C3.1 21.3 7.27 24 12 24z" fill="#34A853"/><path d="M5.17 14.1A7.19 7.19 0 014.91 12c0-.73.13-1.44.26-2.1V6.73H1.1A12 12 0 000 12c0 1.93.46 3.76 1.1 5.27l4.07-3.17z" fill="#FBBC05"/><path d="M12 4.77c1.79 0 3.39.61 4.65 1.82l3.49-3.49C18.06 1.19 15.3 0 12 0 7.27 0 3.1 2.7 1.1 6.73l4.07 3.17C6.13 6.92 8.82 4.77 12 4.77z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <p class="auth-terms">By creating an account, you agree to our <a href="/learn/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="/learn/privacy-policy" target="_blank">Privacy Policy</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+        <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="/learn/courses">All Courses</a></li>
+        <li><a href="/learn/#about">About Us</a></li>
+        <li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+        <li><a href="/learn/privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Portal</h4>
+      <ul>
+        <li><a href="/learn/lms/dashboard.html">My Dashboard</a></li>
+        <li><a href="/learn/lms/login.html">Sign In</a></li>
+        <li><a href="/learn/verify.html">Verify Certificate</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Get Help</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="/learn/#founders">Talk to a Founder</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+        <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   ⚠️  REPLACE THIS BLOCK WITH YOUR FIREBASE CONFIG
+   Get it from: Firebase Console → Project Settings → Your Apps
+═══════════════════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT.firebaseapp.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+
+/* ═══ Admin UIDs — list Firebase UIDs of admin accounts ═══ */
+const ADMIN_UIDS = ["PASTE_ADMIN_FIREBASE_UID_HERE"];
+
+/* ═══════════════════════════════════════════════════
+   FIREBASE INIT
+═══════════════════════════════════════════════════ */
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+/* ═══ Auth State Listener ═══ */
+auth.onAuthStateChanged(async (user) => {
+  if (!user) return; // Not logged in, stay on page
+
+  showLoadingOverlay(true, 'Signing you in...');
+
+  try {
+    // Upsert user document in Firestore
+    const userRef = db.collection('users').doc(user.uid);
+    const snap    = await userRef.get();
+
+    if (!snap.exists) {
+      await userRef.set({
+        uid:             user.uid,
+        email:           user.email,
+        name:            user.displayName || user.email.split('@')[0],
+        photoURL:        user.photoURL || '',
+        role:            ADMIN_UIDS.includes(user.uid) ? 'admin' : 'student',
+        enrolledCourses: [],
+        createdAt:       firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else if (ADMIN_UIDS.includes(user.uid) && snap.data().role !== 'admin') {
+      await userRef.update({ role: 'admin' });
+    }
+
+    // Redirect to intended destination or dashboard
+    const params   = new URLSearchParams(window.location.search);
+    const redirect = params.get('redirect') || '/learn/lms/dashboard.html';
+    window.location.href = redirect;
+
+  } catch (err) {
+    console.error('Firestore user init error:', err);
+    showLoadingOverlay(false);
+    showToast('Error setting up account. Please try again.', 'error');
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   TAB SWITCHING
+═══════════════════════════════════════════════════ */
+function switchTab(tab) {
+  const isSignIn = tab === 'signin';
+  document.getElementById('tab-signin').classList.toggle('active', isSignIn);
+  document.getElementById('tab-signup').classList.toggle('active', !isSignIn);
+  document.getElementById('form-signin').classList.toggle('hidden', !isSignIn);
+  document.getElementById('form-signup').classList.toggle('hidden', isSignIn);
+  document.getElementById('form-heading').textContent = isSignIn ? 'Sign In' : 'New Account';
+}
+
+/* ═══════════════════════════════════════════════════
+   SIGN IN
+═══════════════════════════════════════════════════ */
+async function signIn() {
+  const email    = document.getElementById('si-email').value.trim();
+  const password = document.getElementById('si-password').value;
+
+  let hasErr = false;
+  if (!isValidEmail(email))  { showFieldErr('si-email', 'si-email-err'); hasErr = true; }
+  if (!password)             { showFieldErr('si-password', 'si-pass-err'); hasErr = true; }
+  if (hasErr) return;
+
+  setBtnLoading('btn-signin', true, 'Signing in...');
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    // onAuthStateChanged handles redirect
+  } catch (err) {
+    showToast(mapAuthError(err.code), 'error');
+    setBtnLoading('btn-signin', false, 'Access Portal →');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   SIGN UP
+═══════════════════════════════════════════════════ */
+async function signUp() {
+  const firstName = document.getElementById('su-fn').value.trim();
+  const lastName  = document.getElementById('su-ln').value.trim();
+  const email     = document.getElementById('su-email').value.trim();
+  const password  = document.getElementById('su-password').value;
+  const confirm   = document.getElementById('su-confirm').value;
+
+  let hasErr = false;
+  if (!firstName)            { showFieldErr('su-fn', 'su-fn-err'); hasErr = true; }
+  if (!isValidEmail(email))  { showFieldErr('su-email', 'su-email-err'); hasErr = true; }
+  if (password.length < 8)   { showFieldErr('su-password', 'su-pass-err'); hasErr = true; }
+  if (password !== confirm)  { showFieldErr('su-confirm', 'su-confirm-err'); hasErr = true; }
+  if (hasErr) return;
+
+  setBtnLoading('btn-signup', true, 'Creating account...');
+
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    const fullName = `${firstName} ${lastName}`.trim();
+    await cred.user.updateProfile({ displayName: fullName });
+    await cred.user.sendEmailVerification();
+    showToast('Account created! Please verify your email.', 'success');
+    // onAuthStateChanged handles the rest
+  } catch (err) {
+    showToast(mapAuthError(err.code), 'error');
+    setBtnLoading('btn-signup', false, 'Create Account →');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   GOOGLE SIGN IN
+═══════════════════════════════════════════════════ */
+async function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('profile');
+  provider.addScope('email');
+  try {
+    await auth.signInWithPopup(provider);
+    // onAuthStateChanged handles redirect
+  } catch (err) {
+    if (err.code !== 'auth/popup-closed-by-user') {
+      showToast(mapAuthError(err.code), 'error');
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   FORGOT PASSWORD
+═══════════════════════════════════════════════════ */
+async function forgotPassword() {
+  const email = document.getElementById('si-email').value.trim();
+  if (!isValidEmail(email)) {
+    showToast('Enter your email address above first.', 'error');
+    document.getElementById('si-email').focus();
+    return;
+  }
+  try {
+    await auth.sendPasswordResetEmail(email);
+    showToast('Password reset link sent! Check your inbox.', 'success');
+  } catch (err) {
+    showToast(mapAuthError(err.code), 'error');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   PASSWORD STRENGTH
+═══════════════════════════════════════════════════ */
+function checkPasswordStrength(val) {
+  const bar = document.getElementById('pw-bar');
+  let score = 0;
+  if (val.length >= 8)         score++;
+  if (/[A-Z]/.test(val))       score++;
+  if (/[0-9]/.test(val))       score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+
+  const widths = { 0:'0%', 1:'25%', 2:'50%', 3:'75%', 4:'100%' };
+  const colors = { 1:'#c0272d', 2:'#d07020', 3:'#b07d1a', 4:'#1a4d2e' };
+  bar.style.width     = widths[score];
+  bar.style.background = colors[score] || 'transparent';
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════ */
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function showFieldErr(inputId, errId) {
+  const el = document.getElementById(inputId);
+  const er = document.getElementById(errId);
+  el.classList.add('err');
+  er.classList.add('show');
+  el.focus();
+  setTimeout(() => { el.classList.remove('err'); er.classList.remove('show'); }, 3500);
+}
+
+function setBtnLoading(btnId, isLoading, label) {
+  const btn = document.getElementById(btnId);
+  btn.disabled     = isLoading;
+  btn.textContent  = label;
+}
+
+function showLoadingOverlay(show, msg) {
+  const overlay = document.getElementById('loading-overlay');
+  overlay.classList.toggle('show', show);
+  if (msg) overlay.querySelector('.loading-msg').textContent = msg;
+}
+
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+function mapAuthError(code) {
+  const map = {
+    'auth/user-not-found':        'No account found with this email.',
+    'auth/wrong-password':        'Incorrect password. Please try again.',
+    'auth/invalid-credential':    'Invalid credentials. Check email and password.',
+    'auth/email-already-in-use':  'This email is already registered. Sign in instead.',
+    'auth/weak-password':         'Password too weak. Use 8+ characters.',
+    'auth/invalid-email':         'Invalid email address format.',
+    'auth/too-many-requests':     'Too many attempts. Wait a few minutes.',
+    'auth/network-request-failed':'Network error. Check your connection.',
+    'auth/user-disabled':         'This account has been disabled. Contact support.',
+  };
+  return map[code] || 'Something went wrong. Please try again.';
+}
+
+/* ═══ Nav ═══ */
+function toggleMenu() {
+  document.getElementById('mobile-menu').classList.toggle('open');
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px';
+});
+
+/* Clear field error on focus */
+document.querySelectorAll('.form-input').forEach(inp => {
+  inp.addEventListener('focus', () => inp.classList.remove('err'));
+});
+</script>
+</body>
+</html>

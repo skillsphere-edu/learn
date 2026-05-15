@@ -1,0 +1,85 @@
+{
+  "name": "SkillSphere Edu",
+  "short_name": "SkillSphere",
+  "description": "Learn practical skills, earn verified credentials, and stand out. India's student-powered upskilling platform.",
+  "start_url": "/learn/lms/dashboard.html",
+  "scope": "/learn/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f0ead6",
+  "theme_color": "#c0272d",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": ["education", "productivity"],
+
+  "icons": [
+    {
+      "src": "/learn/assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/learn/assets/favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/learn/assets/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/learn/assets/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "My Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your enrolled courses and progress",
+      "url": "/learn/lms/dashboard.html",
+      "icons": [{ "src": "/learn/assets/favicon-32x32.png", "sizes": "32x32" }]
+    },
+    {
+      "name": "Browse Courses",
+      "short_name": "Courses",
+      "description": "Explore all available courses",
+      "url": "/learn/courses",
+      "icons": [{ "src": "/learn/assets/favicon-32x32.png", "sizes": "32x32" }]
+    },
+    {
+      "name": "Leaderboard",
+      "short_name": "Rankings",
+      "description": "See the top learners on SkillSphere Edu",
+      "url": "/learn/lms/leaderboard.html",
+      "icons": [{ "src": "/learn/assets/favicon-32x32.png", "sizes": "32x32" }]
+    },
+    {
+      "name": "Verify Certificate",
+      "short_name": "Verify",
+      "description": "Verify a SkillSphere Edu certificate",
+      "url": "/learn/verify.html",
+      "icons": [{ "src": "/learn/assets/favicon-32x32.png", "sizes": "32x32" }]
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "/learn/assets/preview-v2.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "SkillSphere Edu — Learn, Grow, Lead"
+    }
+  ],
+
+  "related_applications": [],
+  "prefer_related_applications": false
+}

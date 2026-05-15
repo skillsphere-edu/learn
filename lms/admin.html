@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | SkillSphere Edu LMS</title>
+  <meta name="description" content="SkillSphere Edu admin panel — manage courses, users, enrollments, and issue certificates.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/admin.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+  :root {
+    --paper:       #f0ead6;
+    --paper-dark:  #e0d8be;
+    --paper-stain: #d4c9a8;
+    --ink:         #1a1209;
+    --ink-faded:   #3d3120;
+    --ink-muted:   #6b5f45;
+    --red-tape:    #c0272d;
+    --red-dark:    #8b1a1e;
+    --red-hover:   #a82020;
+    --stamp-green: #1a4d2e;
+    --admin-bg:    #0e0a06;
+    --admin-panel: #130d07;
+    --admin-card:  #1a1108;
+    --display:     'Bebas Neue', sans-serif;
+    --typewriter:  'Courier Prime', monospace;
+    --mono:        'IBM Plex Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { background: var(--admin-bg); color: var(--paper); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: var(--typewriter); cursor: pointer; }
+  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
+
+  /* ── NAV ── */
+  nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 5%; height:66px; background:rgba(14,10,6,0.96); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:2px solid rgba(255,255,255,0.06); transition:height 0.3s; }
+  .nav-logo { display:flex; align-items:center; gap:11px; flex-shrink:0; }
+  .nav-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--paper); line-height:1; }
+  .nav-brand-text em { font-style:normal; color:var(--red-tape); }
+  .logo-icon { height:44px; width:44px; filter:contrast(1.1) brightness(0.85); }
+  .nav-stamp { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:rgba(240,234,214,0.3); text-transform:uppercase; display:block; line-height:1; }
+  .nav-admin-badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:rgba(192,39,45,0.15); color:var(--red-tape); border:1px solid rgba(192,39,45,0.3); border-radius:3px; padding:0.3rem 0.7rem; }
+  .nav-right-group { display:flex; align-items:center; gap:1rem; }
+  .nav-user-info { font-family:var(--mono); font-size:0.65rem; color:rgba(240,234,214,0.4); letter-spacing:1px; text-align:right; }
+  .nav-user-info strong { display:block; color:rgba(240,234,214,0.7); }
+  .nav-btn { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:0.45rem 0.9rem; border-radius:2px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:rgba(240,234,214,0.6); cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover { background:rgba(255,255,255,0.1); color:var(--paper); }
+  .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+  .nav-hamburger span { display:block; width:22px; height:2px; background:rgba(240,234,214,0.7); border-radius:1px; }
+  .mobile-menu { display:none; position:fixed; top:66px; left:0; right:0; background:rgba(14,10,6,0.98); border-bottom:2px solid rgba(255,255,255,0.06); padding:1.5rem 5%; flex-direction:column; gap:1.2rem; z-index:999; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { font-family:var(--mono); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:rgba(240,234,214,0.5); padding:0.5rem 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+
+  /* ── ADMIN LAYOUT ── */
+  .admin-page { display:flex; min-height:100vh; padding-top:66px; }
+
+  /* SIDEBAR NAV */
+  .admin-sidebar {
+    width: 220px;
+    background: var(--admin-panel);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: sticky;
+    top: 66px;
+    height: calc(100vh - 66px);
+    overflow-y: auto;
+  }
+  .admin-sidebar-header { padding: 1.2rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .admin-sidebar-tag { font-family: var(--mono); font-size: 8px; letter-spacing: 3px; color: var(--red-tape); text-transform: uppercase; margin-bottom: 4px; }
+  .admin-sidebar-title { font-family: var(--display); font-size: 1.4rem; color: var(--paper); }
+  .admin-nav { display: flex; flex-direction: column; padding: 0.5rem 0; }
+  .admin-nav-item { display: flex; align-items: center; gap: 10px; padding: 0.75rem 1rem; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(240,234,214,0.4); cursor: pointer; transition: all 0.2s; border-left: 2px solid transparent; user-select: none; }
+  .admin-nav-item:hover { background: rgba(255,255,255,0.03); color: rgba(240,234,214,0.7); }
+  .admin-nav-item.active { color: var(--paper); background: rgba(192,39,45,0.1); border-left-color: var(--red-tape); }
+  .admin-nav-icon { font-size: 0.9rem; width: 18px; text-align: center; }
+
+  /* MAIN CONTENT */
+  .admin-main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+  .admin-content { flex: 1; padding: 2rem; }
+
+  /* Section */
+  .admin-section { display: none; }
+  .admin-section.active { display: block; }
+
+  /* Section header */
+  .admin-section-hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .admin-section-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--red-tape); text-transform: uppercase; margin-bottom: 4px; display: block; }
+  .admin-section-title { font-family: var(--display); font-size: 2.2rem; color: var(--paper); }
+
+  /* Stats row */
+  .admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .admin-stat-card { background: var(--admin-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 3px; padding: 1.2rem; text-align: center; box-shadow: 3px 3px 0 rgba(0,0,0,0.3); }
+  .admin-stat-val { font-family: var(--display); font-size: 2.8rem; color: var(--red-tape); display: block; line-height: 1; margin-bottom: 4px; }
+  .admin-stat-lbl { font-family: var(--mono); font-size: 0.6rem; color: rgba(240,234,214,0.35); text-transform: uppercase; letter-spacing: 2px; }
+
+  /* Action button */
+  .btn-admin { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.6rem 1.2rem; border-radius: 3px; border: none; cursor: pointer; transition: all 0.2s; }
+  .btn-primary { background: var(--red-tape); color: #fff; box-shadow: 2px 2px 0 var(--red-dark); }
+  .btn-primary:hover { background: var(--red-hover); }
+  .btn-green { background: var(--stamp-green); color: #fff; box-shadow: 2px 2px 0 #0d3020; }
+  .btn-green:hover { background: #14402a; }
+  .btn-ghost { background: rgba(255,255,255,0.05); color: rgba(240,234,214,0.6); border: 1px solid rgba(255,255,255,0.08); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .btn-danger { background: rgba(139,26,30,0.5); color: #ff9090; border: 1px solid rgba(192,39,45,0.3); }
+  .btn-danger:hover { background: rgba(192,39,45,0.7); color: #fff; }
+  .btn-sm { padding: 0.35rem 0.8rem; font-size: 0.6rem; }
+
+  /* Data table */
+  .data-table-wrap { overflow-x: auto; border-radius: 3px; }
+  .data-table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 0.68rem; }
+  .data-table th { text-align: left; padding: 0.75rem 1rem; background: rgba(255,255,255,0.04); color: rgba(240,234,214,0.4); text-transform: uppercase; letter-spacing: 2px; font-size: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
+  .data-table td { padding: 0.8rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: rgba(240,234,214,0.7); vertical-align: middle; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table .td-actions { display: flex; gap: 0.4rem; }
+
+  /* Status badges */
+  .badge { display: inline-block; font-family: var(--mono); font-size: 0.58rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 2px; }
+  .badge-active  { background: rgba(26,77,46,0.25); color: #5de0a0; border: 1px solid rgba(26,77,46,0.35); }
+  .badge-pending { background: rgba(176,125,26,0.2); color: #e0b060; border: 1px solid rgba(176,125,26,0.3); }
+  .badge-admin   { background: rgba(192,39,45,0.2); color: #ff9090; border: 1px solid rgba(192,39,45,0.3); }
+  .badge-free    { background: rgba(26,58,110,0.25); color: #90c0ff; border: 1px solid rgba(26,58,110,0.35); }
+  .badge-pub     { background: rgba(26,77,46,0.2); color: #5de0a0; border: 1px solid rgba(26,77,46,0.3); }
+  .badge-draft   { background: rgba(107,95,69,0.25); color: rgba(240,234,214,0.4); border: 1px solid rgba(107,95,69,0.3); }
+
+  /* ── MODAL (for course editing, cert issuance) ── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(14,10,6,0.85); display:none; align-items:center; justify-content:center; z-index:9990; padding:1rem; overflow-y:auto; }
+  .modal-overlay.show { display:flex; }
+  .modal-box { background: var(--admin-panel); border:1px solid rgba(255,255,255,0.08); border-radius:3px; padding:2rem; max-width:640px; width:100%; box-shadow:8px 8px 0 rgba(0,0,0,0.5); position:relative; max-height:90vh; overflow-y:auto; }
+  .modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.1rem; cursor:pointer; color:rgba(240,234,214,0.3); transition:color 0.2s; }
+  .modal-close:hover { color:var(--paper); }
+  .modal-tag { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; margin-bottom:6px; display:block; }
+  .modal-title { font-family:var(--display); font-size:2rem; color:var(--paper); margin-bottom:1.5rem; }
+
+  /* Form in modal */
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .form-group { display:flex; flex-direction:column; gap:0.35rem; }
+  .form-group.full { grid-column:1/-1; }
+  .form-label { font-family:var(--mono); font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:rgba(240,234,214,0.35); }
+  .form-input, .form-select, .form-textarea {
+    width:100%; padding:0.65rem 0.9rem;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
+    border-radius:3px; font-family:var(--typewriter); font-size:0.88rem;
+    color:var(--paper); outline:none; transition:border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--red-tape); }
+  .form-input::placeholder, .form-textarea::placeholder { color:rgba(240,234,214,0.2); }
+  .form-select option { background:var(--admin-panel); }
+  .form-textarea { resize:vertical; min-height:80px; }
+  .form-checkbox-row { display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.5); letter-spacing:1px; cursor:pointer; }
+  .form-checkbox-row input { accent-color:var(--red-tape); width:14px; height:14px; }
+  .modal-footer { display:flex; gap:0.8rem; justify-content:flex-end; margin-top:1.5rem; flex-wrap:wrap; }
+
+  /* Curriculum builder */
+  .curr-builder { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:3px; padding:1rem; }
+  .curr-section { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:3px; padding:0.8rem; margin-bottom:0.8rem; }
+  .curr-section-header { display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem; }
+  .curr-section-input { flex:1; padding:0.5rem 0.8rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:3px; font-family:var(--mono); font-size:0.72rem; color:var(--paper); outline:none; }
+  .curr-lesson { display:grid; grid-template-columns:1fr 1fr auto; gap:0.5rem; margin-bottom:0.5rem; align-items:center; }
+  .curr-lesson input { padding:0.45rem 0.7rem; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:3px; font-family:var(--mono); font-size:0.65rem; color:rgba(240,234,214,0.7); outline:none; }
+  .curr-del-btn { background:rgba(139,26,30,0.3); border:none; color:#ff9090; width:28px; height:28px; border-radius:2px; cursor:pointer; font-size:0.8rem; display:flex; align-items:center; justify-content:center; }
+  .curr-del-btn:hover { background:rgba(192,39,45,0.5); }
+  .curr-add-btn { font-family:var(--mono); font-size:0.6rem; color:rgba(240,234,214,0.35); background:none; border:1px dashed rgba(255,255,255,0.1); border-radius:3px; padding:0.45rem 0.8rem; cursor:pointer; width:100%; transition:all 0.2s; letter-spacing:1px; text-transform:uppercase; }
+  .curr-add-btn:hover { border-color:rgba(192,39,45,0.4); color:var(--red-tape); }
+  .curr-add-section-btn { margin-top:0.5rem; }
+
+  /* Cert issuance form */
+  .cert-form { display:flex; flex-direction:column; gap:1rem; }
+  .cert-preview { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:3px; padding:1rem; font-family:var(--mono); font-size:0.7rem; color:rgba(240,234,214,0.5); }
+  .cert-preview strong { color:var(--stamp-green); display:block; font-size:0.85rem; margin-bottom:4px; }
+
+  /* Filter row */
+  .filter-row { display:flex; gap:0.8rem; margin-bottom:1.5rem; flex-wrap:wrap; align-items:center; }
+  .filter-input { padding:0.55rem 0.9rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:3px; font-family:var(--mono); font-size:0.68rem; color:var(--paper); outline:none; transition:border-color 0.2s; }
+  .filter-input:focus { border-color:var(--red-tape); }
+  .filter-input::placeholder { color:rgba(240,234,214,0.2); }
+  .filter-count { font-family:var(--mono); font-size:0.62rem; color:rgba(240,234,214,0.3); letter-spacing:1px; margin-left:auto; }
+
+  /* Empty state */
+  .empty-row td { text-align:center; padding:3rem; font-family:var(--mono); font-size:0.72rem; color:rgba(240,234,214,0.2); letter-spacing:2px; text-transform:uppercase; }
+
+  /* Recent activity */
+  .activity-list { display:flex; flex-direction:column; gap:0.8rem; }
+  .activity-item { display:flex; align-items:flex-start; gap:12px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:3px; padding:0.85rem 1rem; }
+  .activity-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+  .activity-icon.enroll { background:rgba(26,58,110,0.3); }
+  .activity-icon.cert   { background:rgba(26,77,46,0.3); }
+  .activity-icon.user   { background:rgba(192,39,45,0.2); }
+  .activity-body { flex:1; min-width:0; }
+  .activity-body strong { font-family:var(--mono); font-size:0.68rem; color:var(--paper); display:block; margin-bottom:2px; }
+  .activity-body span { font-family:var(--mono); font-size:0.6rem; color:rgba(240,234,214,0.3); letter-spacing:0.5px; }
+
+  /* Toast */
+  .toast { position:fixed; top:80px; right:20px; z-index:9999; padding:0.85rem 1.4rem; border-radius:3px; font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.4); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
+  .toast.show { transform:translateX(0); }
+  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
+  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
+  .toast.info { background:rgba(26,18,9,0.98); color:var(--paper); border:1px solid rgba(255,255,255,0.08); border-left:4px solid var(--red-tape); }
+
+  /* Loading overlay */
+  .loading-overlay { position:fixed; inset:0; background:rgba(14,10,6,0.9); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
+  .loading-overlay.show { display:flex; }
+  .loading-spinner { width:40px; height:40px; border:3px solid rgba(255,255,255,0.06); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
+  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.3); letter-spacing:2px; text-transform:uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── FOOTER ── */
+  footer { background:rgba(14,10,6,0.9); border-top:1px solid rgba(255,255,255,0.04); padding:1.5rem 5%; position:relative; z-index:1; }
+  .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1180px; margin:0 auto 2rem; }
+  .footer-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--paper); margin-bottom:0.8rem; display:block; }
+  .footer-brand-text em { font-style:normal; color:var(--red-tape); }
+  .footer-brand p { font-family:var(--typewriter); font-size:0.82rem; color:rgba(240,234,214,0.25); line-height:1.75; max-width:280px; }
+  .footer-socials { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
+  .social-chipft { height:26px; padding:0 0.7rem; border-radius:2px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(240,234,214,0.3); transition:all 0.2s; }
+  .social-chipft:hover { background:var(--red-tape); border-color:var(--red-dark); color:#fff; }
+  .footer-col h4 { font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:4px; color:rgba(240,234,214,0.2); margin-bottom:0.8rem; padding-bottom:0.5rem; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+  .footer-col li a { font-family:var(--typewriter); font-size:0.82rem; color:rgba(240,234,214,0.25); transition:color 0.2s; }
+  .footer-col li a:hover { color:var(--red-tape); }
+  .footer-bottom { max-width:1180px; margin:0 auto; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.04); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
+  .footer-bottom span { font-family:var(--mono); font-size:0.62rem; color:rgba(240,234,214,0.18); letter-spacing:1px; }
+  .footer-bottom .tagline { color:rgba(192,39,45,0.5); font-weight:700; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1050px) { .admin-stats { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 860px) { .admin-sidebar { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns:1fr 1fr; } }
+  @media (max-width: 600px) { .admin-stats { grid-template-columns: 1fr 1fr; } .form-grid { grid-template-columns:1fr; } .curr-lesson { grid-template-columns:1fr auto; } .admin-content { padding:1.2rem; } .footer-inner { grid-template-columns:1fr; } .data-table th:nth-child(n+4), .data-table td:nth-child(n+4) { display:none; } }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <span class="loading-msg" id="loading-msg">Loading admin panel...</span>
+</div>
+
+<!-- ═══ COURSE MODAL ═══ -->
+<div class="modal-overlay" id="course-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeCourseModal()">✕</button>
+    <span class="modal-tag">Course Management · Editor</span>
+    <div class="modal-title" id="course-modal-title">Add New Course</div>
+
+    <div class="form-grid">
+      <div class="form-group full">
+        <label class="form-label">Course Title *</label>
+        <input type="text" class="form-input" id="c-title" placeholder="e.g. Excel Essentials">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Subtitle / Short Description *</label>
+        <input type="text" class="form-input" id="c-subtitle" placeholder="One-line description">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Full Description</label>
+        <textarea class="form-textarea" id="c-desc" placeholder="Detailed course description..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Thumbnail Emoji</label>
+        <input type="text" class="form-input" id="c-thumbnail" placeholder="📊" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="c-category">
+          <option value="finance">Finance &amp; Accounting</option>
+          <option value="tech">Technology</option>
+          <option value="marketing">Marketing</option>
+          <option value="design">Design</option>
+          <option value="entrepreneurship">Entrepreneurship</option>
+          <option value="data">Data Analytics</option>
+          <option value="ca">CA Preparation</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Difficulty Level</label>
+        <select class="form-select" id="c-difficulty">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total Duration (e.g. "5 hrs")</label>
+        <input type="text" class="form-input" id="c-duration" placeholder="5 hrs">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Price (₹) — 0 = Free</label>
+        <input type="number" class="form-input" id="c-price" placeholder="0" min="0">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">Razorpay Payment Link (for paid courses)</label>
+        <input type="url" class="form-input" id="c-paylink" placeholder="https://rzp.io/l/...">
+      </div>
+      <div class="form-group full" style="display:flex;gap:2rem;flex-wrap:wrap;">
+        <label class="form-checkbox-row">
+          <input type="checkbox" id="c-free" onchange="document.getElementById('c-price').disabled=this.checked; if(this.checked)document.getElementById('c-price').value=0">
+          Free Course
+        </label>
+        <label class="form-checkbox-row">
+          <input type="checkbox" id="c-published">
+          Publish immediately
+        </label>
+      </div>
+
+      <!-- Curriculum Builder -->
+      <div class="form-group full">
+        <label class="form-label" style="margin-bottom:0.5rem;">Curriculum Builder</label>
+        <div class="curr-builder">
+          <div id="sections-container"></div>
+          <button type="button" class="curr-add-btn curr-add-section-btn" onclick="addSection()">+ Add Section</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-admin btn-ghost" onclick="closeCourseModal()">Cancel</button>
+      <button class="btn-admin btn-primary" id="btn-save-course" onclick="saveCourse()">Save Course →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CERTIFICATE ISSUANCE MODAL ═══ -->
+<div class="modal-overlay" id="cert-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('cert-modal').classList.remove('show')">✕</button>
+    <span class="modal-tag">Evidence Collected · Issue Certificate</span>
+    <div class="modal-title">Issue Certificate</div>
+    <div class="cert-form">
+      <div class="form-group">
+        <label class="form-label">User Email *</label>
+        <input type="email" class="form-input" id="cert-email" placeholder="student@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Student Full Name *</label>
+        <input type="text" class="form-input" id="cert-name" placeholder="Priyanshi Goswami">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Course *</label>
+        <select class="form-select" id="cert-course">
+          <option value="">Select course...</option>
+        </select>
+      </div>
+      <div class="cert-preview" id="cert-preview">
+        <strong id="cert-preview-id">SSE-XXXX-XXXX</strong>
+        Certificate ID will be generated automatically.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-admin btn-ghost" onclick="document.getElementById('cert-modal').classList.remove('show')">Cancel</button>
+      <button class="btn-admin btn-green" onclick="issueCertificate()">Issue Certificate →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="main-nav">
+  <a href="/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Admin Panel · EST. 2026</span>
+    </div>
+  </a>
+  <div class="nav-right-group">
+    <span class="nav-admin-badge">⚙ Admin</span>
+    <div class="nav-user-info" id="nav-user-info">
+      <strong id="nav-user-name">Loading...</strong>
+      <span id="nav-user-email"></span>
+    </div>
+    <button class="nav-btn" onclick="window.location.href='/learn/lms/dashboard.html'">Dashboard</button>
+    <button class="nav-btn" onclick="logout()">Sign Out</button>
+    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/learn/" onclick="toggleMenu()">Home</a>
+  <a href="/learn/lms/dashboard.html" onclick="toggleMenu()">Student Dashboard</a>
+  <a href="#" onclick="switchSection('overview'); toggleMenu()">Overview</a>
+  <a href="#" onclick="switchSection('courses'); toggleMenu()">Courses</a>
+  <a href="#" onclick="switchSection('users'); toggleMenu()">Users</a>
+  <a href="#" onclick="switchSection('enrollments'); toggleMenu()">Enrollments</a>
+  <a href="#" onclick="switchSection('certificates'); toggleMenu()">Certificates</a>
+  <a href="#" onclick="logout()">Sign Out</a>
+</div>
+
+<!-- ═══ ADMIN PAGE ═══ -->
+<div class="admin-page">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-tag">Command Centre</div>
+      <div class="admin-sidebar-title">Admin Panel</div>
+    </div>
+    <nav class="admin-nav">
+      <div class="admin-nav-item active" onclick="switchSection('overview')" id="nav-overview">
+        <span class="admin-nav-icon">📊</span> Overview
+      </div>
+      <div class="admin-nav-item" onclick="switchSection('courses')" id="nav-courses">
+        <span class="admin-nav-icon">📚</span> Courses
+      </div>
+      <div class="admin-nav-item" onclick="switchSection('users')" id="nav-users">
+        <span class="admin-nav-icon">👥</span> Users
+      </div>
+      <div class="admin-nav-item" onclick="switchSection('enrollments')" id="nav-enrollments">
+        <span class="admin-nav-icon">📋</span> Enrollments
+      </div>
+      <div class="admin-nav-item" onclick="switchSection('certificates')" id="nav-certificates">
+        <span class="admin-nav-icon">🏆</span> Certificates
+      </div>
+      <div class="admin-nav-item" onclick="switchSection('cert-requests')" id="nav-cert-requests">
+        <span class="admin-nav-icon">📬</span> Cert Requests
+      </div>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <div class="admin-content">
+
+      <!-- OVERVIEW -->
+      <div class="admin-section active" id="section-overview">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Command Centre · Overview</span>
+            <div class="admin-section-title">Dashboard</div>
+          </div>
+        </div>
+        <div class="admin-stats">
+          <div class="admin-stat-card"><span class="admin-stat-val" id="ov-courses">—</span><span class="admin-stat-lbl">Published Courses</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-val" id="ov-users">—</span><span class="admin-stat-lbl">Registered Users</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-val" id="ov-enrollments">—</span><span class="admin-stat-lbl">Enrollments</span></div>
+          <div class="admin-stat-card"><span class="admin-stat-val" id="ov-certs">—</span><span class="admin-stat-lbl">Certificates Issued</span></div>
+        </div>
+        <div class="admin-section-hdr" style="margin-top:0;">
+          <div>
+            <span class="admin-section-tag">Recent Activity</span>
+          </div>
+          <button class="btn-admin btn-ghost btn-sm" onclick="loadOverview()">↺ Refresh</button>
+        </div>
+        <div class="activity-list" id="activity-list">
+          <div style="font-family:var(--mono);font-size:0.65rem;color:rgba(240,234,214,0.2);letter-spacing:2px;text-transform:uppercase;padding:1.5rem 0;">Loading activity...</div>
+        </div>
+      </div>
+
+      <!-- COURSES -->
+      <div class="admin-section" id="section-courses">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Evidence Catalogue · Management</span>
+            <div class="admin-section-title">Courses</div>
+          </div>
+          <button class="btn-admin btn-primary" onclick="openCourseModal()">+ Add Course</button>
+        </div>
+        <div class="filter-row">
+          <input type="text" class="filter-input" id="course-search" placeholder="Search courses..." oninput="filterCourses()">
+          <span class="filter-count" id="course-count"></span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Lessons</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="courses-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;font-family:var(--mono);font-size:0.7rem;color:rgba(240,234,214,0.2);letter-spacing:2px;">Loading courses...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="admin-section" id="section-users">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Personnel Files · Users</span>
+            <div class="admin-section-title">Users</div>
+          </div>
+        </div>
+        <div class="filter-row">
+          <input type="text" class="filter-input" id="user-search" placeholder="Search by name or email..." oninput="filterUsers()">
+          <span class="filter-count" id="user-count"></span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Enrolled</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;font-family:var(--mono);font-size:0.7rem;color:rgba(240,234,214,0.2);letter-spacing:2px;">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ENROLLMENTS -->
+      <div class="admin-section" id="section-enrollments">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Active Cases · Enrollments</span>
+            <div class="admin-section-title">Enrollments</div>
+          </div>
+        </div>
+        <div class="filter-row">
+          <input type="text" class="filter-input" id="enrollment-search" placeholder="Search by user or course ID..." oninput="filterEnrollments()">
+          <span class="filter-count" id="enrollment-count"></span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Course ID</th>
+                <th>Payment</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="enrollments-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;font-family:var(--mono);font-size:0.7rem;color:rgba(240,234,214,0.2);letter-spacing:2px;">Loading enrollments...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CERTIFICATES -->
+      <div class="admin-section" id="section-certificates">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Evidence Collected · Credentials</span>
+            <div class="admin-section-title">Certificates</div>
+          </div>
+          <button class="btn-admin btn-green" onclick="openCertModal()">+ Issue Certificate</button>
+        </div>
+        <div class="filter-row">
+          <input type="text" class="filter-input" id="cert-search" placeholder="Search by name, cert ID..." oninput="filterCerts()">
+          <span class="filter-count" id="cert-count"></span>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Certificate ID</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Issued</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="certs-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;font-family:var(--mono);font-size:0.7rem;color:rgba(240,234,214,0.2);letter-spacing:2px;">Loading certificates...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CERT REQUESTS -->
+      <div class="admin-section" id="section-cert-requests">
+        <div class="admin-section-hdr">
+          <div>
+            <span class="admin-section-tag">Pending · Certificate Requests</span>
+            <div class="admin-section-title">Cert Requests</div>
+          </div>
+          <button class="btn-admin btn-ghost btn-sm" onclick="loadCertRequests()">↺ Refresh</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Requested</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="cert-requests-tbody">
+              <tr><td colspan="6" style="text-align:center;padding:2rem;font-family:var(--mono);font-size:0.7rem;color:rgba(240,234,214,0.2);letter-spacing:2px;">Loading requests...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+        <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/">Home</a></li><li><a href="/learn/courses">Courses</a></li><li><a href="/learn/lms/dashboard.html">Student Dashboard</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li></ul></div>
+    <div class="footer-col"><h4>Admin</h4><ul><li><a href="#" onclick="switchSection('courses')">Manage Courses</a></li><li><a href="#" onclick="switchSection('users')">Manage Users</a></li><li><a href="#" onclick="switchSection('certificates')">Issue Certs</a></li><li><a href="#" onclick="switchSection('cert-requests')">Cert Requests</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:skillsphere.work@gmail.com">Support</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Admin Panel — Restricted Access</span>
+    <span class="tagline">Empowering India's Next Generation</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
+═══════════════════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT.firebaseapp.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+/* ═══ STATE ═══ */
+let currentUser  = null;
+let allCourses   = [];
+let allUsers     = [];
+let allEnrolls   = [];
+let allCerts     = [];
+let editCourseId = null; // null = new, string = editing
+
+/* ═══════════════════════════════════════════════════
+   AUTH GUARD — ADMIN ONLY
+═══════════════════════════════════════════════════ */
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    window.location.href = '/learn/lms/login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+
+  // Verify admin role from Firestore
+  const userSnap = await db.collection('users').doc(user.uid).get();
+  const userData = userSnap.data() || {};
+
+  if (userData.role !== 'admin') {
+    alert('Access denied. Admin only.');
+    window.location.href = '/learn/lms/dashboard.html';
+    return;
+  }
+
+  currentUser = user;
+  document.getElementById('nav-user-name').textContent = (userData.name || user.email).toUpperCase();
+  document.getElementById('nav-user-email').textContent = user.email;
+
+  showLoadingOverlay(true, 'Loading admin panel...');
+  await loadOverview();
+  showLoadingOverlay(false);
+});
+
+/* ═══════════════════════════════════════════════════
+   SECTION SWITCHING
+═══════════════════════════════════════════════════ */
+function switchSection(name) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(`section-${name}`).classList.add('active');
+  document.getElementById(`nav-${name}`)?.classList.add('active');
+
+  // Lazy-load section data
+  if (name === 'courses')       loadCourses();
+  if (name === 'users')         loadUsers();
+  if (name === 'enrollments')   loadEnrollments();
+  if (name === 'certificates')  loadCerts();
+  if (name === 'cert-requests') loadCertRequests();
+}
+
+/* ═══════════════════════════════════════════════════
+   OVERVIEW
+═══════════════════════════════════════════════════ */
+async function loadOverview() {
+  try {
+    const [coursesSnap, usersSnap, enrollsSnap, certsSnap] = await Promise.all([
+      db.collection('courses').where('isPublished','==',true).get(),
+      db.collection('users').get(),
+      db.collection('enrollments').get(),
+      db.collection('certificates').get()
+    ]);
+
+    document.getElementById('ov-courses').textContent     = coursesSnap.size;
+    document.getElementById('ov-users').textContent       = usersSnap.size;
+    document.getElementById('ov-enrollments').textContent = enrollsSnap.size;
+    document.getElementById('ov-certs').textContent       = certsSnap.size;
+
+    // Recent activity — last 8 enrollments
+    const recentEnrolls = enrollsSnap.docs
+      .map(d => ({ ...d.data(), id: d.id }))
+      .filter(e => e.enrolledAt)
+      .sort((a,b) => (b.enrolledAt?.seconds||0) - (a.enrolledAt?.seconds||0))
+      .slice(0, 8);
+
+    const activityEl = document.getElementById('activity-list');
+    activityEl.innerHTML = '';
+
+    if (recentEnrolls.length === 0) {
+      activityEl.innerHTML = '<div style="font-family:var(--mono);font-size:0.65rem;color:rgba(240,234,214,0.2);letter-spacing:2px;text-transform:uppercase;padding:1rem 0;">No recent activity.</div>';
+      return;
+    }
+
+    recentEnrolls.forEach(enroll => {
+      const date = enroll.enrolledAt?.toDate
+        ? enroll.enrolledAt.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
+        : 'N/A';
+      const isPaid = enroll.paymentAmount > 0;
+      const el = document.createElement('div');
+      el.className = 'activity-item';
+      el.innerHTML = `
+        <div class="activity-icon enroll">📋</div>
+        <div class="activity-body">
+          <strong>New Enrollment — ${escHtml(enroll.courseId)}</strong>
+          <span>User: ${escHtml(enroll.userId.substring(0,12))}… · ${isPaid ? '₹' + enroll.paymentAmount : 'Free'} · ${date}</span>
+        </div>`;
+      activityEl.appendChild(el);
+    });
+
+  } catch (err) {
+    console.error('Overview error:', err);
+    showToast('Error loading overview.', 'error');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   COURSES
+═══════════════════════════════════════════════════ */
+async function loadCourses() {
+  try {
+    const snap = await db.collection('courses').orderBy('title').get();
+    allCourses = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCoursesTable(allCourses);
+  } catch (err) {
+    console.error('Load courses error:', err);
+    showToast('Error loading courses.', 'error');
+  }
+}
+
+function renderCoursesTable(courses) {
+  const tbody = document.getElementById('courses-tbody');
+  document.getElementById('course-count').textContent = `${courses.length} course${courses.length !== 1 ? 's' : ''}`;
+
+  if (courses.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No courses found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = courses.map(c => `
+    <tr>
+      <td style="font-weight:700;color:var(--paper);">${escHtml(c.title)}</td>
+      <td style="text-transform:capitalize;">${escHtml(c.category||'—')}</td>
+      <td>${c.isFree || c.price === 0 ? '<span class="badge badge-free">Free</span>' : '₹' + c.price}</td>
+      <td>${c.totalLessons || '—'}</td>
+      <td><span class="badge ${c.isPublished ? 'badge-pub' : 'badge-draft'}">${c.isPublished ? 'Published' : 'Draft'}</span></td>
+      <td>
+        <div class="td-actions">
+          <button class="btn-admin btn-ghost btn-sm" onclick="editCourse('${c.id}')">Edit</button>
+          <button class="btn-admin btn-ghost btn-sm" onclick="togglePublish('${c.id}', ${!c.isPublished})">${c.isPublished ? 'Unpublish' : 'Publish'}</button>
+          <button class="btn-admin btn-danger btn-sm" onclick="deleteCourse('${c.id}', '${escHtml(c.title)}')">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function filterCourses() {
+  const q = document.getElementById('course-search').value.toLowerCase();
+  renderCoursesTable(allCourses.filter(c =>
+    c.title?.toLowerCase().includes(q) || c.category?.toLowerCase().includes(q)
+  ));
+}
+
+/* ═══ COURSE MODAL ═══ */
+function openCourseModal(courseId) {
+  editCourseId = courseId || null;
+  document.getElementById('course-modal-title').textContent = courseId ? 'Edit Course' : 'Add New Course';
+
+  // Reset form
+  ['c-title','c-subtitle','c-desc','c-thumbnail','c-duration','c-price','c-paylink'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('c-free').checked      = false;
+  document.getElementById('c-published').checked = false;
+  document.getElementById('c-category').value    = 'finance';
+  document.getElementById('c-difficulty').value  = 'beginner';
+  document.getElementById('sections-container').innerHTML = '';
+  addSection(); // Start with one section
+
+  if (courseId) {
+    const c = allCourses.find(x => x.id === courseId);
+    if (c) {
+      document.getElementById('c-title').value      = c.title || '';
+      document.getElementById('c-subtitle').value   = c.subtitle || '';
+      document.getElementById('c-desc').value       = c.description || '';
+      document.getElementById('c-thumbnail').value  = c.thumbnail || '';
+      document.getElementById('c-duration').value   = c.totalDuration || '';
+      document.getElementById('c-price').value      = c.price || 0;
+      document.getElementById('c-paylink').value    = c.paymentLink || '';
+      document.getElementById('c-free').checked     = !!c.isFree;
+      document.getElementById('c-published').checked= !!c.isPublished;
+      document.getElementById('c-category').value   = c.category || 'finance';
+      document.getElementById('c-difficulty').value = c.difficulty || 'beginner';
+    }
+  }
+
+  document.getElementById('course-modal').classList.add('show');
+}
+
+function closeCourseModal() {
+  document.getElementById('course-modal').classList.remove('show');
+  editCourseId = null;
+}
+
+async function saveCourse() {
+  const title = document.getElementById('c-title').value.trim();
+  if (!title) { showToast('Course title is required.', 'error'); return; }
+
+  const btn = document.getElementById('btn-save-course');
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  try {
+    // Build section/lesson data from curriculum builder
+    const sectionEls = document.querySelectorAll('#sections-container .curr-section');
+    const sections   = [];
+    let totalLessons = 0;
+
+    sectionEls.forEach((secEl, si) => {
+      const secTitle  = secEl.querySelector('.curr-section-input').value.trim() || `Section ${si + 1}`;
+      const lessonEls = secEl.querySelectorAll('.curr-lesson');
+      const lessons   = [];
+
+      lessonEls.forEach((lesEl, li) => {
+        const inputs  = lesEl.querySelectorAll('input');
+        const lesTitle= inputs[0]?.value.trim();
+        const ytId    = inputs[1]?.value.trim();
+        if (lesTitle) {
+          lessons.push({
+            id:        `s${si}l${li}_${Date.now()}`,
+            title:     lesTitle,
+            youtubeId: ytId || '',  // Stored securely in Firestore — never rendered in HTML
+            duration:  '',
+            isPreview: false,
+            description: ''
+          });
+          totalLessons++;
+        }
+      });
+
+      sections.push({ title: secTitle, order: si, lessons });
+    });
+
+    const isFree = document.getElementById('c-free').checked;
+    const price  = parseInt(document.getElementById('c-price').value) || 0;
+
+    const courseData = {
+      title:        title,
+      subtitle:     document.getElementById('c-subtitle').value.trim(),
+      description:  document.getElementById('c-desc').value.trim(),
+      thumbnail:    document.getElementById('c-thumbnail').value.trim() || '📘',
+      category:     document.getElementById('c-category').value,
+      difficulty:   document.getElementById('c-difficulty').value,
+      totalDuration: document.getElementById('c-duration').value.trim(),
+      price:        isFree ? 0 : price,
+      isFree:       isFree || price === 0,
+      paymentLink:  document.getElementById('c-paylink').value.trim(),
+      isPublished:  document.getElementById('c-published').checked,
+      totalLessons: totalLessons,
+      updatedAt:    firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    let courseDocId = editCourseId;
+
+    if (editCourseId) {
+      await db.collection('courses').doc(editCourseId).update(courseData);
+    } else {
+      courseData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      courseData.rating    = 0;
+      courseData.ratingCount = 0;
+      const docRef = await db.collection('courses').add(courseData);
+      courseDocId  = docRef.id;
+    }
+
+    // Save curriculum sections (each section is a sub-collection document)
+    // ⚠️ Video IDs (youtubeId) are stored here — protected by Firestore rules
+    // Only enrolled users can read these documents
+    for (let si = 0; si < sections.length; si++) {
+      const sec = sections[si];
+      const secId = `section_${si}`;
+      await db.collection('courses').doc(courseDocId)
+        .collection('curriculum').doc(secId).set(sec);
+    }
+
+    showToast(editCourseId ? 'Course updated!' : 'Course created!', 'success');
+    closeCourseModal();
+    await loadCourses();
+
+  } catch (err) {
+    console.error('Save course error:', err);
+    showToast('Error saving course. Check console.', 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Course →';
+  }
+}
+
+function editCourse(courseId) { openCourseModal(courseId); }
+
+async function togglePublish(courseId, publish) {
+  try {
+    await db.collection('courses').doc(courseId).update({ isPublished: publish });
+    showToast(publish ? 'Course published!' : 'Course unpublished.', 'success');
+    await loadCourses();
+  } catch (err) { showToast('Error updating course.', 'error'); }
+}
+
+async function deleteCourse(courseId, title) {
+  if (!confirm(`Delete course "${title}"? This cannot be undone.`)) return;
+  try {
+    await db.collection('courses').doc(courseId).delete();
+    showToast('Course deleted.', 'info');
+    await loadCourses();
+  } catch (err) { showToast('Error deleting course.', 'error'); }
+}
+
+/* ═══ CURRICULUM BUILDER ═══ */
+function addSection() {
+  const container = document.getElementById('sections-container');
+  const idx       = container.children.length;
+  const secEl     = document.createElement('div');
+  secEl.className = 'curr-section';
+  secEl.innerHTML = `
+    <div class="curr-section-header">
+      <input type="text" class="curr-section-input" placeholder="Section ${idx + 1} title (e.g. Getting Started)">
+      <button type="button" class="btn-admin btn-danger btn-sm" onclick="this.closest('.curr-section').remove()">✕</button>
+    </div>
+    <div class="lessons-container"></div>
+    <button type="button" class="curr-add-btn" onclick="addLesson(this)">+ Add Lesson</button>`;
+  container.appendChild(secEl);
+  addLesson(secEl.querySelector('.curr-add-btn'));
+}
+
+function addLesson(addBtn) {
+  const container = addBtn.previousElementSibling;
+  const lesEl     = document.createElement('div');
+  lesEl.className = 'curr-lesson';
+  lesEl.innerHTML = `
+    <input type="text" placeholder="Lesson title" style="grid-column:1">
+    <input type="text" placeholder="YouTube Video ID (e.g. dQw4w9WgXcQ)">
+    <button type="button" class="curr-del-btn" onclick="this.closest('.curr-lesson').remove()">✕</button>`;
+  container.appendChild(lesEl);
+}
+
+/* ═══════════════════════════════════════════════════
+   USERS
+═══════════════════════════════════════════════════ */
+async function loadUsers() {
+  try {
+    const snap = await db.collection('users').orderBy('createdAt', 'desc').limit(100).get();
+    allUsers   = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderUsersTable(allUsers);
+  } catch (err) { showToast('Error loading users.', 'error'); }
+}
+
+function renderUsersTable(users) {
+  const tbody = document.getElementById('users-tbody');
+  document.getElementById('user-count').textContent = `${users.length} user${users.length !== 1 ? 's' : ''}`;
+
+  if (users.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No users found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = users.map(u => {
+    const joined = u.createdAt?.toDate
+      ? u.createdAt.toDate().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})
+      : 'N/A';
+    return `
+      <tr>
+        <td style="color:var(--paper);font-weight:700;">${escHtml(u.name || '—')}</td>
+        <td>${escHtml(u.email)}</td>
+        <td><span class="badge ${u.role === 'admin' ? 'badge-admin' : 'badge-active'}">${u.role || 'student'}</span></td>
+        <td>${(u.enrolledCourses||[]).length}</td>
+        <td>${joined}</td>
+        <td>
+          <div class="td-actions">
+            ${u.role !== 'admin'
+              ? `<button class="btn-admin btn-ghost btn-sm" onclick="makeAdmin('${u.id}')">Make Admin</button>`
+              : `<button class="btn-admin btn-danger btn-sm" onclick="removeAdmin('${u.id}')">Revoke Admin</button>`}
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function filterUsers() {
+  const q = document.getElementById('user-search').value.toLowerCase();
+  renderUsersTable(allUsers.filter(u =>
+    u.name?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q)
+  ));
+}
+
+async function makeAdmin(userId) {
+  if (!confirm('Grant admin role to this user?')) return;
+  try {
+    await db.collection('users').doc(userId).update({ role: 'admin' });
+    showToast('Admin role granted.', 'success');
+    await loadUsers();
+  } catch (err) { showToast('Error updating role.', 'error'); }
+}
+
+async function removeAdmin(userId) {
+  if (userId === currentUser.uid) { showToast('Cannot revoke your own admin role.', 'error'); return; }
+  if (!confirm('Revoke admin role from this user?')) return;
+  try {
+    await db.collection('users').doc(userId).update({ role: 'student' });
+    showToast('Admin role revoked.', 'success');
+    await loadUsers();
+  } catch (err) { showToast('Error updating role.', 'error'); }
+}
+
+/* ═══════════════════════════════════════════════════
+   ENROLLMENTS
+═══════════════════════════════════════════════════ */
+async function loadEnrollments() {
+  try {
+    const snap = await db.collection('enrollments').orderBy('enrolledAt','desc').limit(100).get();
+    allEnrolls = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderEnrollmentsTable(allEnrolls);
+  } catch (err) { showToast('Error loading enrollments.', 'error'); }
+}
+
+function renderEnrollmentsTable(enrolls) {
+  const tbody = document.getElementById('enrollments-tbody');
+  document.getElementById('enrollment-count').textContent = `${enrolls.length} enrollment${enrolls.length !== 1 ? 's' : ''}`;
+
+  if (enrolls.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No enrollments yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = enrolls.map(e => {
+    const date = e.enrolledAt?.toDate
+      ? e.enrolledAt.toDate().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})
+      : 'N/A';
+    return `
+      <tr>
+        <td style="font-family:var(--mono);font-size:0.62rem;">${escHtml(e.userId?.substring(0,16))}…</td>
+        <td>${escHtml(e.courseId)}</td>
+        <td style="font-size:0.62rem;">${e.paymentId ? escHtml(e.paymentId.substring(0,16))+'…' : '<span style="opacity:0.4">Free</span>'}</td>
+        <td>${e.paymentAmount > 0 ? '₹' + e.paymentAmount : '<span style="opacity:0.4">—</span>'}</td>
+        <td>${date}</td>
+        <td><span class="badge badge-${e.status === 'active' ? 'active' : 'pending'}">${e.status || 'active'}</span></td>
+      </tr>`;
+  }).join('');
+}
+
+function filterEnrollments() {
+  const q = document.getElementById('enrollment-search').value.toLowerCase();
+  renderEnrollmentsTable(allEnrolls.filter(e =>
+    e.userId?.toLowerCase().includes(q) || e.courseId?.toLowerCase().includes(q)
+  ));
+}
+
+/* ═══════════════════════════════════════════════════
+   CERTIFICATES
+═══════════════════════════════════════════════════ */
+async function loadCerts() {
+  try {
+    const snap = await db.collection('certificates').orderBy('issuedAt','desc').get();
+    allCerts   = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCertsTable(allCerts);
+
+    // Populate cert modal course dropdown
+    const sel = document.getElementById('cert-course');
+    sel.innerHTML = '<option value="">Select course...</option>';
+    const coursesSnap = await db.collection('courses').where('isPublished','==',true).get();
+    coursesSnap.docs.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value       = d.id;
+      opt.textContent = d.data().title;
+      sel.appendChild(opt);
+    });
+  } catch (err) { showToast('Error loading certificates.', 'error'); }
+}
+
+function renderCertsTable(certs) {
+  const tbody = document.getElementById('certs-tbody');
+  document.getElementById('cert-count').textContent = `${certs.length} certificate${certs.length !== 1 ? 's' : ''}`;
+
+  if (certs.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">No certificates issued yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = certs.map(c => {
+    const date = c.issuedAt?.toDate
+      ? c.issuedAt.toDate().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})
+      : 'N/A';
+    return `
+      <tr>
+        <td style="font-family:var(--mono);font-size:0.7rem;color:var(--red-tape);font-weight:700;">${escHtml(c.id)}</td>
+        <td style="color:var(--paper);font-weight:700;">${escHtml(c.userName || '—')}</td>
+        <td>${escHtml(c.courseName || c.courseId)}</td>
+        <td>${date}</td>
+        <td>
+          <div class="td-actions">
+            <a href="/learn/verify.html?id=${c.id}" target="_blank" class="btn-admin btn-ghost btn-sm">View</a>
+            <button class="btn-admin btn-danger btn-sm" onclick="revokeCert('${c.id}')">Revoke</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+function filterCerts() {
+  const q = document.getElementById('cert-search').value.toLowerCase();
+  renderCertsTable(allCerts.filter(c =>
+    c.id?.toLowerCase().includes(q) ||
+    c.userName?.toLowerCase().includes(q) ||
+    c.courseName?.toLowerCase().includes(q)
+  ));
+}
+
+function openCertModal() {
+  document.getElementById('cert-modal').classList.add('show');
+  document.getElementById('cert-email').value  = '';
+  document.getElementById('cert-name').value   = '';
+  document.getElementById('cert-course').value = '';
+  updateCertPreview();
+}
+
+function updateCertPreview() {
+  const id = generateCertId();
+  document.getElementById('cert-preview-id').textContent = id;
+}
+
+function generateCertId() {
+  const alpha = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const seg = (n) => Array.from({length:n}, () => alpha[Math.floor(Math.random()*alpha.length)]).join('');
+  return `SSE-${seg(4)}-${seg(4)}`;
+}
+
+async function issueCertificate() {
+  const email    = document.getElementById('cert-email').value.trim();
+  const name     = document.getElementById('cert-name').value.trim();
+  const courseId = document.getElementById('cert-course').value;
+
+  if (!email || !name || !courseId) {
+    showToast('Fill all fields before issuing.', 'error');
+    return;
+  }
+
+  // Find userId by email
+  const userSnap = await db.collection('users').where('email','==',email).limit(1).get();
+  if (userSnap.empty) {
+    showToast('No user found with this email.', 'error');
+    return;
+  }
+
+  const userId    = userSnap.docs[0].id;
+  const courseDoc = await db.collection('courses').doc(courseId).get();
+  const courseName = courseDoc.data()?.title || courseId;
+
+  const certId = generateCertId();
+
+  try {
+    await db.collection('certificates').doc(certId).set({
+      userId:     userId,
+      userEmail:  email,
+      userName:   name,
+      courseId:   courseId,
+      courseName: courseName,
+      issuedAt:   firebase.firestore.FieldValue.serverTimestamp(),
+      issuedBy:   currentUser.uid,
+      isValid:    true
+    });
+
+    // Mark cert_request as fulfilled if it exists
+    const reqSnap = await db.collection('cert_requests')
+      .where('userId','==',userId)
+      .where('courseId','==',courseId)
+      .where('status','==','pending')
+      .limit(1).get();
+    if (!reqSnap.empty) {
+      await reqSnap.docs[0].ref.update({ status: 'issued', certId, issuedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    }
+
+    showToast(`Certificate ${certId} issued to ${name}!`, 'success');
+    document.getElementById('cert-modal').classList.remove('show');
+    await loadCerts();
+
+  } catch (err) {
+    console.error('Issue cert error:', err);
+    showToast('Error issuing certificate.', 'error');
+  }
+}
+
+async function revokeCert(certId) {
+  if (!confirm(`Revoke certificate ${certId}? This will invalidate the credential.`)) return;
+  try {
+    await db.collection('certificates').doc(certId).update({ isValid: false, revokedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    showToast('Certificate revoked.', 'info');
+    await loadCerts();
+  } catch (err) { showToast('Error revoking certificate.', 'error'); }
+}
+
+/* ═══════════════════════════════════════════════════
+   CERTIFICATE REQUESTS
+═══════════════════════════════════════════════════ */
+async function loadCertRequests() {
+  try {
+    const snap = await db.collection('cert_requests').orderBy('requestedAt','desc').get();
+    const reqs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    const tbody = document.getElementById('cert-requests-tbody');
+    if (reqs.length === 0) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">No pending requests.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = reqs.map(r => {
+      const date = r.requestedAt?.toDate
+        ? r.requestedAt.toDate().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})
+        : 'N/A';
+      const isPending = r.status === 'pending';
+      return `
+        <tr>
+          <td style="color:var(--paper);font-weight:700;">${escHtml(r.userName || '—')}</td>
+          <td>${escHtml(r.userEmail)}</td>
+          <td>${escHtml(r.courseName || r.courseId)}</td>
+          <td>${date}</td>
+          <td><span class="badge ${isPending ? 'badge-pending' : 'badge-active'}">${r.status}</span></td>
+          <td>
+            ${isPending ? `
+              <button class="btn-admin btn-green btn-sm" onclick="quickIssueCert('${r.userEmail}','${r.userName}','${r.courseId}','${r.id}')">
+                Issue →
+              </button>` : `<span style="font-family:var(--mono);font-size:0.6rem;color:rgba(240,234,214,0.2);">Issued: ${r.certId||'—'}</span>`}
+          </td>
+        </tr>`;
+    }).join('');
+
+  } catch (err) { showToast('Error loading requests.', 'error'); }
+}
+
+async function quickIssueCert(email, name, courseId, requestId) {
+  if (!confirm(`Issue certificate to ${name} for course ${courseId}?`)) return;
+
+  const courseDoc  = await db.collection('courses').doc(courseId).get();
+  const courseName = courseDoc.data()?.title || courseId;
+  const userSnap   = await db.collection('users').where('email','==',email).limit(1).get();
+  if (userSnap.empty) { showToast('User not found.', 'error'); return; }
+
+  const userId = userSnap.docs[0].id;
+  const certId = generateCertId();
+
+  try {
+    await db.collection('certificates').doc(certId).set({
+      userId, userEmail: email, userName: name,
+      courseId, courseName,
+      issuedAt:  firebase.firestore.FieldValue.serverTimestamp(),
+      issuedBy:  currentUser.uid,
+      isValid:   true
+    });
+    await db.collection('cert_requests').doc(requestId).update({
+      status: 'issued', certId,
+      issuedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showToast(`${certId} issued!`, 'success');
+    await loadCertRequests();
+  } catch (err) { showToast('Error issuing certificate.', 'error'); }
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════ */
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showLoadingOverlay(show, msg) {
+  document.getElementById('loading-overlay').classList.toggle('show', show);
+  if (msg) document.getElementById('loading-msg').textContent = msg;
+}
+
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 5000);
+}
+
+async function logout() {
+  await auth.signOut();
+  window.location.href = '/learn/';
+}
+
+function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
+window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
+</script>
+</body>
+</html>

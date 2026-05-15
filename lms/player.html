@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Player | SkillSphere Edu LMS</title>
+  <meta name="description" content="Watch your SkillSphere Edu course. Learn, progress, and earn your certificate.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/player.html">
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <style>
+  :root {
+    --paper:       #f0ead6;
+    --paper-dark:  #e0d8be;
+    --paper-stain: #d4c9a8;
+    --ink:         #1a1209;
+    --ink-faded:   #3d3120;
+    --ink-muted:   #6b5f45;
+    --red-tape:    #c0272d;
+    --red-dark:    #8b1a1e;
+    --red-hover:   #a82020;
+    --stamp-green: #1a4d2e;
+    --player-bg:   #0e0a06;
+    --sidebar-bg:  #130d07;
+    --display:     'Bebas Neue', sans-serif;
+    --typewriter:  'Courier Prime', monospace;
+    --mono:        'IBM Plex Mono', monospace;
+    --stamp:       'Special Elite', cursive;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { background: var(--player-bg); color: var(--paper); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; height: 100vh; display: flex; flex-direction: column; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: var(--typewriter); cursor: pointer; }
+  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+  /* ── PLAYER NAV (compact) ── */
+  .player-nav {
+    height: 56px;
+    background: rgba(19,13,7,0.98);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3%;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+  .pnav-left { display: flex; align-items: center; gap: 16px; }
+  .pnav-logo { display: flex; align-items: center; gap: 8px; }
+  .pnav-brand { font-family: var(--display); font-size: 1.2rem; letter-spacing: 2px; color: var(--paper); line-height: 1; }
+  .pnav-brand em { font-style: normal; color: var(--red-tape); }
+  .pnav-logo-img { height: 32px; width: 32px; filter: contrast(1.1) brightness(0.9); }
+  .pnav-sep { width: 1px; height: 24px; background: rgba(255,255,255,0.12); }
+  .pnav-course-title { font-family: var(--mono); font-size: 0.68rem; color: rgba(240,234,214,0.5); letter-spacing: 1px; text-transform: uppercase; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pnav-right { display: flex; align-items: center; gap: 12px; }
+  .pnav-progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .pnav-progress-bar { width: 100px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+  .pnav-progress-fill { height: 100%; background: var(--stamp-green); transition: width 0.5s; border-radius: 2px; }
+  .pnav-pct { font-family: var(--mono); font-size: 0.62rem; color: rgba(240,234,214,0.5); letter-spacing: 1px; }
+  .pnav-btn { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 0.4rem 0.9rem; border-radius: 2px; border: none; cursor: pointer; transition: all 0.2s; }
+  .pnav-btn-dash { background: rgba(255,255,255,0.06); color: rgba(240,234,214,0.6); }
+  .pnav-btn-dash:hover { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .pnav-hamburger { display: none; flex-direction: column; gap: 4px; cursor: pointer; padding: 4px; }
+  .pnav-hamburger span { display: block; width: 18px; height: 1.5px; background: rgba(240,234,214,0.7); border-radius: 1px; }
+
+  /* ── PLAYER LAYOUT ── */
+  .player-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+  .sidebar-header {
+    padding: 1.2rem 1.1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(192,39,45,0.08);
+    flex-shrink: 0;
+  }
+  .sidebar-case-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--red-tape); text-transform: uppercase; margin-bottom: 4px; }
+  .sidebar-title { font-family: var(--display); font-size: 1.5rem; color: var(--paper); line-height: 1.1; }
+  .sidebar-meta { font-family: var(--mono); font-size: 0.6rem; color: rgba(240,234,214,0.35); letter-spacing: 1px; margin-top: 6px; }
+
+  /* Section */
+  .curriculum { flex: 1; overflow-y: auto; }
+  .section-item { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .section-header {
+    padding: 0.9rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .section-header:hover { background: rgba(255,255,255,0.03); }
+  .section-name { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; color: rgba(240,234,214,0.7); text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
+  .section-toggle { font-size: 0.6rem; color: rgba(240,234,214,0.3); transition: transform 0.2s; }
+  .section-toggle.open { transform: rotate(90deg); }
+  .section-lessons { display: none; }
+  .section-lessons.open { display: block; }
+
+  /* Lesson item */
+  .lesson-item {
+    padding: 0.75rem 1.1rem 0.75rem 1.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-left: 2px solid transparent;
+  }
+  .lesson-item:hover { background: rgba(255,255,255,0.04); }
+  .lesson-item.active { background: rgba(192,39,45,0.1); border-left-color: var(--red-tape); }
+  .lesson-item.completed { border-left-color: var(--stamp-green); }
+  .lesson-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; flex-shrink: 0; margin-top: 1px; }
+  .lesson-icon.todo { background: rgba(255,255,255,0.06); color: rgba(240,234,214,0.3); border: 1px solid rgba(255,255,255,0.1); }
+  .lesson-icon.active-icon { background: var(--red-tape); color: #fff; }
+  .lesson-icon.done-icon { background: var(--stamp-green); color: #fff; }
+  .lesson-icon.preview-icon { background: rgba(26,58,110,0.4); color: #90c0ff; border: 1px solid rgba(26,58,110,0.5); }
+  .lesson-info { flex: 1; min-width: 0; }
+  .lesson-name { font-family: var(--mono); font-size: 0.68rem; color: rgba(240,234,214,0.65); letter-spacing: 0.5px; line-height: 1.4; word-break: break-word; }
+  .lesson-item.active .lesson-name { color: var(--paper); }
+  .lesson-item.completed .lesson-name { color: rgba(90,200,120,0.7); }
+  .lesson-duration { font-family: var(--mono); font-size: 0.58rem; color: rgba(240,234,214,0.25); margin-top: 2px; letter-spacing: 0.5px; }
+
+  /* ── MAIN PLAYER AREA ── */
+  .player-main {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--player-bg);
+  }
+
+  /* Video wrapper */
+  .video-wrapper {
+    position: relative;
+    background: #000;
+    width: 100%;
+    aspect-ratio: 16/9;
+    flex-shrink: 0;
+    max-height: calc(100vh - 56px - 180px);
+    user-select: none;
+  }
+
+  #yt-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Transparent anti-piracy overlay — blocks right-click without blocking clicks */
+  .video-shield {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    /* pointer-events none allows normal YouTube interaction */
+    pointer-events: none;
+  }
+  /* Intercept only right-click via JS event on wrapper */
+
+  /* Email watermark overlay */
+  .video-watermark {
+    position: absolute;
+    z-index: 4;
+    pointer-events: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.09);
+    letter-spacing: 1px;
+    transition: top 1s ease, left 1s ease, bottom 1s ease, right 1s ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  /* DevTools warning overlay */
+  .devtools-warning {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(10,6,2,0.96);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .devtools-warning.show { display: flex; }
+  .devtools-warning h3 { font-family: var(--display); font-size: 2rem; color: var(--red-tape); }
+  .devtools-warning p { font-family: var(--mono); font-size: 0.72rem; color: rgba(240,234,214,0.6); max-width: 300px; line-height: 1.6; letter-spacing: 1px; }
+  .devtools-warning button { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.6rem 1.4rem; background: var(--red-tape); color: #fff; border: none; border-radius: 3px; cursor: pointer; }
+
+  /* Loading placeholder */
+  .video-placeholder {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 5;
+  }
+  .video-placeholder.hidden { display: none; }
+  .vp-spinner { width: 36px; height: 36px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--red-tape); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .vp-msg { font-family: var(--mono); font-size: 0.68rem; color: rgba(240,234,214,0.4); letter-spacing: 2px; text-transform: uppercase; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── LESSON INFO AREA ── */
+  .lesson-info-area {
+    flex: 1;
+    padding: 1.6rem 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(19,13,7,0.6);
+  }
+
+  .lesson-breadcrumb { font-family: var(--mono); font-size: 0.6rem; color: rgba(240,234,214,0.3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .lesson-heading { font-family: var(--display); font-size: 2rem; color: var(--paper); margin-bottom: 0.5rem; }
+  .lesson-desc { font-family: var(--typewriter); font-size: 0.85rem; color: rgba(240,234,214,0.5); line-height: 1.75; max-width: 680px; margin-bottom: 1.4rem; }
+
+  /* Nav row */
+  .lesson-nav-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .btn-complete {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 0.65rem 1.4rem; border-radius: 3px; border: none; cursor: pointer; transition: all 0.2s;
+    background: var(--stamp-green); color: #fff; box-shadow: 2px 2px 0 #0d3020;
+  }
+  .btn-complete:hover { background: #14402a; }
+  .btn-complete.completed { background: rgba(26,77,46,0.3); color: rgba(90,200,120,0.8); box-shadow: none; cursor: default; }
+  .btn-prev, .btn-next {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 0.6rem 1.1rem; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+    background: rgba(255,255,255,0.05); color: rgba(240,234,214,0.6); border: 1px solid rgba(255,255,255,0.08);
+  }
+  .btn-prev:hover, .btn-next:hover { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .btn-prev:disabled, .btn-next:disabled { opacity: 0.25; cursor: not-allowed; }
+
+  .complete-indicator { font-family: var(--mono); font-size: 0.62rem; color: rgba(90,200,120,0.7); letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+
+  /* Completion banner */
+  .completion-banner {
+    margin: 0 2rem 1.5rem;
+    background: linear-gradient(135deg, rgba(26,77,46,0.2), rgba(26,77,46,0.08));
+    border: 1px solid rgba(26,77,46,0.3);
+    border-radius: 3px;
+    padding: 1.2rem 1.4rem;
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .completion-banner.show { display: flex; }
+  .comp-icon { font-size: 2rem; }
+  .comp-text h4 { font-family: var(--display); font-size: 1.4rem; color: rgba(90,200,120,0.9); margin-bottom: 2px; }
+  .comp-text p { font-family: var(--mono); font-size: 0.65rem; color: rgba(240,234,214,0.5); letter-spacing: 1px; }
+  .btn-cert-request { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.55rem 1.2rem; background: var(--stamp-green); color: #fff; border: none; border-radius: 3px; cursor: pointer; margin-left: auto; box-shadow: 2px 2px 0 #0d3020; }
+  .btn-cert-request:hover { background: #14402a; }
+
+  /* Sidebar mobile overlay */
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 49; }
+  .sidebar-overlay.show { display: block; }
+
+  /* Toast */
+  .toast { position:fixed; top:70px; right:20px; z-index:9999; padding:0.8rem 1.3rem; border-radius:3px; font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.4); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
+  .toast.show { transform:translateX(0); }
+  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
+  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
+  .toast.info { background:rgba(26,18,9,0.95); color:var(--paper); border-left:4px solid var(--red-tape); border:1px solid rgba(255,255,255,0.1); }
+
+  /* Loading overlay */
+  .loading-overlay { position:fixed; inset:0; background:rgba(14,10,6,0.95); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
+  .loading-overlay.show { display:flex; }
+  .loading-spinner { width:40px; height:40px; border:3px solid rgba(255,255,255,0.08); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
+  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.4); letter-spacing:2px; text-transform:uppercase; }
+
+  /* Access denied */
+  .access-denied { display: none; flex: 1; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+  .access-denied.show { display: flex; }
+  .ad-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; color: var(--red-tape); text-transform: uppercase; }
+  .ad-title { font-family: var(--display); font-size: 3rem; color: var(--paper); }
+  .ad-sub { font-family: var(--typewriter); font-size: 0.9rem; color: rgba(240,234,214,0.4); max-width: 360px; line-height: 1.7; }
+  .ad-btn { display: inline-block; margin-top: 0.5rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--red-tape); color: #fff; border: none; border-radius: 3px; cursor: pointer; box-shadow: 3px 3px 0 var(--red-dark); }
+
+  /* ── FOOTER (compact for player) ── */
+  .player-footer { background: rgba(19,13,7,0.8); border-top: 1px solid rgba(255,255,255,0.04); padding: 1rem 5%; position: relative; z-index: 1; flex-shrink: 0; }
+  .player-footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+  .player-footer span { font-family: var(--mono); font-size: 0.62rem; color: rgba(240,234,214,0.2); letter-spacing: 1px; }
+  .player-footer .tagline { color: rgba(192,39,45,0.6); font-weight: 700; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .player-body { grid-template-columns: 1fr; }
+    .sidebar { position: fixed; left: 0; top: 56px; bottom: 0; width: 300px; z-index: 50; transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .pnav-hamburger { display: flex; }
+    .pnav-course-title { display: none; }
+  }
+  @media (max-width: 560px) {
+    .lesson-info-area { padding: 1.2rem 1.2rem; }
+    .video-watermark { font-size: 9px; }
+  }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <span class="loading-msg" id="loading-msg">Verifying access...</span>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══ PLAYER NAV ═══ -->
+<nav class="player-nav" id="main-nav">
+  <div class="pnav-left">
+    <a href="/learn/" class="pnav-logo">
+      <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="pnav-logo-img">
+      <span class="pnav-brand">Skill<em>Sphere</em> Edu</span>
+    </a>
+    <div class="pnav-sep"></div>
+    <span class="pnav-course-title" id="pnav-course-title">Loading course...</span>
+  </div>
+  <div class="pnav-right">
+    <div class="pnav-progress-wrap">
+      <div class="pnav-progress-bar"><div class="pnav-progress-fill" id="pnav-fill" style="width:0%"></div></div>
+      <span class="pnav-pct" id="pnav-pct">0%</span>
+    </div>
+    <button class="pnav-btn pnav-btn-dash" onclick="window.location.href='/learn/lms/dashboard.html'">← Dashboard</button>
+    <button class="pnav-hamburger" onclick="toggleSidebar()" id="sidebar-toggle" aria-label="Toggle curriculum">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ PLAYER BODY ═══ -->
+<div class="player-body" id="player-body">
+
+  <!-- SIDEBAR — curriculum -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-case-tag">Evidence File · Curriculum</div>
+      <div class="sidebar-title" id="sidebar-course-title">Course Title</div>
+      <div class="sidebar-meta" id="sidebar-meta">0 sections · 0 lessons</div>
+    </div>
+    <div class="curriculum" id="curriculum">
+      <!-- Rendered dynamically -->
+    </div>
+  </aside>
+
+  <!-- MAIN PLAYER AREA -->
+  <div class="player-main" id="player-main">
+
+    <!-- Access denied state (shown if not enrolled) -->
+    <div class="access-denied" id="access-denied">
+      <div class="ad-tag">Access Restricted · Enrollment Required</div>
+      <div class="ad-title">Not Enrolled</div>
+      <p class="ad-sub">You need to enroll in this course to access its content. Head to the dashboard to enroll.</p>
+      <button class="ad-btn" onclick="window.location.href='/learn/lms/dashboard.html'">Go to Dashboard →</button>
+    </div>
+
+    <!-- Video wrapper (hidden until access confirmed) -->
+    <div class="video-wrapper" id="video-wrapper" style="display:none;">
+      <!-- YouTube player renders here -->
+      <div id="yt-player"></div>
+
+      <!-- Transparent shield for right-click interception -->
+      <div class="video-shield" id="video-shield"></div>
+
+      <!-- Email watermark -->
+      <div class="video-watermark" id="video-watermark"></div>
+
+      <!-- Video placeholder / loading -->
+      <div class="video-placeholder" id="video-placeholder">
+        <div class="vp-spinner"></div>
+        <span class="vp-msg">Loading lesson...</span>
+      </div>
+
+      <!-- DevTools warning -->
+      <div class="devtools-warning" id="devtools-warning">
+        <h3>⚠ Security Alert</h3>
+        <p>Developer tools detected. Lesson paused for content protection. Please close DevTools to continue.</p>
+        <button onclick="dismissDevToolsWarning()">I've Closed DevTools →</button>
+      </div>
+    </div>
+
+    <!-- Course completion banner -->
+    <div class="completion-banner" id="completion-banner">
+      <div class="comp-icon">🏆</div>
+      <div class="comp-text">
+        <h4>Course Complete!</h4>
+        <p>You've finished all lessons. Request your certificate below.</p>
+      </div>
+      <button class="btn-cert-request" onclick="requestCertificate()">Request Certificate →</button>
+    </div>
+
+    <!-- Lesson info area -->
+    <div class="lesson-info-area" id="lesson-info-area" style="display:none;">
+      <div class="lesson-breadcrumb" id="lesson-breadcrumb">Section · Lesson</div>
+      <div class="lesson-heading" id="lesson-heading">Lesson Title</div>
+      <p class="lesson-desc" id="lesson-desc"></p>
+      <div class="lesson-nav-row">
+        <button class="btn-prev" id="btn-prev" onclick="navigateLesson(-1)" disabled>← Previous</button>
+        <button class="btn-complete" id="btn-complete" onclick="markComplete()">Mark Complete ✓</button>
+        <button class="btn-next" id="btn-next" onclick="navigateLesson(1)">Next →</button>
+        <div class="complete-indicator" id="complete-indicator" style="display:none;">✓ Completed</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ PLAYER FOOTER ═══ -->
+<footer class="player-footer">
+  <div class="player-footer-inner">
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Content protected. Unauthorized recording or distribution is prohibited.</span>
+    <span class="tagline">Empowering India's Next Generation</span>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
+═══════════════════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT.firebaseapp.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+let currentUser      = null;
+let ytPlayer         = null;
+let courseData       = null;
+let allLessons       = [];  // flat list [{sectionTitle, lessonIdx, sectionIdx, ...lesson}]
+let currentLessonIdx = 0;
+let completedLessons = new Set();
+let progressDoc      = null;
+let saveTimer        = null;
+let watermarkTimer   = null;
+let devToolsInterval = null;
+
+const courseId = new URLSearchParams(window.location.search).get('course');
+
+/* ═══════════════════════════════════════════════════
+   AUTH GUARD
+═══════════════════════════════════════════════════ */
+auth.onAuthStateChanged(async (user) => {
+  if (!user) {
+    window.location.href = '/learn/lms/login.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+  currentUser = user;
+
+  if (!courseId) {
+    window.location.href = '/learn/lms/dashboard.html';
+    return;
+  }
+
+  showLoadingOverlay(true, 'Verifying access...');
+  await initPlayer();
+  showLoadingOverlay(false);
+});
+
+/* ═══════════════════════════════════════════════════
+   INIT PLAYER
+═══════════════════════════════════════════════════ */
+async function initPlayer() {
+  try {
+    // 1. Check enrollment — Firestore security rules enforce this server-side too
+    const enrollId   = `${currentUser.uid}_${courseId}`;
+    const enrollSnap = await db.collection('enrollments').doc(enrollId).get();
+
+    if (!enrollSnap.exists || enrollSnap.data().status !== 'active') {
+      document.getElementById('access-denied').classList.add('show');
+      return;
+    }
+
+    // 2. Fetch course data (curriculum is secured by Firestore rules)
+    const courseSnap = await db.collection('courses').doc(courseId).get();
+    if (!courseSnap.exists) { throw new Error('Course not found.'); }
+    courseData = { id: courseSnap.id, ...courseSnap.data() };
+
+    // 3. Fetch curriculum sections (only accessible to enrolled users per security rules)
+    const sectionsSnap = await db.collection('courses').doc(courseId)
+      .collection('curriculum')
+      .orderBy('order')
+      .get();
+
+    // Build flat lesson list from sections
+    allLessons = [];
+    sectionsSnap.docs.forEach((secDoc, si) => {
+      const sec = secDoc.data();
+      (sec.lessons || []).forEach((lesson, li) => {
+        allLessons.push({
+          ...lesson,
+          sectionTitle: sec.title,
+          sectionIdx:   si,
+          lessonIdx:    li,
+          flatIdx:      allLessons.length,
+          sectionId:    secDoc.id
+        });
+      });
+    });
+
+    // 4. Fetch progress
+    const progRef  = db.collection('progress').doc(currentUser.uid).collection(courseId).doc('data');
+    const progSnap = await progRef.get();
+    progressDoc    = progRef;
+
+    if (progSnap.exists) {
+      const pd = progSnap.data();
+      completedLessons = new Set(pd.completedLessons || []);
+
+      // Resume from last lesson
+      const lastId = pd.currentLesson;
+      if (lastId) {
+        const idx = allLessons.findIndex(l => l.id === lastId);
+        currentLessonIdx = idx >= 0 ? idx : 0;
+      }
+    }
+
+    // 5. Setup UI
+    document.getElementById('pnav-course-title').textContent = courseData.title;
+    document.getElementById('sidebar-course-title').textContent = courseData.title;
+    document.getElementById('sidebar-meta').textContent =
+      `${sectionsSnap.docs.length} sections · ${allLessons.length} lessons`;
+
+    renderCurriculum(sectionsSnap.docs);
+
+    // 6. Show player
+    document.getElementById('video-wrapper').style.display = 'block';
+    document.getElementById('lesson-info-area').style.display = 'block';
+
+    // 7. Init YouTube API
+    loadYouTubeAPI();
+
+    // 8. Setup anti-piracy
+    setupAntiPiracy();
+
+    // 9. Setup watermark
+    setupWatermark();
+
+    // 10. Update progress bar
+    updateProgressBar();
+
+  } catch (err) {
+    console.error('Player init error:', err);
+    showToast('Error loading course. Please refresh.', 'error');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   YOUTUBE API
+═══════════════════════════════════════════════════ */
+function loadYouTubeAPI() {
+  if (window.YT && window.YT.Player) {
+    onYouTubeIframeAPIReady();
+    return;
+  }
+  const tag = document.createElement('script');
+  tag.src   = 'https://www.youtube.com/iframe_api';
+  document.body.appendChild(tag);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+  loadLesson(currentLessonIdx);
+};
+
+function loadLesson(flatIdx) {
+  if (flatIdx < 0 || flatIdx >= allLessons.length) return;
+
+  currentLessonIdx = flatIdx;
+  const lesson = allLessons[flatIdx];
+
+  // Update lesson info UI
+  document.getElementById('lesson-breadcrumb').textContent =
+    `${lesson.sectionTitle} · Lesson ${lesson.lessonIdx + 1}`;
+  document.getElementById('lesson-heading').textContent = lesson.title || 'Untitled Lesson';
+  document.getElementById('lesson-desc').textContent = lesson.description || '';
+
+  // Update complete button state
+  const isCompleted = completedLessons.has(lesson.id);
+  const completeBtn = document.getElementById('btn-complete');
+  const completeInd = document.getElementById('complete-indicator');
+  completeBtn.className   = 'btn-complete' + (isCompleted ? ' completed' : '');
+  completeBtn.textContent = isCompleted ? '✓ Completed' : 'Mark Complete ✓';
+  completeBtn.disabled    = isCompleted;
+  completeInd.style.display = isCompleted ? 'flex' : 'none';
+
+  // Nav buttons
+  document.getElementById('btn-prev').disabled = flatIdx === 0;
+  document.getElementById('btn-next').disabled = flatIdx === allLessons.length - 1;
+
+  // Update curriculum sidebar highlight
+  document.querySelectorAll('.lesson-item').forEach((el, i) => {
+    el.classList.toggle('active', i === flatIdx);
+    const iconEl = el.querySelector('.lesson-icon');
+    if (i === flatIdx) { iconEl.className = 'lesson-icon active-icon'; iconEl.textContent = '▶'; }
+    else if (completedLessons.has(allLessons[i]?.id)) { iconEl.className = 'lesson-icon done-icon'; iconEl.textContent = '✓'; }
+    else { iconEl.className = 'lesson-icon todo'; iconEl.textContent = String(i + 1); }
+  });
+
+  // Show video placeholder
+  document.getElementById('video-placeholder').classList.remove('hidden');
+
+  // The video ID is fetched from Firestore (never hard-coded in the HTML)
+  // This is the core anti-piracy measure — the ID is only in authenticated Firestore documents
+  const videoId = lesson.youtubeId;
+
+  if (!videoId) {
+    document.getElementById('video-placeholder').querySelector('.vp-msg').textContent = 'Video coming soon.';
+    return;
+  }
+
+  if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+    ytPlayer.loadVideoById({ videoId });
+    document.getElementById('video-placeholder').classList.add('hidden');
+  } else {
+    // First load — create player
+    ytPlayer = new YT.Player('yt-player', {
+      height: '100%',
+      width:  '100%',
+      videoId: videoId,
+      playerVars: {
+        playsinline:    1,
+        controls:       1,
+        modestbranding: 1,
+        rel:            0,
+        iv_load_policy: 3,
+        cc_load_policy: 0,
+        origin:         window.location.origin
+      },
+      events: {
+        onReady:       onPlayerReady,
+        onStateChange: onPlayerStateChange,
+        onError:       onPlayerError
+      }
+    });
+  }
+
+  // Save current lesson to Firestore (debounced)
+  scheduleSave();
+}
+
+function onPlayerReady() {
+  document.getElementById('video-placeholder').classList.add('hidden');
+  ytPlayer.playVideo();
+}
+
+function onPlayerStateChange(event) {
+  // Auto-advance to next lesson when video ends
+  if (event.data === YT.PlayerState.ENDED) {
+    if (!completedLessons.has(allLessons[currentLessonIdx]?.id)) {
+      markComplete();
+    }
+    if (currentLessonIdx < allLessons.length - 1) {
+      setTimeout(() => navigateLesson(1), 1200);
+    }
+  }
+}
+
+function onPlayerError(event) {
+  console.error('YouTube player error:', event.data);
+  showToast('Video unavailable. Contact support if this persists.', 'error');
+}
+
+/* ═══════════════════════════════════════════════════
+   LESSON NAVIGATION
+═══════════════════════════════════════════════════ */
+function navigateLesson(dir) {
+  const next = currentLessonIdx + dir;
+  if (next >= 0 && next < allLessons.length) {
+    loadLesson(next);
+    // On mobile, close sidebar after selection
+    if (window.innerWidth <= 900) closeSidebar();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   MARK COMPLETE & PROGRESS SAVE
+═══════════════════════════════════════════════════ */
+async function markComplete() {
+  const lesson = allLessons[currentLessonIdx];
+  if (!lesson || completedLessons.has(lesson.id)) return;
+
+  completedLessons.add(lesson.id);
+
+  // Update UI
+  const completeBtn = document.getElementById('btn-complete');
+  completeBtn.className   = 'btn-complete completed';
+  completeBtn.textContent = '✓ Completed';
+  completeBtn.disabled    = true;
+  document.getElementById('complete-indicator').style.display = 'flex';
+
+  // Update curriculum icon
+  const lessonEls = document.querySelectorAll('.lesson-item');
+  if (lessonEls[currentLessonIdx]) {
+    const icon = lessonEls[currentLessonIdx].querySelector('.lesson-icon');
+    icon.className  = 'lesson-icon done-icon';
+    icon.textContent = '✓';
+    lessonEls[currentLessonIdx].classList.add('completed');
+  }
+
+  updateProgressBar();
+  await saveProgress(true);
+
+  // Check course completion
+  if (completedLessons.size === allLessons.length) {
+    document.getElementById('completion-banner').classList.add('show');
+    showToast('🏆 Course complete! Request your certificate.', 'success');
+  }
+}
+
+function updateProgressBar() {
+  const pct = allLessons.length > 0
+    ? Math.round((completedLessons.size / allLessons.length) * 100)
+    : 0;
+  document.getElementById('pnav-fill').style.width = pct + '%';
+  document.getElementById('pnav-pct').textContent  = pct + '%';
+}
+
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => saveProgress(false), 2000);
+}
+
+async function saveProgress(immediate) {
+  if (!progressDoc || !currentUser) return;
+  try {
+    const pct = allLessons.length > 0
+      ? Math.round((completedLessons.size / allLessons.length) * 100)
+      : 0;
+
+    await progressDoc.set({
+      completedLessons: Array.from(completedLessons),
+      currentLesson:    allLessons[currentLessonIdx]?.id || null,
+      percentage:       pct,
+      lastAccessed:     firebase.firestore.FieldValue.serverTimestamp(),
+      completed:        pct >= 100,
+      ...(pct >= 100 ? { completedAt: firebase.firestore.FieldValue.serverTimestamp() } : {})
+    }, { merge: true });
+
+  } catch (err) {
+    console.error('Progress save error:', err);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   CERTIFICATE REQUEST
+═══════════════════════════════════════════════════ */
+async function requestCertificate() {
+  if (!currentUser || !courseData) return;
+
+  // Check if cert already issued
+  const certRef  = db.collection('certificates');
+  const existing = await certRef
+    .where('userId', '==', currentUser.uid)
+    .where('courseId', '==', courseId)
+    .limit(1)
+    .get();
+
+  if (!existing.empty) {
+    const certId = existing.docs[0].id;
+    showToast('Certificate already issued! ID: ' + certId, 'success');
+    window.open(`/learn/verify.html?id=${certId}`, '_blank');
+    return;
+  }
+
+  showToast('Certificate request sent! Admin will issue within 24 hours.', 'info');
+
+  // Flag in Firestore for admin to issue
+  await db.collection('cert_requests').add({
+    userId:     currentUser.uid,
+    userEmail:  currentUser.email,
+    userName:   currentUser.displayName || '',
+    courseId:   courseId,
+    courseName: courseData.title,
+    requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    status:     'pending'
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER CURRICULUM
+═══════════════════════════════════════════════════ */
+function renderCurriculum(sectionDocs) {
+  const container = document.getElementById('curriculum');
+  container.innerHTML = '';
+  let flatIdx = 0;
+
+  sectionDocs.forEach((secDoc, si) => {
+    const sec = secDoc.data();
+    const lessons = sec.lessons || [];
+
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'section-item';
+
+    const completedInSection = lessons.filter(l => completedLessons.has(l.id)).length;
+
+    sectionEl.innerHTML = `
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-name">${escHtml(sec.title)} <span style="color:rgba(240,234,214,0.25);font-weight:400;">(${completedInSection}/${lessons.length})</span></div>
+        <span class="section-toggle ${si === 0 ? 'open' : ''}">▶</span>
+      </div>
+      <div class="section-lessons ${si === 0 ? 'open' : ''}"></div>`;
+
+    const lessonsContainer = sectionEl.querySelector('.section-lessons');
+
+    lessons.forEach((lesson, li) => {
+      const idx      = flatIdx;
+      const isDone   = completedLessons.has(lesson.id);
+      const isCurrent= idx === currentLessonIdx;
+      const isPreview= lesson.isPreview;
+
+      const lessonEl = document.createElement('div');
+      lessonEl.className = `lesson-item${isCurrent ? ' active' : ''}${isDone ? ' completed' : ''}`;
+      lessonEl.dataset.idx = idx;
+      lessonEl.innerHTML = `
+        <div class="lesson-icon ${isCurrent ? 'active-icon' : isDone ? 'done-icon' : isPreview ? 'preview-icon' : 'todo'}">
+          ${isCurrent ? '▶' : isDone ? '✓' : isPreview ? '◉' : idx + 1}
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-name">${escHtml(lesson.title)}</div>
+          <div class="lesson-duration">${lesson.duration ? `⏱ ${lesson.duration}` : ''}</div>
+        </div>`;
+      lessonEl.addEventListener('click', () => {
+        loadLesson(idx);
+        if (window.innerWidth <= 900) closeSidebar();
+      });
+      lessonsContainer.appendChild(lessonEl);
+      flatIdx++;
+    });
+
+    container.appendChild(sectionEl);
+  });
+}
+
+function toggleSection(headerEl) {
+  const toggle  = headerEl.querySelector('.section-toggle');
+  const lessons = headerEl.nextElementSibling;
+  const isOpen  = lessons.classList.contains('open');
+  lessons.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+/* ═══════════════════════════════════════════════════
+   ANTI-PIRACY MEASURES
+═══════════════════════════════════════════════════ */
+function setupAntiPiracy() {
+  // 1. Block right-click on video wrapper
+  const vWrapper = document.getElementById('video-wrapper');
+  vWrapper.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+
+  // 2. Disable drag on video area (prevents some browser tricks)
+  vWrapper.addEventListener('dragstart', e => e.preventDefault());
+
+  // 3. Block keyboard shortcuts that could expose the page or devtools
+  document.addEventListener('keydown', e => {
+    const blocked = (
+      (e.ctrlKey && e.key === 'u') ||
+      (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) ||
+      e.key === 'F12'
+    );
+    if (blocked) e.preventDefault();
+
+    // Clear clipboard on PrintScreen
+    if (e.key === 'PrintScreen') {
+      navigator.clipboard.writeText('').catch(() => {});
+    }
+  });
+
+  // 4. DevTools detection (size-based heuristic — not foolproof, adds friction)
+  let devToolsOpen = false;
+  devToolsInterval = setInterval(() => {
+    const threshold = 160;
+    const widthDiff  = window.outerWidth  - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+    const isOpen = widthDiff > threshold || heightDiff > threshold;
+
+    if (isOpen && !devToolsOpen) {
+      devToolsOpen = true;
+      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
+      document.getElementById('devtools-warning').classList.add('show');
+    } else if (!isOpen && devToolsOpen) {
+      devToolsOpen = false;
+    }
+  }, 1500);
+
+  // 5. Visibility change — pause when tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+      ytPlayer.pauseVideo();
+    }
+  });
+}
+
+function dismissDevToolsWarning() {
+  document.getElementById('devtools-warning').classList.remove('show');
+  if (ytPlayer && typeof ytPlayer.playVideo === 'function') ytPlayer.playVideo();
+}
+
+/* ═══════════════════════════════════════════════════
+   EMAIL WATERMARK (moves every 25 seconds)
+═══════════════════════════════════════════════════ */
+function setupWatermark() {
+  const wmEl = document.getElementById('video-watermark');
+  const email = currentUser.email || 'user';
+  const uid   = currentUser.uid.substring(0, 8).toUpperCase();
+  wmEl.textContent = `${email} · SSE-${uid}`;
+
+  const positions = [
+    { top:'10%',  left:'5%',  bottom:'auto', right:'auto' },
+    { top:'auto', left:'auto',bottom:'15%',  right:'5%'   },
+    { top:'40%',  left:'30%', bottom:'auto', right:'auto' },
+    { top:'auto', left:'5%',  bottom:'10%',  right:'auto' },
+    { top:'15%',  left:'auto',bottom:'auto', right:'5%'   },
+  ];
+
+  let posIdx = 0;
+  function updateWatermarkPos() {
+    const p = positions[posIdx % positions.length];
+    wmEl.style.top    = p.top;
+    wmEl.style.left   = p.left;
+    wmEl.style.bottom = p.bottom;
+    wmEl.style.right  = p.right;
+    posIdx++;
+  }
+
+  updateWatermarkPos();
+  watermarkTimer = setInterval(updateWatermarkPos, 25000);
+}
+
+/* ═══════════════════════════════════════════════════
+   SIDEBAR TOGGLE (mobile)
+═══════════════════════════════════════════════════ */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════ */
+function showLoadingOverlay(show, msg) {
+  document.getElementById('loading-overlay').classList.toggle('show', show);
+  if (msg) document.getElementById('loading-msg').textContent = msg;
+}
+
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* Cleanup on page leave */
+window.addEventListener('beforeunload', () => {
+  clearInterval(devToolsInterval);
+  clearInterval(watermarkTimer);
+  clearTimeout(saveTimer);
+  saveProgress(true); // final save
+});
+</script>
+</body>
+</html>
