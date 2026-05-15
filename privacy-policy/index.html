@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Privacy Policy — SkillSphere Edu | How We Protect Your Data</title>
+  <meta name="description" content="SkillSphere Edu's Privacy Policy — how we collect, store, and protect your data including certificate records. Transparent. Secure. Student-first.">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/privacy-policy">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Privacy Policy — SkillSphere Edu">
+  <meta property="og:description" content="How SkillSphere Edu collects, stores, and protects your data. Certificate records, Cloudflare KV, and your rights — all explained clearly.">
+  <meta property="og:url" content="https://skillsphere-edu.github.io/learn/privacy-policy">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://skillsphere-edu.github.io/learn/assets/preview-v2.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy — SkillSphere Edu">
+  <meta name="twitter:description" content="How SkillSphere Edu collects, stores, and protects your data.">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Privacy Policy — SkillSphere Edu",
+    "url": "https://skillsphere-edu.github.io/learn/privacy-policy",
+    "description": "SkillSphere Edu's Privacy Policy detailing data collection, certificate records, Cloudflare KV storage, and user rights.",
+    "inLanguage": "en",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "SkillSphere Edu",
+      "url": "https://skillsphere-edu.github.io/learn/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SkillSphere Edu",
+      "url": "https://skillsphere-edu.github.io/learn/"
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-231C0271DH');
+  </script>
+
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — Forensic Case-File Palette
+═══════════════════════════════════════════ */
+:root {
+  --paper:       #f0ead6;
+  --paper-dark:  #e0d8be;
+  --paper-stain: #d4c9a8;
+  --paper-deep:  #c8bc98;
+  --ink:         #1a1209;
+  --ink-faded:   #3d3120;
+  --ink-muted:   #6b5f45;
+  --red-tape:    #c0272d;
+  --red-dark:    #8b1a1e;
+  --red-hover:   #a82020;
+  --stamp-green: #1a4d2e;
+  --stamp-blue:  #1a3a6e;
+  --gold:        #b07d1a;
+  --gold-l:      #c98b0a;
+
+  --display:    'Bebas Neue', sans-serif;
+  --typewriter: 'Courier Prime', monospace;
+  --mono:       'IBM Plex Mono', monospace;
+  --stamp-font: 'Special Elite', cursive;
+}
+
+/* ═══════════════ RESET ═══════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--typewriter);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--typewriter); cursor: pointer; }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+
+/* ═══════════════ NOISE TEXTURE ═══════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+
+/* ═══════════════ ANIMATIONS ═══════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ═══════════════ NAVIGATION ═══════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 66px;
+  background: rgba(240, 234, 214, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 2px solid var(--paper-stain);
+  transition: height 0.3s, background 0.3s;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+}
+
+.nav-brand-text {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 1;
+}
+.nav-brand-text em { font-style: normal; color: var(--red-tape); }
+
+.logo-icon {
+  height: 44px;
+  width: 44px;
+  filter: contrast(1.1) saturate(1.2);
+}
+
+.nav-stamp {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  color: var(--ink-faded);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--red-tape);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--ink);
+  border-radius: 1px;
+  transition: all 0.3s;
+}
+
+/* ═══════════════ MOBILE MENU ═══════════════ */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 66px; left: 0; right: 0;
+  background: rgba(240, 234, 214, 0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--paper-stain);
+  padding: 1.5rem 5%;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 999;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--paper-stain);
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--red-tape); }
+
+/* ═══════════════ BREADCRUMB ═══════════════ */
+.breadcrumb-bar {
+  margin-top: 66px;
+  background: var(--paper-dark);
+  border-bottom: 1px solid var(--paper-stain);
+  padding: 0.75rem 5%;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  position: relative;
+  z-index: 1;
+}
+.breadcrumb-bar a { color: var(--red-tape); }
+.breadcrumb-bar a:hover { text-decoration: underline; }
+.breadcrumb-bar span { margin: 0 0.5rem; opacity: 0.4; }
+
+/* ═══════════════ PAGE HERO ═══════════════ */
+.page-hero {
+  background: var(--paper);
+  border-bottom: 2px solid var(--paper-stain);
+  padding: 4rem 5% 3.5rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Notebook lines */
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 31px,
+    rgba(180,160,100,.2) 31px,
+    rgba(180,160,100,.2) 32px
+  );
+  pointer-events: none;
+}
+
+/* Red margin line */
+.page-hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 5%; bottom: 0;
+  width: 1px;
+  background: rgba(192,39,45,.22);
+  pointer-events: none;
+}
+
+.page-hero-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  animation: fadeUp .5s ease both;
+}
+.hero-kicker::before {
+  content: '';
+  width: 36px; height: 1px;
+  background: var(--red-tape);
+}
+
+.page-hero h1 {
+  font-family: var(--display);
+  font-size: clamp(52px, 7vw, 96px);
+  color: var(--ink);
+  line-height: 0.9;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  animation: fadeUp .5s ease .08s both;
+}
+
+.page-hero h1 em {
+  font-style: normal;
+  color: var(--red-tape);
+  display: block;
+}
+
+.page-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  animation: fadeUp .5s ease .16s both;
+}
+
+.meta-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--paper-stain);
+}
+
+.hero-stamp-legal {
+  display: inline-block;
+  font-family: var(--stamp);
+  font-size: 0.9rem;
+  color: var(--stamp-blue);
+  border: 2px solid var(--stamp-blue);
+  border-radius: 3px;
+  padding: 3px 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transform: rotate(-2.5deg);
+  margin-top: 1.2rem;
+  display: inline-block;
+  animation: fadeUp .5s ease .24s both;
+}
+
+/* ═══════════════ LAYOUT ═══════════════ */
+.legal-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 3rem;
+  max-width: 1140px;
+  margin: 3rem auto 4rem;
+  padding: 0 5%;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════ TOC SIDEBAR ═══════════════ */
+.toc-sidebar {
+  position: sticky;
+  top: 82px;
+}
+
+.toc-case-label {
+  background: var(--red-tape);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toc-body {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-top: none;
+  box-shadow: 4px 4px 0 var(--paper-stain);
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.toc-list li a {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 0.45rem 1rem;
+  border-left: 3px solid transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.toc-list li a:hover,
+.toc-list li a.active {
+  color: var(--red-tape);
+  border-left-color: var(--red-tape);
+  background: rgba(192,39,45,0.06);
+}
+
+.toc-num {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.toc-divider {
+  height: 1px;
+  background: var(--paper-stain);
+  margin: 0.4rem 1rem;
+}
+
+.toc-contact-box {
+  padding: 0.7rem;
+  border-top: 1px solid var(--paper-stain);
+}
+
+.toc-contact-box strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 0.5rem;
+}
+
+.toc-contact-box a {
+  font-family: var(--typewriter);
+  font-size: 0.8rem;
+  color: var(--red-tape);
+  word-break: break-all;
+}
+.toc-contact-box a:hover { text-decoration: underline; }
+
+/* ═══════════════ MAIN CONTENT ═══════════════ */
+.legal-content { min-width: 0; }
+
+.legal-section {
+  margin-bottom: 3.5rem;
+  scroll-margin-top: 88px;
+}
+
+/* Section header strip */
+.section-header-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.2rem;
+}
+
+.section-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--red-tape);
+  padding: 4px 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.section-rule-sm {
+  flex: 1;
+  height: 1px;
+  background: var(--paper-stain);
+  position: relative;
+}
+.section-rule-sm::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  width: 7px; height: 7px;
+  background: var(--red-tape);
+  border-radius: 50%;
+}
+
+.legal-section h2 {
+  font-family: var(--display);
+  font-size: clamp(30px, 4vw, 44px);
+  color: var(--ink);
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.legal-section h3 {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--red-tape);
+  margin: 1.6rem 0 0.6rem;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--paper-stain);
+}
+
+.legal-section p {
+  font-family: var(--typewriter);
+  font-size: 0.9rem;
+  color: var(--ink-faded);
+  line-height: 1.9;
+  margin-bottom: 0.9rem;
+}
+.legal-section p:last-child { margin-bottom: 0; }
+
+.legal-section a {
+  color: var(--red-tape);
+  border-bottom: 1px solid rgba(192,39,45,0.3);
+  transition: border-color 0.2s;
+}
+.legal-section a:hover { border-color: var(--red-tape); }
+
+.legal-section ul,
+.legal-section ol {
+  margin: 0.7rem 0 0.9rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.legal-section li {
+  font-family: var(--typewriter);
+  font-size: 0.88rem;
+  color: var(--ink-faded);
+  line-height: 1.85;
+  padding-left: 1.4rem;
+  position: relative;
+}
+
+.legal-section ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--red-tape);
+  font-size: 0.75rem;
+  top: 0.1rem;
+}
+
+.legal-section ol { counter-reset: legal-ol; }
+.legal-section ol li { counter-increment: legal-ol; }
+.legal-section ol li::before {
+  content: counter(legal-ol) '.';
+  position: absolute;
+  left: 0;
+  color: var(--red-tape);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  top: 0.22rem;
+}
+
+/* Highlight boxes */
+.highlight-box {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-left: 4px solid var(--stamp-blue);
+  border-radius: 0 3px 3px 0;
+  padding: 1rem 1.3rem;
+  margin: 1.2rem 0;
+  font-family: var(--typewriter);
+  font-size: 0.86rem;
+  color: var(--ink-faded);
+  line-height: 1.8;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+  position: relative;
+}
+
+.highlight-box::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -1px; left: -1px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  background: var(--stamp-blue);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 0 0 3px 0;
+}
+
+.highlight-box.gold { border-left-color: var(--gold-l); }
+.highlight-box.gold::before { background: var(--gold-l); color: var(--ink); }
+
+.highlight-box.red { border-left-color: var(--red-tape); }
+.highlight-box.red::before { background: var(--red-tape); }
+
+.highlight-box.green { border-left-color: var(--stamp-green); }
+.highlight-box.green::before { background: var(--stamp-green); }
+
+.highlight-box strong { color: var(--ink); font-weight: 700; }
+
+/* Table */
+.legal-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0 0.9rem;
+  border: 1px solid var(--paper-stain);
+  box-shadow: 4px 4px 0 var(--paper-stain);
+}
+
+.legal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  font-family: var(--typewriter);
+}
+
+.legal-table th {
+  background: var(--ink);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--paper);
+  border-bottom: 2px solid var(--red-tape);
+}
+
+.legal-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--paper-stain);
+  color: var(--ink-faded);
+  vertical-align: top;
+}
+
+.legal-table tr:last-child td { border-bottom: none; }
+.legal-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+.legal-table tr:hover td { background: rgba(192,39,45,0.04); }
+
+/* Section separator */
+.section-sep {
+  height: 1px;
+  background: linear-gradient(90deg, var(--red-tape), var(--paper-stain), transparent);
+  margin-bottom: 3.5rem;
+  opacity: 0.4;
+}
+
+/* ═══════════════ FOOTER ═══════════════ */
+footer {
+  background: var(--paper-dark);
+  border-top: 2px solid var(--paper-stain);
+  padding: 3rem 5% 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  max-width: 1180px;
+  margin: 0 auto 3rem;
+}
+
+.footer-brand-text {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.footer-brand-text em { font-style: normal; color: var(--red-tape); }
+
+.footer-brand > p {
+  font-family: var(--typewriter);
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.75;
+  max-width: 280px;
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.social-chipft {
+  height: 28px;
+  padding: 0 0.8rem;
+  border-radius: 2px;
+  background: var(--paper);
+  border: 1px solid var(--paper-stain);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
+}
+.social-chipft:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
+
+.footer-col h4 {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--ink-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--paper-stain);
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-col li a {
+  font-family: var(--typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  transition: color 0.2s;
+}
+.footer-col li a:hover { color: var(--red-tape); }
+
+.footer-bottom {
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--paper-stain);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+.footer-bottom span {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.5px;
+}
+.footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+}
+
+@media (max-width: 860px) {
+  .legal-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .toc-sidebar { position: static; }
+  .toc-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.6rem;
+  }
+  .toc-list li a {
+    border-left: none;
+    border: 1px solid var(--paper-stain);
+    border-radius: 2px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.63rem;
+  }
+  .toc-list li a:hover,
+  .toc-list li a.active {
+    border-color: var(--red-tape);
+    background: rgba(192,39,45,0.08);
+  }
+  .toc-divider,
+  .toc-contact-box { display: none; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .footer-inner { grid-template-columns: 1fr; }
+  .page-hero { padding: 3rem 5% 2.5rem; }
+  .legal-section h2 { font-size: 28px; }
+  .highlight-box { padding: 1.1rem 1rem 0.9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAVIGATION ════════════ -->
+<nav id="main-nav">
+  <a href="https://skillsphere-edu.github.io/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Case File · EST. 2026</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+    <a href="https://skillsphere-edu.github.io/learn/events">Events</a>
+    <a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
+    <a href="https://skillsphere-edu.github.io/learn/blog">Blog</a>
+    <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+  </div>
+
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger" aria-label="Open menu" role="button" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/events" onclick="toggleMenu()">Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies" onclick="toggleMenu()">Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+<!-- ════════════ BREADCRUMB ════════════ -->
+<div class="breadcrumb-bar">
+  <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+  <span>/</span>
+  Privacy Policy
+</div>
+
+<!-- ════════════ PAGE HERO ════════════ -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-kicker">Legal Document · Case No. SSE-LEGAL-PP</div>
+    <h1>Privacy<br><em>Policy</em></h1>
+    <div class="page-hero-meta">
+      <span>Effective: 15 June 2026</span>
+      <div class="meta-dot"></div>
+      <span>Last Updated: 25 Apr 2026</span>
+      <div class="meta-dot"></div>
+      <span>Version 1.0</span>
+    </div>
+    <span class="hero-stamp-legal">Legally Binding</span>
+  </div>
+</section>
+
+<!-- ════════════ MAIN LAYOUT ════════════ -->
+<div class="legal-layout">
+
+  <!-- ── TOC SIDEBAR ── -->
+  <aside class="toc-sidebar">
+    <div class="toc-case-label">
+      <span>Index of Sections</span>
+    </div>
+    <div class="toc-body">
+    <ul class="toc-list">
+        <li><a href="#overview" class="active"><span class="toc-num">01</span> Overview</a></li>
+        <li><a href="#collect"><span class="toc-num">02</span> Data We COllect</a></li>
+        <li><a href="#certificates"><span class="toc-num">03</span> Certificate Data</a></li>
+        <li><a href="#cloudflare"><span class="toc-num">04</span> Cloudflare KV</a></li>
+        <li><a href="#use"><span class="toc-num">05</span> How We Use Data</a></li>
+        <li><a href="#sharing"><span class="toc-num">06</span> Sharing</a></li>
+        <li><a href="#retention"><span class="toc-num">07</span> Retention</a></li>
+        <div class="toc-divider"></div>
+        <li><a href="#rights"><span class="toc-num">08</span> Your Rights</a></li>
+        <li><a href="#cookies"><span class="toc-num">09</span> Cookiest</a></li>
+        <li><a href="#security"><span class="toc-num">10</span> Security</a></li>
+        <li><a href="#children"><span class="toc-num">11</span> Children</a></li>
+        <li><a href="#changes"><span class="toc-num">12</span> Changes</a></li>
+        <li><a href="#contact-priv"><span class="toc-num">13</span> Contact</a></li>
+    </ul>
+      <div class="toc-contact-box">
+        <strong>Queries?</strong>
+        <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <main class="legal-content">
+
+    <!-- SECTION 01 -->
+    <section class="legal-section reveal" id="overview">
+      <div class="section-header-strip">
+        <div class="section-num">Section 01</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2>Overview</h2>
+      <p>SkillSphere Edu ("we", "us", or "our") operates the SkillSphere Edu platform — a suite of online learning tools, course catalogs, and verified certificate services accessible at <a href="https://skillsphere-edu.github.io/learn/">skillsphere-edu.github.io/learn</a> and associated domains and sub-domains (collectively the "Platform").</p>
+      <p>This Privacy Policy explains what personal information we collect when you use the Platform, why we collect it, how we store and process it, and what rights you hold. It should be read alongside our <a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a>.</p>
+      <div class="highlight-box gold">
+        <strong>Plain-Language Summary</strong>
+        We collect only what we need to deliver the service. Certificate records are permanently stored in Cloudflare's KV infrastructure so your credentials remain verifiable at all times. We never sell your personal data — ever.
+      </div>
+    </section>
+    <div class="section-sep"></div>
+
+    <!-- SECTION 02 -->
+    <section class="legal-section reveal" id="collect">
+      <div class="section-header-strip">
+        <div class="section-num">Section 02</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2>Data We Collect</h2>
+      <p>We collect information in two ways: data you actively provide, and data gathered automatically as you interact with the Platform.</p>
+
+      <h3>Information You Provide</h3>
+      <ul>
+        <li><strong>Account Data</strong> — your full name, email address, and password when you register.</li>
+        <li><strong>Profile Data</strong> — optional biography, profile photo, job title, and social links.</li>
+        <li><strong>Payment Data</strong> — processed by Razorpay. We store only the last four digits of your card and a tokenised reference; full card numbers never touch our servers.</li>
+        <li><strong>Course Activity</strong> — lesson completions, quiz scores, progress percentages, and assignments you submit.</li>
+        <li><strong>Communications</strong> — messages sent via support, official social media handles, discussion forums, or community features.</li>
+      </ul>
+
+      <h3>Information Collected Automatically</h3>
+      <ul>
+        <li><strong>Device &amp; Browser Data</strong> — IP address, browser type and version, operating system.</li>
+        <li><strong>Usage Data</strong> — pages visited, time-on-page, click paths, referrer URLs, and video-play events.</li>
+        <li><strong>Cookies &amp; Local Storage</strong> — session tokens, preference flags, and analytics identifiers (see Section 09).</li>
+      </ul>
+
+      <div class="legal-table-wrap">
+        <table class="legal-table" aria-label="Data categories and legal basis">
+          <thead>
+            <tr>
+              <th scope="col">Data Category</th>
+              <th scope="col">Examples</th>
+              <th scope="col">Legal Basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Identity</td><td>Name, Email, Account ID</td><td>Contract Performance</td></tr>
+            <tr><td>Payment</td><td>Tokenised Card Ref, Billing Address</td><td>Contract Performance</td></tr>
+            <tr><td>Learning Activity</td><td>Progress, Quiz Scores, Submissions</td><td>Contract Performance</td></tr>
+            <tr><td>Certificate Record</td><td>Credential ID, Issue Date, Course, Score</td><td>Legitimate Interest &amp; Legal</td></tr>
+            <tr><td>Technical</td><td>IP Address, Device, Browser</td><td>Legitimate Interest</td></tr>
+            <tr><td>Analytics</td><td>Page Views, Session Duration</td><td>Consent (Cookie Banner)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 03 -->
+    <section class="legal-section reveal" id="certificates">
+      <div class="section-header-strip">
+        <div class="section-num">Section 03</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-certs">Certificate Data</h2>
+      <p>SkillSphere Edu issues verified digital certificates upon successful completion of eligible courses. The following information forms part of your certificate record and is treated with the highest level of data integrity:</p>
+      <ul>
+        <li>Your full legal name as provided at registration</li>
+        <li>The title and unique identifier of the completed course</li>
+        <li>Date of issue and, where applicable, date of expiry</li>
+        <li>Unique Certificate Credential ID (UUID)</li>
+        <li>Final assessment score or grade</li>
+        <li>Issuing instructor name and SkillSphere digital signature</li>
+      </ul>
+      <div class="highlight-box green">
+        <strong>Public Verifiability</strong>
+        Each certificate is publicly verifiable at <code>skillsphere-edu.github.io/learn/verify.html?id=[credential-id]</code>. Anyone with this URL can confirm authenticity. Only selective fields from the list above are exposed — no email address or payment data is ever visible publicly.
+      </div>
+      <p>You may request removal of your certificate from the public verification page by contacting <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a>. Doing so renders the certificate unverifiable, and SkillSphere Edu cannot be held responsible for any employment or accreditation implications that may follow.</p>
+    </section>
+    <div class="section-sep"></div>
+
+    <!-- SECTION 04 -->
+    <section class="legal-section reveal" id="cloudflare" aria-labelledby="s-cf">
+      <div class="section-header-strip">
+        <div class="section-num">Section 04</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2>Cloudflare KV Storage &amp; Infrastructure</h2>
+      <p>SkillSphere Edu stores all certificate records in <strong>Cloudflare Workers KV</strong> — a globally-distributed, edge-replicated key-value data store operated by Cloudflare, Inc. We use Cloudflare KV for the following reasons:</p>
+      <ul>
+        <li><strong>Low-Latency Global Access</strong> — verification requests are served from the edge node closest to the verifier, minimising response time worldwide.</li>
+        <li><strong>High Availability &amp; Durability</strong> — KV data is replicated across Cloudflare's global network, ensuring certificates remain accessible even during regional outages.</li>
+        <li><strong>Immutability by Design</strong> — certificate entries are write-once during normal operation. Modifications require explicit administrative approval and are fully audit-logged.</li>
+      </ul>
+
+      <h3>Data Stored in Cloudflare KV</h3>
+      <p>Each KV entry is keyed by the Credential ID and contains only the certificate fields enumerated in Section 03. No passwords, payment details, or sensitive personal information are stored in KV.</p>
+
+      <h3>Cloudflare as a Sub-Processor</h3>
+      <p>Cloudflare, Inc. operates as a data processor/sub-processor for Indian customers, ensuring compliance with the Information Technology Act and SPDI Rules via a Data Processing Addendum (DPA). Data stored in KV may be cached across various geographic regions.</p>
+
+      <div class="highlight-box blue">
+        <strong>Data Location</strong>
+        Primary KV writes are directed to Cloudflare's US and EU data centres. You may request information about specific regions holding your certificate data by emailing <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a>.
+      </div>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 05 -->
+    <section class="legal-section reveal" id="use" aria-labelledby="s-use">
+      <div class="section-header-strip">
+        <div class="section-num">Section 05</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-use">How We Use Your Data</h2>
+      <p>We use personal data exclusively for the following purposes:</p>
+      <ul>
+        <li><strong>Service Delivery</strong> — creating and maintaining your account, tracking learning progress, and issuing certificates.</li>
+        <li><strong>Payment Processing</strong> — completing transactions via Razorpay and managing refunds.</li>
+        <li><strong>Certificate Issuance &amp; Verification</strong> — writing, storing, and serving certificate records via Cloudflare KV.</li>
+        <li><strong>Customer Support</strong> — responding to enquiries, resolving disputes, and debugging technical issues.</li>
+        <li><strong>Platform Improvement</strong> — aggregated, anonymised analytics to understand how learners use the Platform.</li>
+        <li><strong>Legal Compliance</strong> — meeting obligations under applicable law, including responses to lawful requests from regulators and courts.</li>
+        <li><strong>Marketing Communications</strong> — only where you have given explicit opt-in consent; withdrawable at any time.</li>
+      </ul>
+      <div class="highlight-box red">
+        <strong>What We Do Not Do</strong>
+        We do not use your data for automated decision-making that produces legal or similarly significant effects, nor do we build individual advertising profiles for any purpose whatsoever.
+      </div>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 06 -->
+    <section class="legal-section reveal" id="sharing" aria-labelledby="s-share">
+      <div class="section-header-strip">
+        <div class="section-num">Section 06</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-share">Sharing Your Data</h2>
+      <p>We do not sell, rent, or trade personal information. We share data only in the following circumstances:</p>
+      <ul>
+        <li><strong>Cloudflare, Inc.</strong> — for KV storage and network infrastructure (see Section 04).</li>
+        <li><strong>Razorpay</strong> — for secure payment processing.</li>
+        <li><strong>Email Providers</strong> — for transactional emails, under a signed DPA.</li>
+        <li><strong>Analytics Tools</strong> — only anonymised or aggregated data; no personally identifiable information is shared.</li>
+        <li><strong>Legal Authorities</strong> — where required by law, court order, or to protect the rights of SkillSphere Edu and its users.</li>
+        <li><strong>Business Transfer</strong> — in the event of a merger, acquisition, or asset sale; you will be notified in advance.</li>
+      </ul>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 07 -->
+    <section class="legal-section reveal" id="retention" aria-labelledby="s-retain">
+      <div class="section-header-strip">
+        <div class="section-num">Section 07</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-retain">Data Retention</h2>
+
+      <div class="legal-table-wrap">
+        <table class="legal-table" aria-label="Data retention periods">
+          <thead>
+            <tr>
+              <th scope="col">Data Type</th>
+              <th scope="col">Retention Period</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Account &amp; Profile Data</td><td>Duration of Account + 90 Days</td><td>Service Delivery</td></tr>
+            <tr><td>Payment Records</td><td>7 Years</td><td>Tax &amp; Legal Obligation</td></tr>
+            <tr><td>Exam / Test Scores</td><td>120 Days</td><td>Dispute Resolution</td></tr>
+            <tr><td>Certificate Records (KV)</td><td>Indefinite (see note below)</td><td>Credential Verifiability</td></tr>
+            <tr><td>Learning Activity Logs</td><td>3 Years</td><td>Dispute Resolution</td></tr>
+            <tr><td>Support Communications</td><td>2 Years</td><td>Quality Assurance</td></tr>
+            <tr><td>Analytics Data</td><td>13 Months Rolling</td><td>Platform Improvement</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="highlight-box gold">
+        <strong>Why Certificate Records Are Retained Indefinitely</strong>
+        The value of a verified certificate depends entirely on its permanent verifiability. Deleting a KV record would make it impossible for employers or institutions to confirm authenticity. You may request suppression of the public verification page (Section 03), but the underlying record is retained for audit purposes.
+      </div>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 08 -->
+    <section class="legal-section reveal" id="rights" aria-labelledby="s-rights">
+      <div class="section-header-strip">
+        <div class="section-num">Section 08</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-rights">Your Rights</h2>
+      <p>Depending on your jurisdiction, you may hold some or all of the following rights:</p>
+      <ul>
+        <li><strong>Access</strong> — request a copy of the personal data we hold about you.</li>
+        <li><strong>Rectification</strong> — request correction of inaccurate data. Correcting your name on a certificate may require reissuance (paid service) and will be fully logged.</li>
+        <li><strong>Erasure</strong> — request deletion of your account and personal data, subject to legal retention obligations and the certificate retention policy above.</li>
+        <li><strong>Restriction</strong> — request that we limit processing while a dispute is being resolved.</li>
+        <li><strong>Objection</strong> — object to processing based on legitimate interests.</li>
+        <li><strong>Withdraw Consent</strong> — withdraw marketing consent at any time via account settings or by emailing us directly.</li>
+      </ul>
+      <p>To exercise any right, contact <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a>. We will acknowledge within 8–10 business days and resolve within 30 days.</p>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 09 -->
+    <section class="legal-section reveal" id="cookies" aria-labelledby="s-cookies">
+      <div class="section-header-strip">
+        <div class="section-num">Section 09</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-cookies">Cookies &amp; Tracking</h2>
+      <p>We use the following categories of cookies and similar technologies:</p>
+      <ul>
+        <li><strong>Strictly Necessary</strong> — session tokens and CSRF protection. These cannot be disabled.</li>
+        <li><strong>Functional</strong> — language and display preferences.</li>
+        <li><strong>Analytics</strong> — aggregated page-view data (privacy-preserving; no fingerprinting). Requires your consent.</li>
+        <li><strong>Marketing</strong> — conversion pixels on marketing pages only. Requires your explicit consent.</li>
+      </ul>
+      <p>Cookie preferences can be managed via the consent banner on first visit, or at any time through Account Settings → Privacy. Disabling analytics or marketing cookies will not affect access to courses or certificates.</p>
+      <div class="highlight-box blue">
+        <strong>Note on Our Current Hosting</strong>
+        Our main website is currently hosted on GitHub Pages, a platform that does not store user information or place cookies. Our e-Learning Platform (separate service) may store user information strictly for the purposes defined in Section 05.
+      </div>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 10 -->
+    <section class="legal-section reveal" id="security" aria-labelledby="s-sec">
+      <div class="section-header-strip">
+        <div class="section-num">Section 10</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-sec">Security</h2>
+      <p>We implement industry-standard technical and organisational measures to protect your data:</p>
+      <ul>
+        <li>TLS 1.3 encryption for all data in transit</li>
+        <li>AES-256 encryption for sensitive data at rest</li>
+        <li>Role-based access controls limiting internal data access strictly on a need-to-know basis</li>
+        <li>Regular penetration testing and vulnerability scanning</li>
+        <li>Cloudflare DDoS mitigation and WAF protecting all API endpoints</li>
+        <li>Full audit logs for all administrative access to KV certificate records</li>
+      </ul>
+      <p>In the event of a data breach that is likely to result in risk to your rights and freedoms, we will notify you and the relevant supervisory authority within 72 hours of becoming aware of it.</p>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 11 -->
+    <section class="legal-section reveal" id="children" aria-labelledby="s-child">
+      <div class="section-header-strip">
+        <div class="section-num">Section 11</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-child">Children's Privacy</h2>
+      <p>The Platform is intended for users aged 18 and over. For users between the ages of 16 and 18, Guardian's Approval must be obtained before using the Platform. We do not knowingly collect personal information from children under 16. If we discover we have inadvertently done so, we will delete it promptly.</p>
+      <p>It is not the responsibility of SkillSphere Edu to seek or verify Guardian's Approval where required. It will be presumed that the user has already obtained the necessary permission. If you believe a child has provided us personal data without appropriate consent, contact <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a> immediately.</p>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 12 -->
+    <section class="legal-section reveal" id="changes" aria-labelledby="s-changes">
+      <div class="section-header-strip">
+        <div class="section-num">Section 12</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-changes">Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Material changes will be communicated by email to all registered users, or by a prominent notice on the Platform and Official Social Media Handles, at least 14 days before the change takes effect.</p>
+      <p>Continued use of the Platform after the effective date constitutes acceptance of the revised policy. We recommend reviewing this page periodically to stay informed.</p>
+    </section>
+    <div class="section-sep" aria-hidden="true"></div>
+
+    <!-- SECTION 13 -->
+    <section class="legal-section reveal" id="contact-priv" aria-labelledby="s-contact">
+      <div class="section-header-strip">
+        <div class="section-num">Section 13</div>
+        <div class="section-rule-sm"></div>
+      </div>
+      <h2 id="s-contact">Contact Us</h2>
+      <p>For all privacy-related queries, rights requests, or concerns, please reach us through any of the following channels:</p>
+      <ul>
+        <li><strong>Email:</strong> <a href="mailto:skillsphere.work@gmail.com">skillsphere.work@gmail.com</a></li>
+        <li><strong>Post:</strong> SkillSphere Edu, [Registered Address]</li>
+        <li><strong>Response Time:</strong> Acknowledgement within 8–10 business days; full resolution within 30 days.</li>
+      </ul>
+      <div class="highlight-box green">
+        <strong>Related Legal Documents</strong>
+        This policy should be read alongside our <a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a>. For certificate verification, visit our <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify Certificate</a> page.
+      </div>
+    </section>
+
+  </main>
+</div><!-- /.legal-layout -->
+
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+        <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Courses</h4>
+      <ul>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses/excel-essentials.html">Excel Essentials</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">UI/UX Design</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">Digital Marketing</a></li>
+        <li><a href="https://skillsphere-edu.github.io/learn/courses">Data Analytics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://skillsphere-edu.github.io/learn/#founders">Talk to a Founder</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+        <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+
+<!-- ════════════ SCRIPTS ════════════ -->
+<script>
+/* Mobile menu */
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('hamburger');
+  const isOpen = menu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', isOpen);
+}
+
+/* Nav shrink on scroll */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('main-nav');
+  nav.style.height = window.scrollY > 60 ? '56px' : '66px';
+}, { passive: true });
+
+/* Scroll reveal */
+document.body.classList.add('js-ready');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const siblings = [...e.target.parentElement.querySelectorAll('.reveal')];
+    const delay = (siblings.indexOf(e.target) % 4) * 80;
+    setTimeout(() => e.target.classList.add('visible'), delay);
+    revealObserver.unobserve(e.target);
+  });
+}, { threshold: 0, rootMargin: '0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+}, 900);
+
+/* TOC active state on scroll */
+const legalSections = document.querySelectorAll('.legal-section');
+const tocLinks = document.querySelectorAll('.toc-list a');
+const tocObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    tocLinks.forEach(l => l.classList.remove('active'));
+    const activeLink = document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+legalSections.forEach(s => tocObserver.observe(s));
+
+/* Close mobile menu on outside click */
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+});
+</script>
+
+</body>
+</html>
