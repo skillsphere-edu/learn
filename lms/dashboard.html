@@ -9,7 +9,12 @@
   <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/dashboard.html">
   <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
-
+  <link rel="manifest" href="/learn/lms/manifest.json">
+<meta name="theme-color" content="#c0272d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -453,16 +458,16 @@
    ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
 ═══════════════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
+  authDomain:        "skillsphere-edu.firebaseapp.com",
+  projectId:         "skillsphere-edu",
+  storageBucket:     "skillsphere-edu.firebasestorage.app",
+  messagingSenderId: "791566977151",
+  appId:             "1:791566977151:web:b593a16eb9404daa2b974a"
 };
 
 /* ⚠️ REPLACE WITH YOUR RAZORPAY KEY ID (public key — safe to expose) */
-const RAZORPAY_KEY_ID = "rzp_live_XXXXXXXXXXXXXXXX";
+const RAZORPAY_KEY_ID = "rzp_test_SqLQ4JrZEyroXx";
 
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
@@ -876,6 +881,15 @@ async function logout() {
 
 function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
 window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/learn/lms/sw.js', { scope: '/learn/' })
+      .catch(err => console.warn('SW failed:', err));
+  });
+}
 </script>
 </body>
 </html>

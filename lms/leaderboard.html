@@ -11,6 +11,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
   <link rel="manifest" href="/learn/lms/manifest.json">
   <meta name="theme-color" content="#c0272d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Leaderboard | SkillSphere Edu">
@@ -337,12 +341,12 @@
 <script>
 /* ═══ ⚠️ REPLACE WITH YOUR FIREBASE CONFIG ═══ */
 const FIREBASE_CONFIG = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID"
+  apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
+  authDomain:        "skillsphere-edu.firebaseapp.com",
+  projectId:         "skillsphere-edu",
+  storageBucket:     "skillsphere-edu.firebasestorage.app",
+  messagingSenderId: "791566977151",
+  appId:             "1:791566977151:web:b593a16eb9404daa2b974a"
 };
 
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -542,15 +546,17 @@ function showLoadingOverlay(show) {
 function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
 window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
 
-/* ═══ PWA SERVICE WORKER ═══ */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/learn/lms/sw.js').catch(() => {});
-  });
-}
-
 /* ═══ INIT ═══ */
 loadLeaderboard();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/learn/lms/sw.js', { scope: '/learn/' })
+      .catch(err => console.warn('SW failed:', err));
+  });
+}
 </script>
 </body>
 </html>
