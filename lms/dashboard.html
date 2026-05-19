@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
   <link rel="manifest" href="/learn/lms/manifest.json">
-<meta name="theme-color" content="#c0272d">
+  <meta name="theme-color" content="#c0272d">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -64,7 +64,7 @@
   .nav-brand-text em { font-style:normal; color:var(--red-tape); }
   .logo-icon { height:44px; width:44px; filter:contrast(1.1) saturate(1.2); }
   .nav-stamp { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--ink-muted); text-transform:uppercase; display:block; line-height:1; }
-  .nav-links { display:flex; align-items:center; gap:2rem; font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
+  .nav-links { display:flex; align-items:center; gap:2rem; font-family:var(--mono); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
   .nav-links a { color:var(--ink-faded); transition:color 0.2s; position:relative; padding-bottom:2px; }
   .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:1px; background:var(--red-tape); transform:scaleX(0); transform-origin:left; transition:transform 0.25s; }
   .nav-links a:hover { color:var(--ink); }
@@ -73,177 +73,122 @@
   .nav-user-avatar { width:28px; height:28px; border-radius:50%; background:var(--red-tape); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:0.9rem; color:#fff; flex-shrink:0; overflow:hidden; }
   .nav-user-avatar img { width:100%; height:100%; object-fit:cover; }
   .nav-user-name { font-family:var(--mono); font-size:0.68rem; font-weight:700; color:var(--ink); text-transform:uppercase; letter-spacing:1px; }
-  .nav-logout-btn { font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--red-tape); background:none; border:none; cursor:pointer; padding:0; transition:opacity 0.2s; }
+  .nav-logout-btn { font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--red-tape); background:none; border:none; cursor:pointer; transition:opacity 0.2s; }
   .nav-logout-btn:hover { opacity:0.7; }
   .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
-  .nav-hamburger span { display:block; width:22px; height:2px; background:var(--ink); border-radius:1px; transition:all 0.3s; }
+  .nav-hamburger span { display:block; width:22px; height:2px; background:var(--ink); border-radius:1px; }
   .mobile-menu { display:none; position:fixed; top:66px; left:0; right:0; background:rgba(240,234,214,0.98); backdrop-filter:blur(20px); border-bottom:2px solid var(--paper-stain); padding:1.5rem 5%; flex-direction:column; gap:1.2rem; z-index:999; }
   .mobile-menu.open { display:flex; }
   .mobile-menu a { font-family:var(--mono); font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faded); padding:0.5rem 0; border-bottom:1px solid var(--paper-stain); }
   .mobile-menu a:hover { color:var(--red-tape); }
 
-  /* ── DASHBOARD LAYOUT ── */
-  .dash-page { padding-top: 66px; min-height: 100vh; }
+  /* ── DASHBOARD ── */
+  .dash-page { padding-top:66px; min-height:100vh; }
 
-  /* Welcome Banner */
-  .dash-banner {
-    background: var(--ink);
-    padding: 3rem 5%;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-  }
-  .dash-banner::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(255,255,255,0.022) 31px, rgba(255,255,255,0.022) 32px);
-    pointer-events: none;
-  }
-  .dash-banner::after {
-    content: '';
-    position: absolute; right: -60px; top: -60px;
-    width: 340px; height: 340px; border-radius: 50%; opacity: 0.05;
-    background: repeating-radial-gradient(circle, #fff 0px, #fff 2px, transparent 2px, transparent 14px);
-    pointer-events: none;
-  }
-  .dash-banner-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
-  .dash-case-num { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; color: var(--red-tape); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-  .dash-case-num::before { content: ''; width: 24px; height: 1px; background: var(--red-tape); }
-  .dash-welcome { font-family: var(--display); font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--paper); line-height: 1; }
-  .dash-welcome span { color: var(--red-tape); }
-  .dash-welcome-sub { font-family: var(--typewriter); font-size: 0.85rem; color: rgba(240,234,214,0.5); margin-top: 8px; }
-  .dash-admin-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--red-tape); color: #fff; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 3px; border: none; cursor: pointer; transition: background 0.2s; box-shadow: 2px 2px 0 var(--red-dark); text-decoration: none; }
-  .dash-admin-badge:hover { background: var(--red-hover); }
+  .dash-banner { background:var(--ink); padding:3rem 5%; position:relative; overflow:hidden; z-index:1; }
+  .dash-banner::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.022) 31px,rgba(255,255,255,0.022) 32px); pointer-events:none; }
+  .dash-banner::after { content:''; position:absolute; right:-60px; top:-60px; width:340px; height:340px; border-radius:50%; opacity:0.05; background:repeating-radial-gradient(circle,#fff 0px,#fff 2px,transparent 2px,transparent 14px); pointer-events:none; }
+  .dash-banner-inner { max-width:1180px; margin:0 auto; position:relative; z-index:1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem; }
+  .dash-case-num { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--red-tape); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+  .dash-case-num::before { content:''; width:24px; height:1px; background:var(--red-tape); }
+  .dash-welcome { font-family:var(--display); font-size:clamp(2.2rem,4vw,3.5rem); color:var(--paper); line-height:1; }
+  .dash-welcome span { color:var(--red-tape); }
+  .dash-welcome-sub { font-family:var(--typewriter); font-size:0.85rem; color:rgba(240,234,214,0.5); margin-top:8px; }
+  .dash-admin-badge { display:inline-flex; align-items:center; gap:8px; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:0.5rem 1rem; border-radius:3px; border:none; cursor:pointer; transition:background 0.2s; box-shadow:2px 2px 0 var(--red-dark); text-decoration:none; }
+  .dash-admin-badge:hover { background:var(--red-hover); }
 
-  /* Stats Strip */
-  .dash-stats { background: var(--paper-dark); border-bottom: 2px solid var(--paper-stain); position: relative; z-index: 1; }
-  .dash-stats-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
-  .stat-cell { text-align: center; padding: 1.4rem 1rem; border-right: 1px solid var(--paper-stain); }
-  .stat-cell:last-child { border-right: none; }
-  .stat-val { font-family: var(--display); font-size: 3rem; color: var(--red-tape); display: block; line-height: 1; }
-  .stat-lbl { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 3px; display: block; margin-top: 4px; }
+  .dash-stats { background:var(--paper-dark); border-bottom:2px solid var(--paper-stain); position:relative; z-index:1; }
+  .dash-stats-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); }
+  .stat-cell { text-align:center; padding:1.4rem 1rem; border-right:1px solid var(--paper-stain); }
+  .stat-cell:last-child { border-right:none; }
+  .stat-val { font-family:var(--display); font-size:3rem; color:var(--red-tape); display:block; line-height:1; }
+  .stat-lbl { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:3px; display:block; margin-top:4px; }
 
-  /* Main content */
-  .dash-content { max-width: 1180px; margin: 0 auto; padding: 3rem 5%; position: relative; z-index: 1; }
-
-  /* Section headers */
-  .dash-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.8rem; flex-wrap: wrap; gap: 1rem; }
-  .dash-section-title { font-family: var(--display); font-size: 2.4rem; color: var(--ink); }
-  .dash-section-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--red-tape); text-transform: uppercase; display: block; margin-bottom: 4px; }
-  .dash-section-link { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red-tape); transition: opacity 0.2s; }
-  .dash-section-link:hover { opacity: 0.7; }
+  .dash-content { max-width:1180px; margin:0 auto; padding:3rem 5%; position:relative; z-index:1; }
+  .dash-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
+  .dash-section-title { font-family:var(--display); font-size:2.4rem; color:var(--ink); }
+  .dash-section-tag { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; display:block; margin-bottom:4px; }
+  .dash-section-link { font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); transition:opacity 0.2s; }
+  .dash-section-link:hover { opacity:0.7; }
 
   /* ── COURSE CARDS ── */
-  .courses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-bottom: 3rem; }
+  .courses-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-bottom:3rem; }
+  .course-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; overflow:hidden; box-shadow:4px 4px 0 var(--paper-stain); transition:transform 0.25s,box-shadow 0.25s; position:relative; }
+  .course-card:hover { transform:translateY(-3px); box-shadow:6px 8px 0 var(--paper-stain); }
 
-  .course-card {
-    background: var(--paper-dark);
-    border: 1px solid var(--paper-stain);
-    border-radius: 3px;
-    overflow: hidden;
-    box-shadow: 4px 4px 0 var(--paper-stain);
-    transition: transform 0.25s, box-shadow 0.25s;
-    position: relative;
-  }
-  .course-card:hover { transform: translateY(-3px); box-shadow: 6px 8px 0 var(--paper-stain); }
+  .course-thumb { height:120px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .course-thumb::after { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px); background-size:20px 20px; }
+  .thumb-emoji { font-size:2.4rem; position:relative; z-index:1; }
+  .th-b1 { background:linear-gradient(140deg,#081a0c 0%,#163d1e 60%,#1a4d26 100%); }
+  .th-b2 { background:linear-gradient(140deg,#0a1628 0%,#1a3868 60%,#2a5490 100%); }
+  .th-b3 { background:linear-gradient(140deg,#280e02 0%,#6b300a 60%,#9b4e0e 100%); }
+  .th-b4 { background:linear-gradient(140deg,#180505 0%,#3e0808 60%,#6b1010 100%); }
+  .th-b5 { background:linear-gradient(140deg,#080e1e 0%,#10204e 55%,#1a4090 130%); }
+  .th-b6 { background:linear-gradient(140deg,#15080e 0%,#3a101e 60%,#6b1040 100%); }
 
-  .course-thumb {
-    height: 120px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .course-thumb::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; }
-  .thumb-emoji { font-size: 2.4rem; position: relative; z-index: 1; }
+  .course-progress-bar { height:3px; background:var(--paper-stain); }
+  .course-progress-fill { height:100%; background:var(--stamp-green); transition:width 0.6s ease; }
 
-  .th-b1 { background: linear-gradient(140deg, #081a0c 0%, #163d1e 60%, #1a4d26 100%); }
-  .th-b2 { background: linear-gradient(140deg, #0a1628 0%, #1a3868 60%, #2a5490 100%); }
-  .th-b3 { background: linear-gradient(140deg, #280e02 0%, #6b300a 60%, #9b4e0e 100%); }
-  .th-b4 { background: linear-gradient(140deg, #180505 0%, #3e0808 60%, #6b1010 100%); }
-  .th-b5 { background: linear-gradient(140deg, #080e1e 0%, #10204e 55%, #1a4090 130%); }
-  .th-b6 { background: linear-gradient(140deg, #15080e 0%, #3a101e 60%, #6b1040 100%); }
+  .course-body { padding:1rem 1.1rem 0; }
+  .course-badge { display:inline-block; font-family:var(--mono); font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; padding:0.15rem 0.5rem; border-radius:2px; margin-bottom:0.35rem; }
+  .badge-free { background:rgba(26,77,46,0.15); color:var(--stamp-green); border:1px solid rgba(26,77,46,0.3); }
+  .badge-paid { background:rgba(192,39,45,0.12); color:var(--red-tape); border:1px solid rgba(192,39,45,0.25); }
+  .badge-done { background:rgba(26,77,46,0.2); color:var(--stamp-green); border:1px solid rgba(26,77,46,0.35); }
 
-  .course-progress-bar { height: 3px; background: var(--paper-stain); position: relative; }
-  .course-progress-fill { height: 100%; background: var(--stamp-green); transition: width 0.6s ease; }
+  /* Exam status chip */
+  .exam-status-chip { display:inline-block; font-family:var(--mono); font-size:0.56rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:0.15rem 0.55rem; border-radius:2px; margin-bottom:0.35rem; }
 
-  .course-body { padding: 1rem 1.1rem 0; }
-  .course-badge { display: inline-block; font-family: var(--mono); font-size: 0.58rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; padding: 0.15rem 0.5rem; border-radius: 2px; margin-bottom: 0.5rem; }
-  .badge-free     { background: rgba(26,77,46,0.15); color: var(--stamp-green); border: 1px solid rgba(26,77,46,0.3); }
-  .badge-paid     { background: rgba(192,39,45,0.12); color: var(--red-tape); border: 1px solid rgba(192,39,45,0.25); }
-  .badge-done     { background: rgba(26,77,46,0.2); color: var(--stamp-green); border: 1px solid rgba(26,77,46,0.35); }
+  .course-title { font-family:var(--mono); font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; line-height:1.4; margin-bottom:0.4rem; color:var(--ink); }
+  .course-pct { font-family:var(--mono); font-size:0.65rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.6rem; }
 
-  .course-title { font-family: var(--mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.4; margin-bottom: 0.4rem; color: var(--ink); }
-  .course-pct { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-muted); letter-spacing: 1px; margin-bottom: 0.6rem; }
-
-  .course-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1.1rem; margin-top: 0.5rem; border-top: 1px solid var(--paper-stain); }
-  .course-lessons { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted); letter-spacing: 1px; }
-
-  .btn-continue { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red-tape); background: transparent; border: 1px solid rgba(192,39,45,0.4); padding: 0.35rem 0.8rem; border-radius: 2px; transition: all 0.2s; box-shadow: 1px 1px 0 rgba(192,39,45,0.2); cursor: pointer; }
-  .btn-continue:hover { background: var(--red-tape); color: #fff; box-shadow: 2px 2px 0 var(--red-dark); }
-  .btn-continue.done { color: var(--stamp-green); border-color: rgba(26,77,46,0.4); }
-  .btn-continue.done:hover { background: var(--stamp-green); color: #fff; box-shadow: 2px 2px 0 #0d3020; }
+  .course-footer { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 1.1rem; margin-top:0.5rem; border-top:1px solid var(--paper-stain); }
+  .course-lessons { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:1px; }
+  .btn-continue { font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); background:transparent; border:1px solid rgba(192,39,45,0.4); padding:0.35rem 0.8rem; border-radius:2px; transition:all 0.2s; box-shadow:1px 1px 0 rgba(192,39,45,0.2); cursor:pointer; }
+  .btn-continue:hover { background:var(--red-tape); color:#fff; box-shadow:2px 2px 0 var(--red-dark); }
+  .btn-continue.done { color:var(--stamp-green); border-color:rgba(26,77,46,0.4); }
+  .btn-continue.done:hover { background:var(--stamp-green); color:#fff; box-shadow:2px 2px 0 #0d3020; }
 
   /* ── EMPTY STATE ── */
-  .empty-state { text-align: center; padding: 4rem 2rem; background: var(--paper-dark); border: 1px solid var(--paper-stain); border-radius: 3px; box-shadow: 4px 4px 0 var(--paper-stain); }
-  .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
-  .empty-title { font-family: var(--display); font-size: 2rem; color: var(--ink); margin-bottom: 0.5rem; }
-  .empty-sub { font-family: var(--typewriter); font-size: 0.88rem; color: var(--ink-muted); margin-bottom: 1.5rem; max-width: 320px; margin-left: auto; margin-right: auto; }
-  .btn-red { display: inline-flex; align-items: center; gap: 8px; background: var(--red-tape); color: #fff; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; padding: 0.85rem 1.8rem; border-radius: 3px; letter-spacing: 0.08em; text-transform: uppercase; border: none; transition: background 0.2s, transform 0.15s; box-shadow: 3px 3px 0 var(--red-dark); cursor: pointer; }
-  .btn-red:hover { background: var(--red-hover); transform: translateY(-2px); }
+  .empty-state { text-align:center; padding:4rem 2rem; background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; box-shadow:4px 4px 0 var(--paper-stain); }
+  .empty-icon { font-size:3rem; margin-bottom:1rem; }
+  .empty-title { font-family:var(--display); font-size:2rem; color:var(--ink); margin-bottom:0.5rem; }
+  .empty-sub { font-family:var(--typewriter); font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem; max-width:320px; margin-left:auto; margin-right:auto; }
+  .btn-red { display:inline-flex; align-items:center; gap:8px; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.75rem; font-weight:700; padding:0.85rem 1.8rem; border-radius:3px; letter-spacing:0.08em; text-transform:uppercase; border:none; transition:background 0.2s,transform 0.15s; box-shadow:3px 3px 0 var(--red-dark); cursor:pointer; }
+  .btn-red:hover { background:var(--red-hover); transform:translateY(-2px); }
 
-  /* ── CERTIFICATE CARDS ── */
-  .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 3rem; }
-  .cert-card {
-    background: var(--paper);
-    border: 1px solid var(--paper-stain);
-    border-radius: 3px;
-    padding: 1.4rem;
-    box-shadow: 4px 4px 0 var(--paper-stain);
-    transition: transform 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
-  .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--stamp-green); }
-  .cert-card:hover { transform: translateY(-2px); }
-  .cert-id { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 3px; color: var(--red-tape); font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
-  .cert-course { font-family: var(--display); font-size: 1.4rem; color: var(--ink); margin-bottom: 0.3rem; line-height: 1.2; }
-  .cert-date { font-family: var(--mono); font-size: 0.62rem; color: var(--ink-muted); letter-spacing: 1px; margin-bottom: 1rem; }
-  .cert-actions { display: flex; gap: 0.5rem; }
-  .btn-cert { height: 30px; padding: 0 0.9rem; font-family: var(--mono); font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-radius: 2px; border: 1px solid var(--paper-stain); background: var(--paper-dark); color: var(--ink-faded); cursor: pointer; transition: all 0.2s; box-shadow: 1px 1px 0 var(--paper-stain); }
-  .btn-cert:hover { background: var(--ink); color: var(--paper); }
-  .btn-cert.primary { background: var(--stamp-green); color: #fff; border-color: #0d3020; box-shadow: 2px 2px 0 #0d3020; }
-  .btn-cert.primary:hover { background: #14402a; }
+  /* ── CERTIFICATES ── */
+  .certs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:3rem; }
+  .cert-card { background:var(--paper); border:1px solid var(--paper-stain); border-radius:3px; padding:1.4rem; box-shadow:4px 4px 0 var(--paper-stain); transition:transform 0.25s; position:relative; overflow:hidden; }
+  .cert-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--stamp-green); }
+  .cert-card:hover { transform:translateY(-2px); }
+  .cert-id { font-family:var(--mono); font-size:0.65rem; letter-spacing:3px; color:var(--red-tape); font-weight:700; text-transform:uppercase; margin-bottom:0.5rem; }
+  .cert-course { font-family:var(--display); font-size:1.4rem; color:var(--ink); margin-bottom:0.3rem; line-height:1.2; }
+  .cert-date { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.3rem; }
+  .cert-score { font-family:var(--mono); font-size:0.62rem; color:var(--stamp-green); letter-spacing:1px; margin-bottom:1rem; font-weight:700; }
+  .cert-actions { display:flex; gap:0.5rem; }
+  .btn-cert { height:30px; padding:0 0.9rem; font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; border-radius:2px; border:1px solid var(--paper-stain); background:var(--paper-dark); color:var(--ink-faded); cursor:pointer; transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
+  .btn-cert:hover { background:var(--ink); color:var(--paper); }
+  .btn-cert.primary { background:var(--stamp-green); color:#fff; border-color:#0d3020; box-shadow:2px 2px 0 #0d3020; }
+  .btn-cert.primary:hover { background:#14402a; }
 
-  /* ── BROWSE MORE SECTION ── */
-  .browse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
-  .browse-card { background: var(--paper-dark); border: 1px solid var(--paper-stain); border-radius: 3px; padding: 1.4rem; box-shadow: 3px 3px 0 var(--paper-stain); transition: transform 0.2s; }
-  .browse-card:hover { transform: translateY(-2px); }
-  .browse-emoji { font-size: 1.8rem; margin-bottom: 0.7rem; }
-  .browse-title { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--ink); margin-bottom: 0.3rem; }
-  .browse-desc { font-family: var(--typewriter); font-size: 0.78rem; color: var(--ink-muted); line-height: 1.6; margin-bottom: 1rem; }
-  .browse-price { font-family: var(--display); font-size: 1.5rem; color: var(--ink); margin-bottom: 0.7rem; }
-  .browse-price.free-price { color: var(--stamp-green); }
-  .btn-enroll { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red-tape); background: transparent; border: 1px solid rgba(192,39,45,0.4); padding: 0.35rem 0.8rem; border-radius: 2px; transition: all 0.2s; cursor: pointer; box-shadow: 1px 1px 0 rgba(192,39,45,0.2); }
-  .btn-enroll:hover { background: var(--red-tape); color: #fff; }
+  /* ── BROWSE COURSES ── */
+  .browse-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:2rem; }
+  .browse-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; padding:1.4rem; box-shadow:3px 3px 0 var(--paper-stain); transition:transform 0.2s; }
+  .browse-card:hover { transform:translateY(-2px); }
+  .browse-emoji { font-size:1.8rem; margin-bottom:0.7rem; }
+  .browse-title { font-family:var(--mono); font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--ink); margin-bottom:0.3rem; }
+  .browse-desc { font-family:var(--typewriter); font-size:0.78rem; color:var(--ink-muted); line-height:1.6; margin-bottom:1rem; }
+  .browse-price { font-family:var(--display); font-size:1.5rem; color:var(--ink); margin-bottom:0.7rem; }
+  .browse-price.free-price { color:var(--stamp-green); }
+  .browse-cert-note { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.7rem; }
+  .btn-enroll { font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); background:transparent; border:1px solid rgba(192,39,45,0.4); padding:0.35rem 0.8rem; border-radius:2px; transition:all 0.2s; cursor:pointer; box-shadow:1px 1px 0 rgba(192,39,45,0.2); }
+  .btn-enroll:hover { background:var(--red-tape); color:#fff; }
 
-  /* ── LOADING SKELETON ── */
+  /* ── SKELETON ── */
   @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
-  .skeleton { background: linear-gradient(90deg, var(--paper-stain) 25%, var(--paper-dark) 50%, var(--paper-stain) 75%); background-size: 1200px 100%; animation: shimmer 1.5s infinite; border-radius: 3px; }
+  .skeleton { background:linear-gradient(90deg,var(--paper-stain) 25%,var(--paper-dark) 50%,var(--paper-stain) 75%); background-size:1200px 100%; animation:shimmer 1.5s infinite; border-radius:3px; }
 
-  /* Toast */
-  .toast { position:fixed; top:80px; right:20px; z-index:9999; padding:0.85rem 1.4rem; border-radius:3px; font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.25); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
-  .toast.show { transform:translateX(0); }
-  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
-  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
-  .toast.info { background:var(--ink); color:var(--paper); border-left:4px solid var(--red-tape); }
-
-  /* Loading overlay */
-  .loading-overlay { position:fixed; inset:0; background:rgba(240,234,214,0.9); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
-  .loading-overlay.show { display:flex; }
-  .loading-spinner { width:40px; height:40px; border:3px solid var(--paper-stain); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Payment modal */
+  /* ── PAYMENT MODAL ── */
   .modal-overlay { position:fixed; inset:0; background:rgba(26,18,9,0.7); display:none; align-items:center; justify-content:center; z-index:9990; padding:1rem; }
   .modal-overlay.show { display:flex; }
   .modal-box { background:var(--paper); border:1px solid var(--paper-stain); border-radius:3px; padding:2.4rem; max-width:440px; width:100%; box-shadow:8px 8px 0 var(--paper-stain); position:relative; }
@@ -259,6 +204,18 @@
   .btn-pay:hover { background:var(--red-hover); }
   .modal-secure { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); text-align:center; margin-top:0.8rem; letter-spacing:1px; }
 
+  /* ── TOAST + LOADING ── */
+  .toast { position:fixed; top:80px; right:20px; z-index:9999; padding:0.85rem 1.4rem; border-radius:3px; font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.25); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
+  .toast.show { transform:translateX(0); }
+  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
+  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
+  .toast.info { background:var(--ink); color:var(--paper); border-left:4px solid var(--red-tape); }
+  .loading-overlay { position:fixed; inset:0; background:rgba(240,234,214,0.9); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
+  .loading-overlay.show { display:flex; }
+  .loading-spinner { width:40px; height:40px; border:3px solid var(--paper-stain); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
+  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
   /* ── FOOTER ── */
   footer { background:var(--paper-dark); border-top:2px solid var(--paper-stain); padding:3rem 5% 2rem; position:relative; z-index:1; }
   .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1180px; margin:0 auto 3rem; }
@@ -272,14 +229,13 @@
   .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
   .footer-col li a { font-family:var(--typewriter); font-size:0.85rem; color:var(--ink-faded); transition:color 0.2s; }
   .footer-col li a:hover { color:var(--red-tape); }
-  .footer-bottom { max-width:1180px; margin:0 auto; padding-top:1.5rem; border-top:1px solid var(--paper-stain); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
-  .footer-bottom span { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:1px; }
+  .footer-bottom { margin:0 auto; padding-top:1.5rem; border-top:1px solid var(--paper-stain); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
+  .footer-bottom span { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:0.5px; }
   .footer-bottom .tagline { color:var(--red-tape); font-weight:700; }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1050px) { .courses-grid { grid-template-columns: repeat(2,1fr); } .certs-grid { grid-template-columns: repeat(2,1fr); } .browse-grid { grid-template-columns: repeat(2,1fr); } .dash-stats-inner { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 860px) { nav .nav-links { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 600px) { .courses-grid { grid-template-columns: 1fr; } .certs-grid { grid-template-columns: 1fr; } .browse-grid { grid-template-columns: 1fr; } .dash-stats-inner { grid-template-columns: 1fr 1fr; } .stat-cell { border-right: none; border-bottom: 1px solid var(--paper-stain); } .stat-cell:nth-child(2n) { border-right: none; } .footer-inner { grid-template-columns: 1fr; } .dash-content { padding: 2rem 4%; } }
+  @media (max-width:1050px) { .courses-grid { grid-template-columns:repeat(2,1fr); } .certs-grid { grid-template-columns:repeat(2,1fr); } .browse-grid { grid-template-columns:repeat(2,1fr); } .dash-stats-inner { grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:860px) { nav .nav-links { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px) { .courses-grid { grid-template-columns:1fr; } .certs-grid { grid-template-columns:1fr; } .browse-grid { grid-template-columns:1fr; } .dash-stats-inner { grid-template-columns:1fr 1fr; } .stat-cell { border-right:none; border-bottom:1px solid var(--paper-stain); } .footer-inner { grid-template-columns:1fr; } .dash-content { padding:2rem 4%; } }
   </style>
 </head>
 <body>
@@ -322,8 +278,8 @@
     <a href="/learn/">Home</a>
     <a href="/learn/courses">Courses</a>
     <a href="/learn/lms/dashboard.html" style="color:var(--red-tape)">My Dashboard</a>
+    <a href="/learn/lms/leaderboard.html">Leaderboard</a>
     <a href="/learn/verify.html">Verify</a>
-    <a href="/learn/blog">Blog</a>
   </div>
   <div style="display:flex;align-items:center;gap:1rem;">
     <div class="nav-user-pill" id="nav-user-pill">
@@ -340,15 +296,14 @@
   <a href="/learn/" onclick="toggleMenu()">Home</a>
   <a href="/learn/courses" onclick="toggleMenu()">Courses</a>
   <a href="/learn/lms/dashboard.html" onclick="toggleMenu()">My Dashboard</a>
+  <a href="/learn/lms/leaderboard.html" onclick="toggleMenu()">Leaderboard</a>
   <a href="/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
-  <a href="/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
   <a href="#" onclick="logout()">Sign Out</a>
 </div>
 
 <!-- ═══ DASHBOARD ═══ -->
 <div class="dash-page">
 
-  <!-- Welcome Banner -->
   <div class="dash-banner">
     <div class="dash-banner-inner">
       <div>
@@ -362,29 +317,15 @@
     </div>
   </div>
 
-  <!-- Stats Strip -->
   <div class="dash-stats">
     <div class="dash-stats-inner">
-      <div class="stat-cell">
-        <span class="stat-val" id="stat-enrolled">0</span>
-        <span class="stat-lbl">Courses Enrolled</span>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-val" id="stat-lessons">0</span>
-        <span class="stat-lbl">Lessons Completed</span>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-val" id="stat-certs">0</span>
-        <span class="stat-lbl">Certificates Earned</span>
-      </div>
-      <div class="stat-cell">
-        <span class="stat-val" id="stat-pct">0%</span>
-        <span class="stat-lbl">Avg. Progress</span>
-      </div>
+      <div class="stat-cell"><span class="stat-val" id="stat-enrolled">0</span><span class="stat-lbl">Courses Enrolled</span></div>
+      <div class="stat-cell"><span class="stat-val" id="stat-lessons">0</span><span class="stat-lbl">Lessons Completed</span></div>
+      <div class="stat-cell"><span class="stat-val" id="stat-certs">0</span><span class="stat-lbl">Certificates Earned</span></div>
+      <div class="stat-cell"><span class="stat-val" id="stat-pct">0%</span><span class="stat-lbl">Avg. Progress</span></div>
     </div>
   </div>
 
-  <!-- Main Content -->
   <div class="dash-content">
 
     <!-- My Courses -->
@@ -396,7 +337,6 @@
       <a href="/learn/courses" class="dash-section-link">Browse More Courses →</a>
     </div>
     <div class="courses-grid" id="my-courses-grid">
-      <!-- Loaded dynamically -->
       <div class="course-card skeleton" style="height:260px;"></div>
       <div class="course-card skeleton" style="height:260px;"></div>
       <div class="course-card skeleton" style="height:260px;"></div>
@@ -410,20 +350,16 @@
       </div>
       <a href="/learn/verify.html" class="dash-section-link">Verify a Certificate →</a>
     </div>
-    <div class="certs-grid" id="my-certs-grid">
-      <!-- Loaded dynamically -->
-    </div>
+    <div class="certs-grid" id="my-certs-grid"></div>
 
-    <!-- Browse More Courses -->
+    <!-- Browse More -->
     <div class="dash-section-header" style="margin-top:1rem;">
       <div>
         <span class="dash-section-tag">New Investigations</span>
         <div class="dash-section-title">Browse Courses</div>
       </div>
     </div>
-    <div class="browse-grid" id="browse-grid">
-      <!-- Loaded dynamically -->
-    </div>
+    <div class="browse-grid" id="browse-grid"></div>
 
   </div>
 </div>
@@ -443,7 +379,7 @@
       </div>
     </div>
     <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li><li><a href="/learn/privacy-policy">Privacy Policy</a></li></ul></div>
-    <div class="footer-col"><h4>Portal</h4><ul><li><a href="/learn/lms/dashboard.html">My Dashboard</a></li><li><a href="/learn/lms/login.html">Sign In</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li><li><a href="mailto:skillsphere.work@gmail.com">Get Help</a></li></ul></div>
+    <div class="footer-col"><h4>Portal</h4><ul><li><a href="/learn/lms/dashboard.html">My Dashboard</a></li><li><a href="/learn/lms/profile.html">My Profile</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li><li><a href="mailto:skillsphere.work@gmail.com">Get Help</a></li></ul></div>
     <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
   </div>
   <div class="footer-bottom">
@@ -454,9 +390,9 @@
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -473,19 +409,22 @@ firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    STATE
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 let currentUser   = null;
 let userData      = null;
-let pendingCourse = null; // course object waiting for payment
+let pendingCourse = null;
 
-/* ═══════════════════════════════════════════════════
+const THUMB_CLASSES = ['th-b1','th-b2','th-b3','th-b4','th-b5','th-b6'];
+
+/* ════════════════════════════════════════════════════════
    AUTH GUARD
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 auth.onAuthStateChanged(async (user) => {
   if (!user) {
-    window.location.href = '/learn/lms/login.html?redirect=' + encodeURIComponent(window.location.href);
+    window.location.href = '/learn/lms/login.html?redirect=' +
+      encodeURIComponent(window.location.href);
     return;
   }
   currentUser = user;
@@ -494,42 +433,33 @@ auth.onAuthStateChanged(async (user) => {
   showLoadingOverlay(false);
 });
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    LOAD DASHBOARD
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 async function loadDashboard() {
   try {
-    // Fetch user data
+    /* User data */
     const userSnap = await db.collection('users').doc(currentUser.uid).get();
     userData = userSnap.data() || {};
 
-    // Update nav
     const displayName = userData.name || currentUser.displayName || currentUser.email.split('@')[0];
-    document.getElementById('nav-name').textContent = displayName.split(' ')[0].toUpperCase();
+    document.getElementById('nav-name').textContent    = displayName.split(' ')[0].toUpperCase();
     document.getElementById('banner-name').textContent = displayName.split(' ')[0];
 
-    // Set avatar
     const avatarEl = document.getElementById('nav-avatar');
-    if (currentUser.photoURL) {
-      avatarEl.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar">`;
-    } else {
-      avatarEl.textContent = displayName.charAt(0).toUpperCase();
-    }
+    if (currentUser.photoURL) avatarEl.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar">`;
+    else avatarEl.textContent = displayName.charAt(0).toUpperCase();
 
-    // Show admin link if admin
-    if (userData.role === 'admin') {
+    if (userData.role === 'admin')
       document.getElementById('admin-link-wrap').style.display = 'block';
-    }
 
-    // Fetch enrollments
+    /* Enrollments */
     const enrollSnap = await db.collection('enrollments')
-      .where('userId', '==', currentUser.uid)
-      .get();
-
-    const enrollments = enrollSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-    // Fetch progress for each enrolled course
+      .where('userId','==',currentUser.uid).get();
+    const enrollments = enrollSnap.docs.map(d => ({ id:d.id, ...d.data() }));
     const enrolledCourseIds = enrollments.map(e => e.courseId);
+
+    /* Progress per course */
     let allProgress = {};
     let totalLessonsCompleted = 0;
 
@@ -541,46 +471,62 @@ async function loadDashboard() {
           allProgress[courseId] = progSnap.data();
           totalLessonsCompleted += (progSnap.data().completedLessons || []).length;
         } else {
-          allProgress[courseId] = { completedLessons: [], percentage: 0 };
+          allProgress[courseId] = { completedLessons:[], percentage:0 };
         }
-      } catch(e) { allProgress[courseId] = { completedLessons: [], percentage: 0 }; }
+      } catch(e) { allProgress[courseId] = { completedLessons:[], percentage:0 }; }
     }
 
-    // Fetch enrolled course details
+    /* Enrolled course details */
     let enrolledCourses = [];
     for (const courseId of enrolledCourseIds) {
       try {
         const cSnap = await db.collection('courses').doc(courseId).get();
         if (cSnap.exists) {
-          enrolledCourses.push({ id: cSnap.id, ...cSnap.data(), progress: allProgress[courseId] });
+          enrolledCourses.push({
+            id:       cSnap.id,
+            ...cSnap.data(),
+            progress: allProgress[courseId]
+          });
         }
       } catch(e) {}
     }
 
-    // Fetch certificates
-    const certSnap = await db.collection('certificates')
-      .where('userId', '==', currentUser.uid)
-      .orderBy('issuedAt', 'desc')
-      .get();
-    const certificates = certSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    /* ── Exam requests for all enrolled courses ── */
+    const examReqMap = {};
+    if (enrolledCourseIds.length > 0) {
+      try {
+        const examSnap = await db.collection('exam_requests')
+          .where('userId','==',currentUser.uid).get();
+        examSnap.docs.forEach(d => {
+          examReqMap[d.data().courseId] = { id:d.id, ...d.data() };
+        });
+      } catch(e) { /* non-critical */ }
+    }
 
-    // Compute stats
+    /* Attach exam request to each course */
+    enrolledCourses.forEach(c => {
+      c.examRequest = examReqMap[c.id] || null;
+    });
+
+    /* Certificates */
+    const certSnap = await db.collection('certificates')
+      .where('userId','==',currentUser.uid)
+      .orderBy('issuedAt','desc').get();
+    const certificates = certSnap.docs.map(d => ({ id:d.id, ...d.data() }));
+
+    /* Stats */
     const avgPct = enrolledCourses.length > 0
-      ? Math.round(enrolledCourses.reduce((s,c) => s + (c.progress?.percentage || 0), 0) / enrolledCourses.length)
+      ? Math.round(enrolledCourses.reduce((s,c) =>
+          s + (c.progress?.percentage || 0), 0) / enrolledCourses.length)
       : 0;
 
     animateCounter('stat-enrolled', enrolledCourses.length);
-    animateCounter('stat-lessons', totalLessonsCompleted);
-    animateCounter('stat-certs', certificates.length);
+    animateCounter('stat-lessons',  totalLessonsCompleted);
+    animateCounter('stat-certs',    certificates.length);
     document.getElementById('stat-pct').textContent = avgPct + '%';
 
-    // Render enrolled courses
     renderEnrolledCourses(enrolledCourses, enrolledCourseIds);
-
-    // Render certificates
     renderCertificates(certificates);
-
-    // Fetch & render browsable courses (not enrolled)
     await loadBrowseCourses(enrolledCourseIds);
 
   } catch (err) {
@@ -589,16 +535,56 @@ async function loadDashboard() {
   }
 }
 
-/* ═══════════════════════════════════════════════════
-   RENDER: ENROLLED COURSES
-═══════════════════════════════════════════════════ */
-const THUMB_CLASSES = ['th-b1','th-b2','th-b3','th-b4','th-b5','th-b6'];
+/* ════════════════════════════════════════════════════════
+   EXAM STATUS CHIP HELPER
+════════════════════════════════════════════════════════ */
+function examChip(req, courseIsFree, certType) {
+  /* Free course + Free cert → no exam, so no chip */
+  if (courseIsFree && certType === 'free') return '';
+  /* No request made yet → no chip */
+  if (!req) return '';
 
+  const map = {
+    pending: {
+      bg:'rgba(176,125,26,0.15)', color:'#c08030',
+      text:'📬 Exam Req. Pending'
+    },
+    enrolled: {
+      bg:'rgba(26,58,110,0.18)', color:'#7090d0',
+      text:'📝 Enrolled · Check Email'
+    },
+    scored: req.passed
+      ? { bg:'rgba(26,77,46,0.18)', color:'#50c080', text:`✓ Passed · ${req.finalScore}%` }
+      : { bg:'rgba(192,39,45,0.12)', color:'#c06060',
+          text:`✗ Score: ${req.finalScore}%${req.attemptCount < 2 ? ' · Retry avail.' : ''}` },
+    cert_requested: {
+      bg:'rgba(176,125,26,0.15)', color:'#c08030',
+      text:'⏳ Cert Under Review'
+    },
+    cert_issued: {
+      bg:'rgba(26,77,46,0.22)', color:'#50c080',
+      text:'🏆 Certified'
+    },
+  };
+
+  const style = map[req.status];
+  if (!style) return '';
+
+  return `<span class="exam-status-chip"
+    style="background:${style.bg};color:${style.color};
+           border:1px solid ${style.color}33;">
+    ${style.text}
+  </span>`;
+}
+
+/* ════════════════════════════════════════════════════════
+   RENDER: ENROLLED COURSES
+════════════════════════════════════════════════════════ */
 function renderEnrolledCourses(courses, enrolledIds) {
   const grid = document.getElementById('my-courses-grid');
   grid.innerHTML = '';
 
-  if (courses.length === 0) {
+  if (!courses.length) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
         <div class="empty-icon">📂</div>
@@ -610,26 +596,37 @@ function renderEnrolledCourses(courses, enrolledIds) {
   }
 
   courses.forEach((course, i) => {
-    const pct      = course.progress?.percentage || 0;
-    const done     = pct >= 100;
-    const thumbCls = THUMB_CLASSES[i % THUMB_CLASSES.length];
+    const pct        = course.progress?.percentage || 0;
+    const done       = pct >= 100;
+    const thumbCls   = THUMB_CLASSES[i % THUMB_CLASSES.length];
+    const isFree     = course.isFree || course.price === 0;
+    const certType   = course.certType || 'free';
+    const chip       = examChip(course.examRequest, isFree, certType);
+
     const card = document.createElement('div');
     card.className = 'course-card';
     card.innerHTML = `
       <div class="course-thumb ${thumbCls}">
-        <span class="thumb-emoji">${course.thumbnail || '📘'}</span>
+        <span class="thumb-emoji">${escHtml(course.thumbnail || '📘')}</span>
       </div>
       <div class="course-progress-bar">
         <div class="course-progress-fill" style="width:${pct}%"></div>
       </div>
       <div class="course-body">
-        <span class="course-badge ${done ? 'badge-done' : (course.isFree ? 'badge-free' : 'badge-paid')}">${done ? '✓ Completed' : (course.isFree ? 'Free' : 'Enrolled')}</span>
+        <span class="course-badge ${done ? 'badge-done' : (isFree ? 'badge-free' : 'badge-paid')}">
+          ${done ? '✓ Completed' : (isFree ? 'Free' : 'Enrolled')}
+        </span>
+        ${chip}
         <div class="course-title">${escHtml(course.title)}</div>
-        <div class="course-pct">${pct}% Complete · ${(course.progress?.completedLessons || []).length} lessons done</div>
+        <div class="course-pct">
+          ${pct}% Complete ·
+          ${(course.progress?.completedLessons || []).length} lessons done
+        </div>
       </div>
       <div class="course-footer">
         <span class="course-lessons">⏱ ${escHtml(course.totalDuration || '—')}</span>
-        <button class="btn-continue ${done ? 'done' : ''}" onclick="window.location.href='/learn/lms/player.html?course=${course.id}'">
+        <button class="btn-continue ${done ? 'done' : ''}"
+                onclick="window.location.href='/learn/lms/player.html?course=${course.id}'">
           ${done ? 'Review ↗' : 'Continue →'}
         </button>
       </div>`;
@@ -637,26 +634,27 @@ function renderEnrolledCourses(courses, enrolledIds) {
   });
 }
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    RENDER: CERTIFICATES
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 function renderCertificates(certs) {
   const grid = document.getElementById('my-certs-grid');
   grid.innerHTML = '';
 
-  if (certs.length === 0) {
+  if (!certs.length) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
         <div class="empty-icon">🏆</div>
         <div class="empty-title">No Certificates Yet</div>
-        <p class="empty-sub">Complete a course to earn your first verified SkillSphere Edu certificate.</p>
+        <p class="empty-sub">Complete a course and pass the exam to earn your first verified certificate.</p>
       </div>`;
     return;
   }
 
   certs.forEach(cert => {
     const issueDate = cert.issuedAt?.toDate
-      ? cert.issuedAt.toDate().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
+      ? cert.issuedAt.toDate().toLocaleDateString('en-IN',
+          { day:'2-digit', month:'short', year:'numeric' })
       : 'Date N/A';
 
     const card = document.createElement('div');
@@ -665,48 +663,75 @@ function renderCertificates(certs) {
       <div class="cert-id">${escHtml(cert.id)}</div>
       <div class="cert-course">${escHtml(cert.courseName)}</div>
       <div class="cert-date">Issued: ${issueDate}</div>
+      ${cert.examScore != null
+        ? `<div class="cert-score">Exam Score: ${cert.examScore}%</div>`
+        : ''}
       <div class="cert-actions">
         <button class="btn-cert primary" onclick="viewCertificate('${cert.id}')">View →</button>
         <button class="btn-cert" onclick="copyCertId('${cert.id}')">Copy ID</button>
-        <a href="/learn/verify.html?id=${cert.id}" class="btn-cert" style="display:flex;align-items:center;">Verify</a>
+        <a href="/learn/verify.html?id=${cert.id}" class="btn-cert"
+           style="display:flex;align-items:center;">Verify</a>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-/* ═══════════════════════════════════════════════════
-   RENDER: BROWSE MORE COURSES
-═══════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════
+   RENDER: BROWSE COURSES
+════════════════════════════════════════════════════════ */
 async function loadBrowseCourses(enrolledIds) {
   const grid = document.getElementById('browse-grid');
   grid.innerHTML = '';
 
   try {
     const snap = await db.collection('courses')
-      .where('isPublished', '==', true)
-      .limit(6)
-      .get();
+      .where('isPublished','==',true).limit(6).get();
 
     const courses = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
+      .map(d => ({ id:d.id, ...d.data() }))
       .filter(c => !enrolledIds.includes(c.id));
 
-    if (courses.length === 0) {
-      grid.innerHTML = `<div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;padding:2rem 0;">All available courses enrolled. More launching soon.</div>`;
+    if (!courses.length) {
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;
+                    color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;
+                    padding:2rem 0;">
+          All available courses enrolled. More launching soon.
+        </div>`;
       return;
     }
 
     courses.slice(0, 3).forEach((course, i) => {
-      const thumbCls = THUMB_CLASSES[(i + 3) % THUMB_CLASSES.length];
       const isFree   = course.isFree || course.price === 0;
+      const certType = course.certType || 'free';
+
+      /* Cert type note */
+      let certNote = '';
+      if (!isFree) {
+        certNote = '🏆 Certificate included';
+      } else if (certType === 'paid') {
+        certNote = `📝 Paid cert · ₹299 exam fee`;
+      } else {
+        certNote = '🏆 Free certificate';
+      }
+
       const card = document.createElement('div');
       card.className = 'browse-card';
       card.innerHTML = `
-        <div class="browse-emoji">${course.thumbnail || '📘'}</div>
+        <div class="browse-emoji">${escHtml(course.thumbnail || '📘')}</div>
         <div class="browse-title">${escHtml(course.title)}</div>
-        <div class="browse-desc">${escHtml((course.subtitle || course.description || '').substring(0, 80))}${(course.subtitle||'').length>80?'…':''}</div>
-        <div class="browse-price ${isFree ? 'free-price' : ''}">${isFree ? 'Free' : '₹' + course.price}</div>
-        <button class="btn-enroll" onclick="handleEnroll(${JSON.stringify({id:course.id, title:course.title, price:course.price, isFree:isFree, description:course.subtitle||'', thumbnail:course.thumbnail||'📘'}).replace(/"/g,'&quot;')})">
+        <div class="browse-desc">
+          ${escHtml((course.subtitle || course.description || '').substring(0,80))}${(course.subtitle||'').length>80?'…':''}
+        </div>
+        <div class="browse-price ${isFree ? 'free-price' : ''}">
+          ${isFree ? 'Free' : '₹' + course.price}
+        </div>
+        <div class="browse-cert-note">${certNote}</div>
+        <button class="btn-enroll"
+                onclick='handleEnroll(${JSON.stringify({
+                  id:course.id, title:course.title, price:course.price,
+                  isFree, certType, description:course.subtitle||''
+                }).replace(/"/g,"&quot;")})'>
           Enroll Now →
         </button>`;
       grid.appendChild(card);
@@ -714,21 +739,22 @@ async function loadBrowseCourses(enrolledIds) {
 
   } catch (err) {
     console.error('Browse courses error:', err);
-    grid.innerHTML = `<div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;color:var(--ink-muted);">Unable to load courses. <a href="/learn/courses" style="color:var(--red-tape);">Browse all →</a></div>`;
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;
+                  color:var(--ink-muted);">
+        Unable to load courses.
+        <a href="/learn/courses" style="color:var(--red-tape);">Browse all →</a>
+      </div>`;
   }
 }
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    ENROLLMENT FLOW
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 async function handleEnroll(course) {
-  if (!currentUser) {
-    window.location.href = '/learn/lms/login.html';
-    return;
-  }
+  if (!currentUser) { window.location.href = '/learn/lms/login.html'; return; }
 
   if (course.isFree || course.price === 0) {
-    // Free course — enroll directly
     showLoadingOverlay(true, 'Enrolling...');
     try {
       await createEnrollment(course.id, null, 0);
@@ -742,11 +768,11 @@ async function handleEnroll(course) {
       showLoadingOverlay(false);
     }
   } else {
-    // Paid course — open payment modal
     pendingCourse = course;
     document.getElementById('modal-course-title').textContent = course.title;
     document.getElementById('modal-course-price').textContent = '₹' + course.price;
-    document.getElementById('modal-course-desc').textContent = course.description || 'Full course access including all lessons and verified certificate.';
+    document.getElementById('modal-course-desc').textContent  =
+      course.description || 'Full course access including all lessons and verified certificate.';
     document.getElementById('payment-modal').classList.add('show');
   }
 }
@@ -761,13 +787,12 @@ function proceedToPayment() {
 
   const options = {
     key:         RAZORPAY_KEY_ID,
-    amount:      pendingCourse.price * 100, // paise
+    amount:      pendingCourse.price * 100,
     currency:    'INR',
     name:        'SkillSphere Edu',
     description: `Course: ${pendingCourse.title}`,
     image:       '/learn/assets/logotp.png',
     handler: async function(response) {
-      // Payment success
       closePaymentModal();
       showLoadingOverlay(true, 'Confirming enrollment...');
       try {
@@ -777,44 +802,40 @@ function proceedToPayment() {
           window.location.href = `/learn/lms/player.html?course=${pendingCourse.id}`;
         }, 800);
       } catch (err) {
-        showToast('Payment received but enrollment failed. Contact support with payment ID: ' + response.razorpay_payment_id, 'error');
+        showToast(
+          'Payment received but enrollment failed. Contact support with payment ID: ' +
+          response.razorpay_payment_id, 'error'
+        );
       } finally {
         showLoadingOverlay(false);
       }
     },
     prefill: {
       name:  currentUser.displayName || userData?.name || '',
-      email: currentUser.email || '',
+      email: currentUser.email || ''
     },
-    notes: {
-      courseId: pendingCourse.id,
-      userId:   currentUser.uid
-    },
+    notes: { courseId: pendingCourse.id, userId: currentUser.uid },
     theme: { color: '#c0272d' },
-    modal: {
-      ondismiss: function() { showToast('Payment cancelled.', 'info'); }
-    }
+    modal: { ondismiss: () => showToast('Payment cancelled.', 'info') }
   };
 
   const rzp = new Razorpay(options);
-  rzp.on('payment.failed', function(resp) {
-    showToast('Payment failed: ' + resp.error.description, 'error');
-  });
+  rzp.on('payment.failed', resp =>
+    showToast('Payment failed: ' + resp.error.description, 'error')
+  );
   rzp.open();
 }
 
 async function createEnrollment(courseId, paymentId, amount) {
   const enrollId = `${currentUser.uid}_${courseId}`;
   await db.collection('enrollments').doc(enrollId).set({
-    userId:       currentUser.uid,
-    courseId:     courseId,
-    enrolledAt:   firebase.firestore.FieldValue.serverTimestamp(),
-    status:       'active',
-    paymentId:    paymentId || null,
+    userId:        currentUser.uid,
+    courseId,
+    enrolledAt:    firebase.firestore.FieldValue.serverTimestamp(),
+    status:        'active',
+    paymentId:     paymentId || null,
     paymentAmount: amount || 0
   });
-
-  // Initialize progress document
   await db.collection('progress').doc(currentUser.uid)
     .collection(courseId).doc('data').set({
       completedLessons: [],
@@ -824,28 +845,28 @@ async function createEnrollment(courseId, paymentId, amount) {
     });
 }
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    CERTIFICATE ACTIONS
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 function viewCertificate(certId) {
   window.open(`/learn/verify.html?id=${certId}`, '_blank');
 }
 
 function copyCertId(certId) {
-  navigator.clipboard.writeText(certId).then(() => {
-    showToast('Certificate ID copied to clipboard!', 'success');
-  });
+  navigator.clipboard.writeText(certId).then(() =>
+    showToast('Certificate ID copied to clipboard!', 'success')
+  );
 }
 
-/* ═══════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    UTILITIES
-═══════════════════════════════════════════════════ */
+════════════════════════════════════════════════════════ */
 function animateCounter(id, target) {
-  const el = document.getElementById(id);
+  const el       = document.getElementById(id);
   const duration = 1200;
-  const start = performance.now();
+  const start    = performance.now();
   function tick(now) {
-    const pct = Math.min((now - start) / duration, 1);
+    const pct   = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - pct, 3);
     el.textContent = Math.round(eased * target);
     if (pct < 1) requestAnimationFrame(tick);
@@ -855,7 +876,9 @@ function animateCounter(id, target) {
 
 function escHtml(str) {
   if (!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function showLoadingOverlay(show, msg) {
@@ -863,26 +886,24 @@ function showLoadingOverlay(show, msg) {
   if (msg) document.getElementById('loading-msg').textContent = msg;
 }
 
-function showToast(msg, type='info') {
+function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.className = `toast ${type} show`;
+  t.className   = `toast ${type} show`;
   setTimeout(() => t.classList.remove('show'), 4500);
 }
 
 async function logout() {
-  try {
-    await auth.signOut();
-    window.location.href = '/learn/';
-  } catch (err) {
-    showToast('Sign out failed. Try again.', 'error');
-  }
+  try { await auth.signOut(); window.location.href = '/learn/'; }
+  catch (err) { showToast('Sign out failed. Try again.', 'error'); }
 }
 
 function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
-</script>
-<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px';
+});
+
+/* ── PWA ── */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
