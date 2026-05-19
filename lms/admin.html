@@ -1830,14 +1830,5 @@ window.addEventListener('scroll', () => {
   document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px';
 });
 </script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/learn/lms/sw.js', { scope: '/learn/' })
-      .catch(err => console.warn('SW failed:', err));
-  });
-}
-</script>
 </body>
 </html>
