@@ -18,7 +18,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -26,6 +26,9 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <style>
+  /* ═══════════════════════════════════════════
+     TOKENS
+  ═══════════════════════════════════════════ */
   :root {
     --paper:       #f0ead6;
     --paper-dark:  #e0d8be;
@@ -33,187 +36,1071 @@
     --ink:         #1a1209;
     --ink-faded:   #3d3120;
     --ink-muted:   #6b5f45;
-    --red-tape:    #c0272d;
+    --red:         #c0272d;
     --red-dark:    #8b1a1e;
-    --red-hover:   #a82020;
-    --stamp-green: #1a4d2e;
-    --stamp-blue:  #1a3a6e;
-    --player-bg:   #0e0a06;
-    --sidebar-bg:  #130d07;
+    --red-glow:    rgba(192,39,45,0.35);
+    --green:       #1a4d2e;
+    --blue:        #1a3a6e;
+    --void:        #000000;
+    --player-bg:   #080503;
+    --sidebar-bg:  #0d0904;
+    --ctrl-bg:     rgba(8,5,3,0.92);
+    --ctrl-glass:  rgba(20,14,8,0.88);
     --display:     'Bebas Neue', sans-serif;
-    --typewriter:  'Courier Prime', monospace;
+    --type:        'Courier Prime', monospace;
     --mono:        'IBM Plex Mono', monospace;
+    --seek-pct:    0%;
+    --vol-pct:     100%;
+    --ctrl-h:      52px;
+    --seek-h:      3px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; font-size: 16px; }
-  body { background: var(--player-bg); color: var(--paper); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; height: 100vh; display: flex; flex-direction: column; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--player-bg);
+    color: var(--paper);
+    font-family: var(--type);
+    overflow: hidden;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
+  }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
-  button { font-family: var(--typewriter); cursor: pointer; }
-  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+  button { font-family: var(--type); cursor: pointer; }
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
 
-  /* ── PLAYER NAV ── */
-  .player-nav { height:56px; background:rgba(19,13,7,0.98); border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; padding:0 3%; flex-shrink:0; z-index:100; }
-  .pnav-left { display:flex; align-items:center; gap:16px; }
-  .pnav-logo { display:flex; align-items:center; gap:8px; }
-  .pnav-brand { font-family:var(--display); font-size:1.2rem; letter-spacing:2px; color:var(--paper); line-height:1; }
-  .pnav-brand em { font-style:normal; color:var(--red-tape); }
-  .pnav-logo-img { height:32px; width:32px; filter:contrast(1.1) brightness(0.9); }
-  .pnav-sep { width:1px; height:24px; background:rgba(255,255,255,0.12); }
-  .pnav-course-title { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.5); letter-spacing:1px; text-transform:uppercase; max-width:300px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .pnav-right { display:flex; align-items:center; gap:12px; }
-  .pnav-progress-wrap { display:flex; align-items:center; gap:8px; }
-  .pnav-progress-bar { width:100px; height:4px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
-  .pnav-progress-fill { height:100%; background:var(--stamp-green); transition:width 0.5s; border-radius:2px; }
-  .pnav-pct { font-family:var(--mono); font-size:0.62rem; color:rgba(240,234,214,0.5); letter-spacing:1px; }
-  .pnav-btn { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:0.4rem 0.9rem; border-radius:2px; border:none; cursor:pointer; transition:all 0.2s; }
-  .pnav-btn-dash { background:rgba(255,255,255,0.06); color:rgba(240,234,214,0.6); }
-  .pnav-btn-dash:hover { background:rgba(255,255,255,0.1); color:var(--paper); }
-  .pnav-hamburger { display:none; flex-direction:column; gap:4px; cursor:pointer; padding:4px; }
-  .pnav-hamburger span { display:block; width:18px; height:1.5px; background:rgba(240,234,214,0.7); border-radius:1px; }
+  @keyframes spin      { to { transform: rotate(360deg); } }
+  @keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp   { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes pulse-ring { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.12); opacity: 1; } }
+  @keyframes ctrl-reveal { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
 
-  /* ── PLAYER LAYOUT ── */
-  .player-body { flex:1; display:grid; grid-template-columns:300px 1fr; overflow:hidden; }
+  /* ═══════════════════════════════════════════
+     PLAYER NAV
+  ═══════════════════════════════════════════ */
+  .pnav {
+    height: 54px;
+    background: rgba(8,5,3,0.97);
+    border-bottom: 1px solid rgba(255,255,255,0.055);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 0 16px;
+    flex-shrink: 0;
+    z-index: 200;
+    position: relative;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .pnav-left  { display: flex; align-items: center; gap: 14px; }
+  .pnav-right { display: flex; align-items: center; gap: 10px; }
 
-  /* ── SIDEBAR ── */
-  .sidebar { background:var(--sidebar-bg); border-right:1px solid rgba(255,255,255,0.06); overflow-y:auto; display:flex; flex-direction:column; transition:transform 0.3s; }
-  .sidebar-header { padding:1.2rem 1.1rem; border-bottom:1px solid rgba(255,255,255,0.06); background:rgba(192,39,45,0.08); flex-shrink:0; }
-  .sidebar-case-tag { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; margin-bottom:4px; }
-  .sidebar-title { font-family:var(--display); font-size:1.5rem; color:var(--paper); line-height:1.1; }
-  .sidebar-meta { font-family:var(--mono); font-size:0.6rem; color:rgba(240,234,214,0.35); letter-spacing:1px; margin-top:6px; }
-  .curriculum { flex:1; overflow-y:auto; }
-  .section-item { border-bottom:1px solid rgba(255,255,255,0.04); }
-  .section-header { padding:0.9rem 1.1rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; user-select:none; transition:background 0.2s; }
-  .section-header:hover { background:rgba(255,255,255,0.03); }
-  .section-name { font-family:var(--mono); font-size:0.68rem; font-weight:700; color:rgba(240,234,214,0.7); text-transform:uppercase; letter-spacing:1px; line-height:1.3; }
-  .section-toggle { font-size:0.6rem; color:rgba(240,234,214,0.3); transition:transform 0.2s; }
-  .section-toggle.open { transform:rotate(90deg); }
-  .section-lessons { display:none; }
-  .section-lessons.open { display:block; }
-  .lesson-item { padding:0.75rem 1.1rem 0.75rem 1.8rem; display:flex; align-items:flex-start; gap:10px; cursor:pointer; transition:background 0.2s; border-left:2px solid transparent; }
-  .lesson-item:hover { background:rgba(255,255,255,0.04); }
-  .lesson-item.active { background:rgba(192,39,45,0.1); border-left-color:var(--red-tape); }
-  .lesson-item.completed { border-left-color:var(--stamp-green); }
-  .lesson-icon { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.6rem; flex-shrink:0; margin-top:1px; }
-  .lesson-icon.todo { background:rgba(255,255,255,0.06); color:rgba(240,234,214,0.3); border:1px solid rgba(255,255,255,0.1); }
-  .lesson-icon.active-icon { background:var(--red-tape); color:#fff; }
-  .lesson-icon.done-icon { background:var(--stamp-green); color:#fff; }
-  .lesson-icon.preview-icon { background:rgba(26,58,110,0.4); color:#90c0ff; border:1px solid rgba(26,58,110,0.5); }
-  .lesson-info { flex:1; min-width:0; }
-  .lesson-name { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.65); letter-spacing:0.5px; line-height:1.4; word-break:break-word; }
-  .lesson-item.active .lesson-name { color:var(--paper); }
-  .lesson-item.completed .lesson-name { color:rgba(90,200,120,0.7); }
-  .lesson-duration { font-family:var(--mono); font-size:0.58rem; color:rgba(240,234,214,0.25); margin-top:2px; letter-spacing:0.5px; }
+  .pnav-logo {
+    display: flex; align-items: center; gap: 9px;
+    text-decoration: none;
+  }
+  .pnav-logo-img { height: 30px; width: 30px; filter: brightness(0.9) contrast(1.1); flex-shrink: 0; }
+  .pnav-brand {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .pnav-brand em { font-style: normal; color: var(--red); }
 
-  /* ── MAIN PLAYER ── */
-  .player-main { display:flex; flex-direction:column; overflow-y:auto; background:var(--player-bg); }
-  .video-wrapper { position:relative; background:#000; width:100%; aspect-ratio:16/9; flex-shrink:0; max-height:calc(100vh - 56px - 180px); user-select:none; }
-  #yt-player { position:absolute; inset:0; width:100%; height:100%; }
-  .video-shield { position:absolute; inset:0; z-index:3; pointer-events:none; }
-  .video-watermark { position:absolute; z-index:4; pointer-events:none; font-family:var(--mono); font-size:11px; color:rgba(255,255,255,0.09); letter-spacing:1px; transition:top 1s ease,left 1s ease,bottom 1s ease,right 1s ease; user-select:none; white-space:nowrap; }
-  .devtools-warning { position:absolute; inset:0; z-index:10; background:rgba(10,6,2,0.96); display:none; align-items:center; justify-content:center; flex-direction:column; gap:1rem; text-align:center; padding:2rem; }
-  .devtools-warning.show { display:flex; }
-  .devtools-warning h3 { font-family:var(--display); font-size:2rem; color:var(--red-tape); }
-  .devtools-warning p { font-family:var(--mono); font-size:0.72rem; color:rgba(240,234,214,0.6); max-width:300px; line-height:1.6; letter-spacing:1px; }
-  .devtools-warning button { font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0.6rem 1.4rem; background:var(--red-tape); color:#fff; border:none; border-radius:3px; cursor:pointer; }
-  .video-placeholder { position:absolute; inset:0; background:#000; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; z-index:5; }
-  .video-placeholder.hidden { display:none; }
-  .vp-spinner { width:36px; height:36px; border:2px solid rgba(255,255,255,0.1); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .vp-msg { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.4); letter-spacing:2px; text-transform:uppercase; }
-  @keyframes spin { to { transform:rotate(360deg); } }
+  .pnav-sep { width: 1px; height: 22px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
 
-  /* ── LESSON INFO ── */
-  .lesson-info-area { flex:1; padding:1.6rem 2rem; border-top:1px solid rgba(255,255,255,0.06); background:rgba(19,13,7,0.6); }
-  .lesson-breadcrumb { font-family:var(--mono); font-size:0.6rem; color:rgba(240,234,214,0.3); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.5rem; }
-  .lesson-heading { font-family:var(--display); font-size:2rem; color:var(--paper); margin-bottom:0.5rem; }
-  .lesson-desc { font-family:var(--typewriter); font-size:0.85rem; color:rgba(240,234,214,0.5); line-height:1.75; max-width:680px; margin-bottom:1.4rem; }
-  .lesson-nav-row { display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
-  .btn-complete { font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0.65rem 1.4rem; border-radius:3px; border:none; cursor:pointer; transition:all 0.2s; background:var(--stamp-green); color:#fff; box-shadow:2px 2px 0 #0d3020; }
-  .btn-complete:hover { background:#14402a; }
-  .btn-complete.completed { background:rgba(26,77,46,0.3); color:rgba(90,200,120,0.8); box-shadow:none; cursor:default; }
-  .btn-prev, .btn-next { font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:0.6rem 1.1rem; border-radius:3px; cursor:pointer; transition:all 0.2s; background:rgba(255,255,255,0.05); color:rgba(240,234,214,0.6); border:1px solid rgba(255,255,255,0.08); }
-  .btn-prev:hover, .btn-next:hover { background:rgba(255,255,255,0.1); color:var(--paper); }
-  .btn-prev:disabled, .btn-next:disabled { opacity:0.25; cursor:not-allowed; }
-  .complete-indicator { font-family:var(--mono); font-size:0.62rem; color:rgba(90,200,120,0.7); letter-spacing:1px; display:flex; align-items:center; gap:6px; }
+  .pnav-course-name {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    color: rgba(240,234,214,0.4);
+    letter-spacing: 0.5px;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
 
-  /* ── COMPLETION BANNER ── */
-  .completion-banner { margin:0 2rem 1.5rem; background:linear-gradient(135deg,rgba(26,77,46,0.2),rgba(26,77,46,0.08)); border:1px solid rgba(26,77,46,0.3); border-radius:3px; padding:1.2rem 1.4rem; display:none; align-items:center; gap:1rem; flex-wrap:wrap; }
-  .completion-banner.show { display:flex; }
-  .comp-icon { font-size:2rem; }
-  .comp-text h4 { font-family:var(--display); font-size:1.4rem; color:rgba(90,200,120,0.9); margin-bottom:2px; }
-  .comp-text p { font-family:var(--mono); font-size:0.65rem; color:rgba(240,234,214,0.5); letter-spacing:1px; }
-  .btn-cert-request { font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0.55rem 1.2rem; background:var(--stamp-green); color:#fff; border:none; border-radius:3px; cursor:pointer; margin-left:auto; box-shadow:2px 2px 0 #0d3020; transition:background 0.2s; white-space:nowrap; }
-  .btn-cert-request:hover { background:#14402a; }
-  .btn-cert-request:disabled { opacity:0.5; cursor:not-allowed; }
+  /* Progress pill */
+  .pnav-prog {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 4px 10px 4px 6px;
+  }
+  .pnav-prog-bar {
+    width: 72px;
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .pnav-prog-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+  .pnav-prog-pct {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: rgba(240,234,214,0.45);
+    letter-spacing: 1px;
+  }
 
-  /* Banner state helpers */
-  .banner-state { display:none; width:100%; align-items:center; gap:1rem; flex-wrap:wrap; }
-  .banner-state.active { display:flex; }
+  .pnav-btn {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.38rem 0.9rem;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: rgba(240,234,214,0.55);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .pnav-btn:hover { background: rgba(255,255,255,0.1); color: var(--paper); border-color: rgba(255,255,255,0.18); }
 
-  /* Exam fee badge on banner */
-  .exam-fee-note { font-family:var(--mono); font-size:0.6rem; color:rgba(230,175,60,0.7); letter-spacing:1px; margin-top:3px; }
+  .pnav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .pnav-hamburger span { display: block; width: 18px; height: 1.5px; background: rgba(240,234,214,0.6); border-radius: 1px; }
 
-  /* ── PAYMENT MODAL (shared styles) ── */
-  .modal-overlay { position:fixed; inset:0; background:rgba(14,10,6,0.82); display:none; align-items:center; justify-content:center; z-index:9990; padding:1rem; }
-  .modal-overlay.show { display:flex; }
-  .modal-box { background:var(--player-bg); border:1px solid rgba(255,255,255,0.1); border-radius:3px; padding:2.4rem; max-width:440px; width:100%; box-shadow:8px 8px 0 rgba(0,0,0,0.5); position:relative; }
-  .modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.1rem; cursor:pointer; color:rgba(240,234,214,0.3); transition:color 0.2s; }
-  .modal-close:hover { color:var(--paper); }
-  .modal-tag { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; margin-bottom:6px; display:block; }
-  .modal-title { font-family:var(--display); font-size:2.2rem; color:var(--paper); margin-bottom:0.5rem; line-height:1; }
-  .modal-price { font-family:var(--display); font-size:3rem; color:var(--red-tape); margin-bottom:0.5rem; line-height:1; }
-  .modal-desc { font-family:var(--typewriter); font-size:0.85rem; color:rgba(240,234,214,0.4); margin-bottom:1.5rem; line-height:1.7; }
-  .modal-features { margin-bottom:1.8rem; display:flex; flex-direction:column; gap:6px; }
-  .modal-feat { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.55); letter-spacing:1px; display:flex; align-items:center; gap:8px; }
-  .modal-feat::before { content:'✓'; color:var(--stamp-green); font-size:0.75rem; }
-  .btn-pay { width:100%; padding:0.9rem; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.78rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; border:none; border-radius:3px; cursor:pointer; transition:background 0.2s; box-shadow:3px 3px 0 var(--red-dark); }
-  .btn-pay:hover { background:var(--red-hover); }
-  .modal-secure { font-family:var(--mono); font-size:0.58rem; color:rgba(240,234,214,0.2); text-align:center; margin-top:0.8rem; letter-spacing:1px; }
+  /* ═══════════════════════════════════════════
+     PLAYER BODY
+  ═══════════════════════════════════════════ */
+  .player-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    overflow: hidden;
+    min-height: 0;
+  }
 
-  /* ── MISC ── */
-  .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:49; }
-  .sidebar-overlay.show { display:block; }
-  .toast { position:fixed; top:70px; right:20px; z-index:9999; padding:0.8rem 1.3rem; border-radius:3px; font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.4); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
-  .toast.show { transform:translateX(0); }
-  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
-  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
-  .toast.info { background:rgba(26,18,9,0.95); color:var(--paper); border-left:4px solid var(--red-tape); border:1px solid rgba(255,255,255,0.1); }
-  .loading-overlay { position:fixed; inset:0; background:rgba(14,10,6,0.95); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
-  .loading-overlay.show { display:flex; }
-  .loading-spinner { width:40px; height:40px; border:3px solid rgba(255,255,255,0.08); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:rgba(240,234,214,0.4); letter-spacing:2px; text-transform:uppercase; }
-  .access-denied { display:none; flex:1; align-items:center; justify-content:center; flex-direction:column; gap:1rem; text-align:center; padding:2rem; }
-  .access-denied.show { display:flex; }
-  .ad-tag { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--red-tape); text-transform:uppercase; }
-  .ad-title { font-family:var(--display); font-size:3rem; color:var(--paper); }
-  .ad-sub { font-family:var(--typewriter); font-size:0.9rem; color:rgba(240,234,214,0.4); max-width:360px; line-height:1.7; }
-  .ad-btn { display:inline-block; margin-top:0.5rem; font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0.7rem 1.5rem; background:var(--red-tape); color:#fff; border:none; border-radius:3px; cursor:pointer; box-shadow:3px 3px 0 var(--red-dark); }
-  .player-footer { background:rgba(19,13,7,0.8); border-top:1px solid rgba(255,255,255,0.04); padding:1rem 5%; position:relative; z-index:1; flex-shrink:0; }
-  .player-footer-inner { max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
-  .player-footer span { font-family:var(--mono); font-size:0.62rem; color:rgba(240,234,214,0.2); letter-spacing:1px; }
-  .player-footer .tagline { color:rgba(192,39,45,0.6); font-weight:700; }
+  /* ═══════════════════════════════════════════
+     SIDEBAR
+  ═══════════════════════════════════════════ */
+  .sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid rgba(255,255,255,0.055);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  .sidebar-hdr {
+    padding: 14px 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.055);
+    background: rgba(192,39,45,0.07);
+    flex-shrink: 0;
+  }
+  .sidebar-tag {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .sidebar-title {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    color: var(--paper);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .sidebar-meta {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    color: rgba(240,234,214,0.3);
+    letter-spacing: 1px;
+  }
+  .curriculum { flex: 1; overflow-y: auto; }
 
+  .sec-item { border-bottom: 1px solid rgba(255,255,255,0.038); }
+  .sec-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .sec-header:hover { background: rgba(255,255,255,0.025); }
+  .sec-name {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    color: rgba(240,234,214,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+  .sec-toggle {
+    font-size: 0.55rem;
+    color: rgba(240,234,214,0.25);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .sec-toggle.open { transform: rotate(90deg); }
+  .sec-lessons { display: none; }
+  .sec-lessons.open { display: block; }
+
+  .les-item {
+    padding: 8px 14px 8px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .les-item:hover { background: rgba(255,255,255,0.03); }
+  .les-item.active { background: rgba(192,39,45,0.09); border-left-color: var(--red); }
+  .les-item.done   { border-left-color: var(--green); }
+
+  .les-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.52rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+  .les-icon.todo    { background: rgba(255,255,255,0.05); color: rgba(240,234,214,0.25); border: 1px solid rgba(255,255,255,0.08); }
+  .les-icon.current { background: var(--red); color: #fff; }
+  .les-icon.checked { background: var(--green); color: #fff; }
+
+  .les-info { flex: 1; min-width: 0; }
+  .les-name {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    color: rgba(240,234,214,0.55);
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  .les-item.active .les-name { color: var(--paper); }
+  .les-item.done   .les-name { color: rgba(80,180,100,0.65); }
+  .les-dur {
+    font-family: var(--mono);
+    font-size: 0.54rem;
+    color: rgba(240,234,214,0.2);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ═══════════════════════════════════════════
+     PLAYER MAIN
+  ═══════════════════════════════════════════ */
+  .player-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--player-bg);
+    min-height: 0;
+  }
+
+  /* ═══════════════════════════════════════════
+     ACCESS DENIED
+  ═══════════════════════════════════════════ */
+  .access-denied {
+    display: none;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .access-denied.show { display: flex; }
+  .ad-tag   { font-family: var(--mono); font-size: 10px; letter-spacing: 4px; color: var(--red); text-transform: uppercase; }
+  .ad-title { font-family: var(--display); font-size: 3rem; color: var(--paper); }
+  .ad-sub   { font-family: var(--type); font-size: 0.88rem; color: rgba(240,234,214,0.4); max-width: 340px; line-height: 1.7; }
+  .ad-btn   { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--red); color: #fff; border: none; border-radius: 3px; cursor: pointer; box-shadow: 3px 3px 0 var(--red-dark); }
+
+  /* ═══════════════════════════════════════════
+     VIDEO CONTAINER
+     The core: iframe is pointer-events:none.
+     ALL interaction routes through ctrl-overlay.
+  ═══════════════════════════════════════════ */
+  .video-container {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+    background: var(--void);
+    overflow: hidden;
+    /* Contain the 16:9 ratio without overflowing */
+    aspect-ratio: 16 / 9;
+    max-height: min(calc(100dvh - 54px - 160px), 68vh);
+  }
+
+  /* The YouTube iframe wrapper — pointer-events: none is the key anti-piracy layer */
+  .yt-wrap {
+    position: absolute;
+    /* Extend slightly beyond container to hide YT chrome remnants */
+    top: -56px;
+    left: -2px;
+    right: -2px;
+    bottom: -56px;
+    pointer-events: none !important; /* CRITICAL — no clicks reach YouTube UI */
+  }
+
+  #yt-player {
+    width: 100%;
+    height: 100%;
+    pointer-events: none !important;
+    border: none;
+    display: block;
+  }
+
+  /* YouTube creates the iframe inside #yt-player — block all its clicks too */
+  #yt-player iframe {
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    border: none !important;
+    display: block !important;
+  }
+
+  /* Corner covers — paste over any YouTube logo remnants */
+  .yt-cover {
+    position: absolute;
+    background: var(--void);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .yt-cover-tl { top: 0; left: 0; width: 120px; height: 50px; }
+  .yt-cover-tr { top: 0; right: 0; width: 120px; height: 50px; }
+  .yt-cover-bl { bottom: 0; left: 0; width: 200px; height: 46px; }
+  .yt-cover-br { bottom: 0; right: 0; width: 200px; height: 46px; }
+
+  /* Watermark — floats over video */
+  .vid-watermark {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.07);
+    letter-spacing: 1px;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: top 1.2s ease, left 1.2s ease, bottom 1.2s ease, right 1.2s ease;
+    white-space: nowrap;
+  }
+
+  /* Loading spinner */
+  .vid-spinner {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    transition: opacity 0.3s;
+  }
+  .vid-spinner.hidden { opacity: 0; pointer-events: none; }
+  .spin-ring {
+    width: 38px;
+    height: 38px;
+    border: 2px solid rgba(255,255,255,0.08);
+    border-top-color: var(--red);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .spin-msg {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: rgba(240,234,214,0.3);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* DevTools warning */
+  .devtools-warn {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(8,5,3,0.97);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .devtools-warn.show { display: flex; }
+  .devtools-warn h3  { font-family: var(--display); font-size: 2.2rem; color: var(--red); }
+  .devtools-warn p   { font-family: var(--mono); font-size: 0.68rem; color: rgba(240,234,214,0.5); max-width: 300px; line-height: 1.7; letter-spacing: 1px; }
+  .devtools-warn button { font-family: var(--mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 0.65rem 1.5rem; background: var(--red); color: #fff; border: none; border-radius: 3px; cursor: pointer; box-shadow: 3px 3px 0 var(--red-dark); }
+
+  /* ═══════════════════════════════════════════
+     CUSTOM CONTROLS OVERLAY
+  ═══════════════════════════════════════════ */
+  .ctrl-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    /* Controls reveal */
+    --ctrl-opacity: 0;
+  }
+
+  /* Controls visible state */
+  .ctrl-overlay.ctrl-show { --ctrl-opacity: 1; }
+  .ctrl-overlay.ctrl-paused { --ctrl-opacity: 1; }
+  .ctrl-overlay.ctrl-cursor-hidden { cursor: none; }
+
+  /* Center zone — click to play/pause */
+  .ctrl-center-zone {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  /* Big play/pause button (shown when paused) */
+  .big-play-btn {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    border: 2px solid rgba(255,255,255,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    opacity: 0;
+    transform: scale(0.85);
+    backdrop-filter: blur(4px);
+  }
+  .big-play-btn svg { width: 32px; height: 32px; }
+  /* Show when paused */
+  .ctrl-overlay.ctrl-paused .big-play-btn {
+    opacity: 1;
+    transform: scale(1);
+    animation: pulse-ring 2.4s ease-in-out infinite;
+  }
+  /* Buffering spinner in center */
+  .big-buf-ring {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border: 2.5px solid rgba(255,255,255,0.12);
+    border-top-color: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .ctrl-overlay.ctrl-buffering .big-buf-ring  { opacity: 1; }
+  .ctrl-overlay.ctrl-buffering .big-play-btn  { opacity: 0; }
+
+  /* Skip flash indicators */
+  .skip-flash {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+    color: rgba(255,255,255,0.9);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .skip-flash svg { width: 22px; height: 22px; }
+  .skip-flash.left  { left: 15%; }
+  .skip-flash.right { right: 15%; }
+  .skip-flash.show  { opacity: 1; }
+
+  /* ─── CONTROLS BAR ─── */
+  .ctrl-bar {
+    flex-shrink: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.92) 60%);
+    padding: 28px 16px 10px;
+    opacity: var(--ctrl-opacity);
+    transition: opacity 0.3s ease;
+    animation: ctrl-reveal 0.2s ease;
+  }
+
+  /* Seek row */
+  .seek-row {
+    position: relative;
+    margin-bottom: 8px;
+    padding: 4px 0;
+  }
+
+  /* Buffered track */
+  .seek-buffered {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: var(--seek-h);
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+    pointer-events: none;
+    transition: width 0.5s linear;
+    z-index: 1;
+  }
+
+  /* Seek input */
+  .seek-input {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(
+      to right,
+      var(--red) var(--seek-pct),
+      rgba(255,255,255,0.15) var(--seek-pct)
+    );
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+    z-index: 2;
+    display: block;
+  }
+  .seek-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: width 0.15s, height 0.15s, box-shadow 0.15s;
+    box-shadow: none;
+  }
+  .seek-row:hover .seek-input::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    box-shadow: 0 0 0 3px var(--red-glow);
+  }
+  .seek-input::-webkit-slider-runnable-track { height: 4px; }
+  .seek-input::-moz-range-thumb {
+    width: 0; height: 0;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .seek-row:hover .seek-input::-moz-range-thumb { width: 14px; height: 14px; }
+  .seek-input::-moz-range-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+  /* Hover time tooltip */
+  .seek-tooltip {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 8px;
+    transform: translateX(-50%);
+    background: rgba(8,5,3,0.9);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px;
+    padding: 3px 7px;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--paper);
+    letter-spacing: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+    z-index: 10;
+  }
+  .seek-row:hover .seek-tooltip { opacity: 1; }
+
+  /* Controls bottom row */
+  .ctrl-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--ctrl-h);
+    gap: 4px;
+  }
+  .ctrl-left  { display: flex; align-items: center; gap: 2px; }
+  .ctrl-right { display: flex; align-items: center; gap: 2px; }
+
+  /* Control buttons */
+  .ctrl-btn {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: rgba(240,234,214,0.7);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, transform 0.12s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .ctrl-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .ctrl-btn:active { transform: scale(0.9); }
+  .ctrl-btn svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+
+  /* Play button — slightly larger */
+  #btn-play { width: 42px; height: 42px; }
+  #btn-play svg { width: 24px; height: 24px; }
+
+  /* Volume group */
+  .vol-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+  }
+  .vol-slider-wrap {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  .vol-group:hover .vol-slider-wrap { width: 72px; }
+  .vol-slider {
+    width: 72px;
+    height: 3px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(
+      to right,
+      rgba(240,234,214,0.8) var(--vol-pct),
+      rgba(255,255,255,0.15) var(--vol-pct)
+    );
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+    margin: 0 6px;
+  }
+  .vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 11px;
+    height: 11px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -4px;
+  }
+  .vol-slider::-moz-range-thumb { width: 11px; height: 11px; background: #fff; border: none; border-radius: 50%; cursor: pointer; }
+
+  /* Time display */
+  .time-disp {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    color: rgba(240,234,214,0.5);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .time-disp span { color: rgba(240,234,214,0.25); }
+
+  /* Speed control */
+  .speed-wrap { position: relative; }
+  .speed-btn {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 0 10px;
+    height: 34px;
+    width: auto;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    color: rgba(240,234,214,0.6);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .speed-btn:hover { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .speed-dropdown {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    background: rgba(10,7,4,0.97);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 20;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    min-width: 80px;
+  }
+  .speed-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .speed-opt {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 3px;
+    border: none;
+    background: none;
+    color: rgba(240,234,214,0.5);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .speed-opt:hover  { background: rgba(255,255,255,0.07); color: var(--paper); }
+  .speed-opt.active { color: var(--red); font-weight: 700; }
+
+  /* Fullscreen button */
+  #btn-fs svg { width: 19px; height: 19px; }
+
+  /* ═══════════════════════════════════════════
+     LESSON META — below video
+  ═══════════════════════════════════════════ */
+  .lesson-meta {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px 16px;
+    background: var(--player-bg);
+    border-top: 1px solid rgba(255,255,255,0.055);
+    display: none;
+    min-height: 0;
+  }
+  .lesson-meta.show { display: flex; flex-direction: column; gap: 0; }
+
+  .lesson-meta-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .lesson-meta-left { flex: 1; min-width: 0; }
+
+  .lesson-breadcrumb {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 3px;
+    color: rgba(240,234,214,0.28);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .lesson-title {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    color: var(--paper);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .lesson-desc {
+    font-family: var(--type);
+    font-size: 0.82rem;
+    color: rgba(240,234,214,0.38);
+    line-height: 1.7;
+    max-width: 680px;
+    margin-bottom: 14px;
+  }
+
+  /* Nav row */
+  .lesson-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-lesson-nav {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: rgba(240,234,214,0.55);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-lesson-nav:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .btn-lesson-nav:disabled { opacity: 0.2; cursor: not-allowed; }
+
+  .btn-complete {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border-radius: 3px;
+    border: none;
+    background: var(--green);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 0 #0d3020;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-complete:hover:not(:disabled) { background: #14402a; }
+  .btn-complete:disabled { background: rgba(26,77,46,0.25); color: rgba(80,200,110,0.7); box-shadow: none; cursor: default; }
+  .btn-complete svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .complete-tick {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: rgba(80,200,110,0.7);
+    letter-spacing: 1px;
+    display: none;
+    align-items: center;
+    gap: 6px;
+  }
+  .complete-tick.show { display: flex; }
+
+  /* ═══════════════════════════════════════════
+     COMPLETION BANNER
+  ═══════════════════════════════════════════ */
+  .completion-banner {
+    flex-shrink: 0;
+    margin: 0 24px 14px;
+    background: linear-gradient(135deg, rgba(26,77,46,0.18), rgba(26,77,46,0.07));
+    border: 1px solid rgba(26,77,46,0.28);
+    border-radius: 3px;
+    padding: 14px 18px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .completion-banner.show { display: flex; }
+  .comp-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .comp-text h4 {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    color: rgba(80,200,110,0.9);
+    margin-bottom: 2px;
+  }
+  .comp-text p {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: rgba(240,234,214,0.4);
+    letter-spacing: 1px;
+  }
+  .btn-cert-req {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 1.1rem;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #0d3020;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-cert-req:hover { background: #14402a; }
+  .btn-cert-req:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .banner-state { display: none; width: 100%; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .banner-state.active { display: flex; }
+  .exam-fee-note { font-family: var(--mono); font-size: 0.58rem; color: rgba(220,170,60,0.7); letter-spacing: 1px; margin-top: 3px; }
+
+  /* ═══════════════════════════════════════════
+     PAYMENT MODAL
+  ═══════════════════════════════════════════ */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(8,5,3,0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9990;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: rgba(13,10,7,0.98);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 2.2rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    position: relative;
+    animation: slideUp 0.3s ease;
+  }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1rem; cursor: pointer; color: rgba(240,234,214,0.3); transition: color 0.2s; }
+  .modal-close:hover { color: var(--paper); }
+  .modal-tag   { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--red); text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .modal-title { font-family: var(--display); font-size: 2rem; color: var(--paper); margin-bottom: 4px; }
+  .modal-price { font-family: var(--display); font-size: 2.8rem; color: var(--red); margin-bottom: 6px; }
+  .modal-desc  { font-family: var(--type); font-size: 0.82rem; color: rgba(240,234,214,0.4); margin-bottom: 1.4rem; line-height: 1.7; }
+  .modal-feats { margin-bottom: 1.6rem; display: flex; flex-direction: column; gap: 6px; }
+  .modal-feat  { font-family: var(--mono); font-size: 0.65rem; color: rgba(240,234,214,0.5); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .modal-feat::before { content: '✓'; color: var(--green); }
+  .btn-pay { width: 100%; padding: 0.85rem; background: var(--red); color: #fff; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border: none; border-radius: 3px; cursor: pointer; transition: background 0.2s; box-shadow: 3px 3px 0 var(--red-dark); }
+  .btn-pay:hover { background: #a82020; }
+  .modal-secure { font-family: var(--mono); font-size: 0.56rem; color: rgba(240,234,214,0.2); text-align: center; margin-top: 8px; letter-spacing: 1px; }
+
+  /* ═══════════════════════════════════════════
+     TOAST + LOADING
+  ═══════════════════════════════════════════ */
+  .toast {
+    position: fixed; top: 68px; right: 18px; z-index: 9999;
+    padding: 0.8rem 1.2rem;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    max-width: 340px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    line-height: 1.5;
+  }
+  .toast.show    { transform: translateX(0); }
+  .toast.error   { background: var(--red); color: #fff; border-left: 3px solid var(--red-dark); }
+  .toast.success { background: var(--green); color: #fff; border-left: 3px solid #0d3020; }
+  .toast.info    { background: rgba(18,12,8,0.98); color: var(--paper); border: 1px solid rgba(255,255,255,0.1); border-left: 3px solid var(--red); }
+
+  .loading-overlay {
+    position: fixed; inset: 0;
+    background: rgba(8,5,3,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .loading-overlay.show { display: flex; }
+  .loading-spinner { width: 40px; height: 40px; border: 2px solid rgba(255,255,255,0.07); border-top-color: var(--red); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .loading-msg { font-family: var(--mono); font-size: 0.65rem; color: rgba(240,234,214,0.35); letter-spacing: 3px; text-transform: uppercase; }
+
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 49; }
+  .sidebar-overlay.show { display: block; }
+
+  /* ═══════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════ */
+  .player-footer {
+    background: rgba(8,5,3,0.85);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 6px 20px;
+    flex-shrink: 0;
+  }
+  .player-footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .player-footer span { font-family: var(--mono); font-size: 0.56rem; color: rgba(240,234,214,0.18); letter-spacing: 0.5px; }
+  .player-footer .pf-brand { color: rgba(192,39,45,0.45); font-weight: 700; }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════ */
   @media (max-width: 900px) {
-    .player-body { grid-template-columns:1fr; }
-    .sidebar { position:fixed; left:0; top:56px; bottom:0; width:300px; z-index:50; transform:translateX(-100%); }
-    .sidebar.open { transform:translateX(0); }
-    .pnav-hamburger { display:flex; }
-    .pnav-course-title { display:none; }
+    .player-body { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed;
+      left: 0; top: 54px; bottom: 0;
+      width: 290px;
+      z-index: 50;
+      transform: translateX(-100%);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .pnav-hamburger { display: flex; }
+    .pnav-course-name { display: none; }
+    .video-container { max-height: 50vh; }
+    .lesson-meta { padding: 12px 16px; }
+    .lesson-title { font-size: 1.5rem; }
   }
   @media (max-width: 560px) {
-    .lesson-info-area { padding:1.2rem 1.2rem; }
-    .video-watermark { font-size:9px; }
-    .completion-banner { margin:0 1rem 1rem; }
+    .pnav-prog { display: none; }
+    .ctrl-row { height: 42px; }
+    .ctrl-btn  { width: 34px; height: 34px; }
+    .time-disp { font-size: 0.58rem; padding: 0 4px; }
+    .lesson-meta { padding: 10px 14px; }
+    .completion-banner { margin: 0 14px 12px; }
   }
   </style>
 </head>
 <body>
 
+<!-- ═════════════════ UTILITY ═════════════════ -->
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
@@ -221,69 +1108,63 @@
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<!-- ═══ EXAM FEE PAYMENT MODAL ═══ -->
+<!-- ═════════════════ EXAM PAYMENT MODAL ═════════════════ -->
 <div class="modal-overlay" id="exam-payment-modal">
   <div class="modal-box">
     <button class="modal-close" onclick="closeExamPaymentModal()">✕</button>
     <span class="modal-tag">Exam Access · Payment Required</span>
     <div class="modal-title">Certificate Exam Fee</div>
-    <div class="modal-price">₹<span id="exam-modal-fee">299</span></div>
-    <p class="modal-desc">
-      This course offers a paid certificate. Pay a one-time exam fee to access
-      the SkillSphere Edu Exam Portal and earn your verified credential.
-    </p>
-    <div class="modal-features">
+    <div class="modal-price">₹<span id="exam-modal-fee">49</span></div>
+    <p class="modal-desc">Pay a one-time exam fee to access the SkillSphere Edu Exam Portal and earn your verified credential.</p>
+    <div class="modal-feats">
       <div class="modal-feat">Access to SkillSphere Edu Exam Portal</div>
       <div class="modal-feat">Two exam attempts included</div>
       <div class="modal-feat">Verified certificate issued on passing</div>
       <div class="modal-feat">Score visible in your student dashboard</div>
     </div>
-    <button class="btn-pay" onclick="proceedToExamPayment()">
-      Pay ₹<span id="exam-pay-btn-fee">299</span> &amp; Request Exam Access →
-    </button>
-    <p class="modal-secure">🔒 Secured by Razorpay · UPI · Cards · NetBanking · Wallets</p>
+    <button class="btn-pay" onclick="proceedToExamPayment()">Pay ₹<span id="exam-pay-btn-fee">49</span> &amp; Request Exam →</button>
+    <p class="modal-secure">🔒 Razorpay · UPI · Cards · NetBanking · Wallets</p>
   </div>
 </div>
 
-<!-- ═══ PLAYER NAV ═══ -->
-<nav class="player-nav" id="main-nav">
+<!-- ═════════════════ NAV ═════════════════ -->
+<nav class="pnav" id="main-nav">
   <div class="pnav-left">
     <a href="/learn/" class="pnav-logo">
       <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="pnav-logo-img">
       <span class="pnav-brand">Skill<em>Sphere</em> Edu</span>
     </a>
     <div class="pnav-sep"></div>
-    <span class="pnav-course-title" id="pnav-course-title">Loading course...</span>
+    <span class="pnav-course-name" id="pnav-course-name">Loading...</span>
   </div>
   <div class="pnav-right">
-    <div class="pnav-progress-wrap">
-      <div class="pnav-progress-bar">
-        <div class="pnav-progress-fill" id="pnav-fill" style="width:0%"></div>
+    <div class="pnav-prog">
+      <div class="pnav-prog-bar">
+        <div class="pnav-prog-fill" id="pnav-fill" style="width:0%"></div>
       </div>
-      <span class="pnav-pct" id="pnav-pct">0%</span>
+      <span class="pnav-prog-pct" id="pnav-pct">0%</span>
     </div>
-    <button class="pnav-btn pnav-btn-dash"
-            onclick="window.location.href='/learn/lms/dashboard.html'">← Dashboard</button>
-    <button class="pnav-hamburger" onclick="toggleSidebar()" id="sidebar-toggle">
+    <button class="pnav-btn" onclick="window.location.href='/learn/lms/dashboard.html'">← Dashboard</button>
+    <button class="pnav-hamburger" id="sidebar-toggle" onclick="toggleSidebar()">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- ═══ PLAYER BODY ═══ -->
+<!-- ═════════════════ PLAYER BODY ═════════════════ -->
 <div class="player-body" id="player-body">
 
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-case-tag">Evidence File · Curriculum</div>
+    <div class="sidebar-hdr">
+      <span class="sidebar-tag">Evidence File · Curriculum</span>
       <div class="sidebar-title" id="sidebar-course-title">Course Title</div>
-      <div class="sidebar-meta" id="sidebar-meta">0 sections · 0 lessons</div>
+      <div class="sidebar-meta" id="sidebar-meta">— lessons</div>
     </div>
     <div class="curriculum" id="curriculum"></div>
   </aside>
 
-  <!-- MAIN PLAYER -->
+  <!-- PLAYER MAIN -->
   <div class="player-main" id="player-main">
 
     <!-- Access denied -->
@@ -291,42 +1172,196 @@
       <div class="ad-tag">Access Restricted · Enrollment Required</div>
       <div class="ad-title">Not Enrolled</div>
       <p class="ad-sub">You need to enroll in this course to access its content.</p>
-      <button class="ad-btn"
-              onclick="window.location.href='/learn/lms/dashboard.html'">
-        Go to Dashboard →
-      </button>
+      <button class="ad-btn" onclick="window.location.href='/learn/lms/dashboard.html'">Go to Dashboard →</button>
     </div>
 
-    <!-- Video wrapper -->
-    <div class="video-wrapper" id="video-wrapper" style="display:none;">
-      <div id="yt-player"></div>
-      <div class="video-shield" id="video-shield"></div>
-      <div class="video-watermark" id="video-watermark"></div>
-      <div class="video-placeholder" id="video-placeholder">
-        <div class="vp-spinner"></div>
-        <span class="vp-msg">Loading lesson...</span>
+    <!-- ══════════════════════════════════════
+         VIDEO CONTAINER
+         iframe: pointer-events NONE.
+         ctrl-overlay: handles ALL interaction.
+    ══════════════════════════════════════ -->
+    <div class="video-container" id="video-container" style="display:none;">
+
+      <!-- YouTube iframe — completely shielded from user interaction -->
+      <div class="yt-wrap" id="yt-wrap">
+        <div id="yt-player"></div>
       </div>
-      <div class="devtools-warning" id="devtools-warning">
+
+      <!-- Corner blackout covers (hides any YouTube logo/branding remnants) -->
+      <div class="yt-cover yt-cover-tl"></div>
+      <div class="yt-cover yt-cover-tr"></div>
+      <div class="yt-cover yt-cover-bl"></div>
+      <div class="yt-cover yt-cover-br"></div>
+
+      <!-- Floating email watermark -->
+      <div class="vid-watermark" id="vid-watermark"></div>
+
+      <!-- Loading spinner (covers iframe until video plays) -->
+      <div class="vid-spinner" id="vid-spinner">
+        <div class="spin-ring"></div>
+        <span class="spin-msg">Loading lesson...</span>
+      </div>
+
+      <!-- DevTools warning -->
+      <div class="devtools-warn" id="devtools-warn">
         <h3>⚠ Security Alert</h3>
-        <p>Developer tools detected. Lesson paused for content protection.</p>
-        <button onclick="dismissDevToolsWarning()">I've Closed DevTools →</button>
+        <p>Developer tools detected. Video paused for content protection. Close DevTools to continue.</p>
+        <button onclick="dismissDevtoolsWarn()">I've Closed DevTools →</button>
+      </div>
+
+      <!-- ══ CUSTOM CONTROLS OVERLAY ══
+           Everything the user interacts with lives here.
+           No click ever reaches the YouTube iframe below. -->
+      <div class="ctrl-overlay ctrl-paused" id="ctrl-overlay">
+
+        <!-- Center zone: click = play/pause, double-click = fullscreen -->
+        <div class="ctrl-center-zone" id="ctrl-center-zone"
+             onclick="togglePlay()"
+             ondblclick="toggleFullscreen()">
+          <!-- Big play/pause indicator -->
+          <div class="big-play-btn" id="big-play-btn">
+            <!-- SVG set by JS -->
+          </div>
+          <!-- Buffering ring -->
+          <div class="big-buf-ring" id="big-buf-ring"></div>
+        </div>
+
+        <!-- Skip flash indicators -->
+        <div class="skip-flash left"  id="skip-flash-back"></div>
+        <div class="skip-flash right" id="skip-flash-fwd"></div>
+
+        <!-- Controls bar -->
+        <div class="ctrl-bar" id="ctrl-bar">
+
+          <!-- Seek row -->
+          <div class="seek-row" id="seek-row"
+               onmousemove="onSeekHover(event)"
+               onmouseleave="seekTooltip.style.left='-999px'">
+            <div class="seek-buffered" id="seek-buffered" style="width:0%"></div>
+            <input type="range" class="seek-input" id="seek-input"
+                   min="0" max="100" step="0.05" value="0"
+                   onmousedown="seekDragStart()"
+                   onmouseup="seekDragEnd()"
+                   ontouchstart="seekDragStart()"
+                   ontouchend="seekDragEnd()"
+                   oninput="onSeekInput(this.value)">
+            <div class="seek-tooltip" id="seek-tooltip">0:00</div>
+          </div>
+
+          <!-- Button row -->
+          <div class="ctrl-row">
+            <div class="ctrl-left">
+
+              <!-- Play/Pause -->
+              <button class="ctrl-btn" id="btn-play"
+                      onclick="togglePlay()" title="Play / Pause (Space)">
+              </button>
+
+              <!-- Skip ±10s -->
+              <button class="ctrl-btn" onclick="skipTime(-10)" title="Rewind 10s (←)">
+                <svg viewBox="0 0 24 24"><path d="M12.5 3a9 9 0 1 0 8.46 5.93L19.1 10.2A7 7 0 1 1 12.5 5v2.5L16 4l-3.5-3.5V3z"/><text x="7.2" y="15.8" font-size="5.5" font-family="monospace" font-weight="700" fill="currentColor">10</text></svg>
+              </button>
+              <button class="ctrl-btn" onclick="skipTime(10)" title="Forward 10s (→)">
+                <svg viewBox="0 0 24 24"><path d="M11.5 3a9 9 0 1 1-8.46 5.93L4.9 10.2A7 7 0 1 0 11.5 5v2.5L8 4l3.5-3.5V3z"/><text x="7.2" y="15.8" font-size="5.5" font-family="monospace" font-weight="700" fill="currentColor">10</text></svg>
+              </button>
+
+              <!-- Prev / Next lesson -->
+              <button class="ctrl-btn" id="btn-prev-lesson"
+                      onclick="navigateLesson(-1)" title="Previous Lesson" disabled>
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6V6zm3.5 6L18 18V6l-8.5 6z"/></svg>
+              </button>
+              <button class="ctrl-btn" id="btn-next-lesson"
+                      onclick="navigateLesson(1)" title="Next Lesson">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm2.5-6L13 6v12z M15.5 6h2v12h-2z"/></svg>
+              </button>
+
+              <!-- Volume -->
+              <div class="vol-group">
+                <button class="ctrl-btn" id="btn-mute"
+                        onclick="toggleMute()" title="Mute (M)">
+                </button>
+                <div class="vol-slider-wrap">
+                  <input type="range" class="vol-slider" id="vol-slider"
+                         min="0" max="100" value="100"
+                         oninput="setVolume(parseInt(this.value))">
+                </div>
+              </div>
+
+              <!-- Time display -->
+              <div class="time-disp">
+                <span id="time-current">0:00</span>
+                <span>/</span>
+                <span id="time-total">0:00</span>
+              </div>
+
+            </div>
+            <div class="ctrl-right">
+
+              <!-- Playback speed -->
+              <div class="speed-wrap">
+                <button class="ctrl-btn speed-btn" id="speed-btn"
+                        onclick="toggleSpeedMenu()" title="Playback Speed">
+                  <span id="speed-label">1×</span>
+                </button>
+                <div class="speed-dropdown" id="speed-dropdown">
+                  <button class="speed-opt" data-r="0.5"  onclick="setRate(0.5)">0.5×</button>
+                  <button class="speed-opt" data-r="0.75" onclick="setRate(0.75)">0.75×</button>
+                  <button class="speed-opt active" data-r="1" onclick="setRate(1)">1×</button>
+                  <button class="speed-opt" data-r="1.25" onclick="setRate(1.25)">1.25×</button>
+                  <button class="speed-opt" data-r="1.5"  onclick="setRate(1.5)">1.5×</button>
+                  <button class="speed-opt" data-r="2"    onclick="setRate(2)">2×</button>
+                </div>
+              </div>
+
+              <!-- Fullscreen -->
+              <button class="ctrl-btn" id="btn-fs"
+                      onclick="toggleFullscreen()" title="Fullscreen (F)">
+              </button>
+
+            </div>
+          </div><!-- /ctrl-row -->
+        </div><!-- /ctrl-bar -->
+      </div><!-- /ctrl-overlay -->
+    </div><!-- /video-container -->
+
+    <!-- ══════════════════════════════════════
+         LESSON META (below video)
+    ══════════════════════════════════════ -->
+    <div class="lesson-meta" id="lesson-meta">
+      <div class="lesson-meta-top">
+        <div class="lesson-meta-left">
+          <span class="lesson-breadcrumb" id="lesson-breadcrumb">Section · Lesson</span>
+          <div class="lesson-title" id="lesson-title">Lesson Title</div>
+          <p class="lesson-desc" id="lesson-desc"></p>
+          <div class="lesson-nav">
+            <button class="btn-lesson-nav" id="btn-prev" onclick="navigateLesson(-1)" disabled>← Previous</button>
+            <button class="btn-complete" id="btn-complete" onclick="markComplete()">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Mark Complete
+            </button>
+            <button class="btn-lesson-nav" id="btn-next" onclick="navigateLesson(1)">Next →</button>
+            <div class="complete-tick" id="complete-tick">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="rgba(80,200,110,0.7)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+              Completed
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- ═══ MULTI-STATE COMPLETION BANNER ═══ -->
+    <!-- ══════════════════════════════════════
+         COMPLETION BANNER (multi-state)
+    ══════════════════════════════════════ -->
     <div class="completion-banner" id="completion-banner">
 
-      <!-- STATE 0: Free course + Free cert — direct cert request, no exam -->
+      <!-- STATE 0: Free course + Free cert — direct request -->
       <div class="banner-state" id="banner-simple">
         <div class="comp-icon">🏆</div>
         <div class="comp-text">
           <h4>Course Complete!</h4>
           <p>All lessons finished. Request your verified certificate below.</p>
         </div>
-        <button class="btn-cert-request" id="btn-cert-direct"
-                onclick="requestCertificateDirect()">
-          Request Certificate →
-        </button>
+        <button class="btn-cert-req" id="btn-cert-direct" onclick="requestCertificateDirect()">Request Certificate →</button>
       </div>
 
       <!-- STATE 1: Exam needed — no request yet -->
@@ -334,68 +1369,50 @@
         <div class="comp-icon">🎓</div>
         <div class="comp-text">
           <h4>Course Complete!</h4>
-          <p id="banner-exam-none-msg">
-            All lessons finished. Request exam access to earn your certificate.
-          </p>
-          <div class="exam-fee-note" id="banner-fee-note" style="display:none;">
-            One-time exam fee: ₹<span id="banner-fee-amt">299</span>
-          </div>
+          <p id="banner-exam-none-msg">All lessons finished. Request exam access to earn your certificate.</p>
+          <div class="exam-fee-note" id="banner-fee-note" style="display:none;">One-time exam fee: ₹<span id="banner-fee-amt">49</span></div>
         </div>
-        <button class="btn-cert-request" id="btn-request-exam"
-                onclick="requestExamAccess()">
-          Request Exam Access →
-        </button>
+        <button class="btn-cert-req" id="btn-request-exam" onclick="requestExamAccess()">Request Exam Access →</button>
       </div>
 
-      <!-- STATE 2: Exam requested — pending enrollment ID from admin -->
+      <!-- STATE 2: Pending ID from admin -->
       <div class="banner-state" id="banner-exam-pending">
         <div class="comp-icon">📬</div>
         <div class="comp-text">
-          <h4 style="color:rgba(230,175,60,0.9);">Exam Access Requested</h4>
+          <h4 style="color:rgba(220,170,60,0.9);">Exam Access Requested</h4>
           <p>Admin will assign your Exam Enrollment ID and email it shortly.</p>
         </div>
       </div>
 
-      <!-- STATE 3: Enrollment ID assigned — go take exam -->
+      <!-- STATE 3: Enrollment ID assigned -->
       <div class="banner-state" id="banner-exam-enrolled">
         <div class="comp-icon">📧</div>
         <div class="comp-text">
           <h4 style="color:#90c0ff;">Enrollment ID Assigned</h4>
           <p>Check your email for your Exam Enrollment ID, then head to the portal.</p>
         </div>
-        <button class="btn-cert-request"
-                style="background:var(--stamp-blue);box-shadow:2px 2px 0 #0a1a3e;"
-                onclick="window.open(EXAM_PORTAL_URL,'_blank')">
-          Go to Exam Portal →
-        </button>
+        <button class="btn-cert-req" style="background:var(--blue);box-shadow:2px 2px 0 #0a1a3e;"
+                onclick="window.open(EXAM_PORTAL_URL,'_blank')">Go to Exam Portal →</button>
       </div>
 
-      <!-- STATE 4: Score entered — show result -->
+      <!-- STATE 4: Scored -->
       <div class="banner-state" id="banner-exam-scored">
         <div class="comp-icon" id="exam-result-icon">📊</div>
         <div class="comp-text">
           <h4 id="exam-result-heading">Exam Result</h4>
           <p id="exam-result-detail">—</p>
         </div>
-        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-left:auto;">
-          <button id="btn-request-cert-exam" class="btn-cert-request"
-                  style="display:none;" onclick="requestCertificateFromExam()">
-            Request Certificate →
-          </button>
-          <button id="btn-retry-exam" class="btn-cert-request"
-                  style="display:none;background:rgba(26,58,110,0.8);
-                         box-shadow:2px 2px 0 #0a1a3e;"
-                  onclick="window.open(EXAM_PORTAL_URL,'_blank')">
-            Retry Exam →
-          </button>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;">
+          <button id="btn-request-cert-exam" class="btn-cert-req" style="display:none;" onclick="requestCertificateFromExam()">Request Certificate →</button>
+          <button id="btn-retry-exam" class="btn-cert-req" style="display:none;background:rgba(26,58,110,0.8);box-shadow:2px 2px 0 #0a1a3e;" onclick="window.open(EXAM_PORTAL_URL,'_blank')">Retry Exam →</button>
         </div>
       </div>
 
-      <!-- STATE 5: Certificate requested — under review -->
+      <!-- STATE 5: Cert requested / under review -->
       <div class="banner-state" id="banner-exam-cert-requested">
         <div class="comp-icon">⏳</div>
         <div class="comp-text">
-          <h4 style="color:rgba(230,175,60,0.9);">Certificate Under Review</h4>
+          <h4 style="color:rgba(220,170,60,0.9);">Certificate Under Review</h4>
           <p>Admin will verify your score and issue the certificate within 24–48 hours.</p>
         </div>
       </div>
@@ -407,42 +1424,42 @@
           <h4>Certificate Issued!</h4>
           <p>Your verified SkillSphere Edu certificate is ready in your dashboard.</p>
         </div>
-        <a href="/learn/lms/dashboard.html" class="btn-cert-request">
-          View Dashboard →
-        </a>
+        <a href="/learn/lms/dashboard.html" class="btn-cert-req">View Dashboard →</a>
       </div>
 
-    </div>
+    </div><!-- /completion-banner -->
 
-    <!-- Lesson info -->
-    <div class="lesson-info-area" id="lesson-info-area" style="display:none;">
-      <div class="lesson-breadcrumb" id="lesson-breadcrumb">Section · Lesson</div>
-      <div class="lesson-heading" id="lesson-heading">Lesson Title</div>
-      <p class="lesson-desc" id="lesson-desc"></p>
-      <div class="lesson-nav-row">
-        <button class="btn-prev" id="btn-prev" onclick="navigateLesson(-1)" disabled>← Previous</button>
-        <button class="btn-complete" id="btn-complete" onclick="markComplete()">Mark Complete ✓</button>
-        <button class="btn-next" id="btn-next" onclick="navigateLesson(1)">Next →</button>
-        <div class="complete-indicator" id="complete-indicator" style="display:none;">✓ Completed</div>
-      </div>
-    </div>
+  </div><!-- /player-main -->
+</div><!-- /player-body -->
 
-  </div>
-</div>
-
-<!-- ═══ FOOTER ═══ -->
+<!-- FOOTER -->
 <footer class="player-footer">
   <div class="player-footer-inner">
-    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
-    <span>Content protected. Unauthorized recording or distribution is prohibited.</span>
-    <span class="tagline">Empowering India's Next Generation</span>
+    <span class="pf-brand">© 2026 SkillSphere Edu</span>
+    <span>Content protected — unauthorised recording or redistribution is prohibited.</span>
+    <span class="pf-brand">Empowering India's Next Generation</span>
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════════════════════
+     ICONS (set once, referenced by JS)
+══════════════════════════════════════════════════════ -->
+<svg style="display:none" id="svg-defs">
+  <symbol id="ico-play"    viewBox="0 0 24 24"><path d="M8 5v14l11-7L8 5z"/></symbol>
+  <symbol id="ico-pause"   viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></symbol>
+  <symbol id="ico-vol-hi"  viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol>
+  <symbol id="ico-vol-lo"  viewBox="0 0 24 24"><path d="M18.5 12A4.5 4.5 0 0 0 16 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></symbol>
+  <symbol id="ico-vol-off" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></symbol>
+  <symbol id="ico-fs"      viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></symbol>
+  <symbol id="ico-fs-exit" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></symbol>
+  <symbol id="ico-skip-b"  viewBox="0 0 24 24"><path d="M7 7.5 10.5 12 7 16.5V7.5zm.5-2L1.5 12l6 6.5V5.5z"/></symbol>
+  <symbol id="ico-skip-f"  viewBox="0 0 24 24"><path d="M17 7.5 13.5 12 17 16.5V7.5zm-.5-2 6 6.5-6 6.5V5.5z"/></symbol>
+</svg>
+
 <script>
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -458,37 +1475,48 @@ const RAZORPAY_KEY_PLAYER = "rzp_test_SqLQ4JrZEyroXx";
 /* ⚠️  REPLACE with your Exam Portal URL */
 const EXAM_PORTAL_URL = "https://skillsphere-edu.github.io/skillsphere-exam/";
 
-/* Global exam fee — change here to update everywhere */
 const EXAM_FEE = 49;
 
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
+   SVG ICON HELPER
+════════════════════════════════════════════════════ */
+const ico = id =>
+  `<svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%"><use href="#ico-${id}"/></svg>`;
+
+/* ════════════════════════════════════════════════════
    STATE
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 let currentUser      = null;
 let ytPlayer         = null;
 let courseData       = null;
 let allLessons       = [];
-let currentLessonIdx = 0;
+let currentIdx       = 0;
 let completedLessons = new Set();
-let progressDoc      = null;
+let progressRef      = null;
 let saveTimer        = null;
-let watermarkTimer   = null;
-let devToolsInterval = null;
-
-/* Exam state */
+let wmarkTimer       = null;
+let dtInterval       = null;
 let examRequestData  = null;
-let courseExamConfig = { certType: 'free', passThreshold: 60, isFree: false };
+let courseExamCfg    = { certType:'free', passThreshold:60, isFree:false };
+
+/* Custom player state */
+let pState      = 'idle';    /* idle | loading | playing | paused | buffering | ended */
+let isDragging  = false;
+let isMuted     = false;
+let currentVol  = 100;
+let pollTimer   = null;
+let ctrlTimer   = null;
 
 const courseId = new URLSearchParams(window.location.search).get('course');
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    AUTH GUARD
-════════════════════════════════════════════════════════ */
-auth.onAuthStateChanged(async (user) => {
+════════════════════════════════════════════════════ */
+auth.onAuthStateChanged(async user => {
   if (!user) {
     window.location.href = '/learn/lms/login.html?redirect=' +
       encodeURIComponent(window.location.href);
@@ -496,43 +1524,40 @@ auth.onAuthStateChanged(async (user) => {
   }
   currentUser = user;
   if (!courseId) { window.location.href = '/learn/lms/dashboard.html'; return; }
-
-  showLoadingOverlay(true, 'Verifying access...');
+  showLoading(true, 'Verifying access...');
   await initPlayer();
-  showLoadingOverlay(false);
+  showLoading(false);
 });
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    INIT PLAYER
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 async function initPlayer() {
   try {
-    // 1. Check enrollment
-    const enrollId   = `${currentUser.uid}_${courseId}`;
-    const enrollSnap = await db.collection('enrollments').doc(enrollId).get();
+    /* 1. Enrollment check */
+    const enrollSnap = await db.collection('enrollments')
+      .doc(`${currentUser.uid}_${courseId}`).get();
     if (!enrollSnap.exists || enrollSnap.data().status !== 'active') {
       document.getElementById('access-denied').classList.add('show');
       return;
     }
 
-    // 2. Fetch course data
+    /* 2. Course data */
     const courseSnap = await db.collection('courses').doc(courseId).get();
     if (!courseSnap.exists) throw new Error('Course not found.');
     courseData = { id: courseSnap.id, ...courseSnap.data() };
 
-    // 3. Exam config from course
-    courseExamConfig = {
+    courseExamCfg = {
       certType:      courseData.certType      || 'free',
       passThreshold: courseData.passThreshold || 60,
-      isFree:        courseData.isFree        || (courseData.price === 0)
+      isFree:        courseData.isFree        || courseData.price === 0
     };
 
-    // 4. Fetch curriculum
-    const sectionsSnap = await db.collection('courses').doc(courseId)
+    /* 3. Curriculum */
+    const sectSnap = await db.collection('courses').doc(courseId)
       .collection('curriculum').orderBy('order').get();
-
     allLessons = [];
-    sectionsSnap.docs.forEach((secDoc, si) => {
+    sectSnap.docs.forEach((secDoc, si) => {
       const sec = secDoc.data();
       (sec.lessons || []).forEach((lesson, li) => {
         allLessons.push({
@@ -541,60 +1566,57 @@ async function initPlayer() {
           sectionIdx:   si,
           lessonIdx:    li,
           flatIdx:      allLessons.length,
-          sectionId:    secDoc.id
         });
       });
     });
 
-    // 5. Fetch progress
-    const progRef  = db.collection('progress').doc(currentUser.uid)
-                       .collection(courseId).doc('data');
-    const progSnap = await progRef.get();
-    progressDoc    = progRef;
-
+    /* 4. Progress */
+    progressRef = db.collection('progress').doc(currentUser.uid)
+                    .collection(courseId).doc('data');
+    const progSnap = await progressRef.get();
     if (progSnap.exists) {
       const pd = progSnap.data();
       completedLessons = new Set(pd.completedLessons || []);
       const lastId = pd.currentLesson;
       if (lastId) {
         const idx = allLessons.findIndex(l => l.id === lastId);
-        currentLessonIdx = idx >= 0 ? idx : 0;
+        currentIdx = idx >= 0 ? idx : 0;
       }
     }
 
-    // 6. Fetch exam request (only if exam is needed)
-    const needsExam = !(courseExamConfig.isFree && courseExamConfig.certType === 'free');
+    /* 5. Exam request */
+    const needsExam = !(courseExamCfg.isFree && courseExamCfg.certType === 'free');
     if (needsExam) {
-      const examDocSnap = await db.collection('exam_requests')
+      const eSnap = await db.collection('exam_requests')
         .doc(`${currentUser.uid}_${courseId}`).get();
-      examRequestData = examDocSnap.exists ? examDocSnap.data() : null;
+      examRequestData = eSnap.exists ? eSnap.data() : null;
     }
 
-    // 7. Setup UI
-    document.getElementById('pnav-course-title').textContent    = courseData.title;
+    /* 6. UI setup */
+    document.getElementById('pnav-course-name').textContent    = courseData.title;
     document.getElementById('sidebar-course-title').textContent = courseData.title;
     document.getElementById('sidebar-meta').textContent =
-      `${sectionsSnap.docs.length} sections · ${allLessons.length} lessons`;
+      `${sectSnap.docs.length} sections · ${allLessons.length} lessons`;
 
-    renderCurriculum(sectionsSnap.docs);
+    renderCurriculum(sectSnap.docs);
 
-    document.getElementById('video-wrapper').style.display    = 'block';
-    document.getElementById('lesson-info-area').style.display = 'block';
+    document.getElementById('video-container').style.display = 'block';
+    document.getElementById('lesson-meta').classList.add('show');
 
-    // 8. Show completion banner if already 100%
-    if (allLessons.length > 0 && completedLessons.size === allLessons.length) {
+    /* 7. Completion banner if already 100% */
+    if (allLessons.length > 0 && completedLessons.size >= allLessons.length) {
       document.getElementById('completion-banner').classList.add('show');
       renderCompletionBanner();
     }
 
-    // 9. Init YouTube
-    loadYouTubeAPI();
-
-    // 10. Anti-piracy + watermark
+    /* 8. Init player UI */
+    initControlUI();
     setupAntiPiracy();
     setupWatermark();
-
     updateProgressBar();
+
+    /* 9. Load YouTube API */
+    loadYTApi();
 
   } catch (err) {
     console.error('Player init error:', err);
@@ -602,117 +1624,483 @@ async function initPlayer() {
   }
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
+   CONTROL UI — initial icon setup + event routing
+════════════════════════════════════════════════════ */
+function initControlUI() {
+  setPlayIcon('paused');
+  setVolIcon(100);
+  setFsIcon(false);
+
+  /* Show controls on any interaction with overlay */
+  const overlay = document.getElementById('ctrl-overlay');
+  overlay.addEventListener('mousemove',   revealControls);
+  overlay.addEventListener('mouseenter',  revealControls);
+  overlay.addEventListener('touchstart',  revealControls, { passive: true });
+  overlay.addEventListener('mouseleave',  () => { if (pState === 'playing') scheduleHideControls(); });
+
+  /* Click outside speed menu → close */
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.speed-wrap')) {
+      document.getElementById('speed-dropdown').classList.remove('open');
+    }
+  });
+
+  /* Keyboard controls */
+  document.addEventListener('keydown', onKeyDown);
+}
+
+function setPlayIcon(state) {
+  const btn = document.getElementById('btn-play');
+  const big = document.getElementById('big-play-btn');
+  if (state === 'playing') {
+    btn.innerHTML = ico('pause');
+    btn.title = 'Pause (Space)';
+    big.innerHTML = ico('pause');
+  } else {
+    btn.innerHTML = ico('play');
+    btn.title = 'Play (Space)';
+    big.innerHTML = ico('play');
+  }
+}
+
+function setVolIcon(vol) {
+  const btn = document.getElementById('btn-mute');
+  if (vol === 0 || isMuted) {
+    btn.innerHTML = ico('vol-off');
+    btn.title = 'Unmute (M)';
+  } else if (vol < 50) {
+    btn.innerHTML = ico('vol-lo');
+    btn.title = 'Mute (M)';
+  } else {
+    btn.innerHTML = ico('vol-hi');
+    btn.title = 'Mute (M)';
+  }
+}
+
+function setFsIcon(isFs) {
+  const btn = document.getElementById('btn-fs');
+  btn.innerHTML = ico(isFs ? 'fs-exit' : 'fs');
+  btn.title = isFs ? 'Exit Fullscreen (F)' : 'Fullscreen (F)';
+}
+
+/* Controls auto-hide */
+function revealControls() {
+  const overlay = document.getElementById('ctrl-overlay');
+  overlay.classList.add('ctrl-show');
+  overlay.classList.remove('ctrl-cursor-hidden');
+  clearTimeout(ctrlTimer);
+  if (pState === 'playing') scheduleHideControls();
+}
+
+function scheduleHideControls() {
+  clearTimeout(ctrlTimer);
+  ctrlTimer = setTimeout(() => {
+    if (pState !== 'playing' || isDragging) return;
+    document.getElementById('ctrl-overlay').classList.remove('ctrl-show');
+    document.getElementById('ctrl-overlay').classList.add('ctrl-cursor-hidden');
+  }, 3000);
+}
+
+/* ════════════════════════════════════════════════════
    YOUTUBE API
-════════════════════════════════════════════════════════ */
-function loadYouTubeAPI() {
+════════════════════════════════════════════════════ */
+function loadYTApi() {
   if (window.YT && window.YT.Player) { onYouTubeIframeAPIReady(); return; }
   const tag = document.createElement('script');
   tag.src   = 'https://www.youtube.com/iframe_api';
-  document.body.appendChild(tag);
+  document.head.appendChild(tag);
 }
 
-window.onYouTubeIframeAPIReady = function() { loadLesson(currentLessonIdx); };
+window.onYouTubeIframeAPIReady = () => loadLesson(currentIdx);
 
 function loadLesson(flatIdx) {
   if (flatIdx < 0 || flatIdx >= allLessons.length) return;
-  currentLessonIdx = flatIdx;
+  currentIdx = flatIdx;
   const lesson = allLessons[flatIdx];
 
+  /* Update lesson meta UI */
   document.getElementById('lesson-breadcrumb').textContent =
     `${lesson.sectionTitle} · Lesson ${lesson.lessonIdx + 1}`;
-  document.getElementById('lesson-heading').textContent = lesson.title || 'Untitled Lesson';
-  document.getElementById('lesson-desc').textContent    = lesson.description || '';
+  document.getElementById('lesson-title').textContent = lesson.title || 'Untitled Lesson';
+  document.getElementById('lesson-desc').textContent  = lesson.description || '';
 
-  const isCompleted = completedLessons.has(lesson.id);
-  const completeBtn = document.getElementById('btn-complete');
-  const completeInd = document.getElementById('complete-indicator');
-  completeBtn.className   = 'btn-complete' + (isCompleted ? ' completed' : '');
-  completeBtn.textContent = isCompleted ? '✓ Completed' : 'Mark Complete ✓';
-  completeBtn.disabled    = isCompleted;
-  completeInd.style.display = isCompleted ? 'flex' : 'none';
+  const done = completedLessons.has(lesson.id);
+  const btnC = document.getElementById('btn-complete');
+  const tick  = document.getElementById('complete-tick');
+  btnC.disabled    = done;
+  btnC.querySelector('svg + text, svg').nextSibling
+    ? (btnC.lastChild.textContent = done ? ' Completed' : ' Mark Complete') : null;
+  btnC.innerHTML = done
+    ? `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Completed`
+    : `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Mark Complete`;
+  tick.classList.toggle('show', done);
 
-  document.getElementById('btn-prev').disabled = flatIdx === 0;
-  document.getElementById('btn-next').disabled = flatIdx === allLessons.length - 1;
+  document.getElementById('btn-prev').disabled         = flatIdx === 0;
+  document.getElementById('btn-next').disabled         = flatIdx === allLessons.length - 1;
+  document.getElementById('btn-prev-lesson').disabled  = flatIdx === 0;
+  document.getElementById('btn-next-lesson').disabled  = flatIdx === allLessons.length - 1;
 
-  document.querySelectorAll('.lesson-item').forEach((el, i) => {
+  /* Highlight curriculum */
+  document.querySelectorAll('.les-item').forEach((el, i) => {
     el.classList.toggle('active', i === flatIdx);
-    const iconEl = el.querySelector('.lesson-icon');
-    if (i === flatIdx)                           { iconEl.className = 'lesson-icon active-icon'; iconEl.textContent = '▶'; }
-    else if (completedLessons.has(allLessons[i]?.id)) { iconEl.className = 'lesson-icon done-icon'; iconEl.textContent = '✓'; }
-    else                                         { iconEl.className = 'lesson-icon todo'; iconEl.textContent = String(i + 1); }
+    el.classList.toggle('done', completedLessons.has(allLessons[i]?.id) && i !== flatIdx);
+    const icon = el.querySelector('.les-icon');
+    if (i === flatIdx) {
+      icon.className = 'les-icon current';
+      icon.textContent = '▶';
+    } else if (completedLessons.has(allLessons[i]?.id)) {
+      icon.className = 'les-icon checked';
+      icon.textContent = '✓';
+    } else {
+      icon.className = 'les-icon todo';
+      icon.textContent = i + 1;
+    }
   });
 
-  document.getElementById('video-placeholder').classList.remove('hidden');
-  const videoId = lesson.youtubeId;
+  /* Show loading state */
+  setPlayerState('loading');
+  document.getElementById('seek-input').value = 0;
+  updateSeekFill(0);
+  document.getElementById('time-current').textContent = '0:00';
+  document.getElementById('time-total').textContent   = '0:00';
+  document.getElementById('seek-buffered').style.width = '0%';
 
+  const videoId = lesson.youtubeId;
   if (!videoId) {
-    document.getElementById('video-placeholder').querySelector('.vp-msg').textContent = 'Video coming soon.';
+    setPlayerState('idle');
+    document.querySelector('.spin-msg').textContent = 'Video coming soon.';
     return;
   }
 
   if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-    ytPlayer.loadVideoById({ videoId });
-    document.getElementById('video-placeholder').classList.add('hidden');
+    ytPlayer.loadVideoById({ videoId, startSeconds: 0 });
   } else {
+    /* First-time player creation.
+       controls: 0  → no YouTube control bar
+       disablekb: 1 → no YT keyboard shortcuts
+       This + pointer-events:none on wrapper = zero accessible YouTube UI */
     ytPlayer = new YT.Player('yt-player', {
-      height: '100%', width: '100%', videoId,
-      playerVars: { playsinline:1, controls:1, modestbranding:1, rel:0, iv_load_policy:3, origin:window.location.origin },
-      events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange, onError: onPlayerError }
+      height:      '100%',
+      width:       '100%',
+      videoId,
+      playerVars: {
+        autoplay:       1,
+        controls:       0,   /* ← hide all YouTube controls */
+        disablekb:      1,   /* ← block keyboard in YT context */
+        modestbranding: 1,
+        rel:            0,
+        iv_load_policy: 3,
+        showinfo:       0,
+        fs:             0,
+        playsinline:    1,
+        enablejsapi:    1,
+        origin:         window.location.origin,
+        cc_load_policy: 0,
+      },
+      events: {
+        onReady:       onYTReady,
+        onStateChange: onYTStateChange,
+        onError:       onYTError,
+      }
     });
   }
+
   scheduleSave();
 }
 
-function onPlayerReady() {
-  document.getElementById('video-placeholder').classList.add('hidden');
-  ytPlayer.playVideo();
+function onYTReady(e) {
+  e.target.setVolume(currentVol);
+  e.target.playVideo();
 }
 
-function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.ENDED) {
-    if (!completedLessons.has(allLessons[currentLessonIdx]?.id)) markComplete();
-    if (currentLessonIdx < allLessons.length - 1) setTimeout(() => navigateLesson(1), 1200);
+function onYTStateChange(e) {
+  const S = YT.PlayerState;
+  switch (e.data) {
+    case S.PLAYING:
+      setPlayerState('playing');
+      startPoll();
+      revealControls();
+      scheduleHideControls();
+      break;
+    case S.PAUSED:
+      setPlayerState('paused');
+      stopPoll();
+      break;
+    case S.BUFFERING:
+      setPlayerState('buffering');
+      break;
+    case S.ENDED:
+      setPlayerState('paused');
+      stopPoll();
+      if (!completedLessons.has(allLessons[currentIdx]?.id)) markComplete();
+      if (currentIdx < allLessons.length - 1) setTimeout(() => navigateLesson(1), 1400);
+      break;
   }
 }
 
-function onPlayerError(event) {
-  console.error('YouTube player error:', event.data);
-  showToast('Video unavailable. Contact support if this persists.', 'error');
+function onYTError(e) {
+  console.error('YT error:', e.data);
+  setPlayerState('idle');
+  showToast('Video unavailable. Contact support.', 'error');
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
+   PLAYER STATE MACHINE
+════════════════════════════════════════════════════ */
+function setPlayerState(state) {
+  pState = state;
+  const overlay  = document.getElementById('ctrl-overlay');
+  const spinner  = document.getElementById('vid-spinner');
+
+  /* Remove all state classes */
+  overlay.classList.remove('ctrl-paused', 'ctrl-buffering');
+
+  switch (state) {
+    case 'loading':
+      spinner.classList.remove('hidden');
+      setPlayIcon('paused');
+      break;
+    case 'playing':
+      spinner.classList.add('hidden');
+      setPlayIcon('playing');
+      break;
+    case 'paused':
+      spinner.classList.add('hidden');
+      overlay.classList.add('ctrl-paused');
+      setPlayIcon('paused');
+      break;
+    case 'buffering':
+      spinner.classList.remove('hidden');
+      overlay.classList.add('ctrl-buffering');
+      break;
+    case 'idle':
+      /* Keep spinner visible with message */
+      break;
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   PLAYBACK CONTROLS
+════════════════════════════════════════════════════ */
+function togglePlay() {
+  if (!ytPlayer) return;
+  revealControls();
+  if (pState === 'playing') {
+    ytPlayer.pauseVideo();
+  } else {
+    ytPlayer.playVideo();
+  }
+}
+
+function skipTime(secs) {
+  if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+  revealControls();
+  const t = ytPlayer.getCurrentTime() + secs;
+  ytPlayer.seekTo(Math.max(0, t), true);
+
+  /* Flash indicator */
+  const id = secs < 0 ? 'skip-flash-back' : 'skip-flash-fwd';
+  const el = document.getElementById(id);
+  el.innerHTML = secs < 0
+    ? `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.5 3a9 9 0 1 0 8.46 5.93L19.1 10.2A7 7 0 1 1 12.5 5v2.5L16 4l-3.5-3.5V3z"/></svg><span>${Math.abs(secs)}</span>`
+    : `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M11.5 3a9 9 0 1 1-8.46 5.93L4.9 10.2A7 7 0 1 0 11.5 5v2.5L8 4l3.5-3.5V3z"/></svg><span>${Math.abs(secs)}</span>`;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 700);
+}
+
+function toggleMute() {
+  if (!ytPlayer) return;
+  if (isMuted) {
+    isMuted = false;
+    ytPlayer.unMute();
+    ytPlayer.setVolume(currentVol || 80);
+    document.getElementById('vol-slider').value = currentVol || 80;
+    updateVolFill(currentVol || 80);
+    setVolIcon(currentVol || 80);
+  } else {
+    isMuted = true;
+    ytPlayer.mute();
+    document.getElementById('vol-slider').value = 0;
+    updateVolFill(0);
+    setVolIcon(0);
+  }
+}
+
+function setVolume(val) {
+  currentVol = val;
+  isMuted    = val === 0;
+  if (ytPlayer) {
+    if (isMuted) { ytPlayer.mute(); }
+    else         { ytPlayer.unMute(); ytPlayer.setVolume(val); }
+  }
+  updateVolFill(val);
+  setVolIcon(val);
+  document.getElementById('vol-slider').style.setProperty('--vol-pct', val + '%');
+}
+
+function updateVolFill(val) {
+  document.getElementById('vol-slider').style.setProperty('--vol-pct', val + '%');
+}
+
+function setRate(rate) {
+  if (ytPlayer && typeof ytPlayer.setPlaybackRate === 'function')
+    ytPlayer.setPlaybackRate(rate);
+  document.getElementById('speed-label').textContent = rate === 1 ? '1×' : rate + '×';
+  document.querySelectorAll('.speed-opt').forEach(el =>
+    el.classList.toggle('active', parseFloat(el.dataset.r) === rate)
+  );
+  document.getElementById('speed-dropdown').classList.remove('open');
+}
+
+function toggleSpeedMenu() {
+  document.getElementById('speed-dropdown').classList.toggle('open');
+}
+
+function toggleFullscreen() {
+  const container = document.getElementById('video-container');
+  if (!document.fullscreenElement) {
+    container.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  setFsIcon(!!document.fullscreenElement);
+});
+
+/* ════════════════════════════════════════════════════
+   SEEK BAR
+════════════════════════════════════════════════════ */
+function seekDragStart() {
+  isDragging = true;
+  stopPoll();
+}
+
+function seekDragEnd() {
+  isDragging = false;
+  const pct  = parseFloat(document.getElementById('seek-input').value);
+  const dur  = ytPlayer?.getDuration() || 0;
+  ytPlayer?.seekTo((pct / 100) * dur, true);
+  if (pState === 'playing') startPoll();
+}
+
+function onSeekInput(val) {
+  updateSeekFill(val);
+  const dur = ytPlayer?.getDuration() || 0;
+  document.getElementById('time-current').textContent = fmtTime((val / 100) * dur);
+}
+
+function onSeekHover(e) {
+  const row = document.getElementById('seek-row');
+  const rect = row.getBoundingClientRect();
+  const pct  = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const dur  = ytPlayer?.getDuration() || 0;
+  const tip  = document.getElementById('seek-tooltip');
+  tip.textContent = fmtTime(pct * dur);
+  tip.style.left  = (pct * 100) + '%';
+}
+
+function updateSeekFill(pct) {
+  document.getElementById('seek-input').style.setProperty('--seek-pct', pct + '%');
+}
+
+/* ════════════════════════════════════════════════════
+   PROGRESS POLLING
+════════════════════════════════════════════════════ */
+function startPoll() {
+  stopPoll();
+  pollTimer = setInterval(updatePoll, 400);
+}
+
+function stopPoll() {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+}
+
+function updatePoll() {
+  if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+  const cur  = ytPlayer.getCurrentTime() || 0;
+  const dur  = ytPlayer.getDuration()    || 0;
+  const buf  = ytPlayer.getVideoLoadedFraction?.() || 0;
+
+  if (!isDragging && dur > 0) {
+    const pct = (cur / dur) * 100;
+    document.getElementById('seek-input').value = pct;
+    updateSeekFill(pct);
+    document.getElementById('time-current').textContent = fmtTime(cur);
+    document.getElementById('time-total').textContent   = fmtTime(dur);
+    document.getElementById('seek-buffered').style.width = (buf * 100) + '%';
+  }
+}
+
+function fmtTime(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = Math.floor(s % 60);
+  return h > 0
+    ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+    : `${m}:${String(sec).padStart(2,'0')}`;
+}
+
+/* ════════════════════════════════════════════════════
+   KEYBOARD SHORTCUTS
+════════════════════════════════════════════════════ */
+function onKeyDown(e) {
+  if (!ytPlayer) return;
+  if (['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+
+  switch (e.code) {
+    case 'Space':       e.preventDefault(); togglePlay(); break;
+    case 'ArrowLeft':   e.preventDefault(); skipTime(-10); break;
+    case 'ArrowRight':  e.preventDefault(); skipTime(10); break;
+    case 'ArrowUp':     e.preventDefault(); setVolume(Math.min(100, currentVol + 10)); break;
+    case 'ArrowDown':   e.preventDefault(); setVolume(Math.max(0, currentVol - 10)); break;
+    case 'KeyM':        toggleMute(); break;
+    case 'KeyF':        toggleFullscreen(); break;
+    /* Block piracy shortcuts */
+    case 'F12':         e.preventDefault(); break;
+    case 'KeyU':        if (e.ctrlKey) e.preventDefault(); break;
+    case 'KeyI':
+    case 'KeyJ':
+    case 'KeyC':
+      if (e.ctrlKey && e.shiftKey) e.preventDefault(); break;
+  }
+}
+
+/* ════════════════════════════════════════════════════
    LESSON NAVIGATION
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 function navigateLesson(dir) {
-  const next = currentLessonIdx + dir;
+  const next = currentIdx + dir;
   if (next >= 0 && next < allLessons.length) {
     loadLesson(next);
     if (window.innerWidth <= 900) closeSidebar();
   }
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    MARK COMPLETE
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 async function markComplete() {
-  const lesson = allLessons[currentLessonIdx];
+  const lesson = allLessons[currentIdx];
   if (!lesson || completedLessons.has(lesson.id)) return;
 
   completedLessons.add(lesson.id);
 
-  const completeBtn = document.getElementById('btn-complete');
-  completeBtn.className   = 'btn-complete completed';
-  completeBtn.textContent = '✓ Completed';
-  completeBtn.disabled    = true;
-  document.getElementById('complete-indicator').style.display = 'flex';
+  /* Update UI */
+  const btnC = document.getElementById('btn-complete');
+  btnC.disabled   = true;
+  btnC.innerHTML  = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Completed`;
+  document.getElementById('complete-tick').classList.add('show');
 
-  const lessonEls = document.querySelectorAll('.lesson-item');
-  if (lessonEls[currentLessonIdx]) {
-    const icon = lessonEls[currentLessonIdx].querySelector('.lesson-icon');
-    icon.className   = 'lesson-icon done-icon';
+  /* Curriculum icon */
+  const lesItems = document.querySelectorAll('.les-item');
+  if (lesItems[currentIdx]) {
+    const icon = lesItems[currentIdx].querySelector('.les-icon');
+    icon.className   = 'les-icon checked';
     icon.textContent = '✓';
-    lessonEls[currentLessonIdx].classList.add('completed');
+    lesItems[currentIdx].classList.add('done');
   }
 
   updateProgressBar();
@@ -727,48 +2115,39 @@ async function markComplete() {
     lastActive:       firebase.firestore.FieldValue.serverTimestamp()
   }, { merge: true }).catch(() => {});
 
+  /* Course complete? */
   if (completedLessons.size === allLessons.length) {
-    db.collection('leaderboard').doc(currentUser.uid).set(
-      { coursesCompleted: firebase.firestore.FieldValue.increment(1) },
-      { merge: true }
-    ).catch(() => {});
-    db.collection('courses').doc(courseId).update({
-      totalCompletions: firebase.firestore.FieldValue.increment(1)
-    }).catch(() => {});
+    db.collection('leaderboard').doc(currentUser.uid)
+      .set({ coursesCompleted: firebase.firestore.FieldValue.increment(1) }, { merge: true })
+      .catch(() => {});
+    db.collection('courses').doc(courseId)
+      .update({ totalCompletions: firebase.firestore.FieldValue.increment(1) })
+      .catch(() => {});
 
-    /* Show completion banner */
     document.getElementById('completion-banner').classList.add('show');
     renderCompletionBanner();
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   COMPLETION BANNER — render correct state
-════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════
+   COMPLETION BANNER STATES
+════════════════════════════════════════════════════ */
 function renderCompletionBanner() {
-  /* Hide all states */
   ['banner-simple','banner-exam-none','banner-exam-pending','banner-exam-enrolled',
    'banner-exam-scored','banner-exam-cert-requested','banner-exam-cert-issued']
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove('active');
-    });
+    .forEach(id => document.getElementById(id)?.classList.remove('active'));
 
-  /* Free course + Free cert → simple direct cert request, no exam */
-  if (courseExamConfig.isFree && courseExamConfig.certType === 'free') {
+  /* Free + Free → direct cert, no exam */
+  if (courseExamCfg.isFree && courseExamCfg.certType === 'free') {
     document.getElementById('banner-simple').classList.add('active');
     return;
   }
 
-  /* All other cases → exam flow */
   const status = examRequestData?.status || null;
-
   if (!status) {
-    const el = document.getElementById('banner-exam-none');
-    el.classList.add('active');
-    /* Show fee note for paid cert on free course */
+    document.getElementById('banner-exam-none').classList.add('active');
     const feeNote = document.getElementById('banner-fee-note');
-    if (courseExamConfig.certType === 'paid' && courseExamConfig.isFree) {
+    if (courseExamCfg.certType === 'paid' && courseExamCfg.isFree) {
       document.getElementById('banner-fee-amt').textContent = EXAM_FEE;
       feeNote.style.display = 'block';
     } else {
@@ -777,216 +2156,147 @@ function renderCompletionBanner() {
     return;
   }
 
-  const stateMap = {
+  const map = {
     pending:        'banner-exam-pending',
     enrolled:       'banner-exam-enrolled',
     scored:         'banner-exam-scored',
     cert_requested: 'banner-exam-cert-requested',
     cert_issued:    'banner-exam-cert-issued',
   };
+  const tid = map[status];
+  if (tid) document.getElementById(tid).classList.add('active');
 
-  const targetId = stateMap[status];
-  if (targetId) document.getElementById(targetId).classList.add('active');
-
-  /* For scored state, populate details */
   if (status === 'scored') {
-    const score    = examRequestData.finalScore;
-    const passed   = examRequestData.passed;
-    const attempts = examRequestData.attemptCount || 1;
-    const thresh   = examRequestData.passThreshold || courseExamConfig.passThreshold;
-
+    const score   = examRequestData.finalScore;
+    const passed  = examRequestData.passed;
+    const att     = examRequestData.attemptCount || 1;
+    const thresh  = examRequestData.passThreshold || courseExamCfg.passThreshold;
     document.getElementById('exam-result-icon').textContent    = passed ? '🏆' : '📉';
     document.getElementById('exam-result-heading').textContent = passed ? '🎉 Exam Passed!' : 'Exam Not Passed';
-    document.getElementById('exam-result-heading').style.color = passed ? 'rgba(90,200,120,0.9)' : '#ff9090';
+    document.getElementById('exam-result-heading').style.color = passed ? 'rgba(80,200,110,0.9)' : '#ff9090';
     document.getElementById('exam-result-detail').textContent  =
-      `Score: ${score}% · ${attempts} attempt${attempts !== 1 ? 's' : ''} used · Pass mark: ${thresh}%`;
-
-    document.getElementById('btn-request-cert-exam').style.display =
-      passed ? 'inline-flex' : 'none';
-    document.getElementById('btn-retry-exam').style.display =
-      (!passed && attempts < 2) ? 'inline-flex' : 'none';
+      `Score: ${score}% · ${att} attempt${att!==1?'s':''} · Pass mark: ${thresh}%`;
+    document.getElementById('btn-request-cert-exam').style.display = passed ? 'inline-flex' : 'none';
+    document.getElementById('btn-retry-exam').style.display         = (!passed && att<2) ? 'inline-flex' : 'none';
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   CERT FLOW — FREE COURSE + FREE CERT (direct, no exam)
-════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════
+   CERT FLOW
+════════════════════════════════════════════════════ */
 async function requestCertificateDirect() {
-  if (!currentUser || !courseData) return;
-
-  /* Check if already requested */
   const existing = await db.collection('certificates')
-    .where('userId', '==', currentUser.uid)
-    .where('courseId', '==', courseId)
-    .limit(1).get();
-
+    .where('userId','==',currentUser.uid).where('courseId','==',courseId).limit(1).get();
   if (!existing.empty) {
-    const certId = existing.docs[0].id;
-    showToast('Certificate already issued! ID: ' + certId, 'success');
-    window.open(`/learn/verify.html?id=${certId}`, '_blank');
+    const cid = existing.docs[0].id;
+    showToast('Already issued! ID: ' + cid, 'success');
+    window.open(`/learn/verify.html?id=${cid}`, '_blank');
     return;
   }
-
   const btn = document.getElementById('btn-cert-direct');
   btn.disabled = true; btn.textContent = 'Requesting...';
-
   try {
     await db.collection('cert_requests').add({
-      userId:      currentUser.uid,
-      userEmail:   currentUser.email,
-      userName:    currentUser.displayName || '',
-      courseId,
-      courseName:  courseData.title,
+      userId: currentUser.uid, userEmail: currentUser.email,
+      userName: currentUser.displayName || '',
+      courseId, courseName: courseData.title,
       requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status:      'pending'
+      status: 'pending'
     });
     showToast('Certificate requested! Admin will issue within 24 hours.', 'success');
     btn.textContent = 'Requested ✓';
-  } catch (err) {
-    showToast('Error requesting certificate. Try again.', 'error');
+  } catch {
+    showToast('Error requesting. Try again.', 'error');
     btn.disabled = false; btn.textContent = 'Request Certificate →';
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   EXAM FLOW — PAID COURSE or FREE COURSE + PAID CERT
-════════════════════════════════════════════════════════ */
 async function requestExamAccess() {
-  if (!currentUser || !courseData) return;
-
-  /* Safety — check if request already exists */
   const examDocId   = `${currentUser.uid}_${courseId}`;
-  const existingSnap = await db.collection('exam_requests').doc(examDocId).get();
-  if (existingSnap.exists) {
-    examRequestData = existingSnap.data();
-    renderCompletionBanner();
-    return;
-  }
+  const existing    = await db.collection('exam_requests').doc(examDocId).get();
+  if (existing.exists) { examRequestData = existing.data(); renderCompletionBanner(); return; }
 
-  /* Free course + paid cert → paywall */
-  if (courseExamConfig.certType === 'paid' && courseExamConfig.isFree) {
-    openExamPaymentModal();
-    return;
+  if (courseExamCfg.certType === 'paid' && courseExamCfg.isFree) {
+    openExamPaymentModal(); return;
   }
-
-  /* Paid course → free exam access */
-  showLoadingOverlay(true, 'Requesting exam access...');
-  try {
-    await createExamRequest(null, 0);
-  } finally {
-    showLoadingOverlay(false);
-  }
+  showLoading(true, 'Requesting exam access...');
+  try { await createExamRequest(null, 0); }
+  finally { showLoading(false); }
 }
 
-/* ── Exam payment modal ── */
 function openExamPaymentModal() {
   document.getElementById('exam-modal-fee').textContent   = EXAM_FEE;
   document.getElementById('exam-pay-btn-fee').textContent = EXAM_FEE;
   document.getElementById('exam-payment-modal').classList.add('show');
 }
-
 function closeExamPaymentModal() {
   document.getElementById('exam-payment-modal').classList.remove('show');
 }
 
 function proceedToExamPayment() {
-  const options = {
+  const rzp = new Razorpay({
     key:         RAZORPAY_KEY_PLAYER,
     amount:      EXAM_FEE * 100,
     currency:    'INR',
     name:        'SkillSphere Edu',
     description: `Exam Fee — ${courseData.title}`,
     image:       '/learn/assets/logotp.png',
-    handler: async function(response) {
+    handler: async res => {
       closeExamPaymentModal();
-      showLoadingOverlay(true, 'Confirming exam access...');
-      try {
-        await createExamRequest(response.razorpay_payment_id, EXAM_FEE);
-        showToast('Payment successful! Exam access requested.', 'success');
-      } catch (err) {
-        showToast(
-          'Payment received but request failed. Contact support. ID: ' +
-          response.razorpay_payment_id, 'error'
-        );
-      } finally {
-        showLoadingOverlay(false);
-      }
+      showLoading(true, 'Confirming...');
+      try { await createExamRequest(res.razorpay_payment_id, EXAM_FEE); }
+      catch { showToast('Payment received but request failed. ID: '+res.razorpay_payment_id,'error'); }
+      finally { showLoading(false); }
     },
-    prefill: { email: currentUser.email, name: currentUser.displayName || '' },
-    notes:   { courseId, userId: currentUser.uid, type: 'exam_fee' },
-    theme:   { color: '#c0272d' },
-    modal:   { ondismiss: () => showToast('Payment cancelled.', 'info') }
-  };
-  const rzp = new Razorpay(options);
-  rzp.on('payment.failed', resp =>
-    showToast('Payment failed: ' + resp.error.description, 'error')
-  );
+    prefill: { email: currentUser.email, name: currentUser.displayName||'' },
+    notes:   { courseId, userId: currentUser.uid, type:'exam_fee' },
+    theme:   { color:'#c0272d' },
+    modal:   { ondismiss: () => showToast('Payment cancelled.','info') }
+  });
+  rzp.on('payment.failed', r => showToast('Payment failed: '+r.error.description,'error'));
   rzp.open();
 }
 
-/* ── Create exam request document ── */
-async function createExamRequest(paymentId, paymentAmount) {
+async function createExamRequest(payId, amount) {
   const examDocId = `${currentUser.uid}_${courseId}`;
-  const reqData   = {
-    userId:              currentUser.uid,
-    userEmail:           currentUser.email,
-    userName:            currentUser.displayName || currentUser.email.split('@')[0],
-    courseId,
-    courseName:          courseData.title,
-    certType:            courseExamConfig.certType,
-    passThreshold:       courseExamConfig.passThreshold,
-    requestedAt:         firebase.firestore.FieldValue.serverTimestamp(),
-    status:              'pending',
-    examEnrollmentId:    null,
-    enrollmentAssignedAt: null,
-    paymentId:           paymentId || null,
-    paymentAmount:       paymentAmount || 0,
-    attemptCount:        0,
-    attempt1Score:       null,
-    attempt2Score:       null,
-    finalScore:          null,
-    passed:              null,
-    certId:              null
+  const data = {
+    userId: currentUser.uid, userEmail: currentUser.email,
+    userName: currentUser.displayName || currentUser.email.split('@')[0],
+    courseId, courseName: courseData.title,
+    certType: courseExamCfg.certType, passThreshold: courseExamCfg.passThreshold,
+    requestedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    status: 'pending', paymentId: payId||null, paymentAmount: amount||0,
+    attemptCount:0, attempt1Score:null, attempt2Score:null,
+    finalScore:null, passed:null, certId:null
   };
-
-  await db.collection('exam_requests').doc(examDocId).set(reqData);
-  examRequestData = { ...reqData, status: 'pending' };
-
+  await db.collection('exam_requests').doc(examDocId).set(data);
+  examRequestData = { ...data, status:'pending' };
   const btn = document.getElementById('btn-request-exam');
-  if (btn) { btn.disabled = true; btn.textContent = 'Requested ✓'; }
-
+  if (btn) { btn.disabled=true; btn.textContent='Requested ✓'; }
   renderCompletionBanner();
-  showToast('Exam access requested! Admin will email your Enrollment ID.', 'success');
+  showToast('Exam access requested! Admin will email your Enrollment ID.','success');
 }
 
-/* ── Learner requests certificate after passing ── */
 async function requestCertificateFromExam() {
-  if (!examRequestData?.passed) {
-    showToast('You must pass the exam to request a certificate.', 'error');
-    return;
-  }
-
+  if (!examRequestData?.passed) { showToast('Must pass exam first.','error'); return; }
   const btn = document.getElementById('btn-request-cert-exam');
-  btn.disabled = true; btn.textContent = 'Requesting...';
-
+  btn.disabled=true; btn.textContent='Requesting...';
   try {
-    const examDocId = `${currentUser.uid}_${courseId}`;
-    await db.collection('exam_requests').doc(examDocId).update({
-      status:          'cert_requested',
-      certRequestedAt: firebase.firestore.FieldValue.serverTimestamp()
+    await db.collection('exam_requests').doc(`${currentUser.uid}_${courseId}`).update({
+      status:'cert_requested', certRequestedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     examRequestData.status = 'cert_requested';
     renderCompletionBanner();
-    showToast('Certificate requested! Admin will issue within 24–48 hours.', 'success');
-  } catch (err) {
-    showToast('Error requesting certificate. Try again.', 'error');
-    btn.disabled = false; btn.textContent = 'Request Certificate →';
+    showToast('Certificate requested! Admin will issue within 24–48 hours.','success');
+  } catch {
+    showToast('Error. Try again.','error');
+    btn.disabled=false; btn.textContent='Request Certificate →';
   }
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    PROGRESS
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 function updateProgressBar() {
   const pct = allLessons.length > 0
     ? Math.round((completedLessons.size / allLessons.length) * 100) : 0;
@@ -996,28 +2306,28 @@ function updateProgressBar() {
 
 function scheduleSave() {
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => saveProgress(false), 2000);
+  saveTimer = setTimeout(() => saveProgress(false), 2500);
 }
 
-async function saveProgress(immediate) {
-  if (!progressDoc || !currentUser) return;
+async function saveProgress(now) {
+  if (!progressRef || !currentUser) return;
   try {
     const pct = allLessons.length > 0
       ? Math.round((completedLessons.size / allLessons.length) * 100) : 0;
-    await progressDoc.set({
+    await progressRef.set({
       completedLessons: Array.from(completedLessons),
-      currentLesson:    allLessons[currentLessonIdx]?.id || null,
+      currentLesson:    allLessons[currentIdx]?.id || null,
       percentage:       pct,
       lastAccessed:     firebase.firestore.FieldValue.serverTimestamp(),
       completed:        pct >= 100,
       ...(pct >= 100 ? { completedAt: firebase.firestore.FieldValue.serverTimestamp() } : {})
     }, { merge: true });
-  } catch (err) { console.error('Progress save error:', err); }
+  } catch(err) { console.error('Save progress error:', err); }
 }
 
-/* ════════════════════════════════════════════════════════
-   RENDER CURRICULUM
-════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════
+   CURRICULUM RENDERER
+════════════════════════════════════════════════════ */
 function renderCurriculum(sectionDocs) {
   const container = document.getElementById('curriculum');
   container.innerHTML = '';
@@ -1026,127 +2336,128 @@ function renderCurriculum(sectionDocs) {
   sectionDocs.forEach((secDoc, si) => {
     const sec     = secDoc.data();
     const lessons = sec.lessons || [];
-    const completedInSection = lessons.filter(l => completedLessons.has(l.id)).length;
-    const sectionEl = document.createElement('div');
-    sectionEl.className = 'section-item';
-    sectionEl.innerHTML = `
-      <div class="section-header" onclick="toggleSection(this)">
-        <div class="section-name">
+    const doneCount = lessons.filter(l => completedLessons.has(l.id)).length;
+    const secEl = document.createElement('div');
+    secEl.className = 'sec-item';
+    secEl.innerHTML = `
+      <div class="sec-header" onclick="toggleSection(this)">
+        <div class="sec-name">
           ${escHtml(sec.title)}
-          <span style="color:rgba(240,234,214,0.25);font-weight:400;">
-            (${completedInSection}/${lessons.length})
-          </span>
+          <span style="opacity:0.35;font-weight:400;">(${doneCount}/${lessons.length})</span>
         </div>
-        <span class="section-toggle ${si === 0 ? 'open' : ''}">▶</span>
+        <span class="sec-toggle ${si===0?'open':''}">▶</span>
       </div>
-      <div class="section-lessons ${si === 0 ? 'open' : ''}"></div>`;
+      <div class="sec-lessons ${si===0?'open':''}"></div>`;
 
-    const lessonsContainer = sectionEl.querySelector('.section-lessons');
+    const lessCont = secEl.querySelector('.sec-lessons');
     lessons.forEach((lesson, li) => {
-      const idx       = flatIdx;
-      const isDone    = completedLessons.has(lesson.id);
-      const isCurrent = idx === currentLessonIdx;
-      const isPreview = lesson.isPreview;
-      const lessonEl  = document.createElement('div');
-      lessonEl.className = `lesson-item${isCurrent ? ' active' : ''}${isDone ? ' completed' : ''}`;
-      lessonEl.dataset.idx = idx;
-      lessonEl.innerHTML = `
-        <div class="lesson-icon ${isCurrent ? 'active-icon' : isDone ? 'done-icon' : isPreview ? 'preview-icon' : 'todo'}">
-          ${isCurrent ? '▶' : isDone ? '✓' : isPreview ? '◉' : idx + 1}
+      const idx    = flatIdx;
+      const isDone = completedLessons.has(lesson.id);
+      const isCur  = idx === currentIdx;
+      const lesEl  = document.createElement('div');
+      lesEl.className = `les-item${isCur?' active':''}${isDone&&!isCur?' done':''}`;
+      lesEl.dataset.idx = idx;
+      lesEl.innerHTML = `
+        <div class="les-icon ${isCur?'current':isDone?'checked':'todo'}">
+          ${isCur?'▶':isDone?'✓':idx+1}
         </div>
-        <div class="lesson-info">
-          <div class="lesson-name">${escHtml(lesson.title)}</div>
-          <div class="lesson-duration">${lesson.duration ? `⏱ ${lesson.duration}` : ''}</div>
+        <div class="les-info">
+          <div class="les-name">${escHtml(lesson.title)}</div>
+          ${lesson.duration ? `<div class="les-dur">⏱ ${lesson.duration}</div>` : ''}
         </div>`;
-      lessonEl.addEventListener('click', () => {
+      lesEl.addEventListener('click', () => {
         loadLesson(idx);
         if (window.innerWidth <= 900) closeSidebar();
       });
-      lessonsContainer.appendChild(lessonEl);
+      lessCont.appendChild(lesEl);
       flatIdx++;
     });
-    container.appendChild(sectionEl);
+    container.appendChild(secEl);
   });
 }
 
-function toggleSection(headerEl) {
-  const toggle  = headerEl.querySelector('.section-toggle');
-  const lessons = headerEl.nextElementSibling;
-  const isOpen  = lessons.classList.contains('open');
-  lessons.classList.toggle('open', !isOpen);
-  toggle.classList.toggle('open', !isOpen);
+function toggleSection(hdr) {
+  const tog  = hdr.querySelector('.sec-toggle');
+  const cont = hdr.nextElementSibling;
+  const open = cont.classList.contains('open');
+  cont.classList.toggle('open', !open);
+  tog.classList.toggle('open', !open);
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    ANTI-PIRACY
-════════════════════════════════════════════════════════ */
+════════════════════════════════════════════════════ */
 function setupAntiPiracy() {
-  const vWrapper = document.getElementById('video-wrapper');
-  vWrapper.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
-  vWrapper.addEventListener('dragstart', e => e.preventDefault());
+  /* Block context menu on entire player */
+  document.getElementById('video-container').addEventListener('contextmenu', e => e.preventDefault());
 
-  document.addEventListener('keydown', e => {
-    const blocked = (
-      (e.ctrlKey && e.key === 'u') ||
-      (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) ||
-      e.key === 'F12'
-    );
-    if (blocked) e.preventDefault();
-    if (e.key === 'PrintScreen') navigator.clipboard.writeText('').catch(() => {});
+  /* Block drag */
+  document.getElementById('video-container').addEventListener('dragstart', e => e.preventDefault());
+
+  /* PrintScreen intercept */
+  document.addEventListener('keyup', e => {
+    if (e.key === 'PrintScreen') navigator.clipboard.writeText('').catch(()=>{});
   });
 
-  let devToolsOpen = false;
-  devToolsInterval = setInterval(() => {
-    const threshold = 160;
-    const isOpen = (window.outerWidth - window.innerWidth) > threshold ||
-                   (window.outerHeight - window.innerHeight) > threshold;
-    if (isOpen && !devToolsOpen) {
-      devToolsOpen = true;
-      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') ytPlayer.pauseVideo();
-      document.getElementById('devtools-warning').classList.add('show');
-    } else if (!isOpen && devToolsOpen) {
-      devToolsOpen = false;
+  /* DevTools size detection */
+  let dtOpen = false;
+  dtInterval = setInterval(() => {
+    const open = (window.outerWidth - window.innerWidth) > 160 ||
+                 (window.outerHeight - window.innerHeight) > 160;
+    if (open && !dtOpen) {
+      dtOpen = true;
+      ytPlayer?.pauseVideo?.();
+      document.getElementById('devtools-warn').classList.add('show');
+    } else if (!open && dtOpen) {
+      dtOpen = false;
     }
   }, 1500);
 
+  /* Pause on tab hide */
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden && ytPlayer && typeof ytPlayer.pauseVideo === 'function')
-      ytPlayer.pauseVideo();
+    if (document.hidden) ytPlayer?.pauseVideo?.();
   });
+
+  /* Disable text selection on player */
+  document.getElementById('ctrl-overlay').addEventListener('selectstart', e => e.preventDefault());
 }
 
-function dismissDevToolsWarning() {
-  document.getElementById('devtools-warning').classList.remove('show');
-  if (ytPlayer && typeof ytPlayer.playVideo === 'function') ytPlayer.playVideo();
+function dismissDevtoolsWarn() {
+  document.getElementById('devtools-warn').classList.remove('show');
+  ytPlayer?.playVideo?.();
 }
 
+/* ════════════════════════════════════════════════════
+   WATERMARK
+════════════════════════════════════════════════════ */
 function setupWatermark() {
-  const wmEl  = document.getElementById('video-watermark');
+  const el    = document.getElementById('vid-watermark');
   const email = currentUser.email || 'user';
-  const uid   = currentUser.uid.substring(0, 8).toUpperCase();
-  wmEl.textContent = `${email} · SSE-${uid}`;
+  const uid   = currentUser.uid.substring(0,8).toUpperCase();
+  el.textContent = `${email} · SSE-${uid}`;
 
   const positions = [
-    { top:'10%', left:'5%', bottom:'auto', right:'auto' },
-    { top:'auto', left:'auto', bottom:'15%', right:'5%' },
-    { top:'40%', left:'30%', bottom:'auto', right:'auto' },
-    { top:'auto', left:'5%', bottom:'10%', right:'auto' },
-    { top:'15%', left:'auto', bottom:'auto', right:'5%' },
+    { top:'8%',  left:'4%',   bottom:'auto', right:'auto' },
+    { top:'auto',left:'auto', bottom:'12%',  right:'4%'   },
+    { top:'38%', left:'28%',  bottom:'auto', right:'auto' },
+    { top:'auto',left:'4%',   bottom:'8%',   right:'auto' },
+    { top:'12%', left:'auto', bottom:'auto', right:'4%'   },
+    { top:'60%', left:'55%',  bottom:'auto', right:'auto' },
   ];
-  let posIdx = 0;
-  function updatePos() {
-    const p = positions[posIdx % positions.length];
-    wmEl.style.top = p.top; wmEl.style.left = p.left;
-    wmEl.style.bottom = p.bottom; wmEl.style.right = p.right;
-    posIdx++;
+  let pi = 0;
+  function move() {
+    const p = positions[pi % positions.length];
+    el.style.top = p.top; el.style.left = p.left;
+    el.style.bottom = p.bottom; el.style.right = p.right;
+    pi++;
   }
-  updatePos();
-  watermarkTimer = setInterval(updatePos, 25000);
+  move();
+  wmarkTimer = setInterval(move, 28000);
 }
 
-/* ════════════════════════════════════════════════════════
-   SIDEBAR TOGGLE
-════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════════════════ */
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebar-overlay').classList.toggle('show');
@@ -1156,36 +2467,34 @@ function closeSidebar() {
   document.getElementById('sidebar-overlay').classList.remove('show');
 }
 
-/* ════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════
    UTILITIES
-════════════════════════════════════════════════════════ */
-function showLoadingOverlay(show, msg) {
+════════════════════════════════════════════════════ */
+function escHtml(s) {
+  return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;') : '';
+}
+function showLoading(show, msg) {
   document.getElementById('loading-overlay').classList.toggle('show', show);
   if (msg) document.getElementById('loading-msg').textContent = msg;
 }
-
-function showToast(msg, type = 'info') {
+function showToast(msg, type='info') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className   = `toast ${type} show`;
   setTimeout(() => t.classList.remove('show'), 4500);
 }
 
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 window.addEventListener('beforeunload', () => {
-  clearInterval(devToolsInterval);
-  clearInterval(watermarkTimer);
+  clearInterval(dtInterval);
+  clearInterval(wmarkTimer);
+  clearTimeout(ctrlTimer);
   clearTimeout(saveTimer);
+  stopPoll();
   saveProgress(true);
 });
 
-/* ── PWA ── */
+/* ── Service Worker ── */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
@@ -1193,6 +2502,8 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.warn('[SSE SW] Registration failed:', err));
   });
 }
+/* Init volume slider fill */
+document.getElementById('vol-slider').style.setProperty('--vol-pct', '100%');
 </script>
 </body>
 </html>
