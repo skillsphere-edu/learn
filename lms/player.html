@@ -872,7 +872,7 @@ function showToast(msg,type='info'){const t=document.getElementById('toast');t.t
 function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 window.addEventListener('beforeunload',()=>{clearInterval(devToolsInterval);clearInterval(watermarkTimer);clearTimeout(saveTimer);saveProgress(true);});
 </script>
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/sw.js',{scope:'/learn/'}).catch(err=>console.warn('[SSE SW] Registration failed:',err));});}</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/lms/sw.js',{scope:'/learn/'}).catch(err=>console.warn('[SSE SW] Registration failed:',err));});}</script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>
