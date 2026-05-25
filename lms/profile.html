@@ -4,248 +4,205 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Profile | SkillSphere Edu</title>
-  <meta name="description" content="Manage your SkillSphere Edu student profile — update your details, track progress, and view your certificates.">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/profile.html">
   <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
   <link rel="manifest" href="/learn/lms/manifest.json">
   <meta name="theme-color" content="#c0272d">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
-
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
   <style>
   :root {
-    --paper:       #f0ead6;
-    --paper-dark:  #e0d8be;
-    --paper-stain: #d4c9a8;
-    --ink:         #1a1209;
-    --ink-faded:   #3d3120;
-    --ink-muted:   #6b5f45;
-    --red-tape:    #c0272d;
-    --red-dark:    #8b1a1e;
-    --red-hover:   #a82020;
-    --stamp-green: #1a4d2e;
-    --display:     'Bebas Neue', sans-serif;
-    --typewriter:  'Courier Prime', monospace;
-    --mono:        'IBM Plex Mono', monospace;
-    --stamp:       'Special Elite', cursive;
+    --paper:#f0ead6; --paper-dark:#e0d8be; --paper-stain:#d4c9a8;
+    --ink:#1a1209; --ink-faded:#3d3120; --ink-muted:#6b5f45;
+    --red-tape:#c0272d; --red-dark:#8b1a1e; --red-hover:#a82020;
+    --stamp-green:#1a4d2e; --gold:#b07d1a;
+    --display:'Bebas Neue',sans-serif; --typewriter:'Courier Prime',monospace; --mono:'IBM Plex Mono',monospace; --stamp:'Special Elite',cursive;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;} body{background:var(--paper);color:var(--ink);font-family:var(--typewriter);line-height:1.65;overflow-x:hidden;min-height:100vh;}
+  a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:var(--typewriter);cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--display);line-height:1;letter-spacing:1px;}
+  ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--paper-dark);} ::-webkit-scrollbar-thumb{background:var(--paper-stain);border-radius:10px;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.45;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; min-height: 100vh; }
-  a { color: inherit; text-decoration: none; }
-  img { display: block; max-width: 100%; }
-  button { font-family: var(--typewriter); cursor: pointer; }
-  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(240,234,214,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:2px solid var(--paper-stain);transition:height 0.3s;}
+  .nav-logo{display:flex;align-items:center;gap:11px;flex-shrink:0;}
+  .nav-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);line-height:1;}
+  .nav-brand-text em{font-style:normal;color:var(--red-tape);}
+  .logo-icon{height:44px;width:44px;filter:contrast(1.1) saturate(1.2);}
+  .nav-stamp{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--ink-muted);text-transform:uppercase;display:block;line-height:1;}
+  .nav-links{display:flex;align-items:center;gap:2rem;font-family:var(--mono);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .nav-links a{color:var(--ink-faded);transition:color 0.2s;position:relative;padding-bottom:2px;}
+  .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--red-tape);transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+  .nav-links a:hover{color:var(--ink);} .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-user-pill{display:flex;align-items:center;gap:10px;background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;padding:0.35rem 0.8rem;box-shadow:2px 2px 0 var(--paper-stain);}
+  .nav-user-avatar{width:28px;height:28px;border-radius:50%;background:var(--red-tape);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:0.9rem;color:#fff;flex-shrink:0;overflow:hidden;}
+  .nav-user-avatar img{width:100%;height:100%;object-fit:cover;}
+  .nav-user-name{font-family:var(--mono);font-size:0.68rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:1px;}
+  .nav-logout-btn{font-family:var(--mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red-tape);background:none;border:none;cursor:pointer;transition:opacity 0.2s;}
+  .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;}
+  .mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(240,234,214,0.98);backdrop-filter:blur(20px);border-bottom:2px solid var(--paper-stain);padding:1.5rem 5%;flex-direction:column;gap:1.2rem;z-index:999;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faded);padding:0.5rem 0;border-bottom:1px solid var(--paper-stain);}
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--paper-dark); }
-  ::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+  /* PAGE */
+  .profile-page{padding-top:66px;min-height:100vh;position:relative;z-index:1;}
+  .profile-banner{background:var(--ink);padding:3rem 5%;position:relative;overflow:hidden;}
+  .profile-banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.022) 31px,rgba(255,255,255,0.022) 32px);pointer-events:none;}
+  .profile-banner::after{content:'';position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;opacity:0.05;background:repeating-radial-gradient(circle,#fff 0px,#fff 2px,transparent 2px,transparent 14px);pointer-events:none;}
+  .profile-banner-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1;}
+  .profile-banner-tag{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--red-tape);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .profile-banner-tag::before{content:'';width:24px;height:1px;background:var(--red-tape);}
+  .profile-banner-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);color:var(--paper);line-height:1;}
 
-  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.45; }
+  .profile-stats{background:var(--paper-dark);border-bottom:2px solid var(--paper-stain);}
+  .profile-stats-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat-cell{text-align:center;padding:1.3rem 1rem;border-right:1px solid var(--paper-stain);}
+  .stat-cell:last-child{border-right:none;}
+  .stat-val{font-family:var(--display);font-size:2.8rem;color:var(--red-tape);display:block;line-height:1;}
+  .stat-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--ink-muted);text-transform:uppercase;letter-spacing:3px;display:block;margin-top:4px;}
 
-  /* ── NAV ── */
-  nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 5%; height:66px; background:rgba(240,234,214,0.92); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:2px solid var(--paper-stain); transition:height 0.3s; }
-  .nav-logo { display:flex; align-items:center; gap:11px; flex-shrink:0; }
-  .nav-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); line-height:1; }
-  .nav-brand-text em { font-style:normal; color:var(--red-tape); }
-  .logo-icon { height:44px; width:44px; filter:contrast(1.1) saturate(1.2); }
-  .nav-stamp { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--ink-muted); text-transform:uppercase; display:block; line-height:1; }
-  .nav-links { display:flex; align-items:center; gap:2rem; font-family:var(--mono); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
-  .nav-links a { color:var(--ink-faded); transition:color 0.2s; position:relative; padding-bottom:2px; }
-  .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:1px; background:var(--red-tape); transform:scaleX(0); transform-origin:left; transition:transform 0.25s; }
-  .nav-links a:hover { color:var(--ink); }
-  .nav-links a:hover::after { transform:scaleX(1); }
-  .nav-user-pill { display:flex; align-items:center; gap:10px; background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; padding:0.35rem 0.8rem; box-shadow:2px 2px 0 var(--paper-stain); }
-  .nav-user-avatar { width:28px; height:28px; border-radius:50%; background:var(--red-tape); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:0.9rem; color:#fff; flex-shrink:0; overflow:hidden; }
-  .nav-user-avatar img { width:100%; height:100%; object-fit:cover; }
-  .nav-user-name { font-family:var(--mono); font-size:0.68rem; font-weight:700; color:var(--ink); text-transform:uppercase; letter-spacing:1px; }
-  .nav-logout-btn { font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--red-tape); background:none; border:none; cursor:pointer; transition:opacity 0.2s; }
-  .nav-logout-btn:hover { opacity:0.7; }
-  .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
-  .nav-hamburger span { display:block; width:22px; height:2px; background:var(--ink); border-radius:1px; }
-  .mobile-menu { display:none; position:fixed; top:66px; left:0; right:0; background:rgba(240,234,214,0.98); backdrop-filter:blur(20px); border-bottom:2px solid var(--paper-stain); padding:1.5rem 5%; flex-direction:column; gap:1.2rem; z-index:999; }
-  .mobile-menu.open { display:flex; }
-  .mobile-menu a { font-family:var(--mono); font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faded); padding:0.5rem 0; border-bottom:1px solid var(--paper-stain); }
+  .profile-content{max-width:1180px;margin:0 auto;padding:3rem 5%;display:grid;grid-template-columns:340px 1fr;gap:2.4rem;align-items:start;}
 
-  /* ── PAGE LAYOUT ── */
-  .profile-page { padding-top: 66px; min-height: 100vh; position: relative; z-index: 1; }
+  /* PROFILE CARD */
+  .profile-card{background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;box-shadow:4px 4px 0 var(--paper-stain);overflow:hidden;position:sticky;top:86px;}
+  .profile-card-top{background:var(--ink);padding:2rem 1.5rem;text-align:center;position:relative;}
+  .profile-card-top::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.02) 31px,rgba(255,255,255,0.02) 32px);pointer-events:none;}
+  .profile-avatar-wrap{position:relative;display:inline-block;margin-bottom:1rem;}
+  .profile-avatar{width:90px;height:90px;border-radius:50%;background:var(--red-tape);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:2.4rem;color:#fff;margin:0 auto;border:3px solid rgba(255,255,255,0.1);overflow:hidden;box-shadow:0 0 0 4px rgba(192,39,45,0.2);position:relative;z-index:1;}
+  .profile-avatar img{width:100%;height:100%;object-fit:cover;}
+  .profile-avatar-ring{position:absolute;inset:-6px;border-radius:50%;border:2px dashed rgba(192,39,45,0.3);animation:spin-slow 12s linear infinite;}
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+  .profile-name{font-family:var(--display);font-size:1.8rem;color:var(--paper);margin-bottom:0.2rem;position:relative;z-index:1;}
+  .profile-username-display{font-family:var(--mono);font-size:0.68rem;color:rgba(240,234,214,0.5);letter-spacing:2px;position:relative;z-index:1;margin-bottom:0.2rem;}
+  .profile-email{font-family:var(--mono);font-size:0.65rem;color:rgba(240,234,214,0.4);letter-spacing:1px;position:relative;z-index:1;}
+  .profile-role-badge{display:inline-flex;align-items:center;gap:6px;margin-top:0.8rem;font-family:var(--mono);font-size:0.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:2px;position:relative;z-index:1;}
+  .role-student{background:rgba(26,77,46,0.2);color:#5de0a0;border:1px solid rgba(26,77,46,0.3);}
+  .role-admin{background:rgba(192,39,45,0.2);color:#ff9090;border:1px solid rgba(192,39,45,0.3);}
+  .sub-badge-profile{display:inline-flex;align-items:center;gap:5px;margin-top:0.5rem;font-family:var(--mono);font-size:0.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:2px;position:relative;z-index:1;}
+  .sub-starter{background:rgba(26,77,46,0.2);color:#5de0a0;border:1px solid rgba(26,77,46,0.3);}
+  .sub-pro{background:rgba(26,58,110,0.25);color:#90c0ff;border:1px solid rgba(26,58,110,0.4);}
+  .sub-elite{background:rgba(176,125,26,0.25);color:#e0b060;border:1px solid rgba(176,125,26,0.4);}
 
-  /* Banner */
-  .profile-banner { background: var(--ink); padding: 3rem 5%; position: relative; overflow: hidden; }
-  .profile-banner::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(255,255,255,0.022) 31px, rgba(255,255,255,0.022) 32px); pointer-events:none; }
-  .profile-banner::after { content:''; position:absolute; right:-60px; top:-60px; width:320px; height:320px; border-radius:50%; opacity:0.05; background:repeating-radial-gradient(circle, #fff 0px, #fff 2px, transparent 2px, transparent 14px); pointer-events:none; }
-  .profile-banner-inner { max-width:1180px; margin:0 auto; position:relative; z-index:1; }
-  .profile-banner-tag { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--red-tape); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
-  .profile-banner-tag::before { content:''; width:24px; height:1px; background:var(--red-tape); }
-  .profile-banner-title { font-family:var(--display); font-size:clamp(2rem,4vw,3.2rem); color:var(--paper); line-height:1; }
+  .profile-card-body{padding:1.5rem;}
+  .profile-section-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--red-tape);text-transform:uppercase;margin-bottom:0.8rem;display:block;}
+  .form-group{display:flex;flex-direction:column;gap:0.35rem;margin-bottom:0.9rem;}
+  .form-label{font-family:var(--mono);font-size:0.6rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--ink-muted);}
+  .form-input{width:100%;padding:0.65rem 0.9rem;background:var(--paper);border:1px solid var(--paper-stain);border-radius:3px;font-family:var(--typewriter);font-size:0.88rem;color:var(--ink);outline:none;transition:border-color 0.2s;box-shadow:2px 2px 0 var(--paper-stain);}
+  .form-input:focus{border-color:var(--red-tape);}
+  .form-input:disabled{opacity:0.5;cursor:not-allowed;}
+  .form-input::placeholder{color:var(--ink-muted);opacity:0.5;}
+  .form-hint{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:0.5px;margin-top:3px;}
+  .form-hint.warning{color:#c08030;}
+  .form-hint.error{color:var(--red-tape);}
+  .form-hint.success{color:var(--stamp-green);}
+  .btn-save{width:100%;padding:0.75rem;background:var(--red-tape);color:#fff;font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:background 0.2s;box-shadow:2px 2px 0 var(--red-dark);margin-bottom:0.6rem;}
+  .btn-save:hover:not(:disabled){background:var(--red-hover);}
+  .btn-save:disabled{opacity:0.6;cursor:not-allowed;}
+  .btn-ghost{width:100%;padding:0.7rem;background:transparent;color:var(--ink-faded);font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--paper-stain);border-radius:3px;cursor:pointer;transition:all 0.2s;box-shadow:2px 2px 0 var(--paper-stain);margin-bottom:0.6rem;}
+  .btn-ghost:hover{border-color:var(--red-tape);color:var(--red-tape);}
+  .btn-danger{width:100%;padding:0.7rem;background:transparent;color:var(--red-tape);font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(192,39,45,0.3);border-radius:3px;cursor:pointer;transition:all 0.2s;}
+  .btn-danger:hover{background:var(--red-tape);color:#fff;}
+  .divider{height:1px;background:var(--paper-stain);margin:1.2rem 0;}
 
-  /* Stats strip */
-  .profile-stats { background:var(--paper-dark); border-bottom:2px solid var(--paper-stain); }
-  .profile-stats-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); }
-  .stat-cell { text-align:center; padding:1.3rem 1rem; border-right:1px solid var(--paper-stain); }
-  .stat-cell:last-child { border-right:none; }
-  .stat-val { font-family:var(--display); font-size:2.8rem; color:var(--red-tape); display:block; line-height:1; }
-  .stat-lbl { font-family:var(--mono); font-size:0.6rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:3px; display:block; margin-top:4px; }
+  /* RIGHT */
+  .profile-right{display:flex;flex-direction:column;gap:2rem;}
+  .section-card{background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;box-shadow:4px 4px 0 var(--paper-stain);overflow:hidden;}
+  .section-card-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--paper-stain);display:flex;align-items:center;justify-content:space-between;}
+  .section-card-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--red-tape);text-transform:uppercase;display:block;margin-bottom:3px;}
+  .section-card-title{font-family:var(--display);font-size:1.8rem;color:var(--ink);}
+  .section-card-body{padding:1.5rem;}
+  .course-row{display:flex;align-items:center;gap:1.2rem;padding:1rem 0;border-bottom:1px solid var(--paper-stain);}
+  .course-row:last-child{border-bottom:none;padding-bottom:0;}
+  .course-thumb-sm{width:48px;height:48px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+  .th-s1{background:linear-gradient(140deg,#081a0c,#1a4d26);} .th-s2{background:linear-gradient(140deg,#0a1628,#2a5490);} .th-s3{background:linear-gradient(140deg,#280e02,#9b4e0e);} .th-s4{background:linear-gradient(140deg,#180505,#6b1010);} .th-s5{background:linear-gradient(140deg,#080e1e,#1a4090);} .th-s6{background:linear-gradient(140deg,#15080e,#6b1040);}
+  .course-info{flex:1;min-width:0;}
+  .course-name{font-family:var(--mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--ink);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .course-progress-row{display:flex;align-items:center;gap:8px;}
+  .mini-bar{flex:1;height:4px;background:var(--paper-stain);border-radius:2px;overflow:hidden;max-width:180px;}
+  .mini-bar-fill{height:100%;border-radius:2px;background:var(--stamp-green);transition:width 0.8s ease;}
+  .pct-label{font-family:var(--mono);font-size:0.6rem;color:var(--ink-muted);letter-spacing:1px;flex-shrink:0;}
+  .course-expiry-small{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:0.5px;margin-top:3px;}
+  .exp-warn{color:#c08030;} .exp-expired{color:var(--red-tape);}
+  .course-action{font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red-tape);background:transparent;border:1px solid rgba(192,39,45,0.35);padding:0.3rem 0.7rem;border-radius:2px;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
+  .course-action:hover{background:var(--red-tape);color:#fff;}
+  .course-action.done{color:var(--stamp-green);border-color:rgba(26,77,46,0.35);}
+  .course-action.done:hover{background:var(--stamp-green);color:#fff;}
+  .cert-row{display:flex;align-items:center;gap:1.2rem;padding:1rem 0;border-bottom:1px solid var(--paper-stain);}
+  .cert-row:last-child{border-bottom:none;padding-bottom:0;}
+  .cert-icon{width:44px;height:44px;border-radius:3px;background:linear-gradient(135deg,rgba(26,77,46,0.2),rgba(26,77,46,0.08));border:1px solid rgba(26,77,46,0.25);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .cert-info{flex:1;min-width:0;}
+  .cert-id-tag{font-family:var(--mono);font-size:0.6rem;color:var(--red-tape);font-weight:700;letter-spacing:2px;margin-bottom:2px;}
+  .cert-course-name{font-family:var(--mono);font-size:0.72rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .cert-date{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:1px;}
+  .cert-actions{display:flex;gap:0.4rem;flex-shrink:0;flex-wrap:wrap;}
+  .btn-cert-sm{height:28px;padding:0 0.7rem;font-family:var(--mono);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;border-radius:2px;border:1px solid var(--paper-stain);background:var(--paper);color:var(--ink-faded);cursor:pointer;transition:all 0.2s;}
+  .btn-cert-sm:hover{background:var(--ink);color:var(--paper);}
+  .btn-cert-sm.green{background:var(--stamp-green);color:#fff;border-color:#0d3020;}
+  .btn-cert-sm.green:hover{background:#14402a;}
+  .empty-state{text-align:center;padding:3rem 1rem;}
+  .empty-icon{font-size:2.5rem;margin-bottom:0.8rem;}
+  .empty-text{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;}
+  .danger-zone{background:rgba(192,39,45,0.05);border:1px solid rgba(192,39,45,0.15);border-radius:3px;padding:1.2rem 1.5rem;}
+  .danger-title{font-family:var(--mono);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--red-tape);margin-bottom:0.6rem;}
+  .danger-desc{font-family:var(--typewriter);font-size:0.8rem;color:var(--ink-muted);margin-bottom:1rem;line-height:1.6;}
 
-  /* Content grid */
-  .profile-content { max-width:1180px; margin:0 auto; padding:3rem 5%; display:grid; grid-template-columns:340px 1fr; gap:2.4rem; align-items:start; }
+  /* TOAST + LOADING */
+  .toast{position:fixed;top:80px;right:20px;z-index:9999;padding:0.85rem 1.4rem;border-radius:3px;font-family:var(--mono);font-size:0.7rem;font-weight:700;letter-spacing:1px;max-width:340px;box-shadow:4px 4px 0 rgba(0,0,0,0.2);transform:translateX(140%);transition:transform 0.3s ease;line-height:1.5;}
+  .toast.show{transform:translateX(0);}
+  .toast.error{background:var(--red-tape);color:#fff;border-left:4px solid var(--red-dark);}
+  .toast.success{background:var(--stamp-green);color:#fff;border-left:4px solid #0d3020;}
+  .toast.info{background:var(--ink);color:var(--paper);border-left:4px solid var(--red-tape);}
+  .loading-overlay{position:fixed;inset:0;background:rgba(240,234,214,0.9);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:1rem;}
+  .loading-overlay.show{display:flex;}
+  .loading-spinner{width:40px;height:40px;border:3px solid var(--paper-stain);border-top-color:var(--red-tape);border-radius:50%;animation:spin 0.8s linear infinite;}
+  .loading-msg{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;}
+  @keyframes spin{to{transform:rotate(360deg);}}
 
-  /* ── PROFILE CARD (left) ── */
-  .profile-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; box-shadow:4px 4px 0 var(--paper-stain); overflow:hidden; position:sticky; top:86px; }
-  .profile-card-top { background:var(--ink); padding:2rem 1.5rem; text-align:center; position:relative; }
-  .profile-card-top::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(255,255,255,0.02) 31px, rgba(255,255,255,0.02) 32px); pointer-events:none; }
+  /* FOOTER */
+  footer{background:var(--paper-dark);border-top:2px solid var(--paper-stain);padding:3rem 5% 2rem;position:relative;z-index:1;}
+  .footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto 3rem;}
+  .footer-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);margin-bottom:0.8rem;display:block;}
+  .footer-brand-text em{font-style:normal;color:var(--red-tape);}
+  .footer-brand p{font-family:var(--typewriter);font-size:0.82rem;color:var(--ink-muted);line-height:1.75;max-width:280px;}
+  .footer-socials{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;}
+  .social-chipft{height:28px;padding:0 0.8rem;border-radius:2px;background:var(--paper);border:1px solid var(--paper-stain);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faded);transition:all 0.2s;box-shadow:1px 1px 0 var(--paper-stain);}
+  .social-chipft:hover{background:var(--red-tape);border-color:var(--red-dark);color:#fff;}
+  .footer-col h4{font-family:var(--mono);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--ink-muted);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--paper-stain);}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+  .footer-col li a{font-family:var(--typewriter);font-size:0.85rem;color:var(--ink-faded);transition:color 0.2s;}
+  .footer-col li a:hover{color:var(--red-tape);}
+  .footer-bottom{padding-top:1.5rem;border-top:1px solid var(--paper-stain);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+  .footer-bottom span{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:0.5px;}
+  .footer-bottom .tagline{color:var(--red-tape);font-weight:700;}
 
-  .profile-avatar-wrap { position:relative; display:inline-block; margin-bottom:1rem; }
-  .profile-avatar { width:90px; height:90px; border-radius:50%; background:var(--red-tape); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:2.4rem; color:#fff; margin:0 auto; border:3px solid rgba(255,255,255,0.1); overflow:hidden; box-shadow:0 0 0 4px rgba(192,39,45,0.2); position:relative; z-index:1; }
-  .profile-avatar img { width:100%; height:100%; object-fit:cover; }
-  .profile-avatar-ring { position:absolute; inset:-6px; border-radius:50%; border:2px dashed rgba(192,39,45,0.3); animation:spin-slow 12s linear infinite; }
-  @keyframes spin-slow { to { transform: rotate(360deg); } }
-
-  .profile-name { font-family:var(--display); font-size:1.8rem; color:var(--paper); margin-bottom:0.2rem; position:relative; z-index:1; }
-  .profile-email { font-family:var(--mono); font-size:0.65rem; color:rgba(240,234,214,0.4); letter-spacing:1px; position:relative; z-index:1; }
-  .profile-role-badge { display:inline-flex; align-items:center; gap:6px; margin-top:0.8rem; font-family:var(--mono); font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:2px; position:relative; z-index:1; }
-  .role-student { background:rgba(26,77,46,0.2); color:#5de0a0; border:1px solid rgba(26,77,46,0.3); }
-  .role-admin   { background:rgba(192,39,45,0.2); color:#ff9090; border:1px solid rgba(192,39,45,0.3); }
-
-  /* Edit fields */
-  .profile-card-body { padding:1.5rem; }
-  .profile-section-tag { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; margin-bottom:0.8rem; display:block; }
-  .form-group { display:flex; flex-direction:column; gap:0.35rem; margin-bottom:0.9rem; }
-  .form-label { font-family:var(--mono); font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--ink-muted); }
-  .form-input { width:100%; padding:0.65rem 0.9rem; background:var(--paper); border:1px solid var(--paper-stain); border-radius:3px; font-family:var(--typewriter); font-size:0.88rem; color:var(--ink); outline:none; transition:border-color 0.2s; box-shadow:2px 2px 0 var(--paper-stain); }
-  .form-input:focus { border-color:var(--red-tape); }
-  .form-input:disabled { opacity:0.5; cursor:not-allowed; }
-  .form-input::placeholder { color:var(--ink-muted); opacity:0.5; }
-  .btn-save { width:100%; padding:0.75rem; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; border:none; border-radius:3px; cursor:pointer; transition:background 0.2s; box-shadow:2px 2px 0 var(--red-dark); margin-bottom:0.6rem; }
-  .btn-save:hover:not(:disabled) { background:var(--red-hover); }
-  .btn-save:disabled { opacity:0.6; cursor:not-allowed; }
-  .btn-ghost { width:100%; padding:0.7rem; background:transparent; color:var(--ink-faded); font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; border:1px solid var(--paper-stain); border-radius:3px; cursor:pointer; transition:all 0.2s; box-shadow:2px 2px 0 var(--paper-stain); margin-bottom:0.6rem; }
-  .btn-ghost:hover { border-color:var(--red-tape); color:var(--red-tape); }
-  .btn-danger { width:100%; padding:0.7rem; background:transparent; color:var(--red-tape); font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; border:1px solid rgba(192,39,45,0.3); border-radius:3px; cursor:pointer; transition:all 0.2s; }
-  .btn-danger:hover { background:var(--red-tape); color:#fff; }
-
-  .divider { height:1px; background:var(--paper-stain); margin:1.2rem 0; }
-
-  /* ── RIGHT COLUMN ── */
-  .profile-right { display:flex; flex-direction:column; gap:2rem; }
-
-  /* Section card */
-  .section-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; box-shadow:4px 4px 0 var(--paper-stain); overflow:hidden; }
-  .section-card-header { padding:1.2rem 1.5rem; border-bottom:1px solid var(--paper-stain); display:flex; align-items:center; justify-content:space-between; }
-  .section-card-tag { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; display:block; margin-bottom:3px; }
-  .section-card-title { font-family:var(--display); font-size:1.8rem; color:var(--ink); }
-  .section-card-body { padding:1.5rem; }
-
-  /* Course progress rows */
-  .course-row { display:flex; align-items:center; gap:1.2rem; padding:1rem 0; border-bottom:1px solid var(--paper-stain); }
-  .course-row:last-child { border-bottom:none; padding-bottom:0; }
-  .course-thumb-sm { width:48px; height:48px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
-  .th-s1 { background:linear-gradient(140deg,#081a0c,#1a4d26); }
-  .th-s2 { background:linear-gradient(140deg,#0a1628,#2a5490); }
-  .th-s3 { background:linear-gradient(140deg,#280e02,#9b4e0e); }
-  .th-s4 { background:linear-gradient(140deg,#180505,#6b1010); }
-  .th-s5 { background:linear-gradient(140deg,#080e1e,#1a4090); }
-  .th-s6 { background:linear-gradient(140deg,#15080e,#6b1040); }
-
-  .course-info { flex:1; min-width:0; }
-  .course-name { font-family:var(--mono); font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink); margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .course-progress-row { display:flex; align-items:center; gap:8px; }
-  .mini-bar { flex:1; height:4px; background:var(--paper-stain); border-radius:2px; overflow:hidden; max-width:180px; }
-  .mini-bar-fill { height:100%; border-radius:2px; background:var(--stamp-green); transition:width 0.8s ease; }
-  .pct-label { font-family:var(--mono); font-size:0.6rem; color:var(--ink-muted); letter-spacing:1px; flex-shrink:0; }
-  .course-action { font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--red-tape); background:transparent; border:1px solid rgba(192,39,45,0.35); padding:0.3rem 0.7rem; border-radius:2px; cursor:pointer; transition:all 0.2s; flex-shrink:0; }
-  .course-action:hover { background:var(--red-tape); color:#fff; }
-  .course-action.done { color:var(--stamp-green); border-color:rgba(26,77,46,0.35); }
-  .course-action.done:hover { background:var(--stamp-green); color:#fff; }
-
-  /* Certificate rows */
-  .cert-row { display:flex; align-items:center; gap:1.2rem; padding:1rem 0; border-bottom:1px solid var(--paper-stain); }
-  .cert-row:last-child { border-bottom:none; padding-bottom:0; }
-  .cert-icon { width:44px; height:44px; border-radius:3px; background:linear-gradient(135deg,rgba(26,77,46,0.2),rgba(26,77,46,0.08)); border:1px solid rgba(26,77,46,0.25); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
-  .cert-info { flex:1; min-width:0; }
-  .cert-id-tag { font-family:var(--mono); font-size:0.6rem; color:var(--red-tape); font-weight:700; letter-spacing:2px; margin-bottom:2px; }
-  .cert-course-name { font-family:var(--mono); font-size:0.72rem; font-weight:700; color:var(--ink); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .cert-date { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); letter-spacing:1px; }
-  .cert-actions { display:flex; gap:0.4rem; flex-shrink:0; }
-  .btn-cert-sm { height:28px; padding:0 0.7rem; font-family:var(--mono); font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; border-radius:2px; border:1px solid var(--paper-stain); background:var(--paper); color:var(--ink-faded); cursor:pointer; transition:all 0.2s; }
-  .btn-cert-sm:hover { background:var(--ink); color:var(--paper); }
-  .btn-cert-sm.green { background:var(--stamp-green); color:#fff; border-color:#0d3020; }
-  .btn-cert-sm.green:hover { background:#14402a; }
-
-  /* Empty state */
-  .empty-state { text-align:center; padding:3rem 1rem; }
-  .empty-icon { font-size:2.5rem; margin-bottom:0.8rem; }
-  .empty-text { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-
-  /* Danger zone */
-  .danger-zone { background:rgba(192,39,45,0.05); border:1px solid rgba(192,39,45,0.15); border-radius:3px; padding:1.2rem 1.5rem; }
-  .danger-title { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:3px; color:var(--red-tape); margin-bottom:0.6rem; }
-  .danger-desc { font-family:var(--typewriter); font-size:0.8rem; color:var(--ink-muted); margin-bottom:1rem; line-height:1.6; }
-
-  /* Toast + Loading */
-  .toast { position:fixed; top:80px; right:20px; z-index:9999; padding:0.85rem 1.4rem; border-radius:3px; font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.2); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
-  .toast.show { transform:translateX(0); }
-  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
-  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
-  .toast.info { background:var(--ink); color:var(--paper); border-left:4px solid var(--red-tape); }
-  .loading-overlay { position:fixed; inset:0; background:rgba(240,234,214,0.9); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
-  .loading-overlay.show { display:flex; }
-  .loading-spinner { width:40px; height:40px; border:3px solid var(--paper-stain); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-
-  /* ── FOOTER ── */
-  footer { background:var(--paper-dark); border-top:2px solid var(--paper-stain); padding:3rem 5% 2rem; position:relative; z-index:1; }
-  .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1180px; margin:0 auto 3rem; }
-  .footer-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); margin-bottom:0.8rem; display:block; }
-  .footer-brand-text em { font-style:normal; color:var(--red-tape); }
-  .footer-brand p { font-family:var(--typewriter); font-size:0.82rem; color:var(--ink-muted); line-height:1.75; max-width:280px; }
-  .footer-socials { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
-  .social-chipft { height:28px; padding:0 0.8rem; border-radius:2px; background:var(--paper); border:1px solid var(--paper-stain); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--ink-faded); transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
-  .social-chipft:hover { background:var(--red-tape); border-color:var(--red-dark); color:#fff; }
-  .footer-col h4 { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:4px; color:var(--ink-muted); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--paper-stain); }
-  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
-  .footer-col li a { font-family:var(--typewriter); font-size:0.85rem; color:var(--ink-faded); transition:color 0.2s; }
-  .footer-col li a:hover { color:var(--red-tape); }
-  .footer-bottom { margin:0 auto; padding-top:1.5rem; border-top:1px solid var(--paper-stain); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
-  .footer-bottom span { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:0.5px; }
-  .footer-bottom .tagline { color:var(--red-tape); font-weight:700; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1000px) { .profile-content { grid-template-columns:1fr; } .profile-card { position:static; } }
-  @media (max-width: 860px) { nav .nav-links { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns:1fr 1fr; } }
-  @media (max-width: 600px) { .profile-stats-inner { grid-template-columns:1fr 1fr; } .stat-cell { border-right:none; border-bottom:1px solid var(--paper-stain); } .stat-cell:nth-child(2n) { border-right:none; } .footer-inner { grid-template-columns:1fr; } }
+  @media(max-width:1000px){.profile-content{grid-template-columns:1fr;}.profile-card{position:static;}}
+  @media(max-width:860px){nav .nav-links{display:none;}.nav-hamburger{display:flex;}.footer-inner{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.profile-stats-inner{grid-template-columns:1fr 1fr;}.stat-cell{border-right:none;border-bottom:1px solid var(--paper-stain);}.footer-inner{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
   <span class="loading-msg" id="loading-msg">Loading profile...</span>
 </div>
 
-<!-- ═══ NAV ═══ -->
 <nav id="main-nav">
   <a href="/learn/" class="nav-logo">
     <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
-    <div>
-      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
-      <span class="nav-stamp">Case File · EST. 2026</span>
-    </div>
+    <div><span class="nav-brand-text">Skill<em>Sphere</em> Edu</span><span class="nav-stamp">Case File · EST. 2026</span></div>
   </a>
   <div class="nav-links">
     <a href="/learn/">Home</a>
@@ -260,9 +217,7 @@
       <span class="nav-user-name" id="nav-name">Loading...</span>
       <button class="nav-logout-btn" onclick="logout()">Sign Out</button>
     </div>
-    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
@@ -274,9 +229,7 @@
   <a href="#" onclick="logout()">Sign Out</a>
 </div>
 
-<!-- ═══ PROFILE PAGE ═══ -->
 <div class="profile-page">
-
   <div class="profile-banner">
     <div class="profile-banner-inner">
       <div class="profile-banner-tag">Personnel File · Your Account</div>
@@ -284,7 +237,6 @@
     </div>
   </div>
 
-  <!-- Stats Strip -->
   <div class="profile-stats">
     <div class="profile-stats-inner">
       <div class="stat-cell"><span class="stat-val" id="st-enrolled">—</span><span class="stat-lbl">Enrolled</span></div>
@@ -295,7 +247,6 @@
   </div>
 
   <div class="profile-content">
-
     <!-- LEFT: Profile Card -->
     <div class="profile-card">
       <div class="profile-card-top">
@@ -304,81 +255,77 @@
           <div class="profile-avatar-ring"></div>
         </div>
         <div class="profile-name" id="profile-name">Loading...</div>
+        <div class="profile-username-display" id="profile-username-display">@—</div>
         <div class="profile-email" id="profile-email">loading@email.com</div>
-        <div class="profile-role-badge role-student" id="profile-role-badge">Student</div>
+        <div class="profile-role-badge role-student" id="profile-role-badge">Student</div><br>
+        <span class="sub-badge-profile sub-starter" id="sub-badge-profile">Starter Plan</span>
       </div>
-
       <div class="profile-card-body">
-        <span class="profile-section-tag">Edit Details</span>
-
+        <span class="profile-section-tag">Edit Display Name</span>
         <div class="form-group">
           <label class="form-label">Display Name</label>
           <input type="text" class="form-input" id="edit-name" placeholder="Your full name">
+          <span class="form-hint">Shown on your profile and certificates.</span>
         </div>
+        <button class="btn-save" id="btn-save-name" onclick="saveName()">Save Name →</button>
+
+        <div class="divider"></div>
+        <span class="profile-section-tag">Username</span>
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" id="edit-username" placeholder="your_username">
+          <span class="form-hint" id="username-hint">Loading username info...</span>
+        </div>
+        <button class="btn-save" id="btn-save-username" onclick="saveUsername()">Save Username →</button>
+
         <div class="form-group">
           <label class="form-label">Email Address</label>
           <input type="email" class="form-input" id="edit-email" disabled>
         </div>
 
-        <button class="btn-save" id="btn-save-name" onclick="saveName()">Save Changes →</button>
-
         <div class="divider"></div>
         <span class="profile-section-tag">Security</span>
-
         <button class="btn-ghost" onclick="sendPasswordReset()">Send Password Reset Email</button>
 
         <div class="divider"></div>
         <span class="profile-section-tag" style="color:var(--red-tape);">Danger Zone</span>
         <div class="danger-zone">
           <div class="danger-title">Delete Account</div>
-          <p class="danger-desc">Permanently removes your account, progress, and all data. This cannot be undone.</p>
+          <p class="danger-desc">Permanently removes your account, progress, and all data. Certificates remain on record. Cannot be undone.</p>
           <button class="btn-danger" onclick="confirmDeleteAccount()">Delete My Account</button>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT: Courses + Certificates -->
+    <!-- RIGHT -->
     <div class="profile-right">
-
-      <!-- Enrolled Courses with completion % -->
       <div class="section-card">
         <div class="section-card-header">
-          <div>
-            <span class="section-card-tag">Active Case Files</span>
-            <div class="section-card-title">My Courses</div>
-          </div>
+          <div><span class="section-card-tag">Active Case Files</span><div class="section-card-title">My Courses</div></div>
           <a href="/learn/lms/dashboard.html" style="font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);">Dashboard →</a>
         </div>
         <div class="section-card-body" id="courses-list">
           <div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-text">Loading courses...</div></div>
         </div>
       </div>
-
-      <!-- Certificates -->
       <div class="section-card">
         <div class="section-card-header">
-          <div>
-            <span class="section-card-tag">Evidence Collected</span>
-            <div class="section-card-title">My Certificates</div>
-          </div>
+          <div><span class="section-card-tag">Evidence Collected</span><div class="section-card-title">My Certificates</div></div>
           <a href="/learn/verify.html" style="font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);">Verify →</a>
         </div>
         <div class="section-card-body" id="certs-list">
           <div class="empty-state"><div class="empty-icon">⏳</div><div class="empty-text">Loading certificates...</div></div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
-      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
-      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials.</p>
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
         <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
@@ -386,19 +333,18 @@
         <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li><li><a href="/learn/privacy-policy">Privacy Policy</a></li></ul></div>
+    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/plans">Plans</a></li><li><a href="/learn/privacy-policy">Privacy</a></li></ul></div>
     <div class="footer-col"><h4>Portal</h4><ul><li><a href="/learn/lms/dashboard.html">My Dashboard</a></li><li><a href="/learn/lms/profile.html">My Profile</a></li><li><a href="/learn/lms/leaderboard.html">Leaderboard</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
-    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder & Editor.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
   </div>
 </footer>
 
 <script>
-/* ═══ ⚠️ REPLACE WITH YOUR FIREBASE CONFIG ═══ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -407,7 +353,6 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "791566977151",
   appId:             "1:791566977151:web:b593a16eb9404daa2b974a"
 };
-
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
@@ -416,275 +361,227 @@ const THUMB_CLASSES = ['th-s1','th-s2','th-s3','th-s4','th-s5','th-s6'];
 let currentUser = null;
 let userData    = null;
 
-/* ═══ AUTH GUARD ═══ */
 auth.onAuthStateChanged(async (user) => {
-  if (!user) {
-    window.location.href = '/learn/lms/login.html?redirect=' + encodeURIComponent(window.location.href);
-    return;
-  }
+  if (!user) { window.location.href='/learn/lms/login.html?redirect='+encodeURIComponent(window.location.href); return; }
   currentUser = user;
-  showLoadingOverlay(true, 'Loading profile...');
+  showLoadingOverlay(true,'Loading profile...');
   await loadProfile();
   showLoadingOverlay(false);
 });
 
-/* ═══ LOAD PROFILE ═══ */
 async function loadProfile() {
   try {
     const userSnap = await db.collection('users').doc(currentUser.uid).get();
     userData = userSnap.data() || {};
-
     const displayName = userData.name || currentUser.displayName || currentUser.email.split('@')[0];
+    const username    = userData.username || '';
 
     /* Nav */
     document.getElementById('nav-name').textContent = displayName.split(' ')[0].toUpperCase();
     const navAv = document.getElementById('nav-avatar');
-    if (currentUser.photoURL) { navAv.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar">`; }
-    else { navAv.textContent = displayName.charAt(0).toUpperCase(); }
+    if (currentUser.photoURL) navAv.innerHTML=`<img src="${currentUser.photoURL}" alt="avatar">`;
+    else navAv.textContent = displayName.charAt(0).toUpperCase();
 
     /* Profile card */
-    document.getElementById('profile-name').textContent  = displayName;
-    document.getElementById('profile-email').textContent = currentUser.email;
-    document.getElementById('edit-name').value           = displayName;
-    document.getElementById('edit-email').value          = currentUser.email;
+    document.getElementById('profile-name').textContent             = displayName;
+    document.getElementById('profile-username-display').textContent = username ? `@${username}` : '@—';
+    document.getElementById('profile-email').textContent            = currentUser.email;
+    document.getElementById('edit-name').value                      = displayName;
+    document.getElementById('edit-username').value                  = username;
+    document.getElementById('edit-email').value                     = currentUser.email;
+
+    /* Username change availability */
+    const changed       = userData.usernameChangedAt != null;
+    const hintEl        = document.getElementById('username-hint');
+    const usernameBtn   = document.getElementById('btn-save-username');
+    if (changed) {
+      hintEl.textContent  = 'Username already changed once. Contact admin to change again.';
+      hintEl.className    = 'form-hint error';
+      usernameBtn.disabled = true;
+      document.getElementById('edit-username').disabled = true;
+    } else {
+      hintEl.textContent = 'You can change your username only once. Choose wisely.';
+      hintEl.className   = 'form-hint warning';
+    }
 
     const profAv = document.getElementById('profile-avatar');
-    if (currentUser.photoURL) { profAv.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar">`; }
-    else { profAv.textContent = displayName.charAt(0).toUpperCase(); }
+    if (currentUser.photoURL) profAv.innerHTML=`<img src="${currentUser.photoURL}" alt="avatar">`;
+    else profAv.textContent = displayName.charAt(0).toUpperCase();
 
     const roleBadge = document.getElementById('profile-role-badge');
-    if (userData.role === 'admin') {
-      roleBadge.textContent = '⚙ Admin';
-      roleBadge.className   = 'profile-role-badge role-admin';
-    } else {
-      roleBadge.textContent = '📘 Student';
-    }
+    if (userData.role === 'admin') { roleBadge.textContent='⚙ Admin'; roleBadge.className='profile-role-badge role-admin'; }
+    else roleBadge.textContent='📘 Student';
 
-    /* Fetch enrollments */
-    const enrollSnap = await db.collection('enrollments')
-      .where('userId', '==', currentUser.uid).get();
-    const enrollments = enrollSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    /* Subscription badge */
+    const subBadge  = document.getElementById('sub-badge-profile');
+    const tier      = userData.subscriptionTier || 'starter';
+    const subLabels = { starter:'Starter Plan', pro:'Pro Plan ⭐', elite:'Elite Plan 🏆' };
+    const subClass  = { starter:'sub-starter', pro:'sub-pro', elite:'sub-elite' };
+    subBadge.textContent = subLabels[tier] || 'Starter Plan';
+    subBadge.className   = `sub-badge-profile ${subClass[tier]||'sub-starter'}`;
 
-    /* Fetch progress + courses */
-    let totalLessons = 0;
-    let totalPct     = 0;
-    let enrolledCourses = [];
+    /* Enrollments + progress */
+    const enrollSnap = await db.collection('enrollments').where('userId','==',currentUser.uid).get();
+    const now = new Date();
+    const activeEnrollments = enrollSnap.docs.map(d=>({id:d.id,...d.data()})).filter(e=>{
+      if (e.revoked) return false;
+      if (e.accessSource==='subscription') return userData.subscriptionActive;
+      if (e.expiresAt) { const exp=e.expiresAt.toDate?e.expiresAt.toDate():new Date(e.expiresAt); return exp>now; }
+      return e.status==='active';
+    });
 
-    for (const enroll of enrollments) {
+    let totalLessons=0, totalPct=0;
+    const enrolledCourses=[];
+    for (const en of activeEnrollments) {
       try {
-        const [courseSnap, progSnap] = await Promise.all([
-          db.collection('courses').doc(enroll.courseId).get(),
-          db.collection('progress').doc(currentUser.uid).collection(enroll.courseId).doc('data').get()
+        const [cs,ps]=await Promise.all([
+          db.collection('courses').doc(en.courseId).get(),
+          db.collection('progress').doc(currentUser.uid).collection(en.courseId).doc('data').get()
         ]);
-
-        const course   = courseSnap.exists ? { id: courseSnap.id, ...courseSnap.data() } : null;
-        const progress = progSnap.exists   ? progSnap.data() : { completedLessons:[], percentage:0 };
-
-        if (course) {
-          enrolledCourses.push({ ...course, progress });
-          totalLessons += (progress.completedLessons || []).length;
-          totalPct     += progress.percentage || 0;
-        }
+        const course    = cs.exists?{id:cs.id,...cs.data()}:null;
+        const progress  = ps.exists?ps.data():{completedLessons:[],percentage:0};
+        if (course) { enrolledCourses.push({...course,progress,enrollment:en}); totalLessons+=(progress.completedLessons||[]).length; totalPct+=progress.percentage||0; }
       } catch(e) {}
     }
+    const avgPct = enrolledCourses.length>0?Math.round(totalPct/enrolledCourses.length):0;
 
-    const avgPct = enrolledCourses.length > 0
-      ? Math.round(totalPct / enrolledCourses.length) : 0;
+    const certSnap = await db.collection('certificates').where('userId','==',currentUser.uid).orderBy('issuedAt','desc').get();
+    const certs    = certSnap.docs.map(d=>({id:d.id,...d.data()}));
 
-    /* Fetch certs */
-    const certSnap = await db.collection('certificates')
-      .where('userId', '==', currentUser.uid).orderBy('issuedAt','desc').get();
-    const certs = certSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    animateCounter('st-enrolled',enrolledCourses.length,'');
+    animateCounter('st-lessons',totalLessons,'');
+    animateCounter('st-certs',certs.length,'');
+    document.getElementById('st-avg').textContent = avgPct+'%';
 
-    /* Stats */
-    animateCounter('st-enrolled', enrolledCourses.length, '');
-    animateCounter('st-lessons',  totalLessons, '');
-    animateCounter('st-certs',    certs.length, '');
-    document.getElementById('st-avg').textContent = avgPct + '%';
-
-    /* Render */
     renderCourses(enrolledCourses);
     renderCerts(certs);
-
   } catch (err) {
-    console.error('Profile load error:', err);
-    showToast('Error loading profile. Refresh to try again.', 'error');
+    console.error('Profile load error:',err);
+    showToast('Error loading profile. Refresh to try again.','error');
   }
 }
 
-/* ═══ RENDER COURSES WITH COMPLETION % ═══ */
 function renderCourses(courses) {
   const el = document.getElementById('courses-list');
-  if (courses.length === 0) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><div class="empty-text">No courses enrolled yet</div></div>`;
-    return;
-  }
-  el.innerHTML = courses.map((c, i) => {
-    const pct      = c.progress?.percentage || 0;
-    const done     = pct >= 100;
-    const thumbCls = THUMB_CLASSES[i % THUMB_CLASSES.length];
-    return `
-      <div class="course-row">
-        <div class="course-thumb-sm ${thumbCls}">${escHtml(c.thumbnail || '📘')}</div>
-        <div class="course-info">
-          <div class="course-name">${escHtml(c.title)}</div>
-          <div class="course-progress-row">
-            <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
-            <span class="pct-label">${pct}% complete</span>
-          </div>
-        </div>
-        <button class="course-action ${done ? 'done' : ''}"
-          onclick="window.location.href='/learn/lms/player.html?course=${c.id}'">
-          ${done ? 'Review ↗' : 'Continue →'}
-        </button>
-      </div>`;
+  if (!courses.length) { el.innerHTML=`<div class="empty-state"><div class="empty-icon">📂</div><div class="empty-text">No courses enrolled yet</div></div>`; return; }
+  const now = new Date();
+  el.innerHTML = courses.map((c,i) => {
+    const pct      = c.progress?.percentage||0;
+    const done     = pct>=100;
+    const thumbCls = THUMB_CLASSES[i%THUMB_CLASSES.length];
+    const en       = c.enrollment;
+    let expiryHtml = '';
+    if (en?.accessSource!=='subscription' && en?.expiresAt) {
+      const exp=en.expiresAt.toDate?en.expiresAt.toDate():new Date(en.expiresAt);
+      const daysLeft=Math.ceil((exp-now)/(1000*60*60*24));
+      if(daysLeft<=0)      expiryHtml=`<div class="course-expiry-small exp-expired">Access expired</div>`;
+      else if(daysLeft<=7) expiryHtml=`<div class="course-expiry-small exp-warn">⚠ ${daysLeft}d left</div>`;
+      else                 expiryHtml=`<div class="course-expiry-small">Until ${exp.toLocaleDateString('en-IN',{day:'2-digit',month:'short'})}</div>`;
+    }
+    return `<div class="course-row"><div class="course-thumb-sm ${thumbCls}">${escHtml(c.thumbnail||'📘')}</div><div class="course-info"><div class="course-name">${escHtml(c.title)}</div><div class="course-progress-row"><div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div><span class="pct-label">${pct}% complete</span></div>${expiryHtml}</div><button class="course-action ${done?'done':''}" onclick="window.location.href='/learn/lms/player.html?course=${c.id}'">${done?'Review ↗':'Continue →'}</button></div>`;
   }).join('');
 }
 
-/* ═══ RENDER CERTS ═══ */
 function renderCerts(certs) {
   const el = document.getElementById('certs-list');
-  if (certs.length === 0) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🏆</div><div class="empty-text">No certificates yet — complete a course</div></div>`;
-    return;
-  }
+  if (!certs.length) { el.innerHTML=`<div class="empty-state"><div class="empty-icon">🏆</div><div class="empty-text">No certificates yet — complete a course</div></div>`; return; }
   el.innerHTML = certs.map(c => {
-    const date = c.issuedAt?.toDate
-      ? c.issuedAt.toDate().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})
-      : 'N/A';
-    return `
-      <div class="cert-row">
-        <div class="cert-icon">🏆</div>
-        <div class="cert-info">
-          <div class="cert-id-tag">${escHtml(c.id)}</div>
-          <div class="cert-course-name">${escHtml(c.courseName)}</div>
-          <div class="cert-date">Issued ${date}</div>
-        </div>
-        <div class="cert-actions">
-          <button class="btn-cert-sm green" onclick="window.open('/learn/verify.html?id=${c.id}','_blank')">View</button>
-          <button class="btn-cert-sm" onclick="copyId('${c.id}')">Copy ID</button>
-          <button class="btn-cert-sm" onclick="shareLinkedIn('${c.id}','${escHtml(c.courseName)}')">Share</button>
-        </div>
-      </div>`;
+    const date = c.issuedAt?.toDate?c.issuedAt.toDate().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'N/A';
+    return `<div class="cert-row"><div class="cert-icon">🏆</div><div class="cert-info"><div class="cert-id-tag">${escHtml(c.id)}</div><div class="cert-course-name">${escHtml(c.courseName)}</div><div class="cert-date">Issued ${date}</div></div><div class="cert-actions"><button class="btn-cert-sm green" onclick="window.open('/learn/verify.html?id=${c.id}','_blank')">View</button><button class="btn-cert-sm" onclick="copyId('${c.id}')">Copy ID</button><button class="btn-cert-sm" onclick="shareLinkedIn('${c.id}','${escHtml(c.courseName)}')">Share</button></div></div>`;
   }).join('');
 }
 
-/* ═══ EDIT NAME ═══ */
+/* ── Save name ── */
 async function saveName() {
   const newName = document.getElementById('edit-name').value.trim();
-  if (!newName) { showToast('Name cannot be empty.', 'error'); return; }
-
+  if (!newName) { showToast('Name cannot be empty.','error'); return; }
   const btn = document.getElementById('btn-save-name');
-  btn.disabled = true; btn.textContent = 'Saving...';
-
+  btn.disabled=true; btn.textContent='Saving...';
   try {
     await currentUser.updateProfile({ displayName: newName });
     await db.collection('users').doc(currentUser.uid).update({ name: newName });
-
-    // Update leaderboard entry name too
-    await db.collection('leaderboard').doc(currentUser.uid).set(
-      { name: newName }, { merge: true }
-    );
-
+    await db.collection('leaderboard').doc(currentUser.uid).set({ displayName: newName }, { merge:true });
     document.getElementById('profile-name').textContent = newName;
     document.getElementById('nav-name').textContent     = newName.split(' ')[0].toUpperCase();
-    showToast('Profile updated!', 'success');
-  } catch (err) {
-    showToast('Error saving. Try again.', 'error');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Save Changes →';
-  }
+    showToast('Display name updated!','success');
+  } catch(err) { showToast('Error saving name. Try again.','error'); }
+  finally { btn.disabled=false; btn.textContent='Save Name →'; }
 }
 
-/* ═══ PASSWORD RESET ═══ */
+/* ── Save username (once only) ── */
+async function saveUsername() {
+  if (userData.usernameChangedAt) { showToast('Username already changed. Contact admin.','error'); return; }
+  const newUn = document.getElementById('edit-username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+  if (newUn.length < 3) { showToast('Username must be at least 3 characters.','error'); return; }
+  if (newUn.length > 24) { showToast('Username must be 24 characters or fewer.','error'); return; }
+
+  /* Check uniqueness */
+  const btn = document.getElementById('btn-save-username');
+  btn.disabled=true; btn.textContent='Checking...';
+  try {
+    const existing = await db.collection('users').where('username','==',newUn).get();
+    if (!existing.empty && existing.docs[0].id !== currentUser.uid) {
+      showToast('Username already taken. Choose another.','error');
+      btn.disabled=false; btn.textContent='Save Username →'; return;
+    }
+    await db.collection('users').doc(currentUser.uid).update({
+      username:          newUn,
+      usernameChangedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    /* Update leaderboard name field */
+    await db.collection('leaderboard').doc(currentUser.uid).set({ name: newUn }, { merge:true });
+    userData.usernameChangedAt = new Date();
+    userData.username          = newUn;
+    document.getElementById('profile-username-display').textContent = `@${newUn}`;
+    document.getElementById('edit-username').disabled = true;
+    const hintEl = document.getElementById('username-hint');
+    hintEl.textContent = 'Username changed. This was your one allowed change.';
+    hintEl.className   = 'form-hint error';
+    btn.textContent    = 'Username Saved ✓';
+    showToast('Username updated!','success');
+  } catch(err) { showToast('Error saving username. Try again.','error'); btn.disabled=false; btn.textContent='Save Username →'; }
+}
+
+/* ── Password reset ── */
 async function sendPasswordReset() {
-  try {
-    await auth.sendPasswordResetEmail(currentUser.email);
-    showToast('Password reset email sent! Check your inbox.', 'success');
-  } catch (err) {
-    showToast('Error sending reset email.', 'error');
-  }
+  try { await auth.sendPasswordResetEmail(currentUser.email); showToast('Password reset email sent! Check your inbox.','success'); }
+  catch(err) { showToast('Error sending reset email.','error'); }
 }
 
-/* ═══ DELETE ACCOUNT ═══ */
+/* ── Delete account ── */
 async function confirmDeleteAccount() {
-  const confirmed = confirm(
-    `Delete your account permanently?\n\nThis will remove:\n• All your progress\n• All your enrollment data\n• Your profile\n\nCertificates remain on record. This CANNOT be undone.`
-  );
+  const confirmed = confirm('Delete your account permanently?\n\nThis will remove:\n• All your progress\n• All your enrollment data\n• Your profile\n\nCertificates remain on record. This CANNOT be undone.');
   if (!confirmed) return;
-
   const reconfirm = prompt('Type DELETE to confirm:');
-  if (reconfirm !== 'DELETE') { showToast('Account deletion cancelled.', 'info'); return; }
-
-  showLoadingOverlay(true, 'Deleting account...');
+  if (reconfirm !== 'DELETE') { showToast('Account deletion cancelled.','info'); return; }
+  showLoadingOverlay(true,'Deleting account...');
   try {
-    // Delete user Firestore document (other data cleaned separately)
     await db.collection('users').doc(currentUser.uid).delete();
     await db.collection('leaderboard').doc(currentUser.uid).delete();
     await currentUser.delete();
     window.location.href = '/learn/';
-  } catch (err) {
+  } catch(err) {
     showLoadingOverlay(false);
-    if (err.code === 'auth/requires-recent-login') {
-      showToast('Please sign out and sign back in, then try again.', 'error');
-    } else {
-      showToast('Error deleting account. Contact support.', 'error');
-    }
+    if(err.code==='auth/requires-recent-login') showToast('Please sign out and sign back in, then try again.','error');
+    else showToast('Error deleting account. Contact support.','error');
   }
 }
 
-/* ═══ CERTIFICATE SHARE (LinkedIn) ═══ */
+/* ── LinkedIn share ── */
 function shareLinkedIn(certId, courseName) {
-  const text = encodeURIComponent(
-    `I just earned a verified certificate in "${courseName}" from SkillSphere Edu! 🎓\n\nVerify at: https://skillsphere-edu.github.io/learn/verify.html?id=${certId}\n\n#SkillSphereEdu #Learning #Certificate`
-  );
-  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://skillsphere-edu.github.io/learn/verify.html?id='+certId)}`, '_blank');
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://skillsphere-edu.github.io/learn/verify.html?id='+certId)}`,'_blank');
 }
+function copyId(id) { navigator.clipboard.writeText(id).then(()=>showToast('Certificate ID copied!','success')); }
 
-function copyId(id) {
-  navigator.clipboard.writeText(id).then(() => showToast('Certificate ID copied!', 'success'));
-}
-
-/* ═══ UTILS ═══ */
-function animateCounter(id, target, suffix) {
-  const el = document.getElementById(id);
-  if (target === 0) { el.textContent = '0' + suffix; return; }
-  const dur   = 1000;
-  const start = performance.now();
-  function tick(now) {
-    const p = Math.min((now - start) / dur, 1);
-    el.textContent = Math.round((1 - Math.pow(1-p, 3)) * target) + suffix;
-    if (p < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-function escHtml(s) { return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : ''; }
-
-function showLoadingOverlay(show, msg) {
-  document.getElementById('loading-overlay').classList.toggle('show', show);
-  if (msg) document.getElementById('loading-msg').textContent = msg;
-}
-
-function showToast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 4500);
-}
-
-async function logout() { await auth.signOut(); window.location.href = '/learn/'; }
-function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
-
+/* ── Utils ── */
+function animateCounter(id,target,suffix){const el=document.getElementById(id);if(target===0){el.textContent='0'+suffix;return;}const dur=1000,start=performance.now();function tick(now){const p=Math.min((now-start)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,3))*target)+suffix;if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
+function escHtml(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'):'';}
+function showLoadingOverlay(show,msg){document.getElementById('loading-overlay').classList.toggle('show',show);if(msg)document.getElementById('loading-msg').textContent=msg;}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),4500);}
+async function logout(){await auth.signOut();window.location.href='/learn/';}
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open');}
+window.addEventListener('scroll',()=>{document.getElementById('main-nav').style.height=window.scrollY>60?'56px':'66px';});
 </script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/learn/lms/sw.js', { scope: '/learn/' })
-      .catch(err => console.warn('SW failed:', err));
-  });
-}
-</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/lms/sw.js',{scope:'/learn/'}).catch(err=>console.warn('SW failed:',err));});}</script>
 </body>
 </html>

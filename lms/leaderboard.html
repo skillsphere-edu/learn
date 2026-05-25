@@ -11,225 +11,183 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
   <link rel="manifest" href="/learn/lms/manifest.json">
   <meta name="theme-color" content="#c0272d">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
-
-  <!-- Open Graph -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
   <meta property="og:title" content="Leaderboard | SkillSphere Edu">
   <meta property="og:description" content="See India's top learners on SkillSphere Edu. Ranked by lessons completed.">
-  <meta property="og:url" content="https://skillsphere-edu.github.io/learn/lms/leaderboard.html">
   <meta property="og:type" content="website">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
   <style>
   :root {
-    --paper:       #f0ead6;
-    --paper-dark:  #e0d8be;
-    --paper-stain: #d4c9a8;
-    --ink:         #1a1209;
-    --ink-faded:   #3d3120;
-    --ink-muted:   #6b5f45;
-    --red-tape:    #c0272d;
-    --red-dark:    #8b1a1e;
-    --red-hover:   #a82020;
-    --stamp-green: #1a4d2e;
-    --gold:        #b07d1a;
-    --gold-l:      #d4a820;
-    --silver:      #6b7280;
-    --bronze:      #92400e;
-    --display:     'Bebas Neue', sans-serif;
-    --typewriter:  'Courier Prime', monospace;
-    --mono:        'IBM Plex Mono', monospace;
-    --stamp:       'Special Elite', cursive;
+    --paper:#f0ead6; --paper-dark:#e0d8be; --paper-stain:#d4c9a8;
+    --ink:#1a1209; --ink-faded:#3d3120; --ink-muted:#6b5f45;
+    --red-tape:#c0272d; --red-dark:#8b1a1e; --red-hover:#a82020;
+    --stamp-green:#1a4d2e; --gold:#b07d1a; --gold-l:#d4a820;
+    --silver:#6b7280; --bronze:#92400e;
+    --display:'Bebas Neue',sans-serif; --typewriter:'Courier Prime',monospace; --mono:'IBM Plex Mono',monospace; --stamp:'Special Elite',cursive;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--typewriter);line-height:1.65;overflow-x:hidden;min-height:100vh;}
+  a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:var(--typewriter);cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--display);line-height:1;letter-spacing:1px;}
+  ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--paper-dark);} ::-webkit-scrollbar-thumb{background:var(--paper-stain);border-radius:10px;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.45;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--ink); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; min-height: 100vh; }
-  a { color: inherit; text-decoration: none; }
-  img { display: block; max-width: 100%; }
-  button { font-family: var(--typewriter); cursor: pointer; }
-  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--paper-dark); }
-  ::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(240,234,214,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:2px solid var(--paper-stain);transition:height 0.3s;}
+  .nav-logo{display:flex;align-items:center;gap:11px;flex-shrink:0;}
+  .nav-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);line-height:1;}
+  .nav-brand-text em{font-style:normal;color:var(--red-tape);}
+  .logo-icon{height:44px;width:44px;filter:contrast(1.1) saturate(1.2);}
+  .nav-stamp{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--ink-muted);text-transform:uppercase;display:block;line-height:1;}
+  .nav-links{display:flex;align-items:center;gap:2rem;font-family:var(--mono);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .nav-links a{color:var(--ink-faded);transition:color 0.2s;position:relative;padding-bottom:2px;}
+  .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--red-tape);transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+  .nav-links a:hover{color:var(--ink);} .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-cta{background:var(--red-tape);color:#fff;font-family:var(--mono);font-size:0.72rem;font-weight:700;padding:0.55rem 1.2rem;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;border:none;transition:background 0.2s,transform 0.15s;cursor:pointer;}
+  .nav-cta:hover{background:var(--red-hover);transform:translateY(-1px);}
+  .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;}
+  .mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(240,234,214,0.98);backdrop-filter:blur(20px);border-bottom:2px solid var(--paper-stain);padding:1.5rem 5%;flex-direction:column;gap:1.2rem;z-index:999;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faded);padding:0.5rem 0;border-bottom:1px solid var(--paper-stain);}
 
-  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.45; }
+  /* HERO */
+  .lb-hero{background:var(--ink);padding:5rem 5% 4rem;position:relative;overflow:hidden;padding-top:calc(66px + 4rem);}
+  .lb-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.022) 31px,rgba(255,255,255,0.022) 32px);pointer-events:none;}
+  .lb-hero::after{content:'';position:absolute;right:-80px;bottom:-80px;width:500px;height:500px;border-radius:50%;opacity:0.04;background:repeating-radial-gradient(circle,#fff 0px,#fff 2px,transparent 2px,transparent 14px);pointer-events:none;}
+  .lb-hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1;text-align:center;}
+  .lb-case-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--red-tape);text-transform:uppercase;margin-bottom:1rem;display:inline-flex;align-items:center;gap:12px;}
+  .lb-case-tag::before,.lb-case-tag::after{content:'';width:30px;height:1px;background:var(--red-tape);}
+  .lb-title{font-family:var(--display);font-size:clamp(4rem,8vw,8rem);color:var(--paper);line-height:0.9;letter-spacing:2px;margin-bottom:0.5rem;}
+  .lb-title span{color:var(--red-tape);}
+  .lb-subtitle{font-family:var(--typewriter);font-size:0.9rem;color:rgba(240,234,214,0.45);max-width:480px;margin:0 auto 2rem;line-height:1.8;}
 
-  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes spin { to { transform:rotate(360deg); } }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+  /* My rank card */
+  .my-rank-card{display:none;background:rgba(192,39,45,0.1);border:1px solid rgba(192,39,45,0.25);border-radius:3px;padding:1rem 1.5rem;max-width:480px;margin:0 auto;}
+  .my-rank-card.show{display:flex;align-items:center;gap:1rem;}
+  .my-rank-num{font-family:var(--display);font-size:2.8rem;color:var(--red-tape);line-height:1;}
+  .my-rank-info{text-align:left;}
+  .my-rank-label{font-family:var(--mono);font-size:0.62rem;color:rgba(240,234,214,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+  .my-rank-name{font-family:var(--display);font-size:1.4rem;color:var(--paper);}
+  .my-rank-username{font-family:var(--mono);font-size:0.62rem;color:rgba(240,234,214,0.35);letter-spacing:2px;}
+  .my-rank-lessons{font-family:var(--mono);font-size:0.65rem;color:rgba(240,234,214,0.5);letter-spacing:1px;}
 
-  /* ── NAV ── */
-  nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 5%; height:66px; background:rgba(240,234,214,0.92); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:2px solid var(--paper-stain); transition:height 0.3s; }
-  .nav-logo { display:flex; align-items:center; gap:11px; flex-shrink:0; }
-  .nav-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); line-height:1; }
-  .nav-brand-text em { font-style:normal; color:var(--red-tape); }
-  .logo-icon { height:44px; width:44px; filter:contrast(1.1) saturate(1.2); }
-  .nav-stamp { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--ink-muted); text-transform:uppercase; display:block; line-height:1; }
-  .nav-links { display:flex; align-items:center; gap:2rem; font-family:var(--mono); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
-  .nav-links a { color:var(--ink-faded); transition:color 0.2s; position:relative; padding-bottom:2px; }
-  .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:1px; background:var(--red-tape); transform:scaleX(0); transform-origin:left; transition:transform 0.25s; }
-  .nav-links a:hover { color:var(--ink); }
-  .nav-links a:hover::after { transform:scaleX(1); }
-  .nav-cta { background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.72rem; font-weight:700; padding:0.55rem 1.2rem; border-radius:3px; letter-spacing:0.08em; text-transform:uppercase; border:none; transition:background 0.2s, transform 0.15s; cursor:pointer; }
-  .nav-cta:hover { background:var(--red-hover); transform:translateY(-1px); }
-  .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
-  .nav-hamburger span { display:block; width:22px; height:2px; background:var(--ink); border-radius:1px; }
-  .mobile-menu { display:none; position:fixed; top:66px; left:0; right:0; background:rgba(240,234,214,0.98); backdrop-filter:blur(20px); border-bottom:2px solid var(--paper-stain); padding:1.5rem 5%; flex-direction:column; gap:1.2rem; z-index:999; }
-  .mobile-menu.open { display:flex; }
-  .mobile-menu a { font-family:var(--mono); font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faded); padding:0.5rem 0; border-bottom:1px solid var(--paper-stain); }
+  /* FILTERS */
+  .lb-filters{background:var(--paper-dark);border-bottom:2px solid var(--paper-stain);padding:1rem 5%;position:sticky;top:66px;z-index:50;}
+  .lb-filters-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
+  .filter-tab{font-family:var(--mono);font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:0.45rem 1rem;border-radius:2px;border:1px solid var(--paper-stain);background:transparent;color:var(--ink-muted);cursor:pointer;transition:all 0.2s;box-shadow:1px 1px 0 var(--paper-stain);}
+  .filter-tab:hover{border-color:var(--red-tape);color:var(--red-tape);}
+  .filter-tab.active{background:var(--red-tape);border-color:var(--red-dark);color:#fff;box-shadow:2px 2px 0 var(--red-dark);}
+  .filter-sep{width:1px;height:24px;background:var(--paper-stain);margin:0 0.3rem;}
+  .live-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:0.6rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-left:auto;}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--stamp-green);animation:pulse 1.5s ease-in-out infinite;}
 
-  /* ── HERO ── */
-  .lb-hero { background:var(--ink); padding:5rem 5% 4rem; position:relative; overflow:hidden; padding-top: calc(66px + 4rem); }
-  .lb-hero::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(to bottom, transparent, transparent 31px, rgba(255,255,255,0.022) 31px, rgba(255,255,255,0.022) 32px); pointer-events:none; }
-  .lb-hero::after { content:''; position:absolute; right:-80px; bottom:-80px; width:500px; height:500px; border-radius:50%; opacity:0.04; background:repeating-radial-gradient(circle, #fff 0px, #fff 2px, transparent 2px, transparent 14px); pointer-events:none; }
-  .lb-hero-inner { max-width:1180px; margin:0 auto; position:relative; z-index:1; text-align:center; }
-  .lb-case-tag { font-family:var(--mono); font-size:10px; letter-spacing:5px; color:var(--red-tape); text-transform:uppercase; margin-bottom:1rem; display:inline-flex; align-items:center; gap:12px; }
-  .lb-case-tag::before, .lb-case-tag::after { content:''; width:30px; height:1px; background:var(--red-tape); }
-  .lb-title { font-family:var(--display); font-size:clamp(4rem,8vw,8rem); color:var(--paper); line-height:0.9; letter-spacing:2px; margin-bottom:0.5rem; }
-  .lb-title span { color:var(--red-tape); }
-  .lb-subtitle { font-family:var(--typewriter); font-size:0.9rem; color:rgba(240,234,214,0.45); max-width:480px; margin:0 auto 2rem; line-height:1.8; }
-
-  /* My rank card (shown when authenticated) */
-  .my-rank-card { display:none; background:rgba(192,39,45,0.1); border:1px solid rgba(192,39,45,0.25); border-radius:3px; padding:1rem 1.5rem; max-width:480px; margin:0 auto; }
-  .my-rank-card.show { display:flex; align-items:center; gap:1rem; }
-  .my-rank-num { font-family:var(--display); font-size:2.8rem; color:var(--red-tape); line-height:1; }
-  .my-rank-info { text-align:left; }
-  .my-rank-label { font-family:var(--mono); font-size:0.62rem; color:rgba(240,234,214,0.4); letter-spacing:2px; text-transform:uppercase; margin-bottom:2px; }
-  .my-rank-name { font-family:var(--display); font-size:1.4rem; color:var(--paper); }
-  .my-rank-lessons { font-family:var(--mono); font-size:0.65rem; color:rgba(240,234,214,0.5); letter-spacing:1px; }
-
-  /* ── FILTERS ── */
-  .lb-filters { background:var(--paper-dark); border-bottom:2px solid var(--paper-stain); padding:1rem 5%; position:sticky; top:66px; z-index:50; }
-  .lb-filters-inner { max-width:1180px; margin:0 auto; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; }
-  .filter-tab { font-family:var(--mono); font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; padding:0.45rem 1rem; border-radius:2px; border:1px solid var(--paper-stain); background:transparent; color:var(--ink-muted); cursor:pointer; transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
-  .filter-tab:hover { border-color:var(--red-tape); color:var(--red-tape); }
-  .filter-tab.active { background:var(--red-tape); border-color:var(--red-dark); color:#fff; box-shadow:2px 2px 0 var(--red-dark); }
-  .filter-sep { width:1px; height:24px; background:var(--paper-stain); margin:0 0.3rem; }
-  .live-badge { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:0.6rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; margin-left:auto; }
-  .live-dot { width:6px; height:6px; border-radius:50%; background:var(--stamp-green); animation:pulse 1.5s ease-in-out infinite; }
-
-  /* ── LEADERBOARD TABLE ── */
-  .lb-content { max-width:1180px; margin:0 auto; padding:3rem 5%; position:relative; z-index:1; }
+  /* LEADERBOARD TABLE */
+  .lb-content{max-width:1180px;margin:0 auto;padding:3rem 5%;position:relative;z-index:1;}
 
   /* Top 3 podium */
-  .podium { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:3rem; }
-  .podium-card {
-    border-radius:3px; padding:2rem 1.5rem 1.5rem; text-align:center;
-    border:1px solid var(--paper-stain); position:relative; overflow:hidden;
-    box-shadow:4px 4px 0 var(--paper-stain); transition:transform 0.25s;
-  }
-  .podium-card:hover { transform:translateY(-3px); }
-  .podium-card.rank-1 { background:linear-gradient(135deg, rgba(180,125,26,0.12), rgba(180,125,26,0.04)); border-color:rgba(180,125,26,0.3); box-shadow:4px 4px 0 rgba(180,125,26,0.2); }
-  .podium-card.rank-2 { background:linear-gradient(135deg, rgba(107,114,128,0.1), rgba(107,114,128,0.03)); border-color:rgba(107,114,128,0.25); }
-  .podium-card.rank-3 { background:linear-gradient(135deg, rgba(146,64,14,0.1), rgba(146,64,14,0.03)); border-color:rgba(146,64,14,0.25); }
-  .podium-card.is-me { outline:2px solid var(--red-tape); outline-offset:2px; }
+  .podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:3rem;}
+  .podium-card{border-radius:3px;padding:2rem 1.5rem 1.5rem;text-align:center;border:1px solid var(--paper-stain);position:relative;overflow:hidden;box-shadow:4px 4px 0 var(--paper-stain);transition:transform 0.25s;}
+  .podium-card:hover{transform:translateY(-3px);}
+  .podium-card.rank-1{background:linear-gradient(135deg,rgba(180,125,26,0.12),rgba(180,125,26,0.04));border-color:rgba(180,125,26,0.3);box-shadow:4px 4px 0 rgba(180,125,26,0.2);}
+  .podium-card.rank-2{background:linear-gradient(135deg,rgba(107,114,128,0.1),rgba(107,114,128,0.03));border-color:rgba(107,114,128,0.25);}
+  .podium-card.rank-3{background:linear-gradient(135deg,rgba(146,64,14,0.1),rgba(146,64,14,0.03));border-color:rgba(146,64,14,0.25);}
+  .podium-card.is-me{outline:2px solid var(--red-tape);outline-offset:2px;}
+  .podium-rank{font-family:var(--display);font-size:3rem;line-height:1;margin-bottom:0.5rem;}
+  .rank-1 .podium-rank{color:var(--gold-l);}
+  .rank-2 .podium-rank{color:#9ca3af;}
+  .rank-3 .podium-rank{color:#c2824a;}
+  .podium-avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 0.8rem;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.6rem;color:#fff;border:2px solid var(--paper-stain);}
+  .av-1{background:linear-gradient(135deg,var(--red-tape),var(--red-dark));box-shadow:0 0 0 3px rgba(180,125,26,0.25);}
+  .av-2{background:linear-gradient(135deg,#374151,#1f2937);}
+  .av-3{background:linear-gradient(135deg,#92400e,#5c2a08);}
+  .av-other{background:var(--ink);}
 
-  .podium-rank { font-family:var(--display); font-size:3rem; line-height:1; margin-bottom:0.5rem; }
-  .rank-1 .podium-rank { color:var(--gold-l); }
-  .rank-2 .podium-rank { color:#9ca3af; }
-  .rank-3 .podium-rank { color:#c2824a; }
+  /* Username primary, display name secondary */
+  .podium-username{font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:0.1rem;letter-spacing:1px;}
+  .podium-displayname{font-family:var(--typewriter);font-size:0.75rem;color:var(--ink-muted);margin-bottom:0.3rem;}
+  .podium-tag{font-family:var(--mono);font-size:0.62rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.8rem;}
+  .podium-lessons{font-family:var(--display);font-size:2.2rem;color:var(--red-tape);line-height:1;}
+  .podium-lessons-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;}
+  .podium-courses{font-family:var(--mono);font-size:0.62rem;color:var(--ink-muted);letter-spacing:1px;margin-top:0.4rem;}
 
-  .podium-avatar { width:64px; height:64px; border-radius:50%; margin:0 auto 0.8rem; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:1.6rem; color:#fff; border:2px solid var(--paper-stain); }
-  .av-1 { background:linear-gradient(135deg,var(--red-tape),var(--red-dark)); box-shadow:0 0 0 3px rgba(180,125,26,0.25); }
-  .av-2 { background:linear-gradient(135deg,#374151,#1f2937); }
-  .av-3 { background:linear-gradient(135deg,#92400e,#5c2a08); }
-  .av-other { background:var(--ink); }
+  /* Table ranks 4–50 */
+  .lb-table-wrap{border-radius:3px;overflow:hidden;border:1px solid var(--paper-stain);box-shadow:4px 4px 0 var(--paper-stain);}
+  .lb-table-header{background:var(--ink);padding:0.8rem 1.4rem;display:grid;grid-template-columns:60px 1fr 120px 120px;gap:1rem;font-family:var(--mono);font-size:0.6rem;color:rgba(240,234,214,0.35);text-transform:uppercase;letter-spacing:3px;}
+  .lb-row{display:grid;grid-template-columns:60px 1fr 120px 120px;gap:1rem;padding:0.9rem 1.4rem;background:var(--paper-dark);border-bottom:1px solid var(--paper-stain);align-items:center;transition:background 0.15s;animation:fadeUp 0.4s ease both;}
+  .lb-row:last-child{border-bottom:none;}
+  .lb-row:hover{background:var(--paper);}
+  .lb-row.is-me{background:rgba(192,39,45,0.06);border-left:3px solid var(--red-tape);}
+  .lb-rank{font-family:var(--display);font-size:1.4rem;color:var(--ink-muted);}
+  .lb-rank.top{color:var(--red-tape);}
+  .lb-user{display:flex;align-items:center;gap:10px;}
+  .lb-avatar{width:36px;height:36px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1rem;color:#fff;flex-shrink:0;border:1px solid var(--paper-stain);}
+  .lb-user-info{min-width:0;}
+  /* Username as primary display */
+  .lb-username{font-family:var(--mono);font-size:0.72rem;font-weight:700;color:var(--ink);letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lb-displayname{font-family:var(--typewriter);font-size:0.65rem;color:var(--ink-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lb-me-tag{font-family:var(--mono);font-size:0.55rem;color:var(--red-tape);letter-spacing:1px;}
+  .lb-lessons{font-family:var(--display);font-size:1.4rem;color:var(--red-tape);}
+  .lb-courses{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:1px;}
 
-  .podium-name { font-family:var(--display); font-size:1.6rem; color:var(--ink); margin-bottom:0.2rem; }
-  .podium-tag  { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:0.8rem; }
-  .podium-lessons { font-family:var(--display); font-size:2.2rem; color:var(--red-tape); line-height:1; }
-  .podium-lessons-lbl { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-  .podium-courses { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:1px; margin-top:0.4rem; }
+  @keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+  .skeleton{background:linear-gradient(90deg,var(--paper-stain) 25%,var(--paper-dark) 50%,var(--paper-stain) 75%);background-size:1200px 100%;animation:shimmer 1.5s infinite;border-radius:3px;}
 
-  /* Table for ranks 4–50 */
-  .lb-table-wrap { border-radius:3px; overflow:hidden; border:1px solid var(--paper-stain); box-shadow:4px 4px 0 var(--paper-stain); }
-  .lb-table-header { background:var(--ink); padding:0.8rem 1.4rem; display:grid; grid-template-columns:60px 1fr 120px 120px; gap:1rem; font-family:var(--mono); font-size:0.6rem; color:rgba(240,234,214,0.35); text-transform:uppercase; letter-spacing:3px; }
-  .lb-row {
-    display:grid; grid-template-columns:60px 1fr 120px 120px; gap:1rem;
-    padding:0.9rem 1.4rem; background:var(--paper-dark);
-    border-bottom:1px solid var(--paper-stain);
-    align-items:center; transition:background 0.15s;
-    animation:fadeUp 0.4s ease both;
-  }
-  .lb-row:last-child { border-bottom:none; }
-  .lb-row:hover { background:var(--paper); }
-  .lb-row.is-me { background:rgba(192,39,45,0.06); border-left:3px solid var(--red-tape); }
+  .lb-empty{text-align:center;padding:5rem 2rem;}
+  .lb-empty-icon{font-size:3rem;margin-bottom:1rem;}
+  .lb-empty-text{font-family:var(--display);font-size:2rem;color:var(--ink);margin-bottom:0.5rem;}
+  .lb-empty-sub{font-family:var(--typewriter);font-size:0.88rem;color:var(--ink-muted);}
 
-  .lb-rank { font-family:var(--display); font-size:1.4rem; color:var(--ink-muted); }
-  .lb-rank.top { color:var(--red-tape); }
-  .lb-user { display:flex; align-items:center; gap:10px; }
-  .lb-avatar { width:36px; height:36px; border-radius:50%; background:var(--ink); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:1rem; color:#fff; flex-shrink:0; border:1px solid var(--paper-stain); }
-  .lb-user-info { min-width:0; }
-  .lb-name { font-family:var(--mono); font-size:0.72rem; font-weight:700; color:var(--ink); text-transform:uppercase; letter-spacing:0.5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .lb-me-tag { font-family:var(--mono); font-size:0.55rem; color:var(--red-tape); letter-spacing:1px; }
-  .lb-lessons { font-family:var(--display); font-size:1.4rem; color:var(--red-tape); }
-  .lb-courses { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:1px; }
+  .loading-overlay{position:fixed;inset:0;background:rgba(240,234,214,0.88);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:1rem;}
+  .loading-overlay.show{display:flex;}
+  .loading-spinner{width:40px;height:40px;border:3px solid var(--paper-stain);border-top-color:var(--red-tape);border-radius:50%;animation:spin 0.8s linear infinite;}
+  .loading-msg{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;}
 
-  /* Loading skeleton */
-  @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
-  .skeleton { background:linear-gradient(90deg,var(--paper-stain) 25%,var(--paper-dark) 50%,var(--paper-stain) 75%); background-size:1200px 100%; animation:shimmer 1.5s infinite; border-radius:3px; }
+  /* FOOTER */
+  footer{background:var(--paper-dark);border-top:2px solid var(--paper-stain);padding:3rem 5% 2rem;position:relative;z-index:1;}
+  .footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto 3rem;}
+  .footer-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);margin-bottom:0.8rem;display:block;}
+  .footer-brand-text em{font-style:normal;color:var(--red-tape);}
+  .footer-brand p{font-family:var(--typewriter);font-size:0.82rem;color:var(--ink-muted);line-height:1.75;max-width:280px;}
+  .footer-socials{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;}
+  .social-chipft{height:28px;padding:0 0.8rem;border-radius:2px;background:var(--paper);border:1px solid var(--paper-stain);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faded);transition:all 0.2s;box-shadow:1px 1px 0 var(--paper-stain);}
+  .social-chipft:hover{background:var(--red-tape);border-color:var(--red-dark);color:#fff;}
+  .footer-col h4{font-family:var(--mono);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--ink-muted);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--paper-stain);}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+  .footer-col li a{font-family:var(--typewriter);font-size:0.85rem;color:var(--ink-faded);transition:color 0.2s;}
+  .footer-col li a:hover{color:var(--red-tape);}
+  .footer-bottom{padding-top:1.5rem;border-top:1px solid var(--paper-stain);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+  .footer-bottom span{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:0.5px;}
+  .footer-bottom .tagline{color:var(--red-tape);font-weight:700;}
 
-  /* Empty state */
-  .lb-empty { text-align:center; padding:5rem 2rem; }
-  .lb-empty-icon { font-size:3rem; margin-bottom:1rem; }
-  .lb-empty-text { font-family:var(--display); font-size:2rem; color:var(--ink); margin-bottom:0.5rem; }
-  .lb-empty-sub { font-family:var(--typewriter); font-size:0.88rem; color:var(--ink-muted); }
-
-  /* Loading overlay */
-  .loading-overlay { position:fixed; inset:0; background:rgba(240,234,214,0.88); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
-  .loading-overlay.show { display:flex; }
-  .loading-spinner { width:40px; height:40px; border:3px solid var(--paper-stain); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-
-  /* ── FOOTER ── */
-  footer { background:var(--paper-dark); border-top:2px solid var(--paper-stain); padding:3rem 5% 2rem; position:relative; z-index:1; }
-  .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1180px; margin:0 auto 3rem; }
-  .footer-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); margin-bottom:0.8rem; display:block; }
-  .footer-brand-text em { font-style:normal; color:var(--red-tape); }
-  .footer-brand p { font-family:var(--typewriter); font-size:0.82rem; color:var(--ink-muted); line-height:1.75; max-width:280px; }
-  .footer-socials { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
-  .social-chipft { height:28px; padding:0 0.8rem; border-radius:2px; background:var(--paper); border:1px solid var(--paper-stain); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--ink-faded); transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
-  .social-chipft:hover { background:var(--red-tape); border-color:var(--red-dark); color:#fff; }
-  .footer-col h4 { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:4px; color:var(--ink-muted); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--paper-stain); }
-  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
-  .footer-col li a { font-family:var(--typewriter); font-size:0.85rem; color:var(--ink-faded); transition:color 0.2s; }
-  .footer-col li a:hover { color:var(--red-tape); }
-  .footer-bottom { margin:0 auto; padding-top:1.5rem; border-top:1px solid var(--paper-stain); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
-  .footer-bottom span { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:0.5px; }
-  .footer-bottom .tagline { color:var(--red-tape); font-weight:700; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 860px) { nav .nav-links { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns:1fr 1fr; } .podium { grid-template-columns:1fr; max-width:320px; margin-left:auto; margin-right:auto; } .lb-table-header { grid-template-columns:50px 1fr 80px; } .lb-table-header > *:last-child { display:none; } .lb-row { grid-template-columns:50px 1fr 80px; } .lb-row > *:last-child { display:none; } }
-  @media (max-width: 560px) { .footer-inner { grid-template-columns:1fr; } .lb-content { padding:2rem 4%; } }
+  @media(max-width:860px){nav .nav-links{display:none;}.nav-hamburger{display:flex;}.footer-inner{grid-template-columns:1fr 1fr;}.podium{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto;}.lb-table-header{grid-template-columns:50px 1fr 80px;}.lb-table-header>*:last-child{display:none;}.lb-row{grid-template-columns:50px 1fr 80px;}.lb-row>*:last-child{display:none;}}
+  @media(max-width:560px){.footer-inner{grid-template-columns:1fr;}.lb-content{padding:2rem 4%;}}
   </style>
 </head>
 <body>
-
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
   <span class="loading-msg">Fetching top learners...</span>
 </div>
 
-<!-- ═══ NAV ═══ -->
+<!-- NAV -->
 <nav id="main-nav">
   <a href="/learn/" class="nav-logo">
     <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
-    <div>
-      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
-      <span class="nav-stamp">Case File · EST. 2026</span>
-    </div>
+    <div><span class="nav-brand-text">Skill<em>Sphere</em> Edu</span><span class="nav-stamp">Case File · EST. 2026</span></div>
   </a>
   <div class="nav-links">
     <a href="/learn/">Home</a>
@@ -242,9 +200,7 @@
     <div id="nav-auth-area">
       <button class="nav-cta" onclick="window.location.href='/learn/lms/login.html'">Sign In</button>
     </div>
-    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
@@ -255,50 +211,44 @@
   <a href="/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
 </div>
 
-<!-- ═══ HERO ═══ -->
+<!-- HERO -->
 <div class="lb-hero">
   <div class="lb-hero-inner">
     <div class="lb-case-tag">Evidence Rankings · Top Learners</div>
     <div class="lb-title">Leader<span>board</span></div>
     <p class="lb-subtitle">India's sharpest students, ranked by knowledge gathered. Every lesson counts.</p>
-
-    <!-- My rank (shown when logged in) -->
     <div class="my-rank-card" id="my-rank-card">
       <div class="my-rank-num" id="my-rank-num">#—</div>
       <div class="my-rank-info">
         <div class="my-rank-label">Your Current Rank</div>
         <div class="my-rank-name" id="my-rank-name">—</div>
+        <div class="my-rank-username" id="my-rank-username"></div>
         <div class="my-rank-lessons" id="my-rank-lessons">— lessons completed</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ FILTERS ── -->
+<!-- FILTERS -->
 <div class="lb-filters">
   <div class="lb-filters-inner">
-    <button class="filter-tab active" id="tab-all" onclick="switchFilter('all', this)">All Time</button>
-    <button class="filter-tab" id="tab-month" onclick="switchFilter('month', this)">This Month</button>
-    <button class="filter-tab" id="tab-week" onclick="switchFilter('week', this)">This Week</button>
+    <button class="filter-tab active" id="tab-all" onclick="switchFilter('all',this)">All Time</button>
+    <button class="filter-tab" id="tab-month" onclick="switchFilter('month',this)">This Month</button>
+    <button class="filter-tab" id="tab-week" onclick="switchFilter('week',this)">This Week</button>
     <div class="filter-sep"></div>
-    <button class="filter-tab" id="tab-lessons" onclick="switchSort('lessons', this)">By Lessons</button>
-    <button class="filter-tab" id="tab-courses" onclick="switchSort('courses', this)">By Courses</button>
+    <button class="filter-tab" id="tab-lessons" onclick="switchSort('lessons',this)">By Lessons</button>
+    <button class="filter-tab" id="tab-courses" onclick="switchSort('courses',this)">By Courses</button>
     <div class="live-badge"><span class="live-dot"></span>Live Rankings</div>
   </div>
 </div>
 
-<!-- ═══ LEADERBOARD CONTENT ═══ -->
+<!-- LEADERBOARD CONTENT -->
 <section class="lb-content">
-
-  <!-- Top 3 Podium -->
   <div class="podium" id="podium">
-    <!-- skeleton -->
     <div class="podium-card skeleton" style="height:220px;"></div>
     <div class="podium-card skeleton" style="height:220px;"></div>
     <div class="podium-card skeleton" style="height:220px;"></div>
   </div>
-
-  <!-- Ranks 4–50 table -->
   <div class="lb-table-wrap" id="lb-table-wrap">
     <div class="lb-table-header">
       <span>Rank</span>
@@ -306,19 +256,15 @@
       <span style="text-align:right;">Lessons</span>
       <span style="text-align:right;">Courses</span>
     </div>
-    <div id="lb-table-body">
-      <!-- Rendered dynamically -->
-    </div>
+    <div id="lb-table-body"></div>
   </div>
-
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
-      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
       <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
@@ -327,19 +273,18 @@
         <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li><li><a href="/learn/privacy-policy">Privacy Policy</a></li></ul></div>
+    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/plans">Plans</a></li><li><a href="/learn/privacy-policy">Privacy</a></li></ul></div>
     <div class="footer-col"><h4>Portal</h4><ul><li><a href="/learn/lms/dashboard.html">My Dashboard</a></li><li><a href="/learn/lms/profile.html">My Profile</a></li><li><a href="/learn/lms/leaderboard.html">Leaderboard</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
-    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder & Editor.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
   </div>
 </footer>
 
 <script>
-/* ═══ ⚠️ REPLACE WITH YOUR FIREBASE CONFIG ═══ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -348,143 +293,139 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "791566977151",
   appId:             "1:791566977151:web:b593a16eb9404daa2b974a"
 };
-
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-/* ═══ STATE ═══ */
 let currentUser  = null;
-let allEntries   = [];        // raw leaderboard data from Firestore
-let activeFilter = 'all';     // 'all' | 'month' | 'week'
-let activeSort   = 'lessons'; // 'lessons' | 'courses'
+let currentUserData = null;
+let allEntries   = [];
+let activeFilter = 'all';
+let activeSort   = 'lessons';
 
-/* ═══ AUTH (non-blocking — leaderboard is public) ═══ */
-auth.onAuthStateChanged((user) => {
+/* Auth — non-blocking, leaderboard is public */
+auth.onAuthStateChanged(async (user) => {
   currentUser = user;
-
   if (user) {
-    // Update nav to show dashboard link instead of Sign In
     document.getElementById('nav-auth-area').innerHTML =
       `<a href="/learn/lms/dashboard.html" style="font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faded);">Dashboard →</a>`;
+    /* Fetch user data for username display in "my rank" card */
+    try {
+      const snap = await db.collection('users').doc(user.uid).get();
+      currentUserData = snap.data() || {};
+    } catch(e) {}
   }
-  // Leaderboard loads regardless of auth state
 });
 
-/* ═══ LOAD LEADERBOARD ═══ */
+/* ── Load leaderboard ── */
 async function loadLeaderboard() {
   showLoadingOverlay(true);
   try {
-    // Query leaderboard collection — one doc per user
-    // Ordered by totalCompleted descending, limit 50
+    /*
+     * Leaderboard doc structure (written by player.html on lesson complete):
+     * {
+     *   name:             string  ← username (written by player.html)
+     *   displayName:      string  ← real name (written by player.html)
+     *   totalCompleted:   number
+     *   weeklyCompleted:  number
+     *   monthlyCompleted: number
+     *   coursesCompleted: number
+     *   lastActive:       timestamp
+     * }
+     */
     const snap = await db.collection('leaderboard')
-      .orderBy('totalCompleted', 'desc')
+      .orderBy('totalCompleted','desc')
       .limit(50)
       .get();
 
-    allEntries = snap.docs.map((d, i) => ({
-      uid:            d.id,
-      rank:           i + 1,
-      name:           d.data().name || 'Anonymous',
-      totalCompleted: d.data().totalCompleted || 0,
-      coursesCompleted:d.data().coursesCompleted || 0,
-      lastActive:     d.data().lastActive || null,
-      weeklyCompleted: d.data().weeklyCompleted || 0,
+    allEntries = snap.docs.map((d,i) => ({
+      uid:             d.id,
+      rank:            i+1,
+      username:        d.data().name        || 'learner',   // username stored as 'name' field
+      displayName:     d.data().displayName || '',
+      totalCompleted:  d.data().totalCompleted  || 0,
+      coursesCompleted:d.data().coursesCompleted|| 0,
+      lastActive:      d.data().lastActive  || null,
+      weeklyCompleted: d.data().weeklyCompleted  || 0,
       monthlyCompleted:d.data().monthlyCompleted || 0
     }));
 
     renderLeaderboard();
     renderMyRank();
-
-  } catch (err) {
-    console.error('Leaderboard error:', err);
-    document.getElementById('podium').innerHTML = '<div class="lb-empty" style="grid-column:1/-1"><div class="lb-empty-icon">📊</div><div class="lb-empty-text">No Data Yet</div><p class="lb-empty-sub">Be the first to complete lessons and claim the top spot.</p></div>';
+  } catch(err) {
+    console.error('Leaderboard error:',err);
+    document.getElementById('podium').innerHTML = `<div class="lb-empty" style="grid-column:1/-1"><div class="lb-empty-icon">📊</div><div class="lb-empty-text">No Data Yet</div><p class="lb-empty-sub">Be the first to complete lessons and claim the top spot.</p></div>`;
     document.getElementById('lb-table-body').innerHTML = '';
   } finally {
     showLoadingOverlay(false);
   }
 }
 
-/* ═══ FILTER + SORT ═══ */
+/* ── Filter + Sort ── */
 function getFilteredEntries() {
   let entries = [...allEntries];
-
-  // Apply time filter — re-sort by the appropriate count field
-  const sortField = activeFilter === 'week'  ? 'weeklyCompleted'
-                  : activeFilter === 'month' ? 'monthlyCompleted'
-                  : (activeSort === 'lessons' ? 'totalCompleted' : 'coursesCompleted');
-
-  const lessonsField = activeFilter === 'week'  ? 'weeklyCompleted'
-                     : activeFilter === 'month' ? 'monthlyCompleted'
+  const sortField = activeFilter==='week'  ? 'weeklyCompleted'
+                  : activeFilter==='month' ? 'monthlyCompleted'
+                  : (activeSort==='lessons'? 'totalCompleted':'coursesCompleted');
+  const lessonsField = activeFilter==='week'  ? 'weeklyCompleted'
+                     : activeFilter==='month' ? 'monthlyCompleted'
                      : 'totalCompleted';
-
-  entries.sort((a, b) => {
-    const primaryB = b[sortField] || 0;
-    const primaryA = a[sortField] || 0;
-    if (primaryB !== primaryA) return primaryB - primaryA;
-    return (b.totalCompleted || 0) - (a.totalCompleted || 0); // tiebreak
+  entries.sort((a,b) => {
+    const diff = (b[sortField]||0)-(a[sortField]||0);
+    return diff!==0 ? diff : (b.totalCompleted||0)-(a.totalCompleted||0);
   });
-
-  // Re-rank after filtering/sorting
-  return entries.map((e, i) => ({ ...e, filteredRank: i + 1, displayLessons: e[lessonsField] || 0 }));
+  return entries.map((e,i) => ({ ...e, filteredRank:i+1, displayLessons:e[lessonsField]||0 }));
 }
 
-/* ═══ RENDER LEADERBOARD ═══ */
-const RANK_MEDALS = { 1:'🥇', 2:'🥈', 3:'🥉' };
+/* ── Render ── */
+const RANK_MEDALS = {1:'🥇',2:'🥈',3:'🥉'};
 const AV_CLASSES  = ['av-1','av-2','av-3'];
 
 function renderLeaderboard() {
   const entries = getFilteredEntries();
-
-  if (entries.length === 0) {
-    document.getElementById('podium').innerHTML =
-      `<div class="lb-empty" style="grid-column:1/-1">
-        <div class="lb-empty-icon">📊</div>
-        <div class="lb-empty-text">No Rankings Yet</div>
-        <p class="lb-empty-sub">Complete lessons to appear on the leaderboard.</p>
-        <a href="/learn/lms/dashboard.html" style="display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);">Start Learning →</a>
-      </div>`;
+  if (!entries.length) {
+    document.getElementById('podium').innerHTML = `<div class="lb-empty" style="grid-column:1/-1"><div class="lb-empty-icon">📊</div><div class="lb-empty-text">No Rankings Yet</div><p class="lb-empty-sub">Complete lessons to appear on the leaderboard.</p><a href="/learn/lms/dashboard.html" style="display:inline-block;margin-top:1rem;font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);">Start Learning →</a></div>`;
     document.getElementById('lb-table-body').innerHTML = '';
     return;
   }
 
-  /* ── TOP 3 PODIUM ── */
-  const top3 = entries.slice(0, 3);
+  /* Top 3 podium */
+  const top3   = entries.slice(0,3);
   const podium = document.getElementById('podium');
-  podium.innerHTML = top3.map((e, i) => {
-    const isMe    = currentUser && e.uid === currentUser.uid;
-    const initials = e.name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
-    const avCls   = AV_CLASSES[i] || 'av-other';
+  podium.innerHTML = top3.map((e,i) => {
+    const isMe    = currentUser && e.uid===currentUser.uid;
+    const initials= e.username.substring(0,2).toUpperCase();
+    const avCls   = AV_CLASSES[i]||'av-other';
     return `
-      <div class="podium-card rank-${i+1} ${isMe ? 'is-me' : ''}" style="animation:fadeUp 0.5s ease ${i*0.1}s both;">
-        <div class="podium-rank">${RANK_MEDALS[i+1] || '#' + (i+1)}</div>
+      <div class="podium-card rank-${i+1} ${isMe?'is-me':''}" style="animation:fadeUp 0.5s ease ${i*0.1}s both;">
+        <div class="podium-rank">${RANK_MEDALS[i+1]||'#'+(i+1)}</div>
         <div class="podium-avatar ${avCls}">${initials}</div>
-        <div class="podium-name">${escHtml(truncName(e.name))}</div>
-        <div class="podium-tag">${isMe ? '← You' : 'Learner'}</div>
+        <div class="podium-username">@${escHtml(truncStr(e.username,16))}</div>
+        ${e.displayName?`<div class="podium-displayname">${escHtml(truncStr(e.displayName,18))}</div>`:''}
+        <div class="podium-tag">${isMe?'← You':'Learner'}</div>
         <div class="podium-lessons">${e.displayLessons}</div>
         <div class="podium-lessons-lbl">Lessons</div>
-        <div class="podium-courses">${e.coursesCompleted} course${e.coursesCompleted !== 1 ? 's' : ''} completed</div>
+        <div class="podium-courses">${e.coursesCompleted} course${e.coursesCompleted!==1?'s':''} completed</div>
       </div>`;
   }).join('');
 
-  /* ── REST: RANKS 4–50 ── */
-  const rest = entries.slice(3);
+  /* Ranks 4–50 table */
+  const rest  = entries.slice(3);
   const tbody = document.getElementById('lb-table-body');
-
-  if (rest.length === 0) { tbody.innerHTML = ''; return; }
-
-  tbody.innerHTML = rest.map((e, i) => {
-    const isMe    = currentUser && e.uid === currentUser.uid;
-    const initials = e.name.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
-    const delay   = Math.min(i * 0.03, 0.6);
+  if (!rest.length) { tbody.innerHTML=''; return; }
+  tbody.innerHTML = rest.map((e,i) => {
+    const isMe    = currentUser && e.uid===currentUser.uid;
+    const initials= e.username.substring(0,2).toUpperCase();
+    const delay   = Math.min(i*0.03,0.6);
     return `
-      <div class="lb-row ${isMe ? 'is-me' : ''}" style="animation-delay:${delay}s;">
-        <div class="lb-rank ${e.filteredRank <= 10 ? 'top' : ''}">#${e.filteredRank}</div>
+      <div class="lb-row ${isMe?'is-me':''}" style="animation-delay:${delay}s;">
+        <div class="lb-rank ${e.filteredRank<=10?'top':''}">#${e.filteredRank}</div>
         <div class="lb-user">
           <div class="lb-avatar">${initials}</div>
           <div class="lb-user-info">
-            <div class="lb-name">${escHtml(truncName(e.name))}</div>
-            ${isMe ? '<div class="lb-me-tag">← You</div>' : ''}
+            <div class="lb-username">@${escHtml(truncStr(e.username,18))}</div>
+            ${e.displayName?`<div class="lb-displayname">${escHtml(truncStr(e.displayName,18))}</div>`:''}
+            ${isMe?'<div class="lb-me-tag">← You</div>':''}
           </div>
         </div>
         <div class="lb-lessons" style="text-align:right;">${e.displayLessons}</div>
@@ -493,70 +434,44 @@ function renderLeaderboard() {
   }).join('');
 }
 
-/* ═══ MY RANK CARD ═══ */
+/* ── My rank card ── */
 function renderMyRank() {
   if (!currentUser) return;
   const entries = getFilteredEntries();
-  const me = entries.find(e => e.uid === currentUser.uid);
+  const me      = entries.find(e=>e.uid===currentUser.uid);
   if (!me) return;
 
   const card = document.getElementById('my-rank-card');
   card.classList.add('show');
-  document.getElementById('my-rank-num').textContent     = '#' + me.filteredRank;
-  document.getElementById('my-rank-name').textContent    = truncName(me.name, 20);
-  document.getElementById('my-rank-lessons').textContent = me.displayLessons + ' lessons completed';
+  document.getElementById('my-rank-num').textContent     = '#'+me.filteredRank;
+  document.getElementById('my-rank-name').textContent    = me.displayName || me.username;
+  document.getElementById('my-rank-username').textContent= me.username ? `@${me.username}` : '';
+  document.getElementById('my-rank-lessons').textContent = me.displayLessons+' lessons completed';
 }
 
-/* ═══ FILTER / SORT SWITCHING ═══ */
-function switchFilter(filter, btn) {
-  activeFilter = filter;
-  document.querySelectorAll('#tab-all,#tab-month,#tab-week').forEach(b => b.classList.remove('active'));
+/* ── Filter / sort switching ── */
+function switchFilter(filter,btn) {
+  activeFilter=filter;
+  document.querySelectorAll('#tab-all,#tab-month,#tab-week').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLeaderboard(); renderMyRank();
+}
+function switchSort(sort,btn) {
+  activeSort=sort;
+  document.querySelectorAll('#tab-lessons,#tab-courses').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderLeaderboard();
-  renderMyRank();
 }
 
-function switchSort(sort, btn) {
-  activeSort = sort;
-  document.querySelectorAll('#tab-lessons,#tab-courses').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderLeaderboard();
-}
+/* ── Utils ── */
+function truncStr(s,max=20){if(!s)return'anon';return s.length>max?s.substring(0,max-1)+'…':s;}
+function escHtml(s){return s?String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'):'';}
+function showLoadingOverlay(show){document.getElementById('loading-overlay').classList.toggle('show',show);}
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open');}
+window.addEventListener('scroll',()=>{document.getElementById('main-nav').style.height=window.scrollY>60?'56px':'66px';});
 
-/* ═══ UTILS ═══ */
-function truncName(name, max = 16) {
-  if (!name) return 'Anonymous';
-  const parts = name.trim().split(' ');
-  if (parts.length >= 2) {
-    const first = parts[0];
-    const last  = parts[parts.length - 1];
-    return first.length + last.length + 2 <= max
-      ? `${first} ${last[0]}.`
-      : `${first.substring(0, max - 2)}…`;
-  }
-  return name.length > max ? name.substring(0, max - 1) + '…' : name;
-}
-
-function escHtml(s) { return s ? String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') : ''; }
-
-function showLoadingOverlay(show) {
-  document.getElementById('loading-overlay').classList.toggle('show', show);
-}
-
-function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-window.addEventListener('scroll', () => { document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px'; });
-
-/* ═══ INIT ═══ */
 loadLeaderboard();
 </script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/learn/lms/sw.js', { scope: '/learn/' })
-      .catch(err => console.warn('SW failed:', err));
-  });
-}
-</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/lms/sw.js',{scope:'/learn/'}).catch(err=>console.warn('SW failed:',err));});}</script>
 </body>
 </html>

@@ -4,242 +4,240 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Dashboard | SkillSphere Edu LMS</title>
-  <meta name="description" content="Your SkillSphere Edu student dashboard — access enrolled courses, track progress, and download verified certificates.">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/lms/dashboard.html">
   <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
   <link rel="manifest" href="/learn/lms/manifest.json">
   <meta name="theme-color" content="#c0272d">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SkillSphere Edu">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
-
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
   <style>
   :root {
-    --paper:       #f0ead6;
-    --paper-dark:  #e0d8be;
-    --paper-stain: #d4c9a8;
-    --ink:         #1a1209;
-    --ink-faded:   #3d3120;
-    --ink-muted:   #6b5f45;
-    --red-tape:    #c0272d;
-    --red-dark:    #8b1a1e;
-    --red-hover:   #a82020;
-    --stamp-green: #1a4d2e;
-    --stamp-blue:  #1a3a6e;
-    --display:     'Bebas Neue', sans-serif;
-    --typewriter:  'Courier Prime', monospace;
-    --mono:        'IBM Plex Mono', monospace;
-    --stamp:       'Special Elite', cursive;
+    --paper:#f0ead6; --paper-dark:#e0d8be; --paper-stain:#d4c9a8;
+    --ink:#1a1209; --ink-faded:#3d3120; --ink-muted:#6b5f45;
+    --red-tape:#c0272d; --red-dark:#8b1a1e; --red-hover:#a82020;
+    --stamp-green:#1a4d2e; --stamp-blue:#1a3a6e; --gold:#b07d1a; --gold-l:#d4a820;
+    --plan-starter-bg:rgba(26,77,46,0.12); --plan-starter-border:rgba(26,77,46,0.3); --plan-starter-color:#1a4d2e;
+    --plan-pro-bg:rgba(26,58,110,0.12); --plan-pro-border:rgba(26,58,110,0.3); --plan-pro-color:#1a3a6e;
+    --plan-elite-bg:rgba(176,125,26,0.12); --plan-elite-border:rgba(176,125,26,0.3); --plan-elite-color:#b07d1a;
+    --display:'Bebas Neue',sans-serif; --typewriter:'Courier Prime',monospace; --mono:'IBM Plex Mono',monospace; --stamp:'Special Elite',cursive;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;font-size:16px;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--typewriter);line-height:1.65;overflow-x:hidden;min-height:100vh;}
+  a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:var(--typewriter);cursor:pointer;}
+  h1,h2,h3,h4{font-family:var(--display);line-height:1;letter-spacing:1px;}
+  ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--paper-dark);} ::-webkit-scrollbar-thumb{background:var(--paper-stain);border-radius:10px;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.45;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; font-size: 16px; }
-  body { background: var(--paper); color: var(--ink); font-family: var(--typewriter); line-height: 1.65; overflow-x: hidden; min-height: 100vh; }
-  a { color: inherit; text-decoration: none; }
-  img { display: block; max-width: 100%; }
-  button { font-family: var(--typewriter); cursor: pointer; }
-  h1,h2,h3,h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:66px;background:rgba(240,234,214,0.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:2px solid var(--paper-stain);transition:height 0.3s;}
+  .nav-logo{display:flex;align-items:center;gap:11px;flex-shrink:0;}
+  .nav-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);line-height:1;}
+  .nav-brand-text em{font-style:normal;color:var(--red-tape);}
+  .logo-icon{height:44px;width:44px;filter:contrast(1.1) saturate(1.2);}
+  .nav-stamp{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--ink-muted);text-transform:uppercase;display:block;line-height:1;}
+  .nav-links{display:flex;align-items:center;gap:2rem;font-family:var(--mono);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+  .nav-links a{color:var(--ink-faded);transition:color 0.2s;position:relative;padding-bottom:2px;}
+  .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--red-tape);transform:scaleX(0);transform-origin:left;transition:transform 0.25s;}
+  .nav-links a:hover{color:var(--ink);} .nav-links a:hover::after{transform:scaleX(1);}
+  .nav-user-pill{display:flex;align-items:center;gap:10px;background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;padding:0.35rem 0.8rem;box-shadow:2px 2px 0 var(--paper-stain);}
+  .nav-user-avatar{width:28px;height:28px;border-radius:50%;background:var(--red-tape);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:0.9rem;color:#fff;flex-shrink:0;overflow:hidden;}
+  .nav-user-avatar img{width:100%;height:100%;object-fit:cover;}
+  .nav-user-name{font-family:var(--mono);font-size:0.68rem;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:1px;}
+  .nav-logout-btn{font-family:var(--mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red-tape);background:none;border:none;cursor:pointer;transition:opacity 0.2s;}
+  .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;}
+  .mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(240,234,214,0.98);backdrop-filter:blur(20px);border-bottom:2px solid var(--paper-stain);padding:1.5rem 5%;flex-direction:column;gap:1.2rem;z-index:999;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faded);padding:0.5rem 0;border-bottom:1px solid var(--paper-stain);}
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--paper-dark); }
-  ::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+  /* SUBSCRIPTION BANNER */
+  .sub-banner{padding:0.7rem 5%;background:var(--ink);position:relative;z-index:1;}
+  .sub-banner-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+  .sub-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+  .sub-badge.starter{background:var(--plan-starter-bg);color:#5de0a0;border:1px solid var(--plan-starter-border);}
+  .sub-badge.pro{background:var(--plan-pro-bg);color:#90c0ff;border:1px solid var(--plan-pro-border);}
+  .sub-badge.elite{background:var(--plan-elite-bg);color:#e0b060;border:1px solid var(--plan-elite-border);}
+  .sub-upgrade-btn{font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.35rem 0.9rem;background:var(--red-tape);color:#fff;border:none;border-radius:2px;cursor:pointer;transition:background 0.2s;}
+  .sub-upgrade-btn:hover{background:var(--red-hover);}
+  .sub-info{font-family:var(--mono);font-size:0.6rem;color:rgba(240,234,214,0.4);letter-spacing:1px;}
 
-  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events:none; z-index:0; opacity:0.45; }
+  /* DASH */
+  .dash-page{padding-top:66px;min-height:100vh;}
+  .dash-banner{background:var(--ink);padding:3rem 5%;position:relative;overflow:hidden;z-index:1;}
+  .dash-banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.022) 31px,rgba(255,255,255,0.022) 32px);pointer-events:none;}
+  .dash-banner::after{content:'';position:absolute;right:-60px;top:-60px;width:340px;height:340px;border-radius:50%;opacity:0.05;background:repeating-radial-gradient(circle,#fff 0px,#fff 2px,transparent 2px,transparent 14px);pointer-events:none;}
+  .dash-banner-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;}
+  .dash-case-num{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--red-tape);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+  .dash-case-num::before{content:'';width:24px;height:1px;background:var(--red-tape);}
+  .dash-welcome{font-family:var(--display);font-size:clamp(2.2rem,4vw,3.5rem);color:var(--paper);line-height:1;}
+  .dash-welcome span{color:var(--red-tape);}
+  .dash-welcome-sub{font-family:var(--typewriter);font-size:0.85rem;color:rgba(240,234,214,0.5);margin-top:8px;}
+  .dash-welcome-username{font-family:var(--mono);font-size:0.6rem;color:rgba(240,234,214,0.35);letter-spacing:2px;margin-top:4px;}
+  .dash-admin-badge{display:inline-flex;align-items:center;gap:8px;background:var(--red-tape);color:#fff;font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:0.5rem 1rem;border-radius:3px;border:none;cursor:pointer;transition:background 0.2s;box-shadow:2px 2px 0 var(--red-dark);text-decoration:none;}
 
-  /* ── NAV ── */
-  nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 5%; height:66px; background:rgba(240,234,214,0.92); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:2px solid var(--paper-stain); transition:height 0.3s; }
-  .nav-logo { display:flex; align-items:center; gap:11px; flex-shrink:0; }
-  .nav-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); line-height:1; }
-  .nav-brand-text em { font-style:normal; color:var(--red-tape); }
-  .logo-icon { height:44px; width:44px; filter:contrast(1.1) saturate(1.2); }
-  .nav-stamp { font-family:var(--mono); font-size:9px; letter-spacing:3px; color:var(--ink-muted); text-transform:uppercase; display:block; line-height:1; }
-  .nav-links { display:flex; align-items:center; gap:2rem; font-family:var(--mono); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; }
-  .nav-links a { color:var(--ink-faded); transition:color 0.2s; position:relative; padding-bottom:2px; }
-  .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; right:0; height:1px; background:var(--red-tape); transform:scaleX(0); transform-origin:left; transition:transform 0.25s; }
-  .nav-links a:hover { color:var(--ink); }
-  .nav-links a:hover::after { transform:scaleX(1); }
-  .nav-user-pill { display:flex; align-items:center; gap:10px; background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; padding:0.35rem 0.8rem; box-shadow:2px 2px 0 var(--paper-stain); }
-  .nav-user-avatar { width:28px; height:28px; border-radius:50%; background:var(--red-tape); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-size:0.9rem; color:#fff; flex-shrink:0; overflow:hidden; }
-  .nav-user-avatar img { width:100%; height:100%; object-fit:cover; }
-  .nav-user-name { font-family:var(--mono); font-size:0.68rem; font-weight:700; color:var(--ink); text-transform:uppercase; letter-spacing:1px; }
-  .nav-logout-btn { font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--red-tape); background:none; border:none; cursor:pointer; transition:opacity 0.2s; }
-  .nav-logout-btn:hover { opacity:0.7; }
-  .nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
-  .nav-hamburger span { display:block; width:22px; height:2px; background:var(--ink); border-radius:1px; }
-  .mobile-menu { display:none; position:fixed; top:66px; left:0; right:0; background:rgba(240,234,214,0.98); backdrop-filter:blur(20px); border-bottom:2px solid var(--paper-stain); padding:1.5rem 5%; flex-direction:column; gap:1.2rem; z-index:999; }
-  .mobile-menu.open { display:flex; }
-  .mobile-menu a { font-family:var(--mono); font-size:0.85rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faded); padding:0.5rem 0; border-bottom:1px solid var(--paper-stain); }
-  .mobile-menu a:hover { color:var(--red-tape); }
+  .dash-stats{background:var(--paper-dark);border-bottom:2px solid var(--paper-stain);position:relative;z-index:1;}
+  .dash-stats-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat-cell{text-align:center;padding:1.4rem 1rem;border-right:1px solid var(--paper-stain);}
+  .stat-cell:last-child{border-right:none;}
+  .stat-val{font-family:var(--display);font-size:3rem;color:var(--red-tape);display:block;line-height:1;}
+  .stat-lbl{font-family:var(--mono);font-size:0.62rem;color:var(--ink-muted);text-transform:uppercase;letter-spacing:3px;display:block;margin-top:4px;}
 
-  /* ── DASHBOARD ── */
-  .dash-page { padding-top:66px; min-height:100vh; }
+  .dash-content{max-width:1180px;margin:0 auto;padding:3rem 5%;position:relative;z-index:1;}
+  .dash-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem;}
+  .dash-section-title{font-family:var(--display);font-size:2.4rem;color:var(--ink);}
+  .dash-section-tag{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--red-tape);text-transform:uppercase;display:block;margin-bottom:4px;}
+  .dash-section-link{font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);transition:opacity 0.2s;}
+  .dash-section-link:hover{opacity:0.7;}
 
-  .dash-banner { background:var(--ink); padding:3rem 5%; position:relative; overflow:hidden; z-index:1; }
-  .dash-banner::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(to bottom,transparent,transparent 31px,rgba(255,255,255,0.022) 31px,rgba(255,255,255,0.022) 32px); pointer-events:none; }
-  .dash-banner::after { content:''; position:absolute; right:-60px; top:-60px; width:340px; height:340px; border-radius:50%; opacity:0.05; background:repeating-radial-gradient(circle,#fff 0px,#fff 2px,transparent 2px,transparent 14px); pointer-events:none; }
-  .dash-banner-inner { max-width:1180px; margin:0 auto; position:relative; z-index:1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem; }
-  .dash-case-num { font-family:var(--mono); font-size:10px; letter-spacing:4px; color:var(--red-tape); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
-  .dash-case-num::before { content:''; width:24px; height:1px; background:var(--red-tape); }
-  .dash-welcome { font-family:var(--display); font-size:clamp(2.2rem,4vw,3.5rem); color:var(--paper); line-height:1; }
-  .dash-welcome span { color:var(--red-tape); }
-  .dash-welcome-sub { font-family:var(--typewriter); font-size:0.85rem; color:rgba(240,234,214,0.5); margin-top:8px; }
-  .dash-admin-badge { display:inline-flex; align-items:center; gap:8px; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:0.5rem 1rem; border-radius:3px; border:none; cursor:pointer; transition:background 0.2s; box-shadow:2px 2px 0 var(--red-dark); text-decoration:none; }
-  .dash-admin-badge:hover { background:var(--red-hover); }
+  /* COURSE CARDS */
+  .courses-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-bottom:3rem;}
+  .course-card{background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;overflow:hidden;box-shadow:4px 4px 0 var(--paper-stain);transition:transform 0.25s,box-shadow 0.25s;position:relative;}
+  .course-card:hover{transform:translateY(-3px);box-shadow:6px 8px 0 var(--paper-stain);}
+  .course-thumb{height:120px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .course-thumb::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:20px 20px;}
+  .thumb-emoji{font-size:2.4rem;position:relative;z-index:1;}
+  .th-b1{background:linear-gradient(140deg,#081a0c 0%,#163d1e 60%,#1a4d26 100%);}
+  .th-b2{background:linear-gradient(140deg,#0a1628 0%,#1a3868 60%,#2a5490 100%);}
+  .th-b3{background:linear-gradient(140deg,#280e02 0%,#6b300a 60%,#9b4e0e 100%);}
+  .th-b4{background:linear-gradient(140deg,#180505 0%,#3e0808 60%,#6b1010 100%);}
+  .th-b5{background:linear-gradient(140deg,#080e1e 0%,#10204e 55%,#1a4090 130%);}
+  .th-b6{background:linear-gradient(140deg,#15080e 0%,#3a101e 60%,#6b1040 100%);}
 
-  .dash-stats { background:var(--paper-dark); border-bottom:2px solid var(--paper-stain); position:relative; z-index:1; }
-  .dash-stats-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); }
-  .stat-cell { text-align:center; padding:1.4rem 1rem; border-right:1px solid var(--paper-stain); }
-  .stat-cell:last-child { border-right:none; }
-  .stat-val { font-family:var(--display); font-size:3rem; color:var(--red-tape); display:block; line-height:1; }
-  .stat-lbl { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); text-transform:uppercase; letter-spacing:3px; display:block; margin-top:4px; }
+  /* tier ribbon */
+  .tier-ribbon{position:absolute;top:10px;right:10px;z-index:2;font-family:var(--mono);font-size:0.55rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:0.2rem 0.55rem;border-radius:2px;}
+  .tier-free{background:rgba(26,77,46,0.85);color:#5de0a0;border:1px solid rgba(26,77,46,0.5);}
+  .tier-premium{background:rgba(176,125,26,0.85);color:#f0e0a0;border:1px solid rgba(176,125,26,0.5);}
+  .tier-locked{background:rgba(60,30,10,0.85);color:rgba(240,234,214,0.4);border:1px solid rgba(255,255,255,0.1);}
 
-  .dash-content { max-width:1180px; margin:0 auto; padding:3rem 5%; position:relative; z-index:1; }
-  .dash-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
-  .dash-section-title { font-family:var(--display); font-size:2.4rem; color:var(--ink); }
-  .dash-section-tag { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; display:block; margin-bottom:4px; }
-  .dash-section-link { font-family:var(--mono); font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); transition:opacity 0.2s; }
-  .dash-section-link:hover { opacity:0.7; }
+  .course-progress-bar{height:3px;background:var(--paper-stain);}
+  .course-progress-fill{height:100%;background:var(--stamp-green);transition:width 0.6s ease;}
+  .course-body{padding:1rem 1.1rem 0;}
+  .course-badge{display:inline-block;font-family:var(--mono);font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:0.15rem 0.5rem;border-radius:2px;margin-bottom:0.35rem;}
+  .badge-free{background:rgba(26,77,46,0.15);color:var(--stamp-green);border:1px solid rgba(26,77,46,0.3);}
+  .badge-paid{background:rgba(192,39,45,0.12);color:var(--red-tape);border:1px solid rgba(192,39,45,0.25);}
+  .badge-done{background:rgba(26,77,46,0.2);color:var(--stamp-green);border:1px solid rgba(26,77,46,0.35);}
+  .badge-sub{background:rgba(176,125,26,0.15);color:var(--gold);border:1px solid rgba(176,125,26,0.3);}
+  .course-title{font-family:var(--mono);font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;line-height:1.4;margin-bottom:0.4rem;color:var(--ink);}
+  .course-pct{font-family:var(--mono);font-size:0.65rem;color:var(--ink-muted);letter-spacing:1px;margin-bottom:0.4rem;}
+  .course-expiry{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:0.5px;margin-bottom:0.6rem;}
+  .expiry-warning{color:#c08030;}
+  .expiry-expired{color:var(--red-tape);}
+  .course-footer{display:flex;align-items:center;justify-content:space-between;padding:0.8rem 1.1rem;margin-top:0.5rem;border-top:1px solid var(--paper-stain);}
+  .course-lessons{font-family:var(--mono);font-size:0.62rem;color:var(--ink-muted);letter-spacing:1px;}
+  .btn-continue{font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);background:transparent;border:1px solid rgba(192,39,45,0.4);padding:0.35rem 0.8rem;border-radius:2px;transition:all 0.2s;box-shadow:1px 1px 0 rgba(192,39,45,0.2);cursor:pointer;}
+  .btn-continue:hover{background:var(--red-tape);color:#fff;box-shadow:2px 2px 0 var(--red-dark);}
+  .btn-continue.done{color:var(--stamp-green);border-color:rgba(26,77,46,0.4);}
+  .btn-continue.done:hover{background:var(--stamp-green);color:#fff;}
+  .btn-continue:disabled{opacity:0.4;cursor:not-allowed;}
 
-  /* ── COURSE CARDS ── */
-  .courses-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; margin-bottom:3rem; }
-  .course-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; overflow:hidden; box-shadow:4px 4px 0 var(--paper-stain); transition:transform 0.25s,box-shadow 0.25s; position:relative; }
-  .course-card:hover { transform:translateY(-3px); box-shadow:6px 8px 0 var(--paper-stain); }
+  /* EMPTY STATE */
+  .empty-state{text-align:center;padding:4rem 2rem;background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;box-shadow:4px 4px 0 var(--paper-stain);}
+  .empty-icon{font-size:3rem;margin-bottom:1rem;}
+  .empty-title{font-family:var(--display);font-size:2rem;color:var(--ink);margin-bottom:0.5rem;}
+  .empty-sub{font-family:var(--typewriter);font-size:0.88rem;color:var(--ink-muted);margin-bottom:1.5rem;max-width:320px;margin-left:auto;margin-right:auto;}
+  .btn-red{display:inline-flex;align-items:center;gap:8px;background:var(--red-tape);color:#fff;font-family:var(--mono);font-size:0.75rem;font-weight:700;padding:0.85rem 1.8rem;border-radius:3px;letter-spacing:0.08em;text-transform:uppercase;border:none;transition:background 0.2s,transform 0.15s;box-shadow:3px 3px 0 var(--red-dark);cursor:pointer;}
+  .btn-red:hover{background:var(--red-hover);transform:translateY(-2px);}
 
-  .course-thumb { height:120px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-  .course-thumb::after { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px); background-size:20px 20px; }
-  .thumb-emoji { font-size:2.4rem; position:relative; z-index:1; }
-  .th-b1 { background:linear-gradient(140deg,#081a0c 0%,#163d1e 60%,#1a4d26 100%); }
-  .th-b2 { background:linear-gradient(140deg,#0a1628 0%,#1a3868 60%,#2a5490 100%); }
-  .th-b3 { background:linear-gradient(140deg,#280e02 0%,#6b300a 60%,#9b4e0e 100%); }
-  .th-b4 { background:linear-gradient(140deg,#180505 0%,#3e0808 60%,#6b1010 100%); }
-  .th-b5 { background:linear-gradient(140deg,#080e1e 0%,#10204e 55%,#1a4090 130%); }
-  .th-b6 { background:linear-gradient(140deg,#15080e 0%,#3a101e 60%,#6b1040 100%); }
+  /* CERTS */
+  .certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:3rem;}
+  .cert-card{background:var(--paper);border:1px solid var(--paper-stain);border-radius:3px;padding:1.4rem;box-shadow:4px 4px 0 var(--paper-stain);transition:transform 0.25s;position:relative;overflow:hidden;}
+  .cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--stamp-green);}
+  .cert-id{font-family:var(--mono);font-size:0.65rem;letter-spacing:3px;color:var(--red-tape);font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;}
+  .cert-course{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:0.3rem;line-height:1.2;}
+  .cert-date{font-family:var(--mono);font-size:0.62rem;color:var(--ink-muted);letter-spacing:1px;margin-bottom:1rem;}
+  .cert-actions{display:flex;gap:0.5rem;}
+  .btn-cert{height:30px;padding:0 0.9rem;font-family:var(--mono);font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;border-radius:2px;border:1px solid var(--paper-stain);background:var(--paper-dark);color:var(--ink-faded);cursor:pointer;transition:all 0.2s;}
+  .btn-cert:hover{background:var(--ink);color:var(--paper);}
+  .btn-cert.primary{background:var(--stamp-green);color:#fff;border-color:#0d3020;}
 
-  .course-progress-bar { height:3px; background:var(--paper-stain); }
-  .course-progress-fill { height:100%; background:var(--stamp-green); transition:width 0.6s ease; }
+  /* BROWSE */
+  .browse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem;}
+  .browse-card{background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;padding:1.4rem;box-shadow:3px 3px 0 var(--paper-stain);transition:transform 0.2s;position:relative;}
+  .browse-card:hover{transform:translateY(-2px);}
+  .browse-emoji{font-size:1.8rem;margin-bottom:0.7rem;}
+  .browse-title{font-family:var(--mono);font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:0.3rem;}
+  .browse-desc{font-family:var(--typewriter);font-size:0.78rem;color:var(--ink-muted);line-height:1.6;margin-bottom:0.8rem;}
+  .browse-meta{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.7rem;flex-wrap:wrap;}
+  .browse-price{font-family:var(--display);font-size:1.5rem;color:var(--ink);}
+  .browse-price.free-price{color:var(--stamp-green);}
+  .browse-tier-tag{font-family:var(--mono);font-size:0.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.15rem 0.5rem;border-radius:2px;}
+  .btag-free{background:rgba(26,77,46,0.15);color:var(--stamp-green);border:1px solid rgba(26,77,46,0.3);}
+  .btag-premium{background:rgba(176,125,26,0.12);color:var(--gold);border:1px solid rgba(176,125,26,0.3);}
+  .browse-access-note{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);letter-spacing:1px;margin-bottom:0.7rem;}
+  .browse-locked-note{font-family:var(--mono);font-size:0.58rem;color:var(--red-tape);letter-spacing:1px;margin-bottom:0.7rem;}
+  .btn-enroll{font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);background:transparent;border:1px solid rgba(192,39,45,0.4);padding:0.35rem 0.8rem;border-radius:2px;transition:all 0.2s;cursor:pointer;}
+  .btn-enroll:hover{background:var(--red-tape);color:#fff;}
+  .btn-enroll:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn-upgrade-plan{font-family:var(--mono);font-size:0.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid rgba(176,125,26,0.4);padding:0.35rem 0.8rem;border-radius:2px;transition:all 0.2s;cursor:pointer;}
+  .btn-upgrade-plan:hover{background:var(--gold);color:#fff;}
 
-  .course-body { padding:1rem 1.1rem 0; }
-  .course-badge { display:inline-block; font-family:var(--mono); font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; padding:0.15rem 0.5rem; border-radius:2px; margin-bottom:0.35rem; }
-  .badge-free { background:rgba(26,77,46,0.15); color:var(--stamp-green); border:1px solid rgba(26,77,46,0.3); }
-  .badge-paid { background:rgba(192,39,45,0.12); color:var(--red-tape); border:1px solid rgba(192,39,45,0.25); }
-  .badge-done { background:rgba(26,77,46,0.2); color:var(--stamp-green); border:1px solid rgba(26,77,46,0.35); }
+  /* SKELETON */
+  @keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+  .skeleton{background:linear-gradient(90deg,var(--paper-stain) 25%,var(--paper-dark) 50%,var(--paper-stain) 75%);background-size:1200px 100%;animation:shimmer 1.5s infinite;border-radius:3px;}
 
-  /* Exam status chip */
-  .exam-status-chip { display:inline-block; font-family:var(--mono); font-size:0.56rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:0.15rem 0.55rem; border-radius:2px; margin-bottom:0.35rem; }
+  /* PAYMENT MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(26,18,9,0.7);display:none;align-items:center;justify-content:center;z-index:9990;padding:1rem;}
+  .modal-overlay.show{display:flex;}
+  .modal-box{background:var(--paper);border:1px solid var(--paper-stain);border-radius:3px;padding:2.4rem;max-width:440px;width:100%;box-shadow:8px 8px 0 var(--paper-stain);position:relative;}
+  .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--ink-muted);}
+  .modal-tag{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--red-tape);text-transform:uppercase;margin-bottom:6px;}
+  .modal-title{font-family:var(--display);font-size:2.2rem;color:var(--ink);margin-bottom:0.5rem;line-height:1;}
+  .modal-price{font-family:var(--display);font-size:3rem;color:var(--red-tape);margin-bottom:0.5rem;line-height:1;}
+  .modal-desc{font-family:var(--typewriter);font-size:0.85rem;color:var(--ink-muted);margin-bottom:1.5rem;line-height:1.7;}
+  .modal-features{margin-bottom:1.8rem;display:flex;flex-direction:column;gap:6px;}
+  .modal-feat{font-family:var(--mono);font-size:0.68rem;color:var(--ink-faded);letter-spacing:1px;display:flex;align-items:center;gap:8px;}
+  .modal-feat::before{content:'✓';color:var(--stamp-green);font-size:0.75rem;}
+  .modal-expiry-note{font-family:var(--mono);font-size:0.6rem;color:var(--ink-muted);margin-bottom:1rem;padding:0.5rem;background:var(--paper-dark);border-radius:2px;letter-spacing:0.5px;}
+  .btn-pay{width:100%;padding:0.9rem;background:var(--red-tape);color:#fff;font-family:var(--mono);font-size:0.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:background 0.2s;box-shadow:3px 3px 0 var(--red-dark);}
+  .btn-pay:hover{background:var(--red-hover);}
+  .modal-secure{font-family:var(--mono);font-size:0.58rem;color:var(--ink-muted);text-align:center;margin-top:0.8rem;letter-spacing:1px;}
 
-  .course-title { font-family:var(--mono); font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; line-height:1.4; margin-bottom:0.4rem; color:var(--ink); }
-  .course-pct { font-family:var(--mono); font-size:0.65rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.6rem; }
+  /* TOAST + LOADING */
+  .toast{position:fixed;top:80px;right:20px;z-index:9999;padding:0.85rem 1.4rem;border-radius:3px;font-family:var(--mono);font-size:0.7rem;font-weight:700;letter-spacing:1px;max-width:340px;box-shadow:4px 4px 0 rgba(0,0,0,0.25);transform:translateX(140%);transition:transform 0.3s ease;line-height:1.5;}
+  .toast.show{transform:translateX(0);}
+  .toast.error{background:var(--red-tape);color:#fff;border-left:4px solid var(--red-dark);}
+  .toast.success{background:var(--stamp-green);color:#fff;border-left:4px solid #0d3020;}
+  .toast.info{background:var(--ink);color:var(--paper);border-left:4px solid var(--red-tape);}
+  .loading-overlay{position:fixed;inset:0;background:rgba(240,234,214,0.9);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:1rem;}
+  .loading-overlay.show{display:flex;}
+  .loading-spinner{width:40px;height:40px;border:3px solid var(--paper-stain);border-top-color:var(--red-tape);border-radius:50%;animation:spin 0.8s linear infinite;}
+  .loading-msg{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;}
+  @keyframes spin{to{transform:rotate(360deg);}}
 
-  .course-footer { display:flex; align-items:center; justify-content:space-between; padding:0.8rem 1.1rem; margin-top:0.5rem; border-top:1px solid var(--paper-stain); }
-  .course-lessons { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:1px; }
-  .btn-continue { font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); background:transparent; border:1px solid rgba(192,39,45,0.4); padding:0.35rem 0.8rem; border-radius:2px; transition:all 0.2s; box-shadow:1px 1px 0 rgba(192,39,45,0.2); cursor:pointer; }
-  .btn-continue:hover { background:var(--red-tape); color:#fff; box-shadow:2px 2px 0 var(--red-dark); }
-  .btn-continue.done { color:var(--stamp-green); border-color:rgba(26,77,46,0.4); }
-  .btn-continue.done:hover { background:var(--stamp-green); color:#fff; box-shadow:2px 2px 0 #0d3020; }
+  /* FOOTER */
+  footer{background:var(--paper-dark);border-top:2px solid var(--paper-stain);padding:3rem 5% 2rem;position:relative;z-index:1;}
+  .footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1180px;margin:0 auto 3rem;}
+  .footer-brand-text{font-family:var(--display);font-size:1.6rem;letter-spacing:2px;color:var(--ink);margin-bottom:0.8rem;display:block;}
+  .footer-brand-text em{font-style:normal;color:var(--red-tape);}
+  .footer-brand p{font-family:var(--typewriter);font-size:0.82rem;color:var(--ink-muted);line-height:1.75;max-width:280px;}
+  .footer-socials{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:1rem;}
+  .social-chipft{height:28px;padding:0 0.8rem;border-radius:2px;background:var(--paper);border:1px solid var(--paper-stain);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink-faded);transition:all 0.2s;box-shadow:1px 1px 0 var(--paper-stain);}
+  .social-chipft:hover{background:var(--red-tape);border-color:var(--red-dark);color:#fff;}
+  .footer-col h4{font-family:var(--mono);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:var(--ink-muted);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--paper-stain);}
+  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+  .footer-col li a{font-family:var(--typewriter);font-size:0.85rem;color:var(--ink-faded);transition:color 0.2s;}
+  .footer-col li a:hover{color:var(--red-tape);}
+  .footer-bottom{padding-top:1.5rem;border-top:1px solid var(--paper-stain);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;}
+  .footer-bottom span{font-family:var(--mono);font-size:0.68rem;color:var(--ink-muted);letter-spacing:0.5px;}
+  .footer-bottom .tagline{color:var(--red-tape);font-weight:700;}
 
-  /* ── EMPTY STATE ── */
-  .empty-state { text-align:center; padding:4rem 2rem; background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; box-shadow:4px 4px 0 var(--paper-stain); }
-  .empty-icon { font-size:3rem; margin-bottom:1rem; }
-  .empty-title { font-family:var(--display); font-size:2rem; color:var(--ink); margin-bottom:0.5rem; }
-  .empty-sub { font-family:var(--typewriter); font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem; max-width:320px; margin-left:auto; margin-right:auto; }
-  .btn-red { display:inline-flex; align-items:center; gap:8px; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.75rem; font-weight:700; padding:0.85rem 1.8rem; border-radius:3px; letter-spacing:0.08em; text-transform:uppercase; border:none; transition:background 0.2s,transform 0.15s; box-shadow:3px 3px 0 var(--red-dark); cursor:pointer; }
-  .btn-red:hover { background:var(--red-hover); transform:translateY(-2px); }
-
-  /* ── CERTIFICATES ── */
-  .certs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:3rem; }
-  .cert-card { background:var(--paper); border:1px solid var(--paper-stain); border-radius:3px; padding:1.4rem; box-shadow:4px 4px 0 var(--paper-stain); transition:transform 0.25s; position:relative; overflow:hidden; }
-  .cert-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--stamp-green); }
-  .cert-card:hover { transform:translateY(-2px); }
-  .cert-id { font-family:var(--mono); font-size:0.65rem; letter-spacing:3px; color:var(--red-tape); font-weight:700; text-transform:uppercase; margin-bottom:0.5rem; }
-  .cert-course { font-family:var(--display); font-size:1.4rem; color:var(--ink); margin-bottom:0.3rem; line-height:1.2; }
-  .cert-date { font-family:var(--mono); font-size:0.62rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.3rem; }
-  .cert-score { font-family:var(--mono); font-size:0.62rem; color:var(--stamp-green); letter-spacing:1px; margin-bottom:1rem; font-weight:700; }
-  .cert-actions { display:flex; gap:0.5rem; }
-  .btn-cert { height:30px; padding:0 0.9rem; font-family:var(--mono); font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; border-radius:2px; border:1px solid var(--paper-stain); background:var(--paper-dark); color:var(--ink-faded); cursor:pointer; transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
-  .btn-cert:hover { background:var(--ink); color:var(--paper); }
-  .btn-cert.primary { background:var(--stamp-green); color:#fff; border-color:#0d3020; box-shadow:2px 2px 0 #0d3020; }
-  .btn-cert.primary:hover { background:#14402a; }
-
-  /* ── BROWSE COURSES ── */
-  .browse-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:2rem; }
-  .browse-card { background:var(--paper-dark); border:1px solid var(--paper-stain); border-radius:3px; padding:1.4rem; box-shadow:3px 3px 0 var(--paper-stain); transition:transform 0.2s; }
-  .browse-card:hover { transform:translateY(-2px); }
-  .browse-emoji { font-size:1.8rem; margin-bottom:0.7rem; }
-  .browse-title { font-family:var(--mono); font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--ink); margin-bottom:0.3rem; }
-  .browse-desc { font-family:var(--typewriter); font-size:0.78rem; color:var(--ink-muted); line-height:1.6; margin-bottom:1rem; }
-  .browse-price { font-family:var(--display); font-size:1.5rem; color:var(--ink); margin-bottom:0.7rem; }
-  .browse-price.free-price { color:var(--stamp-green); }
-  .browse-cert-note { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); letter-spacing:1px; margin-bottom:0.7rem; }
-  .btn-enroll { font-family:var(--mono); font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red-tape); background:transparent; border:1px solid rgba(192,39,45,0.4); padding:0.35rem 0.8rem; border-radius:2px; transition:all 0.2s; cursor:pointer; box-shadow:1px 1px 0 rgba(192,39,45,0.2); }
-  .btn-enroll:hover { background:var(--red-tape); color:#fff; }
-
-  /* ── SKELETON ── */
-  @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
-  .skeleton { background:linear-gradient(90deg,var(--paper-stain) 25%,var(--paper-dark) 50%,var(--paper-stain) 75%); background-size:1200px 100%; animation:shimmer 1.5s infinite; border-radius:3px; }
-
-  /* ── PAYMENT MODAL ── */
-  .modal-overlay { position:fixed; inset:0; background:rgba(26,18,9,0.7); display:none; align-items:center; justify-content:center; z-index:9990; padding:1rem; }
-  .modal-overlay.show { display:flex; }
-  .modal-box { background:var(--paper); border:1px solid var(--paper-stain); border-radius:3px; padding:2.4rem; max-width:440px; width:100%; box-shadow:8px 8px 0 var(--paper-stain); position:relative; }
-  .modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-muted); }
-  .modal-tag { font-family:var(--mono); font-size:10px; letter-spacing:3px; color:var(--red-tape); text-transform:uppercase; margin-bottom:6px; }
-  .modal-title { font-family:var(--display); font-size:2.2rem; color:var(--ink); margin-bottom:0.5rem; line-height:1; }
-  .modal-price { font-family:var(--display); font-size:3rem; color:var(--red-tape); margin-bottom:0.5rem; line-height:1; }
-  .modal-desc { font-family:var(--typewriter); font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.5rem; line-height:1.7; }
-  .modal-features { margin-bottom:1.8rem; display:flex; flex-direction:column; gap:6px; }
-  .modal-feat { font-family:var(--mono); font-size:0.68rem; color:var(--ink-faded); letter-spacing:1px; display:flex; align-items:center; gap:8px; }
-  .modal-feat::before { content:'✓'; color:var(--stamp-green); font-size:0.75rem; }
-  .btn-pay { width:100%; padding:0.9rem; background:var(--red-tape); color:#fff; font-family:var(--mono); font-size:0.78rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; border:none; border-radius:3px; cursor:pointer; transition:background 0.2s; box-shadow:3px 3px 0 var(--red-dark); }
-  .btn-pay:hover { background:var(--red-hover); }
-  .modal-secure { font-family:var(--mono); font-size:0.58rem; color:var(--ink-muted); text-align:center; margin-top:0.8rem; letter-spacing:1px; }
-
-  /* ── TOAST + LOADING ── */
-  .toast { position:fixed; top:80px; right:20px; z-index:9999; padding:0.85rem 1.4rem; border-radius:3px; font-family:var(--mono); font-size:0.7rem; font-weight:700; letter-spacing:1px; max-width:340px; box-shadow:4px 4px 0 rgba(0,0,0,0.25); transform:translateX(140%); transition:transform 0.3s ease; line-height:1.5; }
-  .toast.show { transform:translateX(0); }
-  .toast.error { background:var(--red-tape); color:#fff; border-left:4px solid var(--red-dark); }
-  .toast.success { background:var(--stamp-green); color:#fff; border-left:4px solid #0d3020; }
-  .toast.info { background:var(--ink); color:var(--paper); border-left:4px solid var(--red-tape); }
-  .loading-overlay { position:fixed; inset:0; background:rgba(240,234,214,0.9); display:none; align-items:center; justify-content:center; z-index:9998; flex-direction:column; gap:1rem; }
-  .loading-overlay.show { display:flex; }
-  .loading-spinner { width:40px; height:40px; border:3px solid var(--paper-stain); border-top-color:var(--red-tape); border-radius:50%; animation:spin 0.8s linear infinite; }
-  .loading-msg { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:2px; text-transform:uppercase; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-
-  /* ── FOOTER ── */
-  footer { background:var(--paper-dark); border-top:2px solid var(--paper-stain); padding:3rem 5% 2rem; position:relative; z-index:1; }
-  .footer-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1180px; margin:0 auto 3rem; }
-  .footer-brand-text { font-family:var(--display); font-size:1.6rem; letter-spacing:2px; color:var(--ink); margin-bottom:0.8rem; display:block; }
-  .footer-brand-text em { font-style:normal; color:var(--red-tape); }
-  .footer-brand p { font-family:var(--typewriter); font-size:0.82rem; color:var(--ink-muted); line-height:1.75; max-width:280px; }
-  .footer-socials { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
-  .social-chipft { height:28px; padding:0 0.8rem; border-radius:2px; background:var(--paper); border:1px solid var(--paper-stain); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:0.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--ink-faded); transition:all 0.2s; box-shadow:1px 1px 0 var(--paper-stain); }
-  .social-chipft:hover { background:var(--red-tape); border-color:var(--red-dark); color:#fff; }
-  .footer-col h4 { font-family:var(--mono); font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:4px; color:var(--ink-muted); margin-bottom:1rem; padding-bottom:0.5rem; border-bottom:1px solid var(--paper-stain); }
-  .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:0.55rem; }
-  .footer-col li a { font-family:var(--typewriter); font-size:0.85rem; color:var(--ink-faded); transition:color 0.2s; }
-  .footer-col li a:hover { color:var(--red-tape); }
-  .footer-bottom { margin:0 auto; padding-top:1.5rem; border-top:1px solid var(--paper-stain); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.8rem; }
-  .footer-bottom span { font-family:var(--mono); font-size:0.68rem; color:var(--ink-muted); letter-spacing:0.5px; }
-  .footer-bottom .tagline { color:var(--red-tape); font-weight:700; }
-
-  @media (max-width:1050px) { .courses-grid { grid-template-columns:repeat(2,1fr); } .certs-grid { grid-template-columns:repeat(2,1fr); } .browse-grid { grid-template-columns:repeat(2,1fr); } .dash-stats-inner { grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:860px) { nav .nav-links { display:none; } .nav-hamburger { display:flex; } .footer-inner { grid-template-columns:1fr 1fr; } }
-  @media (max-width:600px) { .courses-grid { grid-template-columns:1fr; } .certs-grid { grid-template-columns:1fr; } .browse-grid { grid-template-columns:1fr; } .dash-stats-inner { grid-template-columns:1fr 1fr; } .stat-cell { border-right:none; border-bottom:1px solid var(--paper-stain); } .footer-inner { grid-template-columns:1fr; } .dash-content { padding:2rem 4%; } }
+  @media(max-width:1050px){.courses-grid{grid-template-columns:repeat(2,1fr);}.certs-grid{grid-template-columns:repeat(2,1fr);}.browse-grid{grid-template-columns:repeat(2,1fr);}.dash-stats-inner{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:860px){nav .nav-links{display:none;}.nav-hamburger{display:flex;}.footer-inner{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.courses-grid{grid-template-columns:1fr;}.certs-grid{grid-template-columns:1fr;}.browse-grid{grid-template-columns:1fr;}.dash-stats-inner{grid-template-columns:1fr 1fr;}.stat-cell{border-right:none;border-bottom:1px solid var(--paper-stain);}.footer-inner{grid-template-columns:1fr;}.dash-content{padding:2rem 4%;}}
   </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
@@ -253,11 +251,11 @@
     <div class="modal-tag">Enrollment · Payment Required</div>
     <div class="modal-title" id="modal-course-title">Course Title</div>
     <div class="modal-price" id="modal-course-price">₹999</div>
-    <p class="modal-desc" id="modal-course-desc">Full course access including all lessons, resources, and verified certificate.</p>
+    <p class="modal-desc" id="modal-course-desc">Full course access including all lessons and verified certificate.</p>
+    <div class="modal-expiry-note" id="modal-expiry-note"></div>
     <div class="modal-features">
       <div class="modal-feat">Lifetime access to all course content</div>
       <div class="modal-feat">Verified SkillSphere Edu certificate</div>
-      <div class="modal-feat">Course notes and resources included</div>
       <div class="modal-feat">Community access on WhatsApp</div>
     </div>
     <button class="btn-pay" id="btn-pay" onclick="proceedToPayment()">Pay with Razorpay →</button>
@@ -265,7 +263,7 @@
   </div>
 </div>
 
-<!-- ═══ NAV ═══ -->
+<!-- NAV -->
 <nav id="main-nav">
   <a href="/learn/" class="nav-logo">
     <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
@@ -287,9 +285,7 @@
       <span class="nav-user-name" id="nav-name">Loading...</span>
       <button class="nav-logout-btn" onclick="logout()">Sign Out</button>
     </div>
-    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
@@ -301,15 +297,26 @@
   <a href="#" onclick="logout()">Sign Out</a>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
-<div class="dash-page">
+<!-- SUBSCRIPTION BANNER -->
+<div class="sub-banner" id="sub-banner" style="display:none;">
+  <div class="sub-banner-inner">
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <span class="sub-badge starter" id="sub-badge-el">Starter Plan</span>
+      <span class="sub-info" id="sub-info-el"></span>
+    </div>
+    <button class="sub-upgrade-btn" id="sub-upgrade-btn" onclick="window.location.href='/learn/plans'" style="display:none;">Upgrade Plan →</button>
+  </div>
+</div>
 
+<!-- DASHBOARD -->
+<div class="dash-page">
   <div class="dash-banner">
     <div class="dash-banner-inner">
       <div>
         <div class="dash-case-num">STUDENT PORTAL · CASE FILE SSE-DASH-2026</div>
         <div class="dash-welcome">Welcome Back,<br><span id="banner-name">Learner</span></div>
         <div class="dash-welcome-sub" id="banner-sub">Continue your evidence-gathering journey.</div>
+        <div class="dash-welcome-username" id="banner-username"></div>
       </div>
       <div id="admin-link-wrap" style="display:none;">
         <a href="/learn/lms/admin.html" class="dash-admin-badge">⚙ Admin Panel →</a>
@@ -327,8 +334,6 @@
   </div>
 
   <div class="dash-content">
-
-    <!-- My Courses -->
     <div class="dash-section-header">
       <div>
         <span class="dash-section-tag">Active Case Files</span>
@@ -342,7 +347,6 @@
       <div class="course-card skeleton" style="height:260px;"></div>
     </div>
 
-    <!-- My Certificates -->
     <div class="dash-section-header">
       <div>
         <span class="dash-section-tag">Evidence Collected</span>
@@ -352,7 +356,6 @@
     </div>
     <div class="certs-grid" id="my-certs-grid"></div>
 
-    <!-- Browse More -->
     <div class="dash-section-header" style="margin-top:1rem;">
       <div>
         <span class="dash-section-tag">New Investigations</span>
@@ -360,17 +363,14 @@
       </div>
     </div>
     <div class="browse-grid" id="browse-grid"></div>
-
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
-      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
-      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials.</p>
       <div class="footer-socials">
         <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
         <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
@@ -378,21 +378,18 @@
         <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
       </div>
     </div>
-    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li><li><a href="/learn/privacy-policy">Privacy Policy</a></li></ul></div>
+    <div class="footer-col"><h4>Navigate</h4><ul><li><a href="/learn/courses">All Courses</a></li><li><a href="/learn/#about">About Us</a></li><li><a href="/learn/plans">Plans</a></li><li><a href="/learn/privacy-policy">Privacy</a></li></ul></div>
     <div class="footer-col"><h4>Portal</h4><ul><li><a href="/learn/lms/dashboard.html">My Dashboard</a></li><li><a href="/learn/lms/profile.html">My Profile</a></li><li><a href="/learn/verify.html">Verify Certificate</a></li><li><a href="mailto:skillsphere.work@gmail.com">Get Help</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="/learn/#founders">Talk to a Founder</a></li><li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li><li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
-    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder & Editor.</span>
     <span class="tagline">Empowering India's Next Generation of Professionals</span>
   </div>
 </footer>
 
 <script>
-/* ════════════════════════════════════════════════════════
-   ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
-════════════════════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -401,441 +398,385 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "791566977151",
   appId:             "1:791566977151:web:b593a16eb9404daa2b974a"
 };
-
-/* ⚠️ REPLACE WITH YOUR RAZORPAY KEY ID (public key — safe to expose) */
 const RAZORPAY_KEY_ID = "rzp_test_SqLQ4JrZEyroXx";
 
 firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-/* ════════════════════════════════════════════════════════
-   STATE
-════════════════════════════════════════════════════════ */
 let currentUser   = null;
 let userData      = null;
 let pendingCourse = null;
+let userSubTier   = 'starter';
+let userSubActive = false;
 
 const THUMB_CLASSES = ['th-b1','th-b2','th-b3','th-b4','th-b5','th-b6'];
 
-/* ════════════════════════════════════════════════════════
-   AUTH GUARD
-════════════════════════════════════════════════════════ */
+/* Plan definitions */
+const PLAN_ACCESS = {
+  starter: { free: true,  premium: false, certFree: false },
+  pro:     { free: true,  premium: true,  certFree: true  },
+  elite:   { free: true,  premium: true,  certFree: true  }
+};
+
 auth.onAuthStateChanged(async (user) => {
-  if (!user) {
-    window.location.href = '/learn/lms/login.html?redirect=' +
-      encodeURIComponent(window.location.href);
-    return;
-  }
+  if (!user) { window.location.href = '/learn/lms/login.html?redirect='+encodeURIComponent(window.location.href); return; }
   currentUser = user;
   showLoadingOverlay(true, 'Loading dashboard...');
   await loadDashboard();
   showLoadingOverlay(false);
 });
 
-/* ════════════════════════════════════════════════════════
-   LOAD DASHBOARD
-════════════════════════════════════════════════════════ */
 async function loadDashboard() {
   try {
-    /* User data */
     const userSnap = await db.collection('users').doc(currentUser.uid).get();
     userData = userSnap.data() || {};
+    userSubTier   = userData.subscriptionTier   || 'starter';
+    userSubActive = userData.subscriptionActive  || false;
 
     const displayName = userData.name || currentUser.displayName || currentUser.email.split('@')[0];
-    document.getElementById('nav-name').textContent    = displayName.split(' ')[0].toUpperCase();
-    document.getElementById('banner-name').textContent = displayName.split(' ')[0];
+    const username    = userData.username || '';
+
+    document.getElementById('nav-name').textContent      = displayName.split(' ')[0].toUpperCase();
+    document.getElementById('banner-name').textContent   = displayName.split(' ')[0];
+    document.getElementById('banner-username').textContent = username ? `@${username}` : '';
 
     const avatarEl = document.getElementById('nav-avatar');
     if (currentUser.photoURL) avatarEl.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar">`;
     else avatarEl.textContent = displayName.charAt(0).toUpperCase();
 
-    if (userData.role === 'admin')
-      document.getElementById('admin-link-wrap').style.display = 'block';
+    if (userData.role === 'admin') document.getElementById('admin-link-wrap').style.display = 'block';
+
+    /* Subscription banner */
+    renderSubBanner();
 
     /* Enrollments */
-    const enrollSnap = await db.collection('enrollments')
-      .where('userId','==',currentUser.uid).get();
-    const enrollments = enrollSnap.docs.map(d => ({ id:d.id, ...d.data() }));
+    const enrollSnap = await db.collection('enrollments').where('userId','==',currentUser.uid).get();
+    const now = new Date();
+    const enrollments = enrollSnap.docs
+      .map(d => ({ id:d.id, ...d.data() }))
+      .filter(e => {
+        if (e.revoked) return false;
+        /* Subscription-based enrollments: active if subscription active */
+        if (e.accessSource === 'subscription') return userSubActive;
+        /* Individual: check expiry */
+        if (e.expiresAt) {
+          const exp = e.expiresAt.toDate ? e.expiresAt.toDate() : new Date(e.expiresAt);
+          return exp > now;
+        }
+        return e.status === 'active';
+      });
     const enrolledCourseIds = enrollments.map(e => e.courseId);
 
-    /* Progress per course */
-    let allProgress = {};
-    let totalLessonsCompleted = 0;
-
-    for (const courseId of enrolledCourseIds) {
+    /* Progress */
+    let allProgress = {}, totalLessonsCompleted = 0;
+    for (const en of enrollments) {
       try {
-        const progSnap = await db.collection('progress').doc(currentUser.uid)
-          .collection(courseId).doc('data').get();
-        if (progSnap.exists) {
-          allProgress[courseId] = progSnap.data();
-          totalLessonsCompleted += (progSnap.data().completedLessons || []).length;
-        } else {
-          allProgress[courseId] = { completedLessons:[], percentage:0 };
-        }
-      } catch(e) { allProgress[courseId] = { completedLessons:[], percentage:0 }; }
+        const p = await db.collection('progress').doc(currentUser.uid).collection(en.courseId).doc('data').get();
+        allProgress[en.courseId] = p.exists ? p.data() : { completedLessons:[], percentage:0 };
+        totalLessonsCompleted += (allProgress[en.courseId].completedLessons||[]).length;
+      } catch(e) { allProgress[en.courseId] = { completedLessons:[], percentage:0 }; }
     }
 
-    /* Enrolled course details */
+    /* Course details */
     let enrolledCourses = [];
-    for (const courseId of enrolledCourseIds) {
+    for (const en of enrollments) {
       try {
-        const cSnap = await db.collection('courses').doc(courseId).get();
-        if (cSnap.exists) {
-          enrolledCourses.push({
-            id:       cSnap.id,
-            ...cSnap.data(),
-            progress: allProgress[courseId]
-          });
-        }
+        const cs = await db.collection('courses').doc(en.courseId).get();
+        if (cs.exists) enrolledCourses.push({ id:cs.id, ...cs.data(), progress:allProgress[en.courseId], enrollment:en });
       } catch(e) {}
     }
 
-    /* ── Exam requests for all enrolled courses ── */
-    const examReqMap = {};
-    if (enrolledCourseIds.length > 0) {
-      try {
-        const examSnap = await db.collection('exam_requests')
-          .where('userId','==',currentUser.uid).get();
-        examSnap.docs.forEach(d => {
-          examReqMap[d.data().courseId] = { id:d.id, ...d.data() };
-        });
-      } catch(e) { /* non-critical */ }
-    }
-
-    /* Attach exam request to each course */
-    enrolledCourses.forEach(c => {
-      c.examRequest = examReqMap[c.id] || null;
-    });
-
-    /* Certificates */
-    const certSnap = await db.collection('certificates')
-      .where('userId','==',currentUser.uid)
-      .orderBy('issuedAt','desc').get();
-    const certificates = certSnap.docs.map(d => ({ id:d.id, ...d.data() }));
+    /* Certs */
+    const certSnap = await db.collection('certificates').where('userId','==',currentUser.uid).orderBy('issuedAt','desc').get();
+    const certs    = certSnap.docs.map(d => ({ id:d.id, ...d.data() }));
 
     /* Stats */
-    const avgPct = enrolledCourses.length > 0
-      ? Math.round(enrolledCourses.reduce((s,c) =>
-          s + (c.progress?.percentage || 0), 0) / enrolledCourses.length)
-      : 0;
-
+    const avgPct = enrolledCourses.length > 0 ? Math.round(enrolledCourses.reduce((s,c)=>s+(c.progress?.percentage||0),0)/enrolledCourses.length) : 0;
     animateCounter('stat-enrolled', enrolledCourses.length);
     animateCounter('stat-lessons',  totalLessonsCompleted);
-    animateCounter('stat-certs',    certificates.length);
+    animateCounter('stat-certs',    certs.length);
     document.getElementById('stat-pct').textContent = avgPct + '%';
 
     renderEnrolledCourses(enrolledCourses, enrolledCourseIds);
-    renderCertificates(certificates);
+    renderCertificates(certs);
     await loadBrowseCourses(enrolledCourseIds);
-
   } catch (err) {
     console.error('Dashboard load error:', err);
     showToast('Error loading dashboard. Refresh to try again.', 'error');
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   EXAM STATUS CHIP HELPER
-════════════════════════════════════════════════════════ */
-function examChip(req, courseIsFree, certType) {
-  /* Free course + Free cert → no exam, so no chip */
-  if (courseIsFree && certType === 'free') return '';
-  /* No request made yet → no chip */
-  if (!req) return '';
+/* ── Subscription banner ── */
+function renderSubBanner() {
+  const banner  = document.getElementById('sub-banner');
+  const badge   = document.getElementById('sub-badge-el');
+  const info    = document.getElementById('sub-info-el');
+  const upBtn   = document.getElementById('sub-upgrade-btn');
+  banner.style.display = 'block';
 
-  const map = {
-    pending: {
-      bg:'rgba(176,125,26,0.15)', color:'#c08030',
-      text:'📬 Exam Req. Pending'
-    },
-    enrolled: {
-      bg:'rgba(26,58,110,0.18)', color:'#7090d0',
-      text:'📝 Enrolled · Check Email'
-    },
-    scored: req.passed
-      ? { bg:'rgba(26,77,46,0.18)', color:'#50c080', text:`✓ Passed · ${req.finalScore}%` }
-      : { bg:'rgba(192,39,45,0.12)', color:'#c06060',
-          text:`✗ Score: ${req.finalScore}%${req.attemptCount < 2 ? ' · Retry avail.' : ''}` },
-    cert_requested: {
-      bg:'rgba(176,125,26,0.15)', color:'#c08030',
-      text:'⏳ Cert Under Review'
-    },
-    cert_issued: {
-      bg:'rgba(26,77,46,0.22)', color:'#50c080',
-      text:'🏆 Certified'
-    },
-  };
+  const labels = { starter:'Starter Plan', pro:'Pro Plan', elite:'Elite Plan' };
+  badge.textContent = labels[userSubTier] || 'Starter Plan';
+  badge.className   = `sub-badge ${userSubTier}`;
 
-  const style = map[req.status];
-  if (!style) return '';
-
-  return `<span class="exam-status-chip"
-    style="background:${style.bg};color:${style.color};
-           border:1px solid ${style.color}33;">
-    ${style.text}
-  </span>`;
+  if (userSubTier === 'starter') {
+    info.textContent = 'Free courses only. Upgrade for full access.';
+    upBtn.style.display = 'inline-flex';
+  } else if (userSubTier === 'pro') {
+    info.textContent = userSubActive ? 'All courses · All certificates included.' : 'Subscription inactive — contact admin.';
+    upBtn.style.display = userSubActive ? 'none' : 'inline-flex';
+  } else if (userSubTier === 'elite') {
+    info.textContent = userSubActive ? 'All courses · All certificates · Priority support.' : 'Subscription inactive — contact admin.';
+    upBtn.style.display = 'none';
+  }
 }
 
-/* ════════════════════════════════════════════════════════
-   RENDER: ENROLLED COURSES
-════════════════════════════════════════════════════════ */
+/* ── Enrolled courses ── */
 function renderEnrolledCourses(courses, enrolledIds) {
   const grid = document.getElementById('my-courses-grid');
   grid.innerHTML = '';
-
   if (!courses.length) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-icon">📂</div>
-        <div class="empty-title">No Active Cases</div>
-        <p class="empty-sub">You haven't enrolled in any courses yet. Browse our catalogue to get started.</p>
-        <a href="/learn/courses" class="btn-red">Browse Courses →</a>
-      </div>`;
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">📂</div><div class="empty-title">No Active Cases</div><p class="empty-sub">You haven't enrolled in any courses yet. Browse our catalogue to get started.</p><a href="/learn/courses" class="btn-red">Browse Courses →</a></div>`;
     return;
   }
-
+  const now = new Date();
   courses.forEach((course, i) => {
-    const pct        = course.progress?.percentage || 0;
-    const done       = pct >= 100;
-    const thumbCls   = THUMB_CLASSES[i % THUMB_CLASSES.length];
-    const isFree     = course.isFree || course.price === 0;
-    const certType   = course.certType || 'free';
-    const chip       = examChip(course.examRequest, isFree, certType);
+    const pct      = course.progress?.percentage || 0;
+    const done     = pct >= 100;
+    const thumbCls = THUMB_CLASSES[i % THUMB_CLASSES.length];
+    const en       = course.enrollment;
+    const isFree   = course.isFree || course.price === 0;
+    const isSub    = en?.accessSource === 'subscription';
+
+    /* Expiry */
+    let expiryHtml = '';
+    if (!isSub && en?.expiresAt) {
+      const exp     = en.expiresAt.toDate ? en.expiresAt.toDate() : new Date(en.expiresAt);
+      const daysLeft = Math.ceil((exp - now) / (1000*60*60*24));
+      if (daysLeft <= 0)       expiryHtml = `<div class="course-expiry expiry-expired">Access expired</div>`;
+      else if (daysLeft <= 7)  expiryHtml = `<div class="course-expiry expiry-warning">⚠ Expires in ${daysLeft} day${daysLeft!==1?'s':''}</div>`;
+      else                     expiryHtml = `<div class="course-expiry">Access until ${exp.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div>`;
+    } else if (isSub) {
+      expiryHtml = `<div class="course-expiry">Subscription access</div>`;
+    }
 
     const card = document.createElement('div');
     card.className = 'course-card';
     card.innerHTML = `
       <div class="course-thumb ${thumbCls}">
-        <span class="thumb-emoji">${escHtml(course.thumbnail || '📘')}</span>
+        <span class="thumb-emoji">${escHtml(course.thumbnail||'📘')}</span>
+        <span class="tier-ribbon ${course.tier==='premium'?'tier-premium':'tier-free'}">${course.tier==='premium'?'Premium':'Free'}</span>
       </div>
-      <div class="course-progress-bar">
-        <div class="course-progress-fill" style="width:${pct}%"></div>
-      </div>
+      <div class="course-progress-bar"><div class="course-progress-fill" style="width:${pct}%"></div></div>
       <div class="course-body">
-        <span class="course-badge ${done ? 'badge-done' : (isFree ? 'badge-free' : 'badge-paid')}">
-          ${done ? '✓ Completed' : (isFree ? 'Free' : 'Enrolled')}
-        </span>
-        ${chip}
+        <span class="course-badge ${done?'badge-done':isSub?'badge-sub':isFree?'badge-free':'badge-paid'}">${done?'✓ Completed':isSub?'Subscription':isFree?'Free':'Enrolled'}</span>
         <div class="course-title">${escHtml(course.title)}</div>
-        <div class="course-pct">
-          ${pct}% Complete ·
-          ${(course.progress?.completedLessons || []).length} lessons done
-        </div>
+        <div class="course-pct">${pct}% Complete · ${(course.progress?.completedLessons||[]).length} lessons done</div>
+        ${expiryHtml}
       </div>
       <div class="course-footer">
-        <span class="course-lessons">⏱ ${escHtml(course.totalDuration || '—')}</span>
-        <button class="btn-continue ${done ? 'done' : ''}"
-                onclick="window.location.href='/learn/lms/player.html?course=${course.id}'">
-          ${done ? 'Review ↗' : 'Continue →'}
-        </button>
+        <span class="course-lessons">⏱ ${escHtml(course.totalDuration||'—')}</span>
+        <button class="btn-continue ${done?'done':''}" onclick="window.location.href='/learn/lms/player.html?course=${course.id}'">${done?'Review ↗':'Continue →'}</button>
       </div>`;
     grid.appendChild(card);
   });
 }
 
-/* ════════════════════════════════════════════════════════
-   RENDER: CERTIFICATES
-════════════════════════════════════════════════════════ */
+/* ── Certs ── */
 function renderCertificates(certs) {
   const grid = document.getElementById('my-certs-grid');
   grid.innerHTML = '';
-
   if (!certs.length) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-icon">🏆</div>
-        <div class="empty-title">No Certificates Yet</div>
-        <p class="empty-sub">Complete a course and pass the exam to earn your first verified certificate.</p>
-      </div>`;
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🏆</div><div class="empty-title">No Certificates Yet</div><p class="empty-sub">Complete a course to earn your first verified certificate.</p></div>`;
     return;
   }
-
   certs.forEach(cert => {
-    const issueDate = cert.issuedAt?.toDate
-      ? cert.issuedAt.toDate().toLocaleDateString('en-IN',
-          { day:'2-digit', month:'short', year:'numeric' })
-      : 'Date N/A';
-
+    const issueDate = cert.issuedAt?.toDate ? cert.issuedAt.toDate().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : 'Date N/A';
     const card = document.createElement('div');
     card.className = 'cert-card';
-    card.innerHTML = `
-      <div class="cert-id">${escHtml(cert.id)}</div>
-      <div class="cert-course">${escHtml(cert.courseName)}</div>
-      <div class="cert-date">Issued: ${issueDate}</div>
-      ${cert.examScore != null
-        ? `<div class="cert-score">Exam Score: ${cert.examScore}%</div>`
-        : ''}
-      <div class="cert-actions">
-        <button class="btn-cert primary" onclick="viewCertificate('${cert.id}')">View →</button>
-        <button class="btn-cert" onclick="copyCertId('${cert.id}')">Copy ID</button>
-        <a href="/learn/verify.html?id=${cert.id}" class="btn-cert"
-           style="display:flex;align-items:center;">Verify</a>
-      </div>`;
+    card.innerHTML = `<div class="cert-id">${escHtml(cert.id)}</div><div class="cert-course">${escHtml(cert.courseName)}</div><div class="cert-date">Issued: ${issueDate}</div><div class="cert-actions"><button class="btn-cert primary" onclick="viewCertificate('${cert.id}')">View →</button><button class="btn-cert" onclick="copyCertId('${cert.id}')">Copy ID</button></div>`;
     grid.appendChild(card);
   });
 }
 
-/* ════════════════════════════════════════════════════════
-   RENDER: BROWSE COURSES
-════════════════════════════════════════════════════════ */
+/* ── Browse courses ── */
 async function loadBrowseCourses(enrolledIds) {
   const grid = document.getElementById('browse-grid');
   grid.innerHTML = '';
-
   try {
-    const snap = await db.collection('courses')
-      .where('isPublished','==',true).limit(6).get();
-
-    const courses = snap.docs
-      .map(d => ({ id:d.id, ...d.data() }))
-      .filter(c => !enrolledIds.includes(c.id));
-
+    const snap    = await db.collection('courses').where('isPublished','==',true).limit(6).get();
+    const courses = snap.docs.map(d=>({id:d.id,...d.data()})).filter(c=>!enrolledIds.includes(c.id));
     if (!courses.length) {
-      grid.innerHTML = `
-        <div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;
-                    color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;
-                    padding:2rem 0;">
-          All available courses enrolled. More launching soon.
-        </div>`;
+      grid.innerHTML = `<div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;color:var(--ink-muted);letter-spacing:2px;text-transform:uppercase;padding:2rem 0;">All available courses enrolled. More launching soon.</div>`;
       return;
     }
+    const planAccess = PLAN_ACCESS[userSubTier] || PLAN_ACCESS.starter;
+    courses.slice(0,3).forEach((course, i) => {
+      const isFree    = course.isFree || course.price === 0;
+      const isPremium = course.tier === 'premium';
+      const canAccess = isFree ? planAccess.free : planAccess.premium;
 
-    courses.slice(0, 3).forEach((course, i) => {
-      const isFree   = course.isFree || course.price === 0;
-      const certType = course.certType || 'free';
+      // REPLACE WITH THIS:
+let accessNote = '';
+let actionBtn  = '';
 
-      /* Cert type note */
-      let certNote = '';
-      if (!isFree) {
-        certNote = '🏆 Certificate included';
-      } else if (certType === 'paid') {
-        certNote = `📝 Paid cert · ₹299 exam fee`;
-      } else {
-        certNote = '🏆 Free certificate';
-      }
+if (!isPremium) {
+  /* ── Free tier course ── */
+  accessNote = `<div class="browse-access-note">
+    🏆 ${planAccess.certFree ? 'Free certificate included'
+                             : 'Free course · Paid cert available'}
+  </div>`;
+  actionBtn = `<button class="btn-enroll"
+    onclick='handleEnroll(${JSON.stringify({
+      id: course.id, title: course.title, price: 0,
+      isFree: true, tier: 'free',
+      accessPeriodDays:   course.accessPeriodDays   || 30,
+      accessPeriodPro:    course.accessPeriodPro    || 0,
+      accessPeriodElite:  course.accessPeriodElite  || 0,
+      description: course.subtitle || ''
+    }).replace(/"/g,"&quot;")})'>Enroll Free →</button>`;
+
+} else if (planAccess.premium) {
+  /* ── Premium course + Pro or Elite plan → free via subscription ── */
+  accessNote = `<div class="browse-access-note">
+    ✅ Included in your ${userSubTier.charAt(0).toUpperCase()+userSubTier.slice(1)} plan
+  </div>`;
+  actionBtn = `<button class="btn-enroll"
+    onclick='handleEnroll(${JSON.stringify({
+      id: course.id, title: course.title, price: 0,
+      isFree: true, tier: 'premium',
+      accessPeriodDays:   course.accessPeriodDays   || 30,
+      accessPeriodPro:    course.accessPeriodPro    || 0,
+      accessPeriodElite:  course.accessPeriodElite  || 0,
+      description: course.subtitle || ''
+    }).replace(/"/g,"&quot;")})'>Enroll Free →</button>`;
+
+} else {
+  /* ── Premium course + Starter plan → must purchase ── */
+  accessNote = `<div class="browse-access-note">
+    📚 Access period: ${course.accessPeriodDays || 30} days
+  </div>`;
+  actionBtn = course.price > 0
+    ? `<button class="btn-enroll"
+        onclick='handleEnroll(${JSON.stringify({
+          id: course.id, title: course.title, price: course.price,
+          isFree: false, tier: 'premium',
+          accessPeriodDays:   course.accessPeriodDays   || 30,
+          accessPeriodPro:    course.accessPeriodPro    || 0,
+          accessPeriodElite:  course.accessPeriodElite  || 0,
+          description: course.subtitle || ''
+        }).replace(/"/g,"&quot;")})'>Enroll · ₹${course.price} →</button>`
+    : `<button class="btn-enroll"
+        onclick='handleEnroll(${JSON.stringify({
+          id: course.id, title: course.title, price: 0,
+          isFree: true, tier: 'premium',
+          accessPeriodDays:   course.accessPeriodDays   || 30,
+          accessPeriodPro:    course.accessPeriodPro    || 0,
+          accessPeriodElite:  course.accessPeriodElite  || 0,
+          description: course.subtitle || ''
+        }).replace(/"/g,"&quot;")})'>Enroll Free →</button>`;
+}
 
       const card = document.createElement('div');
       card.className = 'browse-card';
       card.innerHTML = `
-        <div class="browse-emoji">${escHtml(course.thumbnail || '📘')}</div>
+        <div class="browse-emoji">${escHtml(course.thumbnail||'📘')}</div>
         <div class="browse-title">${escHtml(course.title)}</div>
-        <div class="browse-desc">
-          ${escHtml((course.subtitle || course.description || '').substring(0,80))}${(course.subtitle||'').length>80?'…':''}
+        <div class="browse-desc">${escHtml((course.subtitle||'').substring(0,80))}${(course.subtitle||'').length>80?'…':''}</div>
+        <div class="browse-meta">
+          <div class="browse-price ${isFree?'free-price':''}">${isFree?'Free':'₹'+course.price}</div>
+          <span class="browse-tier-tag ${isPremium?'btag-premium':'btag-free'}">${isPremium?'Premium':'Free Tier'}</span>
         </div>
-        <div class="browse-price ${isFree ? 'free-price' : ''}">
-          ${isFree ? 'Free' : '₹' + course.price}
-        </div>
-        <div class="browse-cert-note">${certNote}</div>
-        <button class="btn-enroll"
-                onclick='handleEnroll(${JSON.stringify({
-                  id:course.id, title:course.title, price:course.price,
-                  isFree, certType, description:course.subtitle||''
-                }).replace(/"/g,"&quot;")})'>
-          Enroll Now →
-        </button>`;
+        ${accessNote}
+        ${actionBtn}`;
       grid.appendChild(card);
     });
-
   } catch (err) {
-    console.error('Browse courses error:', err);
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;
-                  color:var(--ink-muted);">
-        Unable to load courses.
-        <a href="/learn/courses" style="color:var(--red-tape);">Browse all →</a>
-      </div>`;
+    grid.innerHTML = `<div style="grid-column:1/-1;font-family:var(--mono);font-size:0.75rem;color:var(--ink-muted);">Unable to load courses. <a href="/learn/courses" style="color:var(--red-tape);">Browse all →</a></div>`;
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   ENROLLMENT FLOW
-════════════════════════════════════════════════════════ */
+/* ── Enrollment ── */
 async function handleEnroll(course) {
   if (!currentUser) { window.location.href = '/learn/lms/login.html'; return; }
 
   if (course.isFree || course.price === 0) {
     showLoadingOverlay(true, 'Enrolling...');
     try {
-      await createEnrollment(course.id, null, 0);
+      await createEnrollment(course.id, null, 0, course);
       showToast('Enrolled! Starting course...', 'success');
-      setTimeout(() => {
-        window.location.href = `/learn/lms/player.html?course=${course.id}`;
-      }, 800);
-    } catch (err) {
-      showToast('Enrollment failed. Please try again.', 'error');
-    } finally {
-      showLoadingOverlay(false);
-    }
+      setTimeout(() => { window.location.href = `/learn/lms/player.html?course=${course.id}`; }, 800);
+    } catch (err) { showToast('Enrollment failed. Please try again.', 'error'); }
+    finally { showLoadingOverlay(false); }
   } else {
     pendingCourse = course;
     document.getElementById('modal-course-title').textContent = course.title;
     document.getElementById('modal-course-price').textContent = '₹' + course.price;
-    document.getElementById('modal-course-desc').textContent  =
-      course.description || 'Full course access including all lessons and verified certificate.';
+    document.getElementById('modal-course-desc').textContent  = course.description || 'Full course access including all lessons and verified certificate.';
+    document.getElementById('modal-expiry-note').textContent  = `⏱ Access period: ${course.accessPeriodDays||30} days from enrollment date.`;
     document.getElementById('payment-modal').classList.add('show');
   }
 }
 
-function closePaymentModal() {
-  document.getElementById('payment-modal').classList.remove('show');
-  pendingCourse = null;
-}
+function closePaymentModal() { document.getElementById('payment-modal').classList.remove('show'); pendingCourse = null; }
 
 function proceedToPayment() {
   if (!pendingCourse) return;
-
   const options = {
-    key:         RAZORPAY_KEY_ID,
-    amount:      pendingCourse.price * 100,
-    currency:    'INR',
-    name:        'SkillSphere Edu',
-    description: `Course: ${pendingCourse.title}`,
-    image:       '/learn/assets/logotp.png',
+    key: RAZORPAY_KEY_ID, amount: pendingCourse.price * 100, currency: 'INR',
+    name: 'SkillSphere Edu', description: `Course: ${pendingCourse.title}`, image: '/learn/assets/logotp.png',
     handler: async function(response) {
       closePaymentModal();
       showLoadingOverlay(true, 'Confirming enrollment...');
       try {
-        await createEnrollment(pendingCourse.id, response.razorpay_payment_id, pendingCourse.price);
+        await createEnrollment(pendingCourse.id, response.razorpay_payment_id, pendingCourse.price, pendingCourse);
         showToast('Payment successful! Accessing course...', 'success');
-        setTimeout(() => {
-          window.location.href = `/learn/lms/player.html?course=${pendingCourse.id}`;
-        }, 800);
+        setTimeout(() => { window.location.href = `/learn/lms/player.html?course=${pendingCourse.id}`; }, 800);
       } catch (err) {
-        showToast(
-          'Payment received but enrollment failed. Contact support with payment ID: ' +
-          response.razorpay_payment_id, 'error'
-        );
-      } finally {
-        showLoadingOverlay(false);
-      }
+        showToast('Payment received but enrollment failed. Contact support. ID: ' + response.razorpay_payment_id, 'error');
+      } finally { showLoadingOverlay(false); }
     },
-    prefill: {
-      name:  currentUser.displayName || userData?.name || '',
-      email: currentUser.email || ''
-    },
+    prefill: { name: currentUser.displayName||userData?.name||'', email: currentUser.email||'' },
     notes: { courseId: pendingCourse.id, userId: currentUser.uid },
     theme: { color: '#c0272d' },
     modal: { ondismiss: () => showToast('Payment cancelled.', 'info') }
   };
-
   const rzp = new Razorpay(options);
-  rzp.on('payment.failed', resp =>
-    showToast('Payment failed: ' + resp.error.description, 'error')
-  );
+  rzp.on('payment.failed', resp => showToast('Payment failed: ' + resp.error.description, 'error'));
   rzp.open();
 }
 
-async function createEnrollment(courseId, paymentId, amount) {
-  const enrollId = `${currentUser.uid}_${courseId}`;
+async function createEnrollment(courseId, paymentId, amount, courseObj) {
+  /* ── Work out how many days this user actually gets ── */
+  const tier      = userData?.subscriptionTier || 'starter';
+  const base      = courseObj.accessPeriodDays   || 30;
+  const proExtra  = courseObj.accessPeriodPro    || 0;
+  const eliExtra  = courseObj.accessPeriodElite  || 0;
+
+  const bonus     = tier === 'pro'   ? proExtra
+                  : tier === 'elite' ? eliExtra
+                  : 0;
+
+  const totalDays = base + bonus;          // ← final number of days
+
+  /* ── Everything below is identical to your current code ── */
+  const enrollId  = `${currentUser.uid}_${courseId}`;
+  const now       = new Date();
+  const expiresAt = new Date(now.getTime() + (totalDays * 24 * 60 * 60 * 1000));
+
   await db.collection('enrollments').doc(enrollId).set({
     userId:        currentUser.uid,
     courseId,
     enrolledAt:    firebase.firestore.FieldValue.serverTimestamp(),
     status:        'active',
     paymentId:     paymentId || null,
-    paymentAmount: amount || 0
+    paymentAmount: amount || 0,
+    accessSource:  'individual',
+    accessDays:    totalDays,              // ← stores the real number
+    expiresAt:     firebase.firestore.Timestamp.fromDate(expiresAt),
+    revoked:       false
   });
+
   await db.collection('progress').doc(currentUser.uid)
     .collection(courseId).doc('data').set({
       completedLessons: [],
@@ -845,72 +786,23 @@ async function createEnrollment(courseId, paymentId, amount) {
     });
 }
 
-/* ════════════════════════════════════════════════════════
-   CERTIFICATE ACTIONS
-════════════════════════════════════════════════════════ */
-function viewCertificate(certId) {
-  window.open(`/learn/verify.html?id=${certId}`, '_blank');
-}
+/* ── Cert actions ── */
+function viewCertificate(certId) { window.open(`/learn/verify.html?id=${certId}`,'_blank'); }
+function copyCertId(certId) { navigator.clipboard.writeText(certId).then(()=>showToast('Certificate ID copied!','success')); }
 
-function copyCertId(certId) {
-  navigator.clipboard.writeText(certId).then(() =>
-    showToast('Certificate ID copied to clipboard!', 'success')
-  );
-}
-
-/* ════════════════════════════════════════════════════════
-   UTILITIES
-════════════════════════════════════════════════════════ */
+/* ── Utils ── */
 function animateCounter(id, target) {
-  const el       = document.getElementById(id);
-  const duration = 1200;
-  const start    = performance.now();
-  function tick(now) {
-    const pct   = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - pct, 3);
-    el.textContent = Math.round(eased * target);
-    if (pct < 1) requestAnimationFrame(tick);
-  }
+  const el=document.getElementById(id); const dur=1200; const start=performance.now();
+  function tick(now){const p=Math.min((now-start)/dur,1); const e=1-Math.pow(1-p,3); el.textContent=Math.round(e*target); if(p<1)requestAnimationFrame(tick);}
   requestAnimationFrame(tick);
 }
-
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function showLoadingOverlay(show, msg) {
-  document.getElementById('loading-overlay').classList.toggle('show', show);
-  if (msg) document.getElementById('loading-msg').textContent = msg;
-}
-
-function showToast(msg, type = 'info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 4500);
-}
-
-async function logout() {
-  try { await auth.signOut(); window.location.href = '/learn/'; }
-  catch (err) { showToast('Sign out failed. Try again.', 'error'); }
-}
-
-function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px';
-});
-
-/* ── PWA ── */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/learn/lms/sw.js', { scope: '/learn/' })
-      .catch(err => console.warn('SW failed:', err));
-  });
-}
+function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showLoadingOverlay(show,msg){document.getElementById('loading-overlay').classList.toggle('show',show);if(msg)document.getElementById('loading-msg').textContent=msg;}
+function showToast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;setTimeout(()=>t.classList.remove('show'),4500);}
+async function logout(){try{await auth.signOut();window.location.href='/learn/';}catch(err){showToast('Sign out failed.','error');}}
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open');}
+window.addEventListener('scroll',()=>{document.getElementById('main-nav').style.height=window.scrollY>60?'56px':'66px';});
 </script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/lms/sw.js',{scope:'/learn/'}).catch(err=>console.warn('SW failed:',err));});}</script>
 </body>
 </html>
