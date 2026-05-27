@@ -19,6 +19,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <style>
   :root {
     --paper:#f0ead6; --paper-dark:#e0d8be; --paper-stain:#d4c9a8;
@@ -35,7 +36,7 @@
   h1,h2,h3,h4{font-family:var(--display);line-height:1;letter-spacing:1px;}
   ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:rgba(255,255,255,0.02);} ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.09);border-radius:10px;}
 
-  /* PLAYER NAV */
+  /* ── PLAYER NAV ── */
   .player-nav{height:56px;background:rgba(16,11,6,0.98);border-bottom:1px solid var(--sidebar-border);display:flex;align-items:center;justify-content:space-between;padding:0 3%;flex-shrink:0;z-index:100;}
   .pnav-left{display:flex;align-items:center;gap:16px;}
   .pnav-logo{display:flex;align-items:center;gap:8px;}
@@ -55,10 +56,10 @@
   .pnav-hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:4px;}
   .pnav-hamburger span{display:block;width:18px;height:1.5px;background:rgba(240,234,214,0.7);border-radius:1px;}
 
-  /* LAYOUT */
+  /* ── LAYOUT ── */
   .player-body{flex:1;display:grid;grid-template-columns:300px 1fr;overflow:hidden;}
 
-  /* SIDEBAR */
+  /* ── SIDEBAR ── */
   .sidebar{background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);overflow-y:auto;display:flex;flex-direction:column;transition:transform 0.3s;}
   .sidebar-header{padding:1.2rem 1.1rem;border-bottom:1px solid var(--sidebar-border);background:rgba(192,39,45,0.07);flex-shrink:0;}
   .sidebar-case-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--red-tape);text-transform:uppercase;margin-bottom:4px;}
@@ -86,47 +87,146 @@
   .lesson-item.active .lesson-name{color:var(--paper);}
   .lesson-item.completed .lesson-name{color:rgba(90,200,120,0.7);}
   .lesson-duration{font-family:var(--mono);font-size:0.58rem;color:rgba(240,234,214,0.25);margin-top:2px;letter-spacing:0.5px;}
+  /* Source badge in sidebar */
+  .lesson-src-tag{display:inline-block;font-family:var(--mono);font-size:0.48rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:1px 5px;border-radius:2px;margin-top:3px;}
+  .src-yt{background:rgba(192,39,45,0.25);color:rgba(192,39,45,0.8);border:1px solid rgba(192,39,45,0.2);}
+  .src-gd{background:rgba(26,58,110,0.3);color:rgba(100,160,255,0.9);border:1px solid rgba(26,58,110,0.3);}
 
-  /* MAIN PLAYER */
+  /* ── MAIN PLAYER ── */
   .player-main{display:flex;flex-direction:column;overflow-y:auto;background:var(--player-bg);}
 
-  /* VIDEO — clean embed, no YouTube chrome */
-  .video-wrapper{position:relative;background:#000;width:100%;aspect-ratio:16/9;flex-shrink:0;max-height:calc(100vh - 56px - 190px);user-select:none;}
-  .video-container{position:absolute;inset:0;overflow:hidden;background:#000;}
-  /* Scale iframe 120% to hide YT UI chrome top/bottom, then clip */
+  /* ══════════════════════════════════════════
+     VIDEO WRAPPER — dual-source anti-piracy
+     YouTube  → scale(1.18) crops all edges ~9%
+     GDrive   → top bar covered by crop-top (56px)
+  ══════════════════════════════════════════ */
+  .video-wrapper{
+    position:relative;background:#000;width:100%;
+    aspect-ratio:16/9;flex-shrink:0;
+    max-height:calc(100vh - 56px - 190px);
+    user-select:none;
+  }
+  .video-container{
+    position:absolute;inset:0;overflow:hidden;background:#000;
+  }
+
+  /* YouTube iframe — scaled 1.18 crops ~9% from every edge.
+     This hides: YT logo (top-left), Watch-on-YouTube (bottom-right corner
+     of pause overlay), related thumbnails, channel links on end screen.   */
   .video-container iframe{
     position:absolute;
-    top:50%; left:50%;
-    transform:translate(-50%,-50%) scale(1.08);
-    width:100%; height:100%;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(1.18);
+    width:100%;height:100%;
     border:none;
     pointer-events:auto;
   }
-  /* Transparent shield — blocks right-click overlay, allows controls */
-  .video-shield{position:absolute;inset:0;z-index:3;pointer-events:none;}
-  /* Top/bottom bars to crop logo & related videos */
-  .video-crop-top{position:absolute;top:0;left:0;right:0;height:42px;background:#000;z-index:4;pointer-events:none;}
-  .video-crop-bot{position:absolute;bottom:0;left:0;right:0;height:0px;background:#000;z-index:4;pointer-events:none;}
-  /* Block end-screen overlay link clicks */
-  .video-endscreen-block{position:absolute;inset:0;z-index:2;pointer-events:none;}
-  .video-watermark{position:absolute;z-index:5;pointer-events:none;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.08);letter-spacing:1px;transition:top 1.2s ease,left 1.2s ease,bottom 1.2s ease,right 1.2s ease;user-select:none;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,0.8);}
-  .devtools-warning{position:absolute;inset:0;z-index:10;background:rgba(10,6,2,0.97);display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;text-align:center;padding:2rem;}
+
+  /* Google Drive mode — iframe fills container normally (no scale needed,
+     Drive player has no external-link chrome in the video area itself).   */
+  .video-container.gdrive-mode iframe{
+    transform:translate(-50%,-50%) scale(1.0);
+    top:50%;left:50%;
+    width:100%;height:100%;
+  }
+
+  /* ── Universal crop bars ── */
+  /* Top: hides YT logo (42px) OR Google Drive file title + Open-in-Drive (56px) */
+  .video-crop-top{
+    position:absolute;top:0;left:0;right:0;
+    height:42px;                        /* default: YouTube mode */
+    background:#000;z-index:4;pointer-events:none;
+    transition:height 0.15s;
+  }
+  /* Bottom: thin strip hides YT bottom-bar branding remnants after scale */
+  .video-crop-bot{
+    position:absolute;bottom:0;left:0;right:0;
+    height:0px;background:#000;z-index:4;pointer-events:none;
+  }
+
+  /* ── Right-edge blocker ──
+     In YouTube pause state "Watch on YouTube" sits at bottom-right of
+     the pause overlay card. scale(1.18) crops ~9% from the right, but
+     the button text starts at ~76% and ends at ~97% from left.
+     This transparent interceptor captures pointer events in that zone
+     when the video is NOT playing, preventing the link click.
+     We hide it when video is playing (JS toggles .playing class).      */
+  .yt-link-trap{
+    position:absolute;
+    bottom:0;right:0;
+    width:32%;height:12%;
+    z-index:6;
+    pointer-events:auto;   /* ← absorbs clicks, blocks Watch-on-YouTube */
+    cursor:default;
+    background:transparent;
+    display:block;
+  }
+  /* When video is playing the controls bar sits at bottom; trap moves
+     to only cover top-right (share icon area on YT hover-state).      */
+  .video-wrapper.playing .yt-link-trap{
+    bottom:auto;top:0;
+    width:18%;height:14%;
+  }
+  /* In GDrive mode there are no external links, so hide the trap.     */
+  .video-wrapper.gdrive .yt-link-trap{ display:none; }
+
+  /* ── Context-menu / drag shield ── */
+  .video-shield{
+    position:absolute;inset:0;z-index:3;
+    pointer-events:none;  /* pass-through for controls; JS blocks contextmenu */
+  }
+
+  /* ── Floating watermark ── */
+  .video-watermark{
+    position:absolute;z-index:5;pointer-events:none;
+    font-family:var(--mono);font-size:11px;
+    color:rgba(255,255,255,0.07);letter-spacing:1px;
+    transition:top 1.2s ease,left 1.2s ease,bottom 1.2s ease,right 1.2s ease;
+    user-select:none;white-space:nowrap;
+    text-shadow:0 1px 3px rgba(0,0,0,0.8);
+  }
+
+  /* ── DevTools warning overlay ── */
+  .devtools-warning{
+    position:absolute;inset:0;z-index:10;
+    background:rgba(10,6,2,0.97);display:none;
+    align-items:center;justify-content:center;
+    flex-direction:column;gap:1rem;text-align:center;padding:2rem;
+  }
   .devtools-warning.show{display:flex;}
   .devtools-warning h3{font-family:var(--display);font-size:2rem;color:var(--red-tape);}
   .devtools-warning p{font-family:var(--mono);font-size:0.72rem;color:rgba(240,234,214,0.6);max-width:300px;line-height:1.6;letter-spacing:1px;}
   .devtools-warning button{font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:0.6rem 1.4rem;background:var(--red-tape);color:#fff;border:none;border-radius:3px;cursor:pointer;}
-  .video-placeholder{position:absolute;inset:0;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;z-index:6;}
+
+  /* ── Loading placeholder inside video ── */
+  .video-placeholder{
+    position:absolute;inset:0;background:#000;
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:1rem;z-index:6;
+  }
   .video-placeholder.hidden{display:none;}
   .vp-spinner{width:36px;height:36px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--red-tape);border-radius:50%;animation:spin 0.8s linear infinite;}
   .vp-msg{font-family:var(--mono);font-size:0.68rem;color:rgba(240,234,214,0.4);letter-spacing:2px;text-transform:uppercase;}
+
+  /* ── Video source indicator badge ── */
+  .video-src-badge{
+    position:absolute;top:52px;left:10px;z-index:7;
+    font-family:var(--mono);font-size:0.5rem;font-weight:700;
+    letter-spacing:2px;text-transform:uppercase;
+    padding:2px 7px;border-radius:2px;pointer-events:none;
+    opacity:0.45;
+  }
+  .vsb-yt{background:rgba(192,39,45,0.5);color:#fff;border:1px solid rgba(192,39,45,0.3);}
+  .vsb-gd{background:rgba(26,58,110,0.6);color:#90c0ff;border:1px solid rgba(26,58,110,0.4);}
+
   @keyframes spin{to{transform:rotate(360deg);}}
 
-  /* EXPIRY ALERT */
+  /* ── EXPIRY ALERT ── */
   .expiry-alert{margin:0 2rem 0;padding:0.8rem 1.2rem;background:rgba(176,100,20,0.15);border:1px solid rgba(176,100,20,0.35);border-radius:3px;font-family:var(--mono);font-size:0.65rem;color:#e0a060;letter-spacing:1px;display:none;align-items:center;gap:10px;margin-top:1rem;}
   .expiry-alert.show{display:flex;}
   .expiry-alert-expired{background:rgba(192,39,45,0.12);border-color:rgba(192,39,45,0.3);color:#ff9090;}
 
-  /* LESSON INFO */
+  /* ── LESSON INFO ── */
   .lesson-info-area{flex:1;padding:1.6rem 2rem;border-top:1px solid rgba(255,255,255,0.06);background:rgba(19,13,7,0.6);}
   .lesson-breadcrumb{font-family:var(--mono);font-size:0.6rem;color:rgba(240,234,214,0.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;}
   .lesson-heading{font-family:var(--display);font-size:2rem;color:var(--paper);margin-bottom:0.5rem;}
@@ -140,7 +240,7 @@
   .btn-prev:disabled,.btn-next:disabled{opacity:0.25;cursor:not-allowed;}
   .complete-indicator{font-family:var(--mono);font-size:0.62rem;color:rgba(90,200,120,0.7);letter-spacing:1px;display:flex;align-items:center;gap:6px;}
 
-  /* COMPLETION BANNER */
+  /* ── COMPLETION BANNER ── */
   .completion-banner{margin:0 2rem 1.5rem;background:linear-gradient(135deg,rgba(26,77,46,0.2),rgba(26,77,46,0.08));border:1px solid rgba(26,77,46,0.3);border-radius:3px;padding:1.2rem 1.4rem;display:none;align-items:center;gap:1rem;flex-wrap:wrap;}
   .completion-banner.show{display:flex;}
   .comp-icon{font-size:2rem;}
@@ -153,7 +253,7 @@
   .banner-state.active{display:flex;}
   .exam-fee-note{font-family:var(--mono);font-size:0.6rem;color:rgba(230,175,60,0.7);letter-spacing:1px;margin-top:3px;}
 
-  /* PAYMENT MODAL */
+  /* ── PAYMENT MODAL ── */
   .modal-overlay{position:fixed;inset:0;background:rgba(14,10,6,0.82);display:none;align-items:center;justify-content:center;z-index:9990;padding:1rem;}
   .modal-overlay.show{display:flex;}
   .modal-box{background:var(--player-bg);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:2.4rem;max-width:440px;width:100%;box-shadow:8px 8px 0 rgba(0,0,0,0.5);position:relative;}
@@ -169,7 +269,7 @@
   .btn-pay:hover{background:var(--red-hover);}
   .modal-secure{font-family:var(--mono);font-size:0.58rem;color:rgba(240,234,214,0.2);text-align:center;margin-top:0.8rem;letter-spacing:1px;}
 
-  /* MISC */
+  /* ── MISC ── */
   .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:49;}
   .sidebar-overlay.show{display:block;}
   .toast{position:fixed;top:70px;right:20px;z-index:9999;padding:0.8rem 1.3rem;border-radius:3px;font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:1px;max-width:340px;box-shadow:4px 4px 0 rgba(0,0,0,0.4);transform:translateX(140%);transition:transform 0.3s ease;line-height:1.5;}
@@ -263,20 +363,39 @@
       <button class="ad-btn" onclick="window.location.href='/learn/lms/dashboard.html'">Go to Dashboard →</button>
     </div>
 
-    <!-- VIDEO WRAPPER — clean embed -->
+    <!-- VIDEO WRAPPER -->
     <div class="video-wrapper" id="video-wrapper" style="display:none;">
       <div class="video-container" id="video-container">
         <!-- iframe injected dynamically -->
       </div>
-      <!-- Crop bars hide YouTube logo (top) and related videos (bottom) -->
+
+      <!-- Crop top: hides YT logo (42px) OR Google Drive file-name + Open-in-Drive (56px) -->
       <div class="video-crop-top" id="video-crop-top"></div>
+      <!-- Crop bottom: thin strip for YT controls remnant after scale -->
       <div class="video-crop-bot"></div>
+
+      <!-- Transparent pointer trap: absorbs clicks in the YouTube
+           "Watch on YouTube" zone (bottom-right on pause overlay)
+           and top-right (channel/share links on hover).
+           Toggled by .playing class on video-wrapper.             -->
+      <div class="yt-link-trap" id="yt-link-trap" title=""></div>
+
+      <!-- Blocks right-click drag, context menus -->
       <div class="video-shield" id="video-shield"></div>
+
+      <!-- Floating user watermark -->
       <div class="video-watermark" id="video-watermark"></div>
+
+      <!-- Source indicator badge (subtle, low opacity) -->
+      <div class="video-src-badge" id="video-src-badge"></div>
+
+      <!-- Loading state -->
       <div class="video-placeholder" id="video-placeholder">
         <div class="vp-spinner"></div>
         <span class="vp-msg">Loading lesson...</span>
       </div>
+
+      <!-- DevTools warning -->
       <div class="devtools-warning" id="devtools-warning">
         <h3>⚠ Security Alert</h3>
         <p>Developer tools detected. Lesson paused for content protection.</p>
@@ -287,7 +406,7 @@
     <!-- Expiry alert -->
     <div class="expiry-alert" id="expiry-alert"></div>
 
-    <!-- Completion banner (multi-state) -->
+    <!-- Completion banner -->
     <div class="completion-banner" id="completion-banner">
       <div class="banner-state" id="banner-simple">
         <div class="comp-icon">🏆</div>
@@ -351,9 +470,6 @@
 </footer>
 
 <script>
-/* ════════════════════════════════════════════════
-   ⚠️  REPLACE WITH YOUR FIREBASE CONFIG
-════════════════════════════════════════════════ */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyANELB4Ih5uYCSudggE8utzopLX6FrV784",
   authDomain:        "skillsphere-edu.firebaseapp.com",
@@ -370,7 +486,7 @@ firebase.initializeApp(FIREBASE_CONFIG);
 const auth = firebase.auth();
 const db   = firebase.firestore();
 
-/* STATE */
+/* ── STATE ── */
 let currentUser      = null;
 let userData         = null;
 let courseData       = null;
@@ -385,6 +501,7 @@ let currentIframe    = null;
 let ytPlayerReady    = false;
 let examRequestData  = null;
 let courseExamConfig = { certType:'free', passThreshold:60, isFree:false };
+let isVideoPlaying   = false;   // tracks play state to toggle link-trap position
 
 const courseId = new URLSearchParams(window.location.search).get('course');
 
@@ -401,7 +518,6 @@ auth.onAuthStateChanged(async (user) => {
 /* ── Init player ── */
 async function initPlayer() {
   try {
-    /* 1. Check enrollment */
     const enrollId   = `${currentUser.uid}_${courseId}`;
     const enrollSnap = await db.collection('enrollments').doc(enrollId).get();
     if (!enrollSnap.exists) { showAccessDenied('Not enrolled in this course.'); return; }
@@ -409,7 +525,6 @@ async function initPlayer() {
     const enrollment = enrollSnap.data();
     if (enrollment.revoked) { showAccessDenied('Your access to this course has been revoked.'); return; }
 
-    /* Check expiry for individual enrollments */
     if (enrollment.accessSource === 'individual' && enrollment.expiresAt) {
       const exp  = enrollment.expiresAt.toDate ? enrollment.expiresAt.toDate() : new Date(enrollment.expiresAt);
       const now  = new Date();
@@ -417,7 +532,6 @@ async function initPlayer() {
         showAccessDenied('Your access period for this course has expired. Contact support to renew.');
         return;
       }
-      /* Expiry warning if <= 7 days */
       const daysLeft = Math.ceil((exp - now) / (1000*60*60*24));
       if (daysLeft <= 7) {
         const alertEl = document.getElementById('expiry-alert');
@@ -426,7 +540,6 @@ async function initPlayer() {
       }
     }
 
-    /* Check subscription-based enrollment */
     if (enrollment.accessSource === 'subscription') {
       const userSnap = await db.collection('users').doc(currentUser.uid).get();
       userData = userSnap.data() || {};
@@ -439,7 +552,6 @@ async function initPlayer() {
       userData = userSnap.data() || {};
     }
 
-    /* 2. Course data */
     const courseSnap = await db.collection('courses').doc(courseId).get();
     if (!courseSnap.exists) throw new Error('Course not found.');
     courseData = { id:courseSnap.id, ...courseSnap.data() };
@@ -450,7 +562,6 @@ async function initPlayer() {
       isFree:        courseData.isFree        || (courseData.price === 0)
     };
 
-    /* 3. Curriculum */
     const sectionsSnap = await db.collection('courses').doc(courseId).collection('curriculum').orderBy('order').get();
     allLessons = [];
     sectionsSnap.docs.forEach((secDoc, si) => {
@@ -460,7 +571,6 @@ async function initPlayer() {
       });
     });
 
-    /* 4. Progress */
     const progRef  = db.collection('progress').doc(currentUser.uid).collection(courseId).doc('data');
     const progSnap = await progRef.get();
     progressDoc    = progRef;
@@ -471,14 +581,12 @@ async function initPlayer() {
       if (lastId) { const idx = allLessons.findIndex(l=>l.id===lastId); currentLessonIdx = idx>=0?idx:0; }
     }
 
-    /* 5. Exam request */
     const needsExam = !(courseExamConfig.isFree && courseExamConfig.certType === 'free');
     if (needsExam) {
       const examSnap = await db.collection('exam_requests').doc(`${currentUser.uid}_${courseId}`).get();
       examRequestData = examSnap.exists ? examSnap.data() : null;
     }
 
-    /* 6. Setup UI */
     document.getElementById('pnav-course-title').textContent    = courseData.title;
     document.getElementById('sidebar-course-title').textContent = courseData.title;
     document.getElementById('sidebar-meta').textContent = `${sectionsSnap.docs.length} sections · ${allLessons.length} lessons`;
@@ -495,6 +603,7 @@ async function initPlayer() {
     setupAntiPiracy();
     setupWatermark();
     updateProgressBar();
+    listenForVideoPlayState();
   } catch (err) {
     console.error('Player init error:', err);
     showToast('Error loading course. Please refresh.', 'error');
@@ -506,11 +615,12 @@ function showAccessDenied(msg) {
   document.getElementById('ad-sub-msg').textContent = msg;
 }
 
-/* ════════════════════════════════════════════════
-   CLEAN YOUTUBE EMBED
-   Uses youtube-nocookie.com + params to hide branding.
-   Crop bars overlay top (logo) and hide end-screen links.
-════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   VIDEO SOURCE ROUTER
+   lesson.videoSource: 'youtube' (default) | 'gdrive'
+   lesson.videoId:     source-agnostic ID
+   lesson.youtubeId:   legacy field (still supported)
+══════════════════════════════════════════════════════ */
 function loadLesson(flatIdx) {
   if (flatIdx < 0 || flatIdx >= allLessons.length) return;
   currentLessonIdx = flatIdx;
@@ -538,49 +648,72 @@ function loadLesson(flatIdx) {
     else                                              { icon.className='lesson-icon todo'; icon.textContent=String(i+1); }
   });
 
-  if (!lesson.youtubeId) {
+  /* ── Route to correct embed ── */
+  const videoSource = lesson.videoSource || 'youtube';
+  /* Support legacy youtubeId field + new videoId field */
+  const videoId     = lesson.videoId || lesson.youtubeId || '';
+
+  if (!videoId) {
+    document.getElementById('video-placeholder').classList.remove('hidden');
     document.getElementById('video-placeholder').querySelector('.vp-msg').textContent = 'Video coming soon.';
     return;
   }
 
-  injectYouTubeEmbed(lesson.youtubeId);
+  if (videoSource === 'gdrive') {
+    injectGDriveEmbed(videoId);
+  } else {
+    injectYouTubeEmbed(videoId);
+  }
+
   scheduleSave();
 }
 
+/* ══════════════════════════════════════════════════════
+   YOUTUBE EMBED
+   — youtube-nocookie.com (no tracking)
+   — scale(1.18) in CSS crops ~9% from all 4 edges:
+       hides YT logo top-left, end-screen cards,
+       related-video thumbnails at edges.
+   — .yt-link-trap (transparent div) intercepts clicks
+       in the "Watch on YouTube" zone on the pause overlay
+       (bottom-right) and the share/channel zone (top-right
+       when playing). It does NOT use background:#000 so it
+       remains invisible to the learner.
+   — modestbranding=1 removes YT logo from control bar.
+   — rel=0            no related videos at end.
+   — The crop-top black bar hides the YT watermark logo
+       that appears top-left of the PLAYING video frame.
+══════════════════════════════════════════════════════ */
 function injectYouTubeEmbed(videoId) {
   document.getElementById('video-placeholder').classList.remove('hidden');
   const container = document.getElementById('video-container');
+  const wrapper   = document.getElementById('video-wrapper');
 
-  /* Remove old iframe */
+  /* Reset mode */
+  container.classList.remove('gdrive-mode');
+  wrapper.classList.remove('gdrive');
+  document.getElementById('video-crop-top').style.height = '42px';
+  document.getElementById('video-src-badge').className   = 'video-src-badge vsb-yt';
+  document.getElementById('video-src-badge').textContent = 'YT Protected';
+
   if (currentIframe) { currentIframe.remove(); currentIframe = null; }
+  ytPlayerReady = false;
+  isVideoPlaying = false;
+  wrapper.classList.remove('playing');
 
-  /*
-   * Clean embed parameters:
-   * - youtube-nocookie.com → no tracking cookies
-   * - rel=0              → no related videos at end
-   * - modestbranding=1   → minimal branding (reduces logo visibility)
-   * - iv_load_policy=3   → no annotations
-   * - color=white        → white progress bar (less branded)
-   * - disablekb=0        → keep keyboard shortcuts
-   * - enablejsapi=1      → allows postMessage for play/pause
-   * - origin             → security
-   * - autoplay=1         → start playing
-   * - playsinline=1      → mobile fullscreen
-   * Top crop bar (40px) covers the YouTube logo watermark in top-left.
-   * Scale(1.08) + overflow:hidden crops all edges slightly.
-   */
   const params = new URLSearchParams({
-    rel:              '0',
-    modestbranding:   '1',
-    iv_load_policy:   '3',
-    color:            'white',
-    enablejsapi:      '1',
-    origin:           window.location.origin,
-    autoplay:         '1',
-    playsinline:      '1',
-    fs:               '1',
-    cc_load_policy:   '0',
-    hl:               'en',
+    rel:            '0',    /* No related videos */
+    modestbranding: '1',    /* No YT logo in control bar */
+    iv_load_policy: '3',    /* No video annotations */
+    color:          'white',
+    enablejsapi:    '1',    /* postMessage API for pause/play control */
+    origin:         window.location.origin,
+    autoplay:       '1',
+    playsinline:    '1',
+    fs:             '1',    /* Allow fullscreen */
+    cc_load_policy: '0',    /* No captions by default */
+    hl:             'en',
+    widget_referrer: window.location.origin,
   });
 
   const iframe = document.createElement('iframe');
@@ -599,19 +732,102 @@ function injectYouTubeEmbed(videoId) {
   currentIframe = iframe;
 }
 
-/* Pause/play via postMessage to iframe */
+/* ══════════════════════════════════════════════════════
+   GOOGLE DRIVE EMBED  ← FREE ALTERNATIVE, NO YT BUTTON
+   Setup steps (tell admin):
+     1. Upload video to Google Drive
+     2. Right-click → Share → "Anyone with the link" → Viewer
+     3. Copy the File ID from the share URL:
+        drive.google.com/file/d/{FILE_ID}/view
+     4. Paste that FILE_ID as the Video ID in Admin panel
+        with source set to "Google Drive"
+
+   Security advantages over YouTube:
+   ✓  No "Watch on YouTube" button (not YouTube)
+   ✓  No channel links / related videos
+   ✓  No YouTube logo anywhere
+   ✓  Stream URLs require valid Google auth token (expire ~1h)
+   ✓  Right-click in Drive player shows Drive menu, not video URL
+   ✓  Harder to pipe into yt-dlp (no yt-dlp support for auth tokens)
+
+   The crop-top bar (56px for GDrive) covers:
+   — The Google Drive file name (top-left of player)
+   — The "Open in Drive" share button (top-right of player)
+   So the learner sees a clean video with no Drive chrome.
+══════════════════════════════════════════════════════ */
+function injectGDriveEmbed(fileId) {
+  document.getElementById('video-placeholder').classList.remove('hidden');
+  const container = document.getElementById('video-container');
+  const wrapper   = document.getElementById('video-wrapper');
+
+  /* Switch to GDrive mode */
+  container.classList.add('gdrive-mode');
+  wrapper.classList.add('gdrive');
+  /* 56px covers Google Drive's title bar (file name + Open button) */
+  document.getElementById('video-crop-top').style.height = '56px';
+  document.getElementById('video-src-badge').className   = 'video-src-badge vsb-gd';
+  document.getElementById('video-src-badge').textContent = 'Secure Stream';
+
+  if (currentIframe) { currentIframe.remove(); currentIframe = null; }
+  ytPlayerReady  = false;
+  isVideoPlaying = false;
+  wrapper.classList.remove('playing');
+
+  const iframe = document.createElement('iframe');
+  /* /preview endpoint = clean player, no Drive sidebar/navigation */
+  iframe.src             = `https://drive.google.com/file/d/${fileId}/preview`;
+  iframe.allow           = 'autoplay; fullscreen; picture-in-picture';
+  iframe.allowFullscreen = true;
+  iframe.title           = 'Course Video';
+
+  iframe.onload = () => {
+    document.getElementById('video-placeholder').classList.add('hidden');
+  };
+
+  container.appendChild(iframe);
+  currentIframe = iframe;
+}
+
+/* ── Listen for YT play/pause via postMessage ── */
+function listenForVideoPlayState() {
+  window.addEventListener('message', (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (data.event === 'infoDelivery' && data.info && data.info.playerState !== undefined) {
+        const state = data.info.playerState;
+        /* YT player states: -1=unstarted, 0=ended, 1=playing, 2=paused, 3=buffering, 5=cued */
+        const playing = (state === 1 || state === 3);
+        isVideoPlaying = playing;
+        const wrapper = document.getElementById('video-wrapper');
+        if (playing) wrapper.classList.add('playing');
+        else         wrapper.classList.remove('playing');
+      }
+    } catch(e) { /* ignore non-JSON messages */ }
+  });
+}
+
+/* ── Pause/play via YT postMessage API ── */
 function pauseVideo() {
-  if (currentIframe && ytPlayerReady) {
-    currentIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*');
+  const lesson = allLessons[currentLessonIdx];
+  const src    = lesson?.videoSource || 'youtube';
+  if (src === 'youtube' && currentIframe && ytPlayerReady) {
+    currentIframe.contentWindow.postMessage(
+      '{"event":"command","func":"pauseVideo","args":""}', '*'
+    );
   }
+  /* Google Drive has no postMessage API — browser tab blur pauses it natively */
 }
 function playVideo() {
-  if (currentIframe && ytPlayerReady) {
-    currentIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}','*');
+  const lesson = allLessons[currentLessonIdx];
+  const src    = lesson?.videoSource || 'youtube';
+  if (src === 'youtube' && currentIframe && ytPlayerReady) {
+    currentIframe.contentWindow.postMessage(
+      '{"event":"command","func":"playVideo","args":""}', '*'
+    );
   }
 }
 
-/* ── Navigate ── */
+/* ── Navigate lessons ── */
 function navigateLesson(dir) {
   const next = currentLessonIdx + dir;
   if (next >= 0 && next < allLessons.length) { loadLesson(next); if(window.innerWidth<=900) closeSidebar(); }
@@ -637,7 +853,6 @@ async function markComplete() {
   updateProgressBar();
   await saveProgress(true);
 
-  /* Leaderboard sync */
   db.collection('leaderboard').doc(currentUser.uid).set({
     name:             userData?.username || currentUser.displayName || currentUser.email.split('@')[0],
     displayName:      currentUser.displayName || currentUser.email.split('@')[0],
@@ -807,10 +1022,17 @@ function renderCurriculum(sectionDocs) {
       const idx       = flatIdx;
       const isDone    = completedLessons.has(lesson.id);
       const isCurrent = idx === currentLessonIdx;
+      const src       = lesson.videoSource || 'youtube';
       const lesEl     = document.createElement('div');
       lesEl.className = `lesson-item${isCurrent?' active':''}${isDone?' completed':''}`;
       lesEl.dataset.idx = idx;
-      lesEl.innerHTML = `<div class="lesson-icon ${isCurrent?'active-icon':isDone?'done-icon':'todo'}">${isCurrent?'▶':isDone?'✓':idx+1}</div><div class="lesson-info"><div class="lesson-name">${escHtml(lesson.title)}</div><div class="lesson-duration">${lesson.duration?`⏱ ${lesson.duration}`:''}</div></div>`;
+      lesEl.innerHTML = `
+        <div class="lesson-icon ${isCurrent?'active-icon':isDone?'done-icon':'todo'}">${isCurrent?'▶':isDone?'✓':idx+1}</div>
+        <div class="lesson-info">
+          <div class="lesson-name">${escHtml(lesson.title)}</div>
+          <div class="lesson-duration">${lesson.duration?`⏱ ${lesson.duration}`:''}</div>
+          <span class="lesson-src-tag ${src==='gdrive'?'src-gd':'src-yt'}">${src==='gdrive'?'Drive':'YT'}</span>
+        </div>`;
       lesEl.addEventListener('click',()=>{ loadLesson(idx); if(window.innerWidth<=900) closeSidebar(); });
       lessonsContainer.appendChild(lesEl);
       flatIdx++;
@@ -825,23 +1047,51 @@ function toggleSection(headerEl) {
   lessons.classList.toggle('open',!isOpen); toggle.classList.toggle('open',!isOpen);
 }
 
-/* ── Anti-piracy ── */
+/* ══════════════════════════════════════════════
+   ANTI-PIRACY SUITE
+   1. Context-menu blocked on video wrapper
+   2. Keyboard shortcuts to DevTools/ViewSource blocked
+   3. PrintScreen intercepted (clipboard cleared)
+   4. DevTools size detection (pauses YouTube only)
+   5. Tab visibility — pauses YouTube on tab switch
+   6. Floating watermark (user email + UID shown on video)
+══════════════════════════════════════════════ */
 function setupAntiPiracy() {
   const vWrapper = document.getElementById('video-wrapper');
-  vWrapper.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
-  vWrapper.addEventListener('dragstart',e=>e.preventDefault());
-  document.addEventListener('keydown',e=>{
-    const blocked=(e.ctrlKey&&e.key==='u')||(e.ctrlKey&&e.shiftKey&&['I','i','J','j','C','c'].includes(e.key))||(e.key==='F12');
-    if(blocked)e.preventDefault();
-    if(e.key==='PrintScreen') navigator.clipboard.writeText('').catch(()=>{});
+
+  /* Block right-click menu on video area */
+  vWrapper.addEventListener('contextmenu', e => { e.preventDefault(); return false; });
+  vWrapper.addEventListener('dragstart', e => e.preventDefault());
+
+  /* Block keyboard shortcuts to DevTools/ViewSource */
+  document.addEventListener('keydown', e => {
+    const blocked =
+      (e.ctrlKey && e.key === 'u') ||
+      (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) ||
+      (e.key === 'F12');
+    if (blocked) e.preventDefault();
+    /* PrintScreen: clear clipboard (best-effort) */
+    if (e.key === 'PrintScreen') navigator.clipboard.writeText('').catch(()=>{});
   });
-  let devToolsOpen=false;
-  devToolsInterval=setInterval(()=>{
-    const isOpen=(window.outerWidth-window.innerWidth)>160||(window.outerHeight-window.innerHeight)>160;
-    if(isOpen&&!devToolsOpen){devToolsOpen=true;pauseVideo();document.getElementById('devtools-warning').classList.add('show');}
-    else if(!isOpen&&devToolsOpen){devToolsOpen=false;}
-  },1500);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden) pauseVideo();});
+
+  /* DevTools open detection via window size delta */
+  let devToolsOpen = false;
+  devToolsInterval = setInterval(() => {
+    const isOpen = (window.outerWidth - window.innerWidth) > 160 ||
+                   (window.outerHeight - window.innerHeight) > 160;
+    if (isOpen && !devToolsOpen) {
+      devToolsOpen = true;
+      pauseVideo();  /* YouTube only; GDrive pauses on its own when tab blurs */
+      document.getElementById('devtools-warning').classList.add('show');
+    } else if (!isOpen && devToolsOpen) {
+      devToolsOpen = false;
+    }
+  }, 1500);
+
+  /* Pause on tab switch (works for both YouTube and GDrive via blur) */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pauseVideo();
+  });
 }
 
 function dismissDevToolsWarning() {
@@ -849,17 +1099,30 @@ function dismissDevToolsWarning() {
   playVideo();
 }
 
+/* ── Floating watermark ── */
 function setupWatermark() {
   const wmEl  = document.getElementById('video-watermark');
   const email = currentUser.email || 'user';
   const uid   = currentUser.uid.substring(0,8).toUpperCase();
   const uname = userData?.username || '';
   wmEl.textContent = uname ? `${uname} · ${email} · SSE-${uid}` : `${email} · SSE-${uid}`;
-  const positions=[{top:'10%',left:'5%',bottom:'auto',right:'auto'},{top:'auto',left:'auto',bottom:'15%',right:'5%'},{top:'40%',left:'30%',bottom:'auto',right:'auto'},{top:'auto',left:'5%',bottom:'10%',right:'auto'},{top:'15%',left:'auto',bottom:'auto',right:'5%'}];
-  let posIdx=0;
-  function updatePos(){const p=positions[posIdx%positions.length];wmEl.style.top=p.top;wmEl.style.left=p.left;wmEl.style.bottom=p.bottom;wmEl.style.right=p.right;posIdx++;}
+
+  const positions = [
+    {top:'10%',left:'5%',bottom:'auto',right:'auto'},
+    {top:'auto',left:'auto',bottom:'15%',right:'5%'},
+    {top:'40%',left:'30%',bottom:'auto',right:'auto'},
+    {top:'auto',left:'5%',bottom:'10%',right:'auto'},
+    {top:'15%',left:'auto',bottom:'auto',right:'5%'}
+  ];
+  let posIdx = 0;
+  function updatePos() {
+    const p = positions[posIdx % positions.length];
+    wmEl.style.top=p.top; wmEl.style.left=p.left;
+    wmEl.style.bottom=p.bottom; wmEl.style.right=p.right;
+    posIdx++;
+  }
   updatePos();
-  watermarkTimer=setInterval(updatePos,28000);
+  watermarkTimer = setInterval(updatePos, 28000);
 }
 
 /* ── Sidebar ── */
@@ -873,6 +1136,5 @@ function escHtml(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').
 window.addEventListener('beforeunload',()=>{clearInterval(devToolsInterval);clearInterval(watermarkTimer);clearTimeout(saveTimer);saveProgress(true);});
 </script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/learn/lms/sw.js',{scope:'/learn/'}).catch(err=>console.warn('[SSE SW] Registration failed:',err));});}</script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </body>
 </html>

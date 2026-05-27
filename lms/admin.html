@@ -147,7 +147,35 @@
   .curr-section{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:3px;padding:0.8rem;margin-bottom:0.8rem;}
   .curr-section-header{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;}
   .curr-section-input{flex:1;padding:0.5rem 0.8rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:3px;font-family:var(--mono);font-size:0.72rem;color:var(--paper);outline:none;}
-  .curr-lesson{display:grid;grid-template-columns:1fr 1fr auto;gap:0.5rem;margin-bottom:0.5rem;align-items:center;}
+  
+.curr-lesson {
+  display: grid;
+  grid-template-columns: 1fr 105px 1fr auto;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+.curr-lesson select {
+  padding: 0.45rem 0.6rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: rgba(240,234,214,0.7);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(240,234,214,0.3)'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  padding-right: 22px;
+}
+.curr-lesson select option { background: #130d07; }
+.src-label-yt { color: rgba(192,39,45,0.8); }
+.src-label-gd { color: rgba(100,160,255,0.9); }
+
   .curr-lesson input{padding:0.45rem 0.7rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:3px;font-family:var(--mono);font-size:0.65rem;color:rgba(240,234,214,0.7);outline:none;}
   .curr-del-btn{background:rgba(139,26,30,0.3);border:none;color:#ff9090;width:28px;height:28px;border-radius:2px;cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;}
   .curr-del-btn:hover{background:rgba(192,39,45,0.5);}
@@ -705,10 +733,29 @@ async function saveCourse() {
       const secTitle=secEl.querySelector('.curr-section-input').value.trim()||`Section ${si+1}`;
       const lessonEls=secEl.querySelectorAll('.curr-lesson');
       const lessons=[];
-      lessonEls.forEach((lesEl,li)=>{
-        const inputs=lesEl.querySelectorAll('input'); const lesTitle=inputs[0]?.value.trim(); const ytId=inputs[1]?.value.trim();
-        if(lesTitle){lessons.push({id:`s${si}l${li}_${Date.now()}`,title:lesTitle,youtubeId:ytId||'',duration:'',isPreview:false,description:''});totalLessons++;}
-      });
+      
+      lessonEls.forEach((lesEl, li) => {
+  const inputs      = lesEl.querySelectorAll('input');
+  const srcSelect   = lesEl.querySelector('select.curr-src-select');
+  const lesTitle    = inputs[0]?.value.trim();
+  const videoSource = srcSelect?.value || 'youtube';
+  const videoId     = inputs[1]?.value.trim() || '';
+
+  if (lesTitle) {
+    lessons.push({
+      id:          `s${si}l${li}_${Date.now()}`,
+      title:        lesTitle,
+      videoSource:  videoSource,         // 'youtube' | 'gdrive'
+      videoId:      videoId,             // source-agnostic ID field
+      youtubeId:    videoSource === 'youtube' ? videoId : '', // backward compat
+      duration:    '',
+      isPreview:   false,
+      description: ''
+    });
+    totalLessons++;
+  }
+});
+
       sections.push({title:secTitle,order:si,lessons});
     });
     const isFree=document.getElementById('c-free').checked; const price=parseInt(document.getElementById('c-price').value)||0;
@@ -737,7 +784,39 @@ function editCourse(id){openCourseModal(id);}
 async function togglePublish(id,pub){try{await db.collection('courses').doc(id).update({isPublished:pub});showToast(pub?'Course published!':'Course unpublished.','success');await loadCourses();}catch(err){showToast('Error updating course.','error');}}
 async function deleteCourse(id,title){if(!confirm(`Delete course "${title}"? This cannot be undone.`))return;try{await db.collection('courses').doc(id).delete();showToast('Course deleted.','info');await loadCourses();}catch(err){showToast('Error deleting course.','error');}}
 function addSection(){const container=document.getElementById('sections-container');const idx=container.children.length;const secEl=document.createElement('div');secEl.className='curr-section';secEl.innerHTML=`<div class="curr-section-header"><input type="text" class="curr-section-input" placeholder="Section ${idx+1} title"><button type="button" class="btn-admin btn-danger btn-sm" onclick="this.closest('.curr-section').remove()">✕</button></div><div class="lessons-container"></div><button type="button" class="curr-add-btn" onclick="addLesson(this)">+ Add Lesson</button>`;container.appendChild(secEl);addLesson(secEl.querySelector('.curr-add-btn'));}
-function addLesson(addBtn){const container=addBtn.previousElementSibling;const lesEl=document.createElement('div');lesEl.className='curr-lesson';lesEl.innerHTML=`<input type="text" placeholder="Lesson title"><input type="text" placeholder="YouTube Video ID"><button type="button" class="curr-del-btn" onclick="this.closest('.curr-lesson').remove()">✕</button>`;container.appendChild(lesEl);}
+
+function addLesson(addBtn) {
+  const container = addBtn.previousElementSibling;
+  const lesEl     = document.createElement('div');
+  lesEl.className = 'curr-lesson';
+  lesEl.innerHTML = `
+    <input  type="text"
+            placeholder="Lesson title"
+            style="flex:1;">
+    <select class="curr-src-select"
+            title="Video source"
+            onchange="updateLessonPlaceholder(this)">
+      <option value="youtube">▶ YouTube</option>
+      <option value="gdrive">📁 Google Drive</option>
+    </select>
+    <input  type="text"
+            class="curr-vid-id"
+            placeholder="YouTube Video ID">
+    <button type="button"
+            class="curr-del-btn"
+            onclick="this.closest('.curr-lesson').remove()">✕</button>
+  `;
+  container.appendChild(lesEl);
+}
+/* Updates the ID input placeholder when source changes */
+function updateLessonPlaceholder(selectEl) {
+  const lesRow    = selectEl.closest('.curr-lesson');
+  const idInput   = lesRow.querySelector('.curr-vid-id');
+  const src       = selectEl.value;
+  idInput.placeholder = src === 'gdrive'
+    ? 'Google Drive File ID'
+    : 'YouTube Video ID';
+}
 
 /* ══════════════════════════════════════════════
    USERS
