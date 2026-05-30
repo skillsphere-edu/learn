@@ -88,8 +88,11 @@ body::before {
    AUTH SCREEN
 ════════════════════════════════════════ */
 #screen-auth {
-  display: flex; align-items: center; justify-content: center;
-  min-height: 100vh; padding: 2rem;
+  /* display is controlled by .screen{none} / #screen-auth.active{flex} — do NOT set it here */
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
 }
 .auth-box {
   width: 100%; max-width: 420px;
@@ -165,7 +168,8 @@ body::before {
    ADMIN LAYOUT
 ════════════════════════════════════════ */
 #screen-admin {
-  display: flex; min-height: 100vh;
+  /* display is controlled by .screen{none} / #screen-admin.active{flex} — do NOT set it here */
+  min-height: 100vh;
 }
 .admin-sidebar {
   width: 220px; flex-shrink: 0;
@@ -924,8 +928,13 @@ function showAuthError(msg) {
 }
 
 async function verifyAdmin(user) {
-  const snap = await getDoc(doc(db, 'users', user.uid));
-  return snap.exists() && snap.data().isAdmin === true;
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    return snap.exists() && snap.data().isAdmin === true;
+  } catch (_) {
+    // Firestore rules may deny read if not yet published — treat as non-admin
+    return false;
+  }
 }
 
 window.doAdminLogin = async function() {
@@ -966,21 +975,27 @@ window.doAdminSignOut = async function() {
 };
 
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const isAdmin = await verifyAdmin(user);
-    if (!isAdmin) {
-      document.getElementById('access-denied').classList.add('show');
-      await signOut(auth);
-      return;
+  try {
+    if (user) {
+      const isAdmin = await verifyAdmin(user);
+      if (!isAdmin) {
+        document.getElementById('access-denied').classList.add('show');
+        await signOut(auth);
+        return;
+      }
+      currentAdmin = user;
+      document.getElementById('admin-user-display').textContent =
+        (user.displayName || user.email || 'Admin').toUpperCase();
+      showScreen('admin');
+      loadDashboard();
+      loadSettings();
+    } else {
+      currentAdmin = null;
+      showScreen('auth');
     }
-    currentAdmin = user;
-    document.getElementById('admin-user-display').textContent =
-      (user.displayName || user.email || 'Admin').toUpperCase();
-    showScreen('admin');
-    loadDashboard();
-    loadSettings();
-  } else {
-    currentAdmin = null;
+  } catch (err) {
+    console.error('Auth state error:', err);
+    // Fail safe — return to auth screen
     showScreen('auth');
   }
 });

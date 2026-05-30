@@ -211,7 +211,7 @@ nav {
    AUTH SCREEN
 ════════════════════════════════════════ */
 #screen-auth {
-  display: flex;
+  /* display is controlled by .screen{none} / #screen-auth.active{flex} — do NOT set it here */
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 66px);
@@ -1150,14 +1150,25 @@ window.doSignOut = async function() {
    AUTH STATE LISTENER — main entry point
    ───────────────────────────────────────── */
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUser = user;
-    await loadSettings();
-    await renderDomainScreen();
-    showScreen('domain');
-  } else {
-    currentUser = null;
-    showScreen('auth');
+  try {
+    if (user) {
+      currentUser = user;
+      await loadSettings();
+      await renderDomainScreen();
+      showScreen('domain');
+    } else {
+      currentUser = null;
+      showScreen('auth');
+    }
+  } catch (err) {
+    console.error('Auth state error:', err);
+    // Fail safe — if something in setup throws, still show domain if user exists
+    if (user) {
+      currentUser = user;
+      showScreen('domain');
+    } else {
+      showScreen('auth');
+    }
   }
 });
 
