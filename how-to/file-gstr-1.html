@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How to File GSTR-1? — Step-by-Step GST Return Guide | SkillSphere Edu</title>
+  <meta name="description" content="Complete step-by-step guide to filing GSTR-1 on the GST portal. Covers B2B, B2C, amendments, nil returns, due dates, and common mistakes. Free guide by SkillSphere Edu.">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/how-to/file-gstr-1">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="How to File GSTR-1? | SkillSphere Edu">
+  <meta property="og:description" content="Step-by-step guide to filing GSTR-1 on the GST portal — B2B, B2C, amendments, nil returns, due dates.">
+  <meta property="og:url" content="https://skillsphere-edu.github.io/learn/how-to/file-gstr-1">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://skillsphere-edu.github.io/learn/assets/preview-v2.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="article:published_time" content="2026-04-01">
+  <meta name="article:author" content="SkillSphere Edu">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to File GSTR-1?",
+    "description": "Complete step-by-step guide to filing GSTR-1 on the GST portal. Covers B2B, B2C, amendments, nil returns, due dates, and common mistakes.",
+    "url": "https://skillsphere-edu.github.io/learn/how-to/file-gstr-1",
+    "author": {
+      "@type": "Organization",
+      "name": "SkillSphere Edu",
+      "url": "https://skillsphere-edu.github.io/learn/"
+    },
+    "totalTime": "PT15M",
+    "supply": [
+      {"@type": "HowToSupply", "name": "GSTIN (GST Identification Number)"},
+      {"@type": "HowToSupply", "name": "Sales invoices for the month/quarter"},
+      {"@type": "HowToSupply", "name": "Customer GSTIN details (for B2B supplies)"},
+      {"@type": "HowToSupply", "name": "Access to GST Portal (gst.gov.in)"}
+    ],
+    "step": [
+      {"@type":"HowToStep","name":"Log in to GST Portal","text":"Go to gst.gov.in. Enter your GSTIN, username and password."},
+      {"@type":"HowToStep","name":"Navigate to GSTR-1","text":"Go to Services → Returns → Returns Dashboard. Select the Financial Year and Return Filing Period."},
+      {"@type":"HowToStep","name":"Fill B2B Invoices (Table 4)","text":"Add all taxable outward supplies made to registered persons with invoice number, date, GSTIN, value, and tax details."},
+      {"@type":"HowToStep","name":"Fill B2C Large Invoices (Table 5)","text":"Invoices above ₹2.5 lakh to unregistered persons in inter-state supplies are reported here."},
+      {"@type":"HowToStep","name":"Fill B2C Small Summary (Table 7)","text":"Aggregate B2C supplies below ₹2.5 lakh, state-wise."},
+      {"@type":"HowToStep","name":"Preview and Validate","text":"Use Preview Draft GSTR-1 to check summary. Validate all tables before submission."},
+      {"@type":"HowToStep","name":"File GSTR-1","text":"Click File GSTR-1. Use DSC or EVC to authenticate. Download ARN for records."}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://skillsphere-edu.github.io/learn/"},
+      {"@type":"ListItem","position":2,"name":"How To?","item":"https://skillsphere-edu.github.io/learn/how-to"},
+      {"@type":"ListItem","position":3,"name":"How to File GSTR-1?","item":"https://skillsphere-edu.github.io/learn/how-to/file-gstr-1"}
+    ]
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-231C0271DH');
+  </script>
+
+<style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════ */
+:root {
+  --paper:       #f0ead6;
+  --paper-dark:  #e0d8be;
+  --paper-stain: #d4c9a8;
+  --ink:         #1a1209;
+  --ink-faded:   #3d3120;
+  --ink-muted:   #6b5f45;
+  --red-tape:    #c0272d;
+  --red-dark:    #8b1a1e;
+  --red-hover:   #a82020;
+  --stamp-green: #1a4d2e;
+  --stamp-blue:  #1a3a6e;
+  --gold:        #b07d1a;
+
+  --display:     'Bebas Neue', sans-serif;
+  --typewriter:  'Courier Prime', monospace;
+  --mono:        'IBM Plex Mono', monospace;
+  --stamp:       'Special Elite', cursive;
+
+  /* Guide reading width */
+  --guide-w: 780px;
+}
+
+/* ════════════════════════════════════════
+   RESET
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--typewriter);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--typewriter); cursor: pointer; }
+
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1; letter-spacing: 1px; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+
+/* ════════════════════════════════════════
+   NOISE TEXTURE
+════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scrollTape { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+.js-ready .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.js-ready .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 66px;
+  background: rgba(240,234,214,0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 2px solid var(--paper-stain);
+  transition: height 0.3s;
+}
+.nav-logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
+.nav-brand-text { font-family: var(--display); font-size: 1.6rem; letter-spacing: 2px; color: var(--ink); line-height: 1; }
+.nav-brand-text em { font-style: normal; color: var(--red-tape); }
+.logo-icon { height: 44px; width: 44px; filter: contrast(1.1) saturate(1.2); }
+.nav-stamp { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--ink-muted); text-transform: uppercase; display: block; line-height: 1; }
+.nav-links { display: flex; align-items: center; gap: 2rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.nav-links a { color: var(--ink-faded); transition: color 0.2s; position: relative; padding-bottom: 2px; }
+.nav-links a::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 1px; background: var(--red-tape); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after, .nav-links a.active-nav::after { transform: scaleX(1); }
+.nav-links a.active-nav { color: var(--red-tape); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 1px; transition: all 0.3s; }
+
+/* Mobile menu */
+.mobile-menu { display: none; position: fixed; top: 66px; left: 0; right: 0; background: rgba(240,234,214,0.98); backdrop-filter: blur(20px); border-bottom: 2px solid var(--paper-stain); padding: 1.5rem 5%; flex-direction: column; gap: 1.2rem; z-index: 999; }
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: var(--mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faded); padding: 0.5rem 0; border-bottom: 1px solid var(--paper-stain); }
+.mobile-menu a:hover { color: var(--red-tape); }
+
+/* ════════════════════════════════════════
+   BREADCRUMB
+════════════════════════════════════════ */
+.breadcrumb-bar {
+  background: var(--paper-dark);
+  border-bottom: 1px solid var(--paper-stain);
+  padding: 0.7rem 5%;
+  margin-top: 66px;
+  position: relative;
+  z-index: 1;
+}
+.breadcrumb-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+.breadcrumb-inner a { color: var(--ink-muted); transition: color 0.2s; }
+.breadcrumb-inner a:hover { color: var(--red-tape); }
+.breadcrumb-inner span { color: var(--ink-muted); }
+.breadcrumb-inner .bc-current { color: var(--ink-faded); font-weight: 700; }
+.bc-sep { color: rgba(107,95,69,0.4); }
+
+/* ════════════════════════════════════════
+   GUIDE HERO — Dossier Header
+════════════════════════════════════════ */
+.guide-hero {
+  background: var(--ink);
+  padding: 4rem 5% 3rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Grid pattern */
+.guide-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* Red accent line */
+.guide-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--red-tape);
+}
+
+.guide-hero-inner {
+  max-width: var(--guide-w);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-case-id {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  animation: fadeUp .4s ease both;
+}
+.guide-case-id::before { content: ''; width: 28px; height: 1px; background: var(--red-tape); }
+
+.guide-hero h1 {
+  font-family: var(--display);
+  font-size: clamp(44px, 6vw, 72px);
+  color: var(--paper);
+  line-height: 1;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  animation: fadeUp .4s ease .1s both;
+}
+.guide-hero h1 em { font-style: normal; color: var(--red-tape); }
+
+.guide-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.4rem;
+  animation: fadeUp .4s ease .2s both;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+}
+.mc-category { background: rgba(192,39,45,0.2); color: var(--red-tape); border: 1px solid rgba(192,39,45,0.35); }
+.mc-level    { background: rgba(176,125,26,0.2); color: #c98b0a; border: 1px solid rgba(176,125,26,0.35); }
+.mc-time     { background: rgba(255,255,255,0.06); color: rgba(240,234,214,0.7); border: 1px solid rgba(255,255,255,0.1); }
+.mc-updated  { background: rgba(26,77,46,0.2); color: #4dbb7a; border: 1px solid rgba(26,77,46,0.35); }
+
+.guide-hero-desc {
+  font-family: var(--typewriter);
+  font-size: 0.97rem;
+  color: rgba(240,234,214,0.7);
+  line-height: 1.85;
+  max-width: 600px;
+  animation: fadeUp .4s ease .3s both;
+}
+
+/* ════════════════════════════════════════
+   GUIDE LAYOUT — 2-col (content + sidebar)
+════════════════════════════════════════ */
+.guide-layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 3rem 5%;
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 3rem;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* ════════════════════════════════════════
+   GUIDE CONTENT
+════════════════════════════════════════ */
+.guide-content {
+  min-width: 0;
+}
+
+/* Prerequisites box */
+.prereq-box {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-left: 4px solid var(--stamp-blue);
+  border-radius: 0 3px 3px 0;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.prereq-box h3 {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--stamp-blue);
+  margin-bottom: 0.8rem;
+}
+.prereq-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.prereq-list li {
+  font-family: var(--typewriter);
+  font-size: 0.88rem;
+  color: var(--ink-faded);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.prereq-list li::before { content: '✓'; color: var(--stamp-green); font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+
+/* What is section */
+.guide-section {
+  margin-bottom: 3rem;
+}
+.guide-section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+.guide-section h2 {
+  font-family: var(--display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  color: var(--ink);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--paper-stain);
+  position: relative;
+}
+.guide-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 40px; height: 2px;
+  background: var(--red-tape);
+}
+
+.guide-section p {
+  font-family: var(--typewriter);
+  font-size: 0.92rem;
+  color: var(--ink-faded);
+  line-height: 1.9;
+  margin-bottom: 0.9rem;
+}
+
+/* Info callout */
+.callout {
+  border-radius: 0 3px 3px 0;
+  padding: 1.2rem 1.4rem;
+  margin: 1.4rem 0;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+}
+.callout-info    { background: rgba(26,58,110,0.08); border-left: 4px solid var(--stamp-blue); }
+.callout-warn    { background: rgba(176,125,26,0.09); border-left: 4px solid var(--gold); }
+.callout-danger  { background: rgba(192,39,45,0.08); border-left: 4px solid var(--red-tape); }
+.callout-success { background: rgba(26,77,46,0.08);  border-left: 4px solid var(--stamp-green); }
+
+.callout-head {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.callout-info .callout-head    { color: var(--stamp-blue); }
+.callout-warn .callout-head    { color: var(--gold); }
+.callout-danger .callout-head  { color: var(--red-tape); }
+.callout-success .callout-head { color: var(--stamp-green); }
+
+.callout p {
+  font-family: var(--typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Data table */
+.guide-table-wrap {
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.guide-table {
+  width: 100%;
+  min-width: 500px;
+  border-collapse: collapse;
+  border: 1px solid var(--paper-stain);
+  font-family: var(--typewriter);
+  font-size: 0.82rem;
+}
+.guide-table th {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--red-tape);
+}
+.guide-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--paper-stain);
+  color: var(--ink-faded);
+  vertical-align: top;
+  line-height: 1.7;
+}
+.guide-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+.guide-table tr:last-child td { border-bottom: none; }
+.td-red { color: var(--red-tape); font-weight: 700; }
+.td-green { color: var(--stamp-green); font-weight: 700; }
+.td-mono { font-family: var(--mono); font-size: 0.75rem; }
+
+/* ════════════════════════════════════════
+   STEP-BY-STEP
+════════════════════════════════════════ */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.4rem 0;
+  position: relative;
+}
+
+/* Connecting line */
+.step-list::before {
+  content: '';
+  position: absolute;
+  top: 24px; left: 20px;
+  bottom: 24px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--paper-stain) 0px,
+    var(--paper-stain) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.step-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding: 1.6rem 0;
+  border-bottom: 1px solid var(--paper-stain);
+  position: relative;
+}
+.step-item:last-child { border-bottom: none; }
+
+.step-number {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--paper-dark);
+  border: 2px solid var(--paper-stain);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: var(--red-tape);
+  flex-shrink: 0;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+  position: relative;
+  z-index: 1;
+}
+
+.step-body {
+  flex: 1;
+  padding-top: 8px;
+}
+.step-title {
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.step-exhibit {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+.step-body p {
+  font-family: var(--typewriter);
+  font-size: 0.88rem;
+  color: var(--ink-faded);
+  line-height: 1.85;
+  margin-bottom: 0.6rem;
+}
+.step-body p:last-child { margin-bottom: 0; }
+
+/* Sub-list inside step */
+.step-sub-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0.6rem 0;
+  padding-left: 0.5rem;
+}
+.step-sub-list li {
+  font-family: var(--typewriter);
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  line-height: 1.75;
+}
+.step-sub-list li::before { content: '▸'; color: var(--red-tape); font-size: 0.7rem; flex-shrink: 0; }
+
+/* Inline code tag */
+.code-tag {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+  color: var(--red-tape);
+  font-weight: 700;
+}
+
+/* ════════════════════════════════════════
+   PITFALLS / MISTAKES
+════════════════════════════════════════ */
+.pitfall-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin: 1.2rem 0;
+}
+.pitfall-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-top: 3px solid var(--red-tape);
+  border-radius: 0 0 3px 3px;
+  padding: 1rem 1.1rem;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+  transition: transform 0.25s;
+}
+.pitfall-card:hover { transform: translateY(-2px); }
+.pitfall-no {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  display: block;
+}
+.pitfall-title {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.pitfall-desc {
+  font-family: var(--typewriter);
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+/* Key Takeaways */
+.takeaway-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+  margin: 1.2rem 0;
+}
+.takeaway-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--paper-stain);
+  font-family: var(--typewriter);
+  font-size: 0.88rem;
+  color: var(--ink-faded);
+  line-height: 1.7;
+  background: var(--paper-dark);
+  transition: background 0.2s;
+}
+.takeaway-list li:last-child { border-bottom: none; }
+.takeaway-list li:hover { background: var(--paper); }
+.tk-icon { font-size: 1rem; flex-shrink: 0; }
+.tk-number {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--red-tape);
+  flex-shrink: 0;
+  min-width: 20px;
+}
+
+/* Related guides */
+.related-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+.related-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  padding: 1rem 1.1rem;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.related-card:hover { transform: translateY(-2px); box-shadow: 3px 4px 0 var(--paper-stain); }
+.related-cat {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: var(--red-tape);
+  text-transform: uppercase;
+}
+.related-title {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.related-arrow {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+  margin-top: 0.3rem;
+}
+
+/* ════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════ */
+.guide-sidebar {
+  position: sticky;
+  top: 86px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+/* ToC */
+.toc-box {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.toc-header {
+  background: var(--ink);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.toc-header span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--paper);
+}
+.toc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red-tape); animation: pulse 2s ease-in-out infinite; flex-shrink: 0; }
+
+.toc-list {
+  list-style: none;
+  padding: 0.8rem 0;
+}
+.toc-list li a {
+  display: block;
+  padding: 0.45rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.67rem;
+  letter-spacing: 1px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  transition: color 0.2s, background 0.2s;
+  border-left: 2px solid transparent;
+}
+.toc-list li a:hover, .toc-list li a.toc-active {
+  color: var(--red-tape);
+  background: rgba(192,39,45,0.05);
+  border-left-color: var(--red-tape);
+}
+
+/* Guide info card */
+.info-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.info-card-header {
+  background: var(--red-tape);
+  padding: 0.65rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #fff;
+}
+.info-card-body { padding: 0.8rem 1rem; }
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--paper-stain);
+  gap: 0.5rem;
+}
+.info-row:last-child { border-bottom: none; }
+.info-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+.info-value {
+  font-family: var(--typewriter);
+  font-size: 0.8rem;
+  color: var(--ink-faded);
+  text-align: right;
+  font-weight: 700;
+}
+.info-value.iv-red { color: var(--red-tape); }
+.info-value.iv-green { color: var(--stamp-green); }
+
+/* Share / back buttons */
+.sidebar-actions { display: flex; flex-direction: column; gap: 0.5rem; }
+.btn-outline-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--ink-faded);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 3px;
+  border: 1px solid var(--paper-stain);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
+  cursor: pointer;
+  width: 100%;
+}
+.btn-outline-sm:hover { border-color: var(--red-tape); color: var(--red-tape); }
+.btn-red-sm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--red-tape);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+  border-radius: 3px;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: background 0.2s;
+  cursor: pointer;
+  width: 100%;
+}
+.btn-red-sm:hover { background: var(--red-hover); }
+
+/* ════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════ */
+.progress-bar {
+  position: fixed;
+  top: 66px; left: 0; right: 0;
+  height: 3px;
+  background: transparent;
+  z-index: 999;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--red-tape);
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ════════════════════════════════════════
+   TICKER
+════════════════════════════════════════ */
+.ticker-wrap { background: var(--red-tape); overflow: hidden; padding: 10px 0; border-top: 1px solid var(--red-dark); border-bottom: 1px solid var(--red-dark); position: relative; z-index: 2; }
+.ticker-inner { display: flex; width: max-content; animation: scrollTape 36s linear infinite; }
+.ticker-item { font-family: var(--mono); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #fff; padding: 0 40px; white-space: nowrap; }
+.ticker-sep { color: rgba(255,255,255,0.4); }
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer { background: var(--paper-dark); border-top: 2px solid var(--paper-stain); padding: 3rem 5% 2rem; }
+.footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1180px; margin: 0 auto 3rem; }
+.footer-brand-text { font-family: var(--display); font-size: 1.6rem; letter-spacing: 2px; color: var(--ink); margin-bottom: 0.8rem; display: block; }
+.footer-brand-text em { font-style: normal; color: var(--red-tape); }
+.footer-brand p { font-family: var(--typewriter); font-size: 0.82rem; color: var(--ink-muted); line-height: 1.75; max-width: 280px; }
+.footer-socials { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.social-chipft { height: 28px; padding: 0 0.8rem; border-radius: 2px; background: var(--paper); border: 1px solid var(--paper-stain); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-faded); transition: all 0.2s; box-shadow: 1px 1px 0 var(--paper-stain); }
+.social-chipft:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
+.footer-col h4 { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 4px; color: var(--ink-muted); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--paper-stain); }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-col li a { font-family: var(--typewriter); font-size: 0.85rem; color: var(--ink-faded); transition: color 0.2s; }
+.footer-col li a:hover { color: var(--red-tape); }
+.footer-bottom { max-width: 1180px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid var(--paper-stain); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+.footer-bottom span { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-muted); letter-spacing: 1px; }
+.footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width: 920px) {
+  .guide-layout { grid-template-columns: 1fr; }
+  .guide-sidebar { position: static; }
+}
+@media (max-width: 860px) {
+  nav .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .pitfall-grid { grid-template-columns: 1fr; }
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .guide-hero h1 { font-size: clamp(36px, 10vw, 60px); }
+}
+@media (max-width: 480px) {
+  .guide-layout { padding: 2rem 5%; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ READING PROGRESS ═══════════ -->
+<div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progress-fill"></div></div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav id="main-nav">
+  <a href="/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Case File · EST. 2026</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a href="/learn/">Home</a>
+    <a href="/learn/#about">About</a>
+    <a href="/learn/#founders">Founders</a>
+    <a href="/learn/courses">Courses</a>
+    <a href="/learn/plans">Plans</a>
+    <a href="/learn/events">Events</a>
+    <a href="/learn/vacancies">Vacancies</a>
+    <a href="/learn/blog">Blog</a>
+    <a href="/learn/how-to" class="active-nav">How To?</a>
+    <a href="/learn/verify.html">Verify</a>
+  </div>
+
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger" aria-label="Open navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="/learn/" onclick="toggleMenu()">Home</a>
+  <a href="/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="/learn/plans" onclick="toggleMenu()">Our Plans</a>
+  <a href="/learn/events" onclick="toggleMenu()">Events</a>
+  <a href="/learn/vacancies" onclick="toggleMenu()">Vacancies</a>
+  <a href="/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="/learn/how-to" onclick="toggleMenu()">How To? Guides</a>
+  <a href="/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+
+<!-- ═══════════ BREADCRUMB ═══════════ -->
+<nav class="breadcrumb-bar" aria-label="Breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="/learn/">Home</a>
+    <span class="bc-sep" aria-hidden="true">›</span>
+    <a href="/learn/how-to">How To?</a>
+    <span class="bc-sep" aria-hidden="true">›</span>
+    <span class="bc-current">How to File GSTR-1?</span>
+  </div>
+</nav>
+
+
+<!-- ═══════════ GUIDE HERO ═══════════ -->
+<header class="guide-hero" role="banner">
+  <div class="guide-hero-inner">
+    <div class="guide-case-id">Case File · HT-TAX-001 · Taxation</div>
+    <h1>How to <em>File GSTR-1?</em></h1>
+    <div class="guide-hero-meta">
+      <span class="meta-chip mc-category">🏛️ Taxation</span>
+      <span class="meta-chip mc-level">⚡ Intermediate</span>
+      <span class="meta-chip mc-time">⏱ 15 min read</span>
+      <span class="meta-chip mc-updated">✓ Updated Apr 2026</span>
+    </div>
+    <p class="guide-hero-desc">
+      GSTR-1 is the monthly or quarterly statement of outward supplies every registered GST taxpayer must file. This guide walks you through the complete process — table by table — with no jargon and no confusion.
+    </p>
+  </div>
+</header>
+
+
+<!-- ═══════════ TICKER ═══════════ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item">GSTR-1 Filing <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Outward Supplies <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">GST Portal <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">B2B Invoices <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">B2C Supplies <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">QRMP Scheme <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Input Tax Credit <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Nil Return <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">GSTR-1 Filing <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Outward Supplies <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">GST Portal <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">B2B Invoices <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">B2C Supplies <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">QRMP Scheme <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Input Tax Credit <span class="ticker-sep">///</span></span>
+    <span class="ticker-item">Nil Return <span class="ticker-sep">///</span></span>
+  </div>
+</div>
+
+
+<!-- ═══════════ GUIDE LAYOUT ═══════════ -->
+<main class="guide-layout" id="guide-main">
+
+  <!-- ─── CONTENT ─── -->
+  <article class="guide-content" role="main">
+
+    <!-- Prerequisites -->
+    <div class="prereq-box reveal" id="prerequisites">
+      <h3>Prerequisites — Before You Begin</h3>
+      <ul class="prereq-list">
+        <li>Active GSTIN (GST Identification Number) for your business</li>
+        <li>Sales invoices for the filing period (month or quarter)</li>
+        <li>Customer GSTINs for all B2B transactions</li>
+        <li>Login credentials for the GST Portal (<a href="https://gst.gov.in" target="_blank" rel="noopener noreferrer" style="color:var(--red-tape)">gst.gov.in</a>)</li>
+        <li>EVC (Electronic Verification Code) or DSC (Digital Signature Certificate) for filing</li>
+        <li>Knowledge of your filing frequency — Monthly or Quarterly (QRMP Scheme)</li>
+      </ul>
+    </div>
+
+
+    <!-- Section 1: What is GSTR-1 -->
+    <div class="guide-section reveal" id="what-is-gstr1">
+      <span class="guide-section-label">Exhibit A · Overview</span>
+      <h2>What is GSTR-1?</h2>
+      <p>
+        GSTR-1 is a <strong>statement of outward supplies</strong> — a return filed by every registered GST taxpayer detailing all the sales and supplies made during a given period. It is not a tax payment return; it simply reports what you sold, to whom, and at what tax rate.
+      </p>
+      <p>
+        Information filed in your GSTR-1 directly flows into the <strong>GSTR-2B</strong> of your buyers, which they use to claim Input Tax Credit (ITC). This is why filing GSTR-1 accurately and on time is critical — not just for your compliance, but for your customer's ITC eligibility.
+      </p>
+
+      <div class="callout callout-info">
+        <div class="callout-head">📋 Who Must File GSTR-1?</div>
+        <p>Every GST-registered business with regular taxpayer status must file GSTR-1. Composition taxpayers, Input Service Distributors (ISD), and certain non-resident taxpayers file different returns and are <em>not</em> required to file GSTR-1.</p>
+      </div>
+    </div>
+
+
+    <!-- Section 2: Filing Frequency -->
+    <div class="guide-section reveal" id="filing-frequency">
+      <span class="guide-section-label">Exhibit B · Frequency &amp; Deadlines</span>
+      <h2>Filing Frequency &amp; Due Dates</h2>
+      <p>Your GSTR-1 filing frequency depends on your annual aggregate turnover in the previous financial year.</p>
+
+      <div class="guide-table-wrap">
+        <table class="guide-table">
+          <thead>
+            <tr>
+              <th>Annual Turnover</th>
+              <th>Frequency</th>
+              <th>Due Date</th>
+              <th>Scheme</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Up to ₹5 Crore</td>
+              <td>Quarterly</td>
+              <td class="td-red">13th of the month following the quarter</td>
+              <td class="td-mono">QRMP Scheme (Optional)</td>
+            </tr>
+            <tr>
+              <td>Above ₹5 Crore</td>
+              <td>Monthly</td>
+              <td class="td-red">11th of the following month</td>
+              <td class="td-mono">Regular</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-head">⚠️ Late Filing Penalty</div>
+        <p>Late filing attracts a penalty of <strong>₹50 per day</strong> (₹25 CGST + ₹25 SGST) up to ₹10,000. For nil returns (no supplies), the late fee is <strong>₹20 per day</strong> (₹10 CGST + ₹10 SGST). Interest on late tax payment is charged at 18% per annum — but GSTR-1 itself has no tax payment, so interest does not apply directly to this return.</p>
+      </div>
+    </div>
+
+
+    <!-- Section 3: Step-by-Step -->
+    <div class="guide-section reveal" id="step-by-step">
+      <span class="guide-section-label">Exhibit C · Field Procedure</span>
+      <h2>Step-by-Step: Filing GSTR-1</h2>
+
+      <div class="step-list">
+
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step One</span>
+            <div class="step-title">Log in to the GST Portal</div>
+            <p>Go to <a href="https://www.gst.gov.in" target="_blank" rel="noopener noreferrer" style="color:var(--red-tape);font-weight:700">gst.gov.in</a>. Click <span class="code-tag">Login</span> at the top right. Enter your Username and Password. Complete the CAPTCHA and sign in.</p>
+            <p>Once logged in, you will land on your taxpayer dashboard. Confirm the GSTIN shown matches the entity you are filing for.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Two</span>
+            <div class="step-title">Navigate to the Returns Dashboard</div>
+            <p>From the top navigation, go to: <span class="code-tag">Services</span> → <span class="code-tag">Returns</span> → <span class="code-tag">Returns Dashboard</span></p>
+            <p>On the Returns Dashboard, select the <strong>Financial Year</strong> and the <strong>Return Filing Period</strong> (the month or quarter you are filing for). Click <span class="code-tag">Search</span>.</p>
+            <p>You will see a set of return tiles. Click <span class="code-tag">Prepare Online</span> under the GSTR-1 tile to begin filling your return.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Three</span>
+            <div class="step-title">Fill Table 4 — B2B Invoices (Taxable Outward Supplies to Registered Persons)</div>
+            <p>This is the most important table. Report every invoice raised to a GST-registered buyer (another business with a GSTIN).</p>
+            <ul class="step-sub-list">
+              <li>Click <span class="code-tag">B2B Invoices</span> on the GSTR-1 dashboard.</li>
+              <li>Add the <strong>Receiver's GSTIN</strong>, Invoice Number, Invoice Date, Invoice Value, Place of Supply, Reverse Charge (Yes/No), and Taxable Value.</li>
+              <li>Select the applicable tax rate (IGST / CGST+SGST). The portal auto-calculates the tax amount.</li>
+              <li>Save each invoice. You can upload invoices in bulk using the <span class="code-tag">Download Template</span> → fill → <span class="code-tag">Upload JSON</span> method.</li>
+            </ul>
+
+            <div class="callout callout-info" style="margin-top:1rem">
+              <div class="callout-head">💡 GSTIN Validation</div>
+              <p>The portal validates the buyer's GSTIN in real-time. If the GSTIN is invalid, the invoice will not save. Always verify GSTINs at <a href="https://www.gst.gov.in/commonhome#" target="_blank" rel="noopener noreferrer" style="color:var(--stamp-blue)">Search Taxpayer</a> before raising invoices.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Four</span>
+            <div class="step-title">Fill Table 5 — B2C (Large) Invoices</div>
+            <p>B2C Large means: supplies made to <strong>unregistered persons</strong> (consumers/individuals) where the invoice value exceeds <strong>₹2.5 lakh</strong> in inter-state supplies.</p>
+            <ul class="step-sub-list">
+              <li>Click <span class="code-tag">B2CL (Large) Invoices</span>.</li>
+              <li>Enter Invoice Number, Date, Value, Place of Supply, and Tax details.</li>
+              <li>Only inter-state supplies above ₹2.5 lakh come here. Intra-state B2C supplies go to Table 7 regardless of invoice value.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Five</span>
+            <div class="step-title">Fill Table 7 — B2C (Small) Summary</div>
+            <p>All remaining B2C supplies — intra-state B2C of any value, and inter-state B2C invoices below ₹2.5 lakh — are reported here as a <strong>state-wise aggregate</strong>. You do not need invoice-level details for this table.</p>
+            <ul class="step-sub-list">
+              <li>Select the <strong>Place of Supply</strong> (state/UT code).</li>
+              <li>Enter the total taxable value and applicable tax rate.</li>
+              <li>Repeat for each state where you made B2C supplies.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">6</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Six</span>
+            <div class="step-title">Fill Other Applicable Tables</div>
+            <p>Depending on your business, you may also need to fill:</p>
+
+            <div class="guide-table-wrap" style="margin-top:0.8rem">
+              <table class="guide-table">
+                <thead>
+                  <tr><th>Table</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="td-mono">Table 6A</td><td>Exports (with or without payment of tax)</td></tr>
+                  <tr><td class="td-mono">Table 6B</td><td>Supplies to SEZ units / developers</td></tr>
+                  <tr><td class="td-mono">Table 6C</td><td>Deemed exports</td></tr>
+                  <tr><td class="td-mono">Table 8</td><td>Nil rated, exempted, and non-GST outward supplies</td></tr>
+                  <tr><td class="td-mono">Table 9</td><td>Amendments to B2B invoices of previous tax periods</td></tr>
+                  <tr><td class="td-mono">Table 10</td><td>Amendments to B2CL invoices of previous tax periods</td></tr>
+                  <tr><td class="td-mono">Table 11</td><td>Advances received / adjusted (applicable for certain taxpayers)</td></tr>
+                  <tr><td class="td-mono">Table 12</td><td>HSN-wise summary of outward supplies</td></tr>
+                  <tr><td class="td-mono">Table 13</td><td>Documents issued (invoices, credit notes, debit notes, etc.)</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="callout callout-warn" style="margin-top:1rem">
+              <div class="callout-head">⚠️ HSN Summary (Table 12) — Mandatory</div>
+              <p>From April 2021, HSN-wise summary is mandatory. Taxpayers with turnover up to ₹5 Cr must report 4-digit HSN; above ₹5 Cr must report 6-digit HSN. Aggregate for each HSN code — do not list individual invoices.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">7</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Seven</span>
+            <div class="step-title">Preview the Draft GSTR-1</div>
+            <p>Before submitting, always preview your return. Click <span class="code-tag">Preview Draft GSTR-1</span> from the GSTR-1 dashboard. Download the PDF summary and verify:</p>
+            <ul class="step-sub-list">
+              <li>Total outward taxable value matches your books</li>
+              <li>CGST + SGST vs IGST split is correct (intra vs inter-state)</li>
+              <li>All B2B GSTINs are correctly entered</li>
+              <li>HSN summary totals tally with invoice-level data</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">8</div>
+          <div class="step-body">
+            <span class="step-exhibit">Step Eight</span>
+            <div class="step-title">File GSTR-1</div>
+            <p>Once satisfied with the preview, click <span class="code-tag">File GSTR-1</span>. A confirmation popup will appear. Select your authorised signatory from the dropdown.</p>
+            <p>Choose your verification method:</p>
+            <ul class="step-sub-list">
+              <li><strong>EVC (Electronic Verification Code)</strong> — OTP sent to the registered mobile number / email. Suitable for proprietorships and individuals.</li>
+              <li><strong>DSC (Digital Signature Certificate)</strong> — Required for Companies and LLPs mandatorily; optional for others.</li>
+            </ul>
+            <p>After successful verification, an <strong>ARN (Acknowledgement Reference Number)</strong> is generated. <span style="color:var(--red-tape);font-weight:700">Download and save this ARN</span> — it is your proof of filing.</p>
+
+            <div class="callout callout-success" style="margin-top:1rem">
+              <div class="callout-head">✅ Filing Confirmed</div>
+              <p>Once filed, GSTR-1 cannot be revised for that period. Corrections must be made via amendments in the <em>subsequent period's</em> GSTR-1 using Tables 9 and 10. Plan and verify carefully before filing.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.step-list -->
+    </div>
+
+
+    <!-- Section 4: Nil Return -->
+    <div class="guide-section reveal" id="nil-return">
+      <span class="guide-section-label">Exhibit D · Special Cases</span>
+      <h2>Filing a Nil GSTR-1</h2>
+      <p>
+        If you have <strong>no outward supplies</strong> in a given period — no sales, no exports, nothing — you still must file a Nil GSTR-1. It is mandatory regardless of business activity.
+      </p>
+      <p>
+        The process is identical, but faster. Log in → Returns Dashboard → GSTR-1 → <span class="code-tag">Prepare Online</span>. Since there is nothing to fill, simply click <span class="code-tag">File GSTR-1</span> directly. Select your signatory, verify via EVC or DSC, and submit. The portal will automatically record it as a nil return.
+      </p>
+
+      <div class="callout callout-danger">
+        <div class="callout-head">🚫 Do Not Skip Nil Filing</div>
+        <p>Even months with zero sales require filing. Non-filing blocks your buyers from claiming ITC from you in future periods and attracts late fees. There is no exemption for nil activity.</p>
+      </div>
+    </div>
+
+
+    <!-- Section 5: Common Mistakes -->
+    <div class="guide-section reveal" id="common-mistakes">
+      <span class="guide-section-label">Exhibit E · Known Errors</span>
+      <h2>Common Mistakes to Avoid</h2>
+
+      <div class="pitfall-grid">
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 01</span>
+          <div class="pitfall-title">Wrong Place of Supply</div>
+          <div class="pitfall-desc">Always check whether the supply is intra-state or inter-state. Wrong POS = wrong tax (CGST/SGST vs IGST), which creates mismatches in the buyer's 2B.</div>
+        </div>
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 02</span>
+          <div class="pitfall-title">Invalid / Mistyped GSTIN</div>
+          <div class="pitfall-desc">A single digit error in the buyer's GSTIN means their ITC is blocked. Always verify GSTINs before adding them. The portal does check, but do not rely solely on it.</div>
+        </div>
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 03</span>
+          <div class="pitfall-title">Missing HSN Summary</div>
+          <div class="pitfall-desc">Table 12 is mandatory. Forgetting it causes errors on submission. Fill the HSN-wise summary even if the data seems redundant — it is a regulatory requirement.</div>
+        </div>
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 04</span>
+          <div class="pitfall-title">Filing After Due Date</div>
+          <div class="pitfall-desc">Late fees accumulate per day. If you miss the 11th or 13th deadline, file as soon as possible and pay the late fee before the system blocks future filings.</div>
+        </div>
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 05</span>
+          <div class="pitfall-title">Not Reconciling with Books</div>
+          <div class="pitfall-desc">Always reconcile GSTR-1 totals with your sales register before filing. Mismatch between GSTR-1 and GSTR-3B is a common GST scrutiny trigger.</div>
+        </div>
+        <div class="pitfall-card">
+          <span class="pitfall-no">Error · 06</span>
+          <div class="pitfall-title">Forgetting Amendments</div>
+          <div class="pitfall-desc">If you filed wrong data in a previous period, use Tables 9/10/11 in the current GSTR-1 to amend. Do not re-enter the original wrong invoice — amend it properly.</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Section 6: Key Takeaways -->
+    <div class="guide-section reveal" id="key-takeaways">
+      <span class="guide-section-label">Exhibit F · Summary</span>
+      <h2>Key Takeaways</h2>
+
+      <ul class="takeaway-list">
+        <li><span class="tk-number">01</span><span class="tk-icon">📋</span><span>GSTR-1 is a statement of outward supplies — not a tax payment. Tax is paid via GSTR-3B.</span></li>
+        <li><span class="tk-number">02</span><span class="tk-icon">📅</span><span>Monthly filers (turnover &gt; ₹5 Cr): file by 11th. Quarterly QRMP filers: file by 13th of the month after the quarter.</span></li>
+        <li><span class="tk-number">03</span><span class="tk-icon">📊</span><span>B2B invoices go to Table 4. Inter-state B2C &gt; ₹2.5L go to Table 5. All other B2C go to Table 7 as aggregates.</span></li>
+        <li><span class="tk-number">04</span><span class="tk-icon">🔢</span><span>HSN-wise summary (Table 12) is mandatory for all taxpayers — 4-digit for ≤₹5 Cr, 6-digit for &gt;₹5 Cr turnover.</span></li>
+        <li><span class="tk-number">05</span><span class="tk-icon">✅</span><span>Always preview before filing. GSTR-1 cannot be revised — only amended in a future period's return.</span></li>
+        <li><span class="tk-number">06</span><span class="tk-icon">🔄</span><span>Your GSTR-1 data flows directly to your buyer's GSTR-2B. File accurately — wrong data blocks their ITC claims.</span></li>
+        <li><span class="tk-number">07</span><span class="tk-icon">🚫</span><span>File nil GSTR-1 even if you have zero outward supplies in a period. Non-filing attracts late fees.</span></li>
+        <li><span class="tk-number">08</span><span class="tk-icon">💾</span><span>Save your ARN after every filing. It is your proof of submission and required for reconciliation and audits.</span></li>
+      </ul>
+    </div>
+
+
+    <!-- Related Guides -->
+    <div class="guide-section reveal" id="related-guides">
+      <span class="guide-section-label">Related Files · Continue Reading</span>
+      <h2>Related Guides</h2>
+      <div class="related-grid">
+        <a class="related-card" href="/learn/how-to/gst-input-tax-credit">
+          <span class="related-cat">Taxation</span>
+          <div class="related-title">How to Handle GST Input Tax Credit (ITC)?</div>
+          <div class="related-arrow">Open File →</div>
+        </a>
+        <a class="related-card" href="/learn/how-to/file-itr">
+          <span class="related-cat">Taxation</span>
+          <div class="related-title">How to File ITR (Income Tax Return)?</div>
+          <div class="related-arrow">Open File →</div>
+        </a>
+        <a class="related-card" href="/learn/how-to/file-tds-return">
+          <span class="related-cat">Taxation</span>
+          <div class="related-title">How to File TDS Returns (24Q / 26Q)?</div>
+          <div class="related-arrow">Open File →</div>
+        </a>
+        <a class="related-card" href="/learn/how-to/gst-registration">
+          <span class="related-cat">Compliance</span>
+          <div class="related-title">How to Obtain GST Registration?</div>
+          <div class="related-arrow">Open File →</div>
+        </a>
+      </div>
+    </div>
+
+  </article><!-- /.guide-content -->
+
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="guide-sidebar" aria-label="Guide navigation and information">
+
+    <!-- Table of Contents -->
+    <div class="toc-box">
+      <div class="toc-header">
+        <div class="toc-dot" aria-hidden="true"></div>
+        <span>Contents</span>
+      </div>
+      <ul class="toc-list" role="list">
+        <li><a href="#prerequisites" class="toc-link">Prerequisites</a></li>
+        <li><a href="#what-is-gstr1" class="toc-link">What is GSTR-1?</a></li>
+        <li><a href="#filing-frequency" class="toc-link">Filing Frequency</a></li>
+        <li><a href="#step-by-step" class="toc-link">Step-by-Step Filing</a></li>
+        <li><a href="#nil-return" class="toc-link">Nil GSTR-1</a></li>
+        <li><a href="#common-mistakes" class="toc-link">Common Mistakes</a></li>
+        <li><a href="#key-takeaways" class="toc-link">Key Takeaways</a></li>
+        <li><a href="#related-guides" class="toc-link">Related Guides</a></li>
+      </ul>
+    </div>
+
+    <!-- Case File Info -->
+    <div class="info-card">
+      <div class="info-card-header">Case File Details</div>
+      <div class="info-card-body">
+        <div class="info-row">
+          <span class="info-label">File No.</span>
+          <span class="info-value">HT-TAX-001</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Category</span>
+          <span class="info-value">Taxation</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Difficulty</span>
+          <span class="info-value iv-red">Intermediate</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Read Time</span>
+          <span class="info-value">~15 min</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Steps</span>
+          <span class="info-value">8 Steps</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value iv-green">Live</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Updated</span>
+          <span class="info-value">Apr 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="sidebar-actions">
+      <button class="btn-red-sm" onclick="window.location.href='/learn/how-to'">
+        ← Back to All Guides
+      </button>
+      <button class="btn-outline-sm" onclick="shareGuide()">
+        ↗ Share this Guide
+      </button>
+      <button class="btn-outline-sm" onclick="window.print()">
+        🖨 Print / Save PDF
+      </button>
+    </div>
+
+    <!-- Suggest / Improve -->
+    <div style="background:var(--paper-dark);border:1px solid var(--paper-stain);border-radius:3px;padding:1rem;text-align:center;box-shadow:2px 2px 0 var(--paper-stain);">
+      <p style="font-family:var(--mono);font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.6rem;">Found an error?</p>
+      <p style="font-family:var(--typewriter);font-size:0.78rem;color:var(--ink-faded);line-height:1.6;margin-bottom:0.8rem;">Help us keep this guide accurate. Write to us.</p>
+      <a href="mailto:canaufilansari@gmail.com?subject=Error in GSTR-1 Guide" style="font-family:var(--mono);font-size:0.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red-tape);">Report Error →</a>
+    </div>
+
+  </aside>
+
+</main><!-- /.guide-layout -->
+
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+      <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
+      <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft">LinkedIn</a>
+        <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft">WhatsApp</a>
+        <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft">Instagram</a>
+        <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="/learn/courses">All Courses</a></li>
+        <li><a href="/learn/how-to">How To? Guides</a></li>
+        <li><a href="/learn/#about">About Us</a></li>
+        <li><a href="/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+        <li><a href="/learn/privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Guides</h4>
+      <ul>
+        <li><a href="/learn/how-to/file-gstr-1">How to File GSTR-1</a></li>
+        <li><a href="/learn/how-to/tax-audit">How to do Tax Audit</a></li>
+        <li><a href="/learn/how-to/balance-sheet">How to Prepare Balance Sheet</a></li>
+        <li><a href="/learn/how-to/file-itr">How to File ITR</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="/learn/#founders">Talk to a Founder</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Guide</a></li>
+        <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+        <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+    <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+    <span class="tagline">Empowering India's Next Generation of Professionals</span>
+  </div>
+</footer>
+
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  /* ── Mobile menu ── */
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('hamburger');
+    const isOpen = menu.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+  }
+
+  /* ── Nav shrink ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').style.height = window.scrollY > 60 ? '56px' : '66px';
+  }, { passive: true });
+
+  /* ── Reading progress bar ── */
+  window.addEventListener('scroll', () => {
+    const article = document.getElementById('guide-main');
+    if (!article) return;
+    const rect = article.getBoundingClientRect();
+    const totalH = article.offsetHeight;
+    const scrolled = Math.max(0, -rect.top);
+    const progress = Math.min(100, (scrolled / (totalH - window.innerHeight)) * 100);
+    document.getElementById('progress-fill').style.width = progress + '%';
+  }, { passive: true });
+
+  /* ── Reveal ── */
+  document.body.classList.add('js-ready');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+  }, 900);
+
+  /* ── ToC active highlight ── */
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('.guide-section, .prereq-box');
+
+  const tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('toc-active'));
+        const id = entry.target.id;
+        if (id) {
+          const active = document.querySelector(`.toc-link[href="#${id}"]`);
+          if (active) active.classList.add('toc-active');
+        }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => { if (s.id) tocObserver.observe(s); });
+
+  /* ── Share ── */
+  function shareGuide() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'How to File GSTR-1? — SkillSphere Edu',
+        text: 'Step-by-step guide to filing GSTR-1 on the GST portal. Free guide by SkillSphere Edu.',
+        url: window.location.href
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy this link:', window.location.href);
+      });
+    }
+  }
+</script>
+</body>
+</html>
