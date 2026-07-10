@@ -133,6 +133,10 @@ body::before {
 @keyframes scrollTape{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
 @keyframes spinSlow  { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
 /* ════════════════════════════════════════
    NAVIGATION — Identical to index.html
 ════════════════════════════════════════ */
@@ -534,11 +538,17 @@ nav {
   width: 22px; height: 1px;
   background: var(--ink-muted);
 }
+/* Flexible wrap instead of a fixed column count, so filters can grow
+   (Type / Eligibility added) without the grid needing to be re-tuned again. */
 .controls-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr) auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: end;
+}
+.controls-grid .ctrl-group {
+  flex: 1 1 150px;
+  min-width: 140px;
 }
 .ctrl-group {
   display: flex;
@@ -801,6 +811,7 @@ nav {
 .tag-type  { background: rgba(192,39,45,.08); color: var(--red-tape); border-color: rgba(192,39,45,.28); }
 .tag-mode  { background: rgba(26,58,110,.08); color: var(--stamp-blue); border-color: rgba(26,58,110,.25); }
 .tag-dept  { background: rgba(26,18,9,.05); color: var(--ink-faded); border-color: var(--paper-stain); }
+.tag-elig  { background: rgba(26,77,46,.08); color: var(--stamp-green); border-color: rgba(26,77,46,.28); }
 
 .salary-pill {
   display: inline-flex;
@@ -924,7 +935,7 @@ nav {
 }
 
 /* ════════════════════════════════════════
-   EMPTY STATE
+   EMPTY / LOADING STATE
 ════════════════════════════════════════ */
 .empty-state {
   text-align: center;
@@ -1149,24 +1160,18 @@ footer {
 /* ════════════════════════════════════════
    RESPONSIVE
 ════════════════════════════════════════ */
-@media (max-width: 1050px) {
-  .controls-grid { grid-template-columns: 1fr 1fr; }
-}
-
 @media (max-width: 860px) {
   nav .nav-links { display: none; }
   .nav-hamburger { display: flex; }
   .stats-strip-inner { grid-template-columns: repeat(2,1fr); }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .job-card-inner { grid-template-columns: 48px 1fr auto; gap: 1rem; padding: 1.2rem 1.2rem 1.2rem 1.6rem; }
-  .controls-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 600px) {
   .job-card-inner { grid-template-columns: 1fr; gap: 0.8rem; padding: 1.2rem 1.2rem 1.2rem 1.5rem; }
   .job-logo { display: none; }
   .job-right { flex-direction: row; align-items: center; justify-content: space-between; }
-  .controls-grid { grid-template-columns: 1fr; }
   .stat-item { border-right: none; border-bottom: 1px solid var(--paper-stain); }
   .stat-item:last-child { border-bottom: none; }
   .stats-strip-inner { grid-template-columns: 1fr 1fr; }
@@ -1319,9 +1324,21 @@ footer {
         </select>
       </div>
       <div class="ctrl-group">
-        <label class="ctrl-label" for="filter-dept">Department</label>
-        <select class="ctrl-select" id="filter-dept" onchange="onDeptChange()">
-          <option value="">All Departments</option>
+        <label class="ctrl-label" for="filter-type">Type</label>
+        <select class="ctrl-select" id="filter-type" onchange="onTypeChange()">
+          <option value="">All Types</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="filter-domain">Domain</label>
+        <select class="ctrl-select" id="filter-domain" onchange="onDomainChange()">
+          <option value="">All Domains</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="filter-elig">Eligibility</label>
+        <select class="ctrl-select" id="filter-elig" onchange="onEligChange()">
+          <option value="">All Eligibility</option>
         </select>
       </div>
     </div>
@@ -1347,7 +1364,13 @@ footer {
   </div>
 
   <!-- JOB LISTINGS -->
-  <div class="jobs-list" id="jobs-list"></div>
+  <div class="jobs-list" id="jobs-list">
+    <div class="empty-state">
+      <div class="empty-icon">📁</div>
+      <h3>Loading Vacancies</h3>
+      <p>Pulling the latest listings from the case file…</p>
+    </div>
+  </div>
 
   <!-- PAGINATION -->
   <div class="pagination" id="pagination"></div>
@@ -1418,47 +1441,42 @@ footer {
   </div>
 </footer>
 
+<!-- ═══════════ FIREBASE DATA LOAD ═══════════ -->
+<script type="module">
+  import { firebaseConfig } from '/learn/assets/firebase-config.js';
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js';
+  import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  getDocs(collection(db, 'vacancies'))
+    .then(snap => {
+      window.JOBS = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      document.dispatchEvent(new CustomEvent('vacancies-ready'));
+    })
+    .catch(() => {
+      document.dispatchEvent(new CustomEvent('vacancies-error'));
+    });
+</script>
 
 <!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
-/* ═══════════════════════════════════════════════════════
-   VACANCY DATA
-   ───────────────────────────────────────────────────────
-   To add a new vacancy, copy one of the objects below
-   and paste it at the TOP of the array (inside the [ ]).
+/* JOBS is populated by the Firebase module script above. Declared with
+   var (not let/const) so it resolves to the same window.JOBS binding
+   that script writes to. */
+var JOBS = [];
 
-   Fields:
-     id      – unique string e.g. 'j12'
-     title   – job title
-     company – company / firm name
-     loc     – city or "Remote"
-     type    – Articleship | Internship | Full-time | Part-time | Contract | Freelance
-     mode    – On-site | Hybrid | Remote
-     dept    – Audit & Assurance | Taxation | Finance | Accounting | Advisory | Technology | Marketing | Operations | Other
-     salary  – e.g. '₹15,000/month' or '₹6–10 LPA'  (leave '' if not disclosed)
-     date    – YYYY-MM-DD  (date posted)
-     status  – 'open' | 'closed'
-     link    – full URL for apply / info page  (leave '' if none)
-     desc    – short description of the role
-   ═══════════════════════════════════════════════════════ */
-
-const JOBS = [
-  {id:'j1',title:'Article Trainee – Audit & Assurance',company:'RKCA & Co. LLP',loc:'Gurugram',type:'Articleship',mode:'On-site',dept:'Audit & Assurance',salary:'₹10,000–18,000/month',date:'2025-10-20',status:'open',link:'',desc:'3-year articleship with hands-on exposure to statutory audits, internal audits, and financial statement preparation for listed and unlisted clients.'},
-  {id:'j2',title:'Finance Intern – Corporate Treasury',company:'Helios Global Solutions',loc:'New Delhi',type:'Internship',mode:'Hybrid',dept:'Finance',salary:'₹15,000/month',date:'2025-10-08',status:'closed',link:'',desc:'2-month internship supporting the treasury team with cash flow forecasting, bank reconciliation, and MIS reporting.'},
-  {id:'j3',title:'Taxation Executive – Direct Tax',company:'FinTax Advisory LLP',loc:'Mumbai',type:'Full-time',mode:'On-site',dept:'Taxation',salary:'₹5–8 LPA',date:'2025-09-25',status:'closed',link:'',desc:'Prepare and review ITR filings, handle tax notices, conduct tax planning for HNI and corporate clients.'},
-  {id:'j4',title:'Junior Accountant',company:'StartupBase India',loc:'Bengaluru',type:'Full-time',mode:'Hybrid',dept:'Accounting',salary:'₹4–6 LPA',date:'2025-09-12',status:'closed',link:'',desc:'Manage day-to-day bookkeeping, accounts payable/receivable, and monthly MIS reports using Tally and Zoho Books.'},
-  {id:'j5',title:'GST Compliance Trainee',company:'IndirectTax Experts',loc:'Remote',type:'Internship',mode:'Remote',dept:'Taxation',salary:'₹12,000/month',date:'2025-08-28',status:'closed',link:'',desc:'Support GST return filing (GSTR-1, GSTR-3B), reconciliation, and ITC matching for 50+ clients under supervision.'},
-  {id:'j6',title:'Audit Intern',company:'Walker Chandiok & Co LLP',loc:'Hyderabad',type:'Internship',mode:'On-site',dept:'Audit & Assurance',salary:'₹18,000/month',date:'2025-08-15',status:'closed',link:'',desc:'4-month internship supporting senior auditors on listed company engagements. Exposure to risk assessment and working paper preparation.'},
-  {id:'j7',title:'Financial Analyst – FP&A',company:'Nykaa',loc:'Mumbai',type:'Full-time',mode:'Hybrid',dept:'Finance',salary:'₹8–12 LPA',date:'2025-07-30',status:'closed',link:'',desc:'Drive financial planning and analysis, build P&L models, and partner with business heads on budget variance analysis.'},
-  {id:'j8',title:'Advisory Consultant – Risk',company:'Deloitte India',loc:'Gurugram',type:'Full-time',mode:'Hybrid',dept:'Advisory',salary:'₹10–16 LPA',date:'2025-07-14',status:'closed',link:'',desc:'Work on enterprise risk management, internal controls, and SOX compliance projects for multinational clients.'},
-  {id:'j9',title:'Accounts Executive',company:'Piramal Group',loc:'New Delhi',type:'Full-time',mode:'On-site',dept:'Accounting',salary:'₹5–7 LPA',date:'2025-06-22',status:'closed',link:'',desc:'Handle vendor payments, ledger reconciliations, TDS filings, and month-end close activities in SAP environment.'},
-  {id:'j10',title:'Tax Analyst – International Tax',company:'Grant Thornton Bharat',loc:'Bengaluru',type:'Full-time',mode:'Hybrid',dept:'Taxation',salary:'₹9–14 LPA',date:'2025-06-05',status:'closed',link:'',desc:'Advise on cross-border tax structures, transfer pricing documentation, and FEMA/RBI compliance for global clients.'},
-];
-
-/* ── Dept → logo bg colours (adapted to paper palette) ── */
-const DEPT_LOGO_BG = {
-  'Audit & Assurance': { bg:'rgba(192,39,45,.1)', color:'#c0272d' },
-  'Taxation':          { bg:'rgba(26,77,46,.1)',  color:'#1a4d2e' },
+/* ── Dept → logo bg colours (adapted to paper palette) ──
+   Kept a few extra keys beyond the current Domain list on purpose:
+   if a Super Admin adds "Technology" or "Marketing" back as a Domain
+   option later, it already has a matching colour instead of falling
+   through to the generic "Other" styling. */
+const DOMAIN_LOGO_BG = {
+  'Internal Audit': { bg:'rgba(192,39,45,.1)', color:'#c0272d' },
+  'Statutory Audit': { bg:'rgba(192,39,45,.1)', color:'#c0272d' },
+  'Direct Taxation': { bg:'rgba(26,77,46,.1)',  color:'#1a4d2e' },
+  'Indirect Taxation': { bg:'rgba(26,77,46,.1)',  color:'#1a4d2e' },
   'Finance':           { bg:'rgba(26,58,110,.1)', color:'#1a3a6e' },
   'Accounting':        { bg:'rgba(176,125,26,.1)',color:'#b07d1a' },
   'Advisory':          { bg:'rgba(61,49,32,.1)',  color:'#3d3120' },
@@ -1471,7 +1489,7 @@ const DEPT_LOGO_BG = {
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const IPP = 15; /* items per page */
 
-let tab='all', yr='', mo='', loc='', dept='', pg=1;
+let tab='all', yr='', mo='', loc='', type='', domain='', elig='', pg=1;
 
 /* ── Date helpers ── */
 function ymd(d)  { return new Date(d+'T00:00:00'); }
@@ -1487,18 +1505,19 @@ function ago(d)  {
   if(diff<365)return`${Math.floor(diff/30)}mo ago`;
   return`${Math.floor(diff/365)}y ago`;
 }
+function escapeHtml(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
-/* ── Build filter dropdowns ── */
+/* ── Build filter dropdowns (values derived from what's actually posted) ── */
 function buildDropdowns(){
-  /* Year */
-  const years=[...new Set(JOBS.map(j=>getYr(j.date)))].sort((a,b)=>b-a);
+  const years=[...new Set(JOBS.map(j=>getYr(j.datePosted)))].sort((a,b)=>b-a);
   const ys=document.getElementById('filter-year');
   ys.innerHTML='<option value="">All Years</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
   if(yr) ys.value=yr;
 
-  /* Month – pool narrows when year selected */
-  const pool=yr?JOBS.filter(j=>getYr(j.date)===yr):JOBS;
-  const mos=[...new Set(pool.map(j=>getMo(j.date)))].sort((a,b)=>b.localeCompare(a));
+  const pool=yr?JOBS.filter(j=>getYr(j.datePosted)===yr):JOBS;
+  const mos=[...new Set(pool.map(j=>getMo(j.datePosted)))].sort((a,b)=>b.localeCompare(a));
   const ms=document.getElementById('filter-month');
   ms.innerHTML='<option value="">All Months</option>'+mos.map(m=>{
     const[y,n]=m.split('-');
@@ -1506,30 +1525,40 @@ function buildDropdowns(){
   }).join('');
   if(mo&&mos.includes(mo)) ms.value=mo;
 
-  /* Location */
-  const locs=[...new Set(JOBS.map(j=>j.loc).filter(Boolean))].sort();
+  const locs=[...new Set(JOBS.map(j=>j.location).filter(Boolean))].sort();
   const ls=document.getElementById('filter-loc');
-  ls.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${l}">${l}</option>`).join('');
+  ls.innerHTML='<option value="">All Locations</option>'+locs.map(l=>`<option value="${escapeHtml(l)}">${escapeHtml(l)}</option>`).join('');
   if(loc) ls.value=loc;
 
-  /* Department */
-  const depts=[...new Set(JOBS.map(j=>j.dept).filter(Boolean))].sort();
-  const ds=document.getElementById('filter-dept');
-  ds.innerHTML='<option value="">All Departments</option>'+depts.map(d=>`<option value="${d}">${d}</option>`).join('');
-  if(dept) ds.value=dept;
+  const types=[...new Set(JOBS.map(j=>j.type).filter(Boolean))].sort();
+  const ts=document.getElementById('filter-type');
+  ts.innerHTML='<option value="">All Types</option>'+types.map(t=>`<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+  if(type) ts.value=type;
+
+  const domains=[...new Set(JOBS.map(j=>j.domain).filter(Boolean))].sort();
+  const ds=document.getElementById('filter-domain');
+  ds.innerHTML='<option value="">All Domains</option>'+domains.map(d=>`<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join('');
+  if(domain) ds.value=domain;
+
+  const eligs=[...new Set(JOBS.map(j=>j.eligibility).filter(Boolean))].sort();
+  const es=document.getElementById('filter-elig');
+  es.innerHTML='<option value="">All Eligibility</option>'+eligs.map(e=>`<option value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join('');
+  if(elig) es.value=elig;
 
   updateClearBtn();
 }
 
 function updateClearBtn(){
-  document.getElementById('clear-btn').style.display=(yr||mo||loc||dept)?'':'none';
+  document.getElementById('clear-btn').style.display=(yr||mo||loc||type||domain||elig)?'':'none';
 }
 
 function onYearChange(){ yr=document.getElementById('filter-year').value; mo=''; pg=1; buildDropdowns(); render(); }
 function onMonthChange(){ mo=document.getElementById('filter-month').value; pg=1; updateClearBtn(); render(); }
 function onLocChange(){ loc=document.getElementById('filter-loc').value; pg=1; updateClearBtn(); render(); }
-function onDeptChange(){ dept=document.getElementById('filter-dept').value; pg=1; updateClearBtn(); render(); }
-function clearFilters(){ yr=''; mo=''; loc=''; dept=''; pg=1; buildDropdowns(); render(); }
+function onTypeChange(){ type=document.getElementById('filter-type').value; pg=1; updateClearBtn(); render(); }
+function onDomainChange(){ domain=document.getElementById('filter-domain').value; pg=1; updateClearBtn(); render(); }
+function onEligChange(){ elig=document.getElementById('filter-elig').value; pg=1; updateClearBtn(); render(); }
+function clearFilters(){ yr=''; mo=''; loc=''; type=''; domain=''; elig=''; pg=1; buildDropdowns(); render(); }
 
 function setTab(btn,t){
   document.querySelectorAll('.type-tab').forEach(x=>x.classList.remove('active'));
@@ -1541,12 +1570,14 @@ function setTab(btn,t){
 function applyFilters(pool){
   return pool.filter(j=>{
     if(tab!=='all'&&j.status!==tab) return false;
-    if(mo&&getMo(j.date)!==mo) return false;
-    if(yr&&!mo&&getYr(j.date)!==yr) return false;
-    if(loc&&j.loc!==loc) return false;
-    if(dept&&j.dept!==dept) return false;
+    if(mo&&getMo(j.datePosted)!==mo) return false;
+    if(yr&&!mo&&getYr(j.datePosted)!==yr) return false;
+    if(loc&&j.location!==loc) return false;
+    if(type&&j.type!==type) return false;
+    if(domain&&j.domain!==domain) return false;
+    if(elig&&j.eligibility!==elig) return false;
     return true;
-  }).sort((a,b)=>b.date.localeCompare(a.date));
+  }).sort((a,b)=>(b.datePosted||'').localeCompare(a.datePosted||''));
 }
 
 /* ── Main render ── */
@@ -1555,18 +1586,18 @@ function render(){
   if(pg>tpg) pg=tpg;
   const slice=f.slice((pg-1)*IPP, pg*IPP);
 
-  /* Stats (always from full dataset) */
   document.getElementById('stat-total').textContent  = JOBS.length;
   document.getElementById('stat-open').textContent   = JOBS.filter(j=>j.status==='open').length;
   document.getElementById('stat-closed').textContent = JOBS.filter(j=>j.status==='closed').length;
   document.getElementById('stat-co').textContent     = [...new Set(JOBS.map(j=>j.company))].length;
 
-  /* Tab counts (respect filters but not status tab) */
   const dateFiltered=JOBS.filter(j=>{
-    if(mo&&getMo(j.date)!==mo) return false;
-    if(yr&&!mo&&getYr(j.date)!==yr) return false;
-    if(loc&&j.loc!==loc) return false;
-    if(dept&&j.dept!==dept) return false;
+    if(mo&&getMo(j.datePosted)!==mo) return false;
+    if(yr&&!mo&&getYr(j.datePosted)!==yr) return false;
+    if(loc&&j.location!==loc) return false;
+    if(type&&j.type!==type) return false;
+    if(domain&&j.domain!==domain) return false;
+    if(elig&&j.eligibility!==elig) return false;
     return true;
   });
   document.getElementById('cnt-all').textContent    = dateFiltered.length;
@@ -1592,7 +1623,7 @@ function render(){
 function cardHTML(j){
   const isOpen   = j.status==='open';
   const accent   = isOpen ? 'var(--stamp-green)' : 'var(--paper-stain)';
-  const logoPalette = DEPT_LOGO_BG[j.dept] || DEPT_LOGO_BG['Other'];
+  const logoPalette = DOMAIN_LOGO_BG[j.domain] || DOMAIN_LOGO_BG['Other'];
   const statusStamp = isOpen
     ? '<span class="status-stamp stamp-open">Open</span>'
     : '<span class="status-stamp stamp-closed">Closed</span>';
@@ -1600,8 +1631,8 @@ function cardHTML(j){
   let applyEl;
   if(!isOpen){
     applyEl = '<span class="apply-btn-closed">Position Closed</span>';
-  } else if(j.link){
-    applyEl = `<a class="apply-btn" href="${j.link}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>`;
+  } else if(j.applyLink){
+    applyEl = `<a class="apply-btn" href="${escapeHtml(j.applyLink)}" target="_blank" rel="noopener noreferrer">Apply Now ↗</a>`;
   } else {
     applyEl = '<span class="apply-btn-disabled">Link Coming Soon</span>';
   }
@@ -1612,34 +1643,36 @@ function cardHTML(j){
     <div class="job-card-inner">
 
       <div class="job-logo" style="--logo-bg:${logoPalette.bg};--logo-color:${logoPalette.color}">
-        ${j.company.charAt(0).toUpperCase()}
+        ${escapeHtml((j.company||'?').charAt(0).toUpperCase())}
       </div>
 
       <div class="job-body">
         <div class="job-top">
-          <span class="job-title">${j.title}</span>
+          <span class="job-title">${escapeHtml(j.title)}</span>
           ${statusStamp}
         </div>
         <div class="job-company">
-          ${j.company}<span class="job-company-sep">·</span>${j.loc||'Location TBA'}
+          ${escapeHtml(j.company)}<span class="job-company-sep">·</span>${escapeHtml(j.location||'Location TBA')}
         </div>
         <div class="job-tags">
-          <span class="tag tag-type">${j.type}</span>
-          <span class="tag tag-mode">${j.mode}</span>
-          <span class="tag tag-dept">${j.dept}</span>
-          ${j.salary ? `<span class="salary-pill">${j.salary}</span>` : ''}
+          <span class="tag tag-type">${escapeHtml(j.type||'')}</span>
+          <span class="tag tag-mode">${escapeHtml(j.mode||'')}</span>
+          <span class="tag tag-dept">${escapeHtml(j.domain||'')}</span>
+          ${j.eligibility ? `<span class="tag tag-elig">${escapeHtml(j.eligibility)}</span>` : ''}
+          ${j.salary ? `<span class="salary-pill">${escapeHtml(j.salary)}</span>` : ''}
         </div>
         <div class="job-meta">
           <span class="job-meta-item">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Posted ${fmt(j.date)}
+            Posted ${fmt(j.datePosted)}
           </span>
+          ${j.contactInfo ? `<span class="job-meta-item">✉ ${escapeHtml(j.contactInfo)}</span>` : ''}
         </div>
-        ${j.desc ? `<div class="job-desc">${j.desc}</div>` : ''}
+        ${j.description ? `<div class="job-desc">${escapeHtml(j.description)}</div>` : ''}
       </div>
 
       <div class="job-right">
-        <div class="job-date">${ago(j.date)}</div>
+        <div class="job-date">${ago(j.datePosted)}</div>
         ${applyEl}
       </div>
 
@@ -1688,10 +1721,21 @@ window.addEventListener('scroll',()=>{
   }
 });
 
-/* ── Init ── */
-document.addEventListener('DOMContentLoaded',()=>{
+/* ── Init — wait for both the DOM and the Firestore fetch ── */
+let domReady=false, dataReady=false;
+function tryInit(){
+  if(!domReady || !dataReady) return;
   buildDropdowns();
   render();
+}
+document.addEventListener('DOMContentLoaded', ()=>{ domReady=true; tryInit(); });
+document.addEventListener('vacancies-ready', ()=>{ dataReady=true; tryInit(); });
+document.addEventListener('vacancies-error', ()=>{
+  document.getElementById('jobs-list').innerHTML = `<div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <h3>Couldn't Load Vacancies</h3>
+      <p>Please refresh the page. If this keeps happening, let us know at skillsphere.edu.work@gmail.com.</p>
+     </div>`;
 });
 </script>
 </body>
