@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Understanding Financial Statements: A CA Student's Practical Guide — SkillSphere Edu Blog</title>
+  <meta name="description" content="Balance sheets, P&L accounts, and cash flow statements demystified — with real-world Indian business examples and the interpretation skills that matter on the job.">
+  <link rel="canonical" href="https://skillsphere-edu.github.io/learn/blog/understanding-financial-statements">
+  <meta name="robots" content="index, follow">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/learn/assets/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learn/assets/favicon-180x180.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <meta property="og:title" content="Understanding Financial Statements: A CA Student's Practical Guide">
+  <meta property="og:description" content="Balance sheets, P&L accounts, and cash flow statements demystified for CA students and articleship entrants.">
+  <meta property="og:url" content="https://skillsphere-edu.github.io/learn/blog/understanding-financial-statements">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://skillsphere-edu.github.io/learn/assets/preview-v2.png">
+  <meta property="article:author" content="Priyanshi Goswami">
+  <meta property="article:published_time" content="2026-04-28">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Understanding Financial Statements: A CA Student's Practical Guide",
+    "description": "Balance sheets, P&L accounts, and cash flow statements demystified with real-world Indian business examples.",
+    "author": {
+      "@type": "Person",
+      "name": "Priyanshi Goswami",
+      "url": "https://www.linkedin.com/in/priyanshi-goswami-229785219/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SkillSphere Edu",
+      "url": "https://skillsphere-edu.github.io/learn/"
+    },
+    "datePublished": "2026-04-28",
+    "url": "https://skillsphere-edu.github.io/learn/blog/understanding-financial-statements",
+    "image": "https://skillsphere-edu.github.io/learn/assets/preview-v2.png"
+  }
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-231C0271DH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-231C0271DH');
+  </script>
+
+<style>
+/* ════════════════════════════════════════
+   DESIGN TOKENS — Forensic Case-File Palette
+════════════════════════════════════════ */
+:root {
+  --paper:        #f0ead6;
+  --paper-dark:   #e0d8be;
+  --paper-stain:  #d4c9a8;
+  --paper-deep:   #cfc3a0;
+  --ink:          #1a1209;
+  --ink-faded:    #3d3120;
+  --ink-muted:    #6b5f45;
+  --red-tape:     #c0272d;
+  --red-dark:     #8b1a1e;
+  --red-hover:    #a82020;
+  --stamp-green:  #1a4d2e;
+  --stamp-blue:   #1a3a6e;
+  --gold:         #b07d1a;
+  --gold-l:       #c98b0a;
+
+  --display:      'Bebas Neue', sans-serif;
+  --typewriter:   'Courier Prime', monospace;
+  --mono:         'IBM Plex Mono', monospace;
+  --stamp:        'Special Elite', cursive;
+}
+
+/* ════════════════════════════════════════
+   RESET
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--typewriter);
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font-family: var(--typewriter); cursor: pointer; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--paper-stain); border-radius: 10px; }
+
+/* ════════════════════════════════════════
+   NOISE + NOTEBOOK LINES
+════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.45;
+}
+
+/* ════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════ */
+#progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-tape), var(--gold-l));
+  z-index: 1100; width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes blink    { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 66px;
+  background: rgba(240, 234, 214, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 2px solid var(--paper-stain);
+  transition: height 0.3s, background 0.3s;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+}
+
+.nav-brand-text {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.nav-brand-text em {
+  font-style: normal;
+  color: var(--red-tape);
+}
+
+.logo-icon {
+  height: 44px;
+  width: 44px;
+  filter: contrast(1.1) saturate(1.2);
+}
+
+.nav-stamp {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  color: var(--ink-faded);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--red-tape);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s;
+}
+
+.nav-links a:hover { color: var(--ink); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  background: var(--red-tape);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.55rem 1.2rem;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: var(--red-hover); transform: translateY(-1px); }
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--ink);
+  border-radius: 1px;
+  transition: all 0.3s;
+}
+
+/* ════════════════════════════════════════
+   MOBILE MENU
+════════════════════════════════════════ */
+.mobile-menu {
+  display: none;
+  position: fixed; top: 66px; left: 0; right: 0;
+  background: rgba(240,234,214,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid var(--paper-stain);
+  padding: 1.5rem 5%;
+  flex-direction: column; gap: 1.2rem; z-index: 999;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--mono); font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-faded); padding: 0.5rem 0;
+  border-bottom: 1px solid var(--paper-stain);
+}
+.mobile-menu a:hover { color: var(--red-tape); }
+
+/* ════════════════════════════════════════
+   PAGE WRAPPER
+════════════════════════════════════════ */
+.page { padding-top: 66px; position: relative; z-index: 1; }
+
+/* ════════════════════════════════════════
+   BREADCRUMB
+════════════════════════════════════════ */
+.breadcrumb-bar {
+  margin-top: 66px;
+  background: var(--paper-dark);
+  border-bottom: 1px solid var(--paper-stain);
+  padding: 0.7rem 5%;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  position: relative;
+  z-index: 1;
+  justify-content: flex-start;
+  height: 36px;
+}
+.breadcrumb-bar a { color: var(--red-tape); transition: opacity 0.2s; }
+.breadcrumb-bar a:hover { opacity: 0.7; }
+.breadcrumb-bar .sep { margin: 0 0.6rem; opacity: 0.35; }
+
+/* ════════════════════════════════════════
+   ARTICLE HEADER
+════════════════════════════════════════ */
+.article-header {
+  max-width: 1180px; margin: 0 auto;
+  padding: 2.5rem 5% 0;
+  position: relative;
+}
+
+/* Notebook lines on header bg */
+.article-header::before {
+  content: ''; position: absolute;
+  inset: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom, transparent, transparent 31px,
+    rgba(180,160,100,.15) 31px, rgba(180,160,100,.15) 32px
+  );
+}
+
+.article-stamp-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.4rem; position: relative;
+}
+
+.article-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 0.25rem 0.7rem; border-radius: 2px;
+}
+.ab-finance {
+  background: rgba(176,125,26,0.15);
+  color: var(--gold-l);
+  border: 1px solid rgba(176,125,26,0.3);
+  box-shadow: 1px 1px 0 rgba(176,125,26,0.2);
+}
+
+.case-ref {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 4px; color: var(--ink-muted);
+  text-transform: uppercase;
+}
+
+.article-title {
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+  color: var(--ink); line-height: 1;
+  letter-spacing: 1px;
+  max-width: 900px; margin-bottom: 1rem;
+  position: relative;
+}
+.article-title em {
+  font-style: normal; color: var(--red-tape);
+}
+
+.article-subtitle {
+  font-family: var(--typewriter);
+  font-size: 0.96rem; color: var(--ink-muted);
+  line-height: 1.85; max-width: 680px;
+  margin-bottom: 2rem; position: relative;
+}
+
+/* ── META ROW ── */
+.article-meta-row {
+  display: flex; align-items: center; gap: 1.5rem;
+  flex-wrap: wrap; padding: 1.4rem 0;
+  border-top: 2px solid var(--paper-stain);
+  border-bottom: 2px solid var(--paper-stain);
+  position: relative;
+}
+.meta-author { display: flex; align-items: center; gap: 0.75rem; }
+.meta-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--paper-dark); border: 2px solid var(--paper-stain);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 1.1rem;
+  color: var(--red-tape); flex-shrink: 0;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+}
+.author-info .name {
+  font-family: var(--mono); font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px; color: var(--ink);
+}
+.author-info .role {
+  font-family: var(--typewriter); font-size: 0.73rem; color: var(--ink-muted);
+}
+.meta-divider { width: 1px; height: 30px; background: var(--paper-stain); }
+.meta-stat .label {
+  font-family: var(--mono); font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--ink-muted); display: block;
+}
+.meta-stat .value {
+  font-family: var(--typewriter); font-size: 0.85rem;
+  color: var(--ink-faded); font-weight: 700;
+}
+.meta-actions { margin-left: auto; display: flex; gap: 0.5rem; }
+.action-btn {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-muted); background: var(--paper-dark);
+  border: 1px solid var(--paper-stain); border-radius: 2px;
+  padding: 0.4rem 0.9rem; cursor: pointer; transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
+}
+.action-btn:hover { color: var(--red-tape); border-color: var(--red-tape); background: var(--paper); }
+
+/* ════════════════════════════════════════
+   BANNER
+════════════════════════════════════════ */
+.article-banner {
+  max-width: 1180px; margin: 0 auto;
+  padding: 2.2rem 5% 0;
+}
+.banner-img {
+  width: 100%;
+  height: clamp(180px, 25vw, 320px);
+  border-radius: 3px;
+  background: linear-gradient(140deg, #0f0600 0%, #3b1204 45%, #6b2508 100%);
+  border: 2px solid var(--ink-faded);
+  box-shadow: 6px 6px 0 var(--paper-stain);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.banner-img::before {
+  content: 'EVIDENCE FILE // SSE-BLOG-001';
+  position: absolute; top: 14px; left: 18px;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 4px; color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+.banner-img::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.banner-icon { font-size: 7rem; position: relative; z-index: 1; }
+
+/* ════════════════════════════════════════
+   CONTENT LAYOUT
+════════════════════════════════════════ */
+.content-layout {
+  max-width: 1180px; margin: 0 auto;
+  padding: 3rem 5%;
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ════════════════════════════════════════
+   TABLE OF CONTENTS
+════════════════════════════════════════ */
+.toc-wrap {
+  position: sticky; top: 82px;
+  max-height: calc(100vh - 98px);
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin;
+}
+.toc-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+/* Red top stripe on TOC */
+.toc-card::before {
+  content: ''; display: block;
+  height: 3px; background: var(--red-tape);
+  border-radius: 3px 3px 0 0;
+}
+.toc-header {
+  padding: 0.8rem 1.1rem;
+  border-bottom: 1px solid var(--paper-stain);
+  font-family: var(--mono); font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-muted);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.toc-header::before { content: '—'; color: var(--red-tape); }
+.toc-list { padding: 0.5rem 0; }
+.toc-item {
+  display: block; padding: 0.38rem 1.1rem;
+  font-family: var(--mono); font-size: 0.7rem;
+  color: var(--ink-muted); border-left: 2px solid transparent;
+  transition: all 0.2s; line-height: 1.45;
+}
+.toc-item:hover {
+  color: var(--ink-faded); border-left-color: rgba(192,39,45,0.3);
+  background: rgba(192,39,45,0.04);
+}
+.toc-item.active {
+  color: var(--red-tape); border-left-color: var(--red-tape);
+  background: rgba(192,39,45,0.06); font-weight: 700;
+}
+.toc-item.sub {
+  padding-left: 2rem; font-size: 0.65rem; color: var(--ink-muted);
+  opacity: 0.75;
+}
+.toc-item.sub:hover, .toc-item.sub.active { opacity: 1; }
+
+.toc-footer {
+  padding: 0.8rem 1.1rem;
+  border-top: 1px solid var(--paper-stain);
+}
+.toc-prog-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 0.6rem;
+  color: var(--ink-muted); margin-bottom: 0.5rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.toc-prog-track {
+  height: 2px; background: var(--paper-stain); border-radius: 10px;
+  position: relative;
+}
+.toc-prog-fill {
+  height: 100%; background: var(--red-tape);
+  border-radius: 10px; width: 0%; transition: width 0.2s;
+}
+
+/* Mobile TOC toggle */
+.toc-toggle {
+  display: none; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--red-tape); background: var(--paper-dark);
+  border: 1px solid var(--paper-stain); border-radius: 2px;
+  padding: 0.55rem 1rem; cursor: pointer; margin-bottom: 1.5rem;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+}
+#mobileToc { display: none; }
+@media (max-width: 860px) {
+  #mobileToc.open { display: block; margin-bottom: 2rem; }
+}
+
+/* ════════════════════════════════════════
+   ARTICLE BODY
+════════════════════════════════════════ */
+.article-body { min-width: 0; }
+
+/* Intro box */
+.intro-box {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-left: 4px solid var(--red-tape);
+  border-radius: 0 3px 3px 0;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 2.5rem;
+  font-family: var(--typewriter);
+  font-size: 0.9rem; color: var(--ink-faded);
+  line-height: 1.8;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+  position: relative;
+}
+.intro-box::before {
+  content: '▸ CASE SUMMARY';
+  display: block;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 4px; color: var(--red-tape);
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.intro-box strong { color: var(--ink); }
+
+/* Section headings */
+.article-body h2 {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: var(--ink); letter-spacing: 1px;
+  line-height: 1; margin: 3rem 0 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--paper-stain);
+  position: relative;
+}
+.article-body h2::before {
+  content: '//';
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--red-tape); margin-right: 0.6rem;
+  position: relative; top: -2px;
+}
+.article-body h2:first-of-type { margin-top: 0; }
+
+.article-body h3 {
+  font-family: var(--mono);
+  font-size: 0.8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 3px;
+  color: var(--ink-faded); margin: 1.8rem 0 0.7rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.article-body h3::before {
+  content: ''; display: inline-block;
+  width: 20px; height: 1px; background: var(--red-tape);
+}
+
+/* Body text */
+.article-body p {
+  font-family: var(--typewriter);
+  font-size: 0.93rem; color: var(--ink-faded);
+  line-height: 1.9; margin-bottom: 1.2rem;
+}
+.article-body p strong { color: var(--ink); }
+.article-body p em { color: var(--ink-muted); }
+
+.article-body ul, .article-body ol {
+  margin: 1rem 0 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+.article-body li {
+  font-family: var(--typewriter);
+  font-size: 0.91rem; color: var(--ink-faded);
+  line-height: 1.8; margin-bottom: 0.5rem;
+  padding-left: 1.4rem; position: relative;
+}
+.article-body ul li::before {
+  content: '▸'; position: absolute; left: 0;
+  color: var(--red-tape); font-size: 0.75rem;
+  top: 0.18rem;
+}
+.article-body ol { counter-reset: ol-counter; }
+.article-body ol li::before {
+  content: counter(ol-counter, decimal-leading-zero) '.';
+  counter-increment: ol-counter;
+  position: absolute; left: 0;
+  font-family: var(--mono); font-size: 0.65rem;
+  font-weight: 700; color: var(--red-tape);
+  letter-spacing: 1px; top: 0.22rem;
+}
+.article-body li strong { color: var(--ink); }
+
+.article-body a {
+  color: var(--red-tape);
+  text-decoration: underline;
+  text-decoration-color: rgba(192,39,45,0.35);
+  transition: text-decoration-color 0.2s;
+}
+.article-body a:hover { text-decoration-color: var(--red-tape); }
+
+/* Blockquote */
+.article-body blockquote {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-left: 4px solid var(--stamp-blue);
+  border-radius: 0 3px 3px 0;
+  padding: 1.5rem 1.75rem 1.5rem 2rem;
+  margin: 2.5rem 0;
+  position: relative;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.article-body blockquote::before {
+  content: '"';
+  position: absolute; top: -0.3rem; left: 1.1rem;
+  font-family: var(--display); font-size: 4rem;
+  color: var(--stamp-blue); line-height: 1; opacity: 0.2;
+}
+.article-body blockquote p {
+  font-family: var(--stamp);
+  font-size: 1.05rem; font-style: italic;
+  color: var(--ink-faded); margin: 0; line-height: 1.7;
+}
+.article-body blockquote cite {
+  display: block; margin-top: 0.8rem;
+  font-family: var(--mono); font-size: 0.68rem;
+  font-style: normal; color: var(--ink-muted);
+  font-weight: 700; text-transform: uppercase; letter-spacing: 3px;
+}
+
+/* Callout */
+.callout {
+  display: flex; gap: 1rem;
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  padding: 1.2rem 1.4rem; margin: 2rem 0;
+  box-shadow: 2px 2px 0 var(--paper-stain);
+  position: relative;
+}
+.callout::before {
+  content: '! NOTE';
+  position: absolute; top: -9px; left: 16px;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 3px; color: var(--red-tape);
+  background: var(--paper-dark); padding: 0 6px;
+}
+.callout-icon { font-size: 1.2rem; flex-shrink: 0; padding-top: 0.1rem; }
+.callout-text {
+  font-family: var(--typewriter);
+  font-size: 0.88rem; color: var(--ink-faded); line-height: 1.75;
+}
+.callout-text strong { color: var(--ink); }
+.callout-text a { color: var(--red-tape); text-decoration: underline; }
+
+/* Table */
+.table-wrap {
+  overflow-x: auto; margin: 2rem 0;
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--paper-stain);
+}
+.article-body table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.82rem; background: var(--paper);
+}
+.article-body thead { background: var(--ink); }
+.article-body th {
+  text-align: left; padding: 0.75rem 1rem;
+  font-family: var(--mono); font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--paper-stain);
+  border-bottom: 2px solid var(--red-tape);
+}
+.article-body td {
+  padding: 0.7rem 1rem; color: var(--ink-faded);
+  font-family: var(--typewriter);
+  border-bottom: 1px solid var(--paper-stain); vertical-align: top;
+}
+.article-body tbody tr:last-child td { border-bottom: none; }
+.article-body tbody tr:nth-child(even) { background: var(--paper-dark); }
+.article-body tbody tr:hover { background: var(--paper-deep); }
+.article-body td strong { color: var(--ink); }
+
+/* Section divider */
+.section-break {
+  height: 1px; background: var(--paper-stain);
+  margin: 3rem 0; position: relative;
+}
+.section-break::after {
+  content: '· · ·'; position: absolute;
+  left: 50%; transform: translateX(-50%);
+  top: -8px; background: var(--paper);
+  padding: 0 10px;
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--paper-stain); letter-spacing: 4px;
+}
+
+/* ════════════════════════════════════════
+   ARTICLE FOOTER
+════════════════════════════════════════ */
+.article-footer {
+  margin-top: 3.5rem; padding-top: 2rem;
+  border-top: 2px solid var(--paper-stain);
+}
+
+/* Tags */
+.tags-row {
+  display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin-bottom: 2rem;
+}
+.tags-label {
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--ink-muted); text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.tag {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  padding: 0.28rem 0.7rem;
+  background: var(--paper-dark); border: 1px solid var(--paper-stain);
+  border-radius: 2px; color: var(--ink-muted);
+  box-shadow: 1px 1px 0 var(--paper-stain);
+  cursor: default; transition: all 0.2s;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.tag:hover { color: var(--red-tape); border-color: var(--red-tape); }
+
+/* Author card */
+.author-card {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px; padding: 1.75rem;
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  margin-bottom: 2rem;
+  box-shadow: 4px 4px 0 var(--paper-stain);
+  position: relative; overflow: hidden;
+}
+.author-card::before {
+  content: 'FILED BY';
+  position: absolute; top: 14px; right: 16px;
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 4px; color: var(--ink-muted); opacity: 0.5;
+}
+.author-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom, transparent, transparent 23px,
+    rgba(180,160,100,.12) 23px, rgba(180,160,100,.12) 24px
+  );
+  pointer-events: none;
+}
+.author-avatar-lg {
+  width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+  background: var(--paper); border: 2px solid var(--paper-stain);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 1.5rem;
+  color: var(--red-tape);
+  box-shadow: 2px 2px 0 var(--paper-stain);
+  position: relative; z-index: 1;
+}
+.author-card-info { position: relative; z-index: 1; }
+.author-card-info h4 {
+  font-family: var(--display); font-size: 1.5rem;
+  letter-spacing: 1px; color: var(--ink); margin-bottom: 0.2rem;
+}
+.author-card-info .role {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 3px;
+  color: var(--red-tape); margin-bottom: 0.8rem; display: block;
+}
+.author-card-info p {
+  font-family: var(--typewriter); font-size: 0.83rem;
+  color: var(--ink-muted); line-height: 1.7; margin-bottom: 1rem;
+}
+.author-links { display: flex; gap: 0.5rem; }
+.author-link {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+  color: var(--ink-faded); background: var(--paper);
+  border: 1px solid var(--paper-stain); border-radius: 2px;
+  padding: 0.3rem 0.75rem; transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
+}
+.author-link:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
+
+/* ════════════════════════════════════════
+   RELATED SECTION
+════════════════════════════════════════ */
+.related-section {
+  background: var(--paper-dark);
+  border-top: 2px solid var(--paper-stain);
+  padding: 4rem 5%;
+  position: relative; z-index: 1;
+}
+.related-section::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom, transparent, transparent 31px,
+    rgba(180,160,100,.18) 31px, rgba(180,160,100,.18) 32px
+  );
+  pointer-events: none;
+}
+.related-inner { max-width: 1180px; margin: 0 auto; position: relative; }
+
+.related-kicker {
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--red-tape); display: block; margin-bottom: 0.5rem;
+}
+.related-kicker::before { content: '— '; }
+
+.related-title {
+  font-family: var(--display); font-size: 2.4rem;
+  color: var(--ink); letter-spacing: 1px; margin-bottom: 2rem;
+}
+
+.related-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem; margin-top: 0.5rem;
+}
+.related-card {
+  background: var(--paper);
+  border: 1px solid var(--paper-stain);
+  border-radius: 3px; overflow: hidden;
+  box-shadow: 4px 4px 0 var(--paper-stain);
+  transition: transform 0.28s, box-shadow 0.28s;
+  cursor: pointer; display: block;
+}
+.related-card:hover { transform: translateY(-4px); box-shadow: 6px 8px 0 var(--paper-stain); }
+
+.related-thumb {
+  height: 110px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.related-thumb::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.related-thumb .thumb-icon { font-size: 2.4rem; position: relative; z-index: 1; }
+.rt-career { background: linear-gradient(140deg,#051208 0%,#0d3018 55%,#144d26 100%); }
+.rt-ca     { background: linear-gradient(140deg,#100218 0%,#2a0840 55%,#4a1878 100%); }
+.rt-fin    { background: linear-gradient(140deg,#0f0600 0%,#3b1204 45%,#6b2508 100%); }
+
+.related-body { padding: 1rem 1.1rem 1.2rem; }
+.related-cat {
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 0.4rem; display: block;
+}
+.rc-career { color: #1a6e3e; }
+.rc-ca     { color: var(--stamp-blue); }
+.rc-fin    { color: var(--red-tape); }
+
+.related-body h4 {
+  font-family: var(--mono); font-size: 0.8rem; font-weight: 700;
+  color: var(--ink-faded); line-height: 1.45; margin-bottom: 0.4rem;
+}
+.related-body span {
+  font-family: var(--typewriter); font-size: 0.73rem; color: var(--ink-muted);
+}
+
+/* ════════════════════════════════════════
+   TICKER TAPE
+════════════════════════════════════════ */
+@keyframes scrollTape { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.ticker-wrap {
+  background: var(--red-tape); overflow: hidden;
+  padding: 9px 0;
+  border-top: 1px solid var(--red-dark);
+  border-bottom: 1px solid var(--red-dark);
+  position: relative; z-index: 2;
+}
+.ticker-inner {
+  display: flex; width: max-content;
+  animation: scrollTape 30s linear infinite;
+}
+.ticker-item {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 4px; text-transform: uppercase;
+  color: #fff; padding: 0 36px; white-space: nowrap;
+}
+.ticker-sep { color: rgba(255,255,255,0.4); }
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer {
+  background: var(--paper-dark);
+  border-top: 2px solid var(--paper-stain);
+  padding: 3rem 5% 2rem;
+  position: relative; z-index: 1;
+}
+.footer-inner {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; max-width: 1180px; margin: 0 auto 3rem;
+}
+.footer-brand-text {
+  font-family: var(--display); font-size: 1.6rem;
+  letter-spacing: 2px; color: var(--ink);
+  margin-bottom: 0.8rem; display: block;
+}
+.footer-brand-text em { font-style: normal; color: var(--red-tape); }
+.footer-brand p {
+  font-family: var(--typewriter); font-size: 0.82rem;
+  color: var(--ink-muted); line-height: 1.75; max-width: 280px;
+}
+.footer-socials { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.social-chipft {
+  height: 28px; padding: 0 0.8rem; border-radius: 2px;
+  background: var(--paper); border: 1px solid var(--paper-stain);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink-faded); transition: all 0.2s;
+  box-shadow: 1px 1px 0 var(--paper-stain);
+}
+.social-chipft:hover { background: var(--red-tape); border-color: var(--red-dark); color: #fff; }
+.footer-col h4 {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 4px; color: var(--ink-muted);
+  margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--paper-stain);
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-col li a {
+  font-family: var(--typewriter); font-size: 0.85rem;
+  color: var(--ink-faded); transition: color 0.2s;
+}
+.footer-col li a:hover { color: var(--red-tape); }
+.footer-bottom {
+  margin: 0 auto;
+  padding-top: 1.5rem; border-top: 1px solid var(--paper-stain);
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 0.8rem;
+}
+.footer-bottom span {
+  font-family: var(--mono); font-size: 0.68rem; color: var(--ink-muted); letter-spacing: 0.5px;
+}
+.footer-bottom .tagline { color: var(--red-tape); font-weight: 700; }
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .content-layout { gap: 2.5rem; }
+}
+@media (max-width: 860px) {
+  .content-layout { grid-template-columns: 1fr; }
+  #desktopToc { display: none; }
+  .toc-toggle { display: flex; }
+  .meta-actions { display: none; }
+  .meta-divider { display: none; }
+  .related-grid { grid-template-columns: 1fr 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  nav .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .author-card { flex-direction: column; }
+}
+@media (max-width: 560px) {
+  .related-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  section { padding: 3rem 5%; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav id="main-nav">
+  <a href="https://skillsphere-edu.github.io/learn/" class="nav-logo">
+    <img src="/learn/assets/logotp.png" alt="SkillSphere Edu" class="logo-icon">
+    <div>
+      <span class="nav-brand-text">Skill<em>Sphere</em> Edu</span>
+      <span class="nav-stamp">Case File · EST. 2026</span>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <a href="https://skillsphere-edu.github.io/learn/#about">About</a>
+    <a href="https://skillsphere-edu.github.io/learn/#founders">Founders</a>
+    <a href="https://skillsphere-edu.github.io/learn/courses">Courses</a>
+    <a href="https://skillsphere-edu.github.io/learn/plans">Plans</a>
+    <a href="https://skillsphere-edu.github.io/learn/events">Events</a>
+    <a href="https://skillsphere-edu.github.io/learn/vacancies">Vacancies</a>
+    <a href="https://skillsphere-edu.github.io/learn/blog" class="active">Blog</a>
+    <a href="https://skillsphere-edu.github.io/learn/verify.html">Verify</a>
+  </div>
+
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="https://skillsphere-edu.github.io/learn/" onclick="toggleMenu()">Home</a>
+  <a href="https://skillsphere-edu.github.io/learn/#about" onclick="toggleMenu()">About SkillSphere Edu</a>
+  <a href="https://skillsphere-edu.github.io/learn/#founders" onclick="toggleMenu()">About the Founders</a>
+  <a href="https://skillsphere-edu.github.io/learn/courses" onclick="toggleMenu()">Our Courses</a>
+  <a href="https://skillsphere-edu.github.io/learn/plans" onclick="toggleMenu()">Our Plans</a>
+  <a href="https://skillsphere-edu.github.io/learn/events" onclick="toggleMenu()">Events</a>
+  <a href="https://skillsphere-edu.github.io/learn/vacancies" onclick="toggleMenu()">Vacancies</a>
+  <a href="https://skillsphere-edu.github.io/learn/blog" onclick="toggleMenu()">Blog &amp; Insights</a>
+  <a href="https://skillsphere-edu.github.io/learn/verify.html" onclick="toggleMenu()">Verify Certificate</a>
+</div>
+
+<div class="page">
+
+  <!-- ═══════════ BREADCRUMB ═══════════ -->
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="https://skillsphere-edu.github.io/learn/">Home</a>
+    <span class="sep">/</span>
+    <a href="https://skillsphere-edu.github.io/learn/blog">Blog &amp; Insights</a>
+    <span class="sep">/</span>
+    <span class="current">Understanding Financial Statements</span>
+  </nav>
+
+  <!-- ═══════════ ARTICLE HEADER ═══════════ -->
+  <div class="article-header">
+    <div class="article-stamp-row">
+      <span class="article-badge ab-finance">💰 Finance</span>
+      <span class="case-ref">Evidence File · SSE-BLOG-001</span>
+    </div>
+
+    <h1 class="article-title">
+      Understanding Financial<br>Statements: A CA Student's<br><em>Practical Guide</em>
+    </h1>
+
+    <p class="article-subtitle">
+      Balance sheets, P&amp;L accounts, and cash flow statements demystified — with real-world examples from Indian businesses and the interpretation skills that actually matter on the job.
+    </p>
+
+    <div class="article-meta-row">
+      <div class="meta-author">
+        <div class="meta-avatar">PG</div>
+        <div class="author-info">
+          <div class="name">Priyanshi Goswami</div>
+          <div class="role">CEO &amp; Founder · SkillSphere Edu</div>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Published</span>
+        <span class="value">April 28, 2026</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Read Time</span>
+        <span class="value">⏱ 8 min</span>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-stat">
+        <span class="label">Category</span>
+        <span class="value">Finance</span>
+      </div>
+      <div class="meta-actions">
+        <button class="action-btn" onclick="copyLink()">🔗 Copy Link</button>
+        <a href="https://www.linkedin.com/company/skillsphere001" class="action-btn" target="_blank" rel="noopener">in Share</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ BANNER ═══════════ -->
+  <div class="article-banner">
+    <div class="banner-img" role="img" aria-label="Financial Statements Article Banner">
+      <span class="banner-icon">📊</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ CONTENT LAYOUT ═══════════ -->
+  <div class="content-layout">
+
+    <!-- ── ARTICLE BODY ── -->
+    <main class="article-body" id="article-main">
+
+      <!-- Mobile TOC -->
+      <button class="toc-toggle" onclick="document.getElementById('mobileToc').classList.toggle('open')" aria-expanded="false" aria-controls="mobileToc">
+        — On This Page ▾
+      </button>
+      <div id="mobileToc" role="navigation" aria-label="Article contents">
+        <div class="toc-card" style="margin-bottom:2rem;">
+          <div class="toc-header">On This Page</div>
+          <div class="toc-list">
+            <a href="#intro"           class="toc-item">Introduction</a>
+            <a href="#balance-sheet"   class="toc-item">The Balance Sheet</a>
+            <a href="#assets"          class="toc-item sub">↳ Assets</a>
+            <a href="#liabilities"     class="toc-item sub">↳ Liabilities &amp; Equity</a>
+            <a href="#pl"              class="toc-item">Profit &amp; Loss Account</a>
+            <a href="#revenue"         class="toc-item sub">↳ Revenue Line Items</a>
+            <a href="#expenses"        class="toc-item sub">↳ Operating Expenses</a>
+            <a href="#cashflow"        class="toc-item">Cash Flow Statement</a>
+            <a href="#operating"       class="toc-item sub">↳ Operating Activities</a>
+            <a href="#investing"       class="toc-item sub">↳ Investing &amp; Financing</a>
+            <a href="#ratios"          class="toc-item">Key Financial Ratios</a>
+            <a href="#indian-context"  class="toc-item">Indian Business Context</a>
+            <a href="#common-mistakes" class="toc-item">Common Mistakes</a>
+            <a href="#conclusion"      class="toc-item">Conclusion</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="intro-box" id="intro">
+        <strong>In this article:</strong> We walk through all three core financial statements — Balance Sheet, P&amp;L Account, and Cash Flow Statement — with plain-language explanations, an Indian business context, and the key ratios your articleship firm will expect you to know.
+      </div>
+
+      <p>When you first sit across from a set of financial statements in your articleship, it can feel like reading a language you've studied in theory but never spoken aloud. The numbers are there. The formats are familiar from your ICAI textbooks. But <strong>knowing what a number means in isolation is completely different from understanding what it tells you</strong> about the business it represents.</p>
+
+      <p>This guide is written for CA students at the Inter and Final stages, and fresh articleship entrants. We'll work through each statement methodically — not just defining terms, but showing you how to read them the way a working professional does.</p>
+
+      <h2 id="balance-sheet">The Balance Sheet: A Snapshot of Financial Health</h2>
+      <p>The Balance Sheet tells you what a company owns, what it owes, and what's left over for shareholders at a specific point in time. It always balances because of the fundamental accounting equation:</p>
+
+      <div class="callout">
+        <span class="callout-icon">⚖️</span>
+        <div class="callout-text">
+          <strong>Assets = Liabilities + Shareholders' Equity</strong><br>
+          Every rupee a company has came from somewhere — either borrowed (liabilities) or invested/earned (equity). This equation must always hold.
+        </div>
+      </div>
+
+      <h3 id="assets">Assets: What the Company Owns</h3>
+      <p>Assets are split into <strong>Non-Current Assets</strong> (held for more than one year) and <strong>Current Assets</strong> (converted to cash within a year).</p>
+      <ul>
+        <li><strong>Non-Current:</strong> Property, plant &amp; equipment, intangibles, long-term investments, deferred tax assets</li>
+        <li><strong>Current:</strong> Inventories, trade receivables, cash &amp; cash equivalents, short-term investments</li>
+      </ul>
+      <p>When analysing asset composition, ask: <strong>Is this a capital-intensive business?</strong> A manufacturer will have heavy PP&amp;E. An IT firm will have relatively light tangible assets but significant goodwill or capitalised software.</p>
+
+      <h3 id="liabilities">Liabilities &amp; Equity: Where the Money Came From</h3>
+      <p>Liabilities are similarly split into current (due within a year) and non-current. Key items include long-term debt, provisions for employee benefits, and deferred tax liabilities.</p>
+      <p><strong>Equity</strong> represents the residual interest — share capital, retained earnings, and other reserves. A growing retained earnings balance across years means the company is reinvesting its profits — generally a positive sign.</p>
+
+      <div class="section-break"></div>
+
+      <h2 id="pl">The Profit &amp; Loss Account: How Money Was Earned and Spent</h2>
+      <p>The P&amp;L Account covers a <em>period of time</em> — typically a quarter or financial year — and shows how revenues were turned into profit or loss. In India, companies follow Schedule III of the Companies Act for presentation format.</p>
+
+      <h3 id="revenue">Revenue Line Items</h3>
+      <p>Revenue from Operations is the top line. Below it you'll typically find:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Line Item</th>
+              <th>What It Represents</th>
+              <th>Why It Matters</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Revenue from Operations</strong></td>
+              <td>Core business income</td>
+              <td>Growth rate signals business health</td>
+            </tr>
+            <tr>
+              <td><strong>Other Income</strong></td>
+              <td>Interest, dividends, asset gains</td>
+              <td>Watch if it masks core weakness</td>
+            </tr>
+            <tr>
+              <td><strong>Gross Profit</strong></td>
+              <td>Revenue minus Cost of Goods Sold</td>
+              <td>Gross margin reveals pricing power</td>
+            </tr>
+            <tr>
+              <td><strong>EBITDA</strong></td>
+              <td>Earnings before interest, tax, D&amp;A</td>
+              <td>Proxy for operating cash generation</td>
+            </tr>
+            <tr>
+              <td><strong>PAT (Net Profit)</strong></td>
+              <td>Bottom-line after all deductions</td>
+              <td>Profit attributable to shareholders</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="expenses">Operating Expenses: Where the Money Goes</h3>
+      <p>Indian companies present expenses by nature — materials, employee costs, depreciation, other expenses. Understanding the expense structure is crucial: high employee costs relative to revenue may limit scalability; high raw material costs signal commodity price exposure.</p>
+
+      <blockquote>
+        <p>The P&amp;L tells you how the business performed. The Balance Sheet tells you how it survived. Read them together, never in isolation.</p>
+        <cite>— Common wisdom in audit firms</cite>
+      </blockquote>
+
+      <div class="section-break"></div>
+
+      <h2 id="cashflow">The Cash Flow Statement: Where Cash Actually Moved</h2>
+      <p>The Cash Flow Statement is arguably the most important financial statement for understanding real financial health — and the one CA students most often overlook. A company can show a profit on the P&amp;L and still run out of cash.</p>
+
+      <h3 id="operating">Operating Activities</h3>
+      <p>This section shows cash generated from the core business. A healthy company consistently generates <strong>positive operating cash flow</strong> roughly aligned with its net profit. Large, persistent divergences are red flags — investigate rising receivables, inventory build-ups, or aggressive revenue recognition.</p>
+
+      <h3 id="investing">Investing &amp; Financing Activities</h3>
+      <p><strong>Investing activities</strong> cover capital expenditure, proceeds from asset sales, and investment transactions. <strong>Financing activities</strong> include borrowings, repayments, dividends paid, and equity issuances. Heavy borrowing to fund operations — rather than growth — is a warning sign.</p>
+
+      <div class="callout">
+        <span class="callout-icon">💡</span>
+        <div class="callout-text">
+          <strong>Quick Pattern Check:</strong> Positive Operating CF + Negative Investing CF (capex) + Small Financing CF = mature, self-funded business. Often the healthiest pattern you'll see.
+        </div>
+      </div>
+
+      <div class="section-break"></div>
+
+      <h2 id="ratios">Key Financial Ratios Every CA Student Should Know</h2>
+      <p>Ratios give context to numbers. A net profit of ₹50 crore means nothing without knowing the revenue, industry average, and prior year figure.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ratio</th>
+              <th>Formula</th>
+              <th>What It Tells You</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Current Ratio</strong></td>
+              <td>Current Assets ÷ Current Liabilities</td>
+              <td>Short-term liquidity. Below 1 = stress.</td>
+            </tr>
+            <tr>
+              <td><strong>Gross Margin %</strong></td>
+              <td>Gross Profit ÷ Revenue × 100</td>
+              <td>Pricing power &amp; cost efficiency</td>
+            </tr>
+            <tr>
+              <td><strong>Net Profit Margin</strong></td>
+              <td>PAT ÷ Revenue × 100</td>
+              <td>Overall profitability after all costs</td>
+            </tr>
+            <tr>
+              <td><strong>Debt-to-Equity</strong></td>
+              <td>Total Debt ÷ Shareholders' Equity</td>
+              <td>Financial leverage. High = risky.</td>
+            </tr>
+            <tr>
+              <td><strong>Return on Equity</strong></td>
+              <td>PAT ÷ Average Equity × 100</td>
+              <td>How well management uses shareholder funds</td>
+            </tr>
+            <tr>
+              <td><strong>Receivables Days</strong></td>
+              <td>(Debtors ÷ Revenue) × 365</td>
+              <td>How fast customers pay. Rising = concern.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-break"></div>
+
+      <h2 id="indian-context">Reading Financials in the Indian Context</h2>
+      <p>Indian financial statements under Ind AS have features that differ from IFRS and US GAAP:</p>
+      <ul>
+        <li><strong>Schedule III Format:</strong> Presentation of Balance Sheet and P&amp;L is prescribed under the Companies Act 2013. Know this format before opening any Indian annual report.</li>
+        <li><strong>Related Party Transactions:</strong> Ind AS 24 disclosures are critical for promoter-controlled companies where related-party dealings can significantly affect profitability.</li>
+        <li><strong>Deferred Tax (Ind AS 12):</strong> Timing differences between accounting profit and taxable income create deferred tax assets/liabilities that appear on the Balance Sheet.</li>
+        <li><strong>MSME Disclosure:</strong> Companies must separately disclose outstanding dues to MSMEs — directly relevant for audit work around vendor payments.</li>
+      </ul>
+
+      <div class="section-break"></div>
+
+      <h2 id="common-mistakes">Common Mistakes Students Make</h2>
+      <ol>
+        <li><strong>Reading in isolation:</strong> Always compare at least 2–3 years. A one-year snapshot is nearly meaningless without trend context.</li>
+        <li><strong>Ignoring the Notes to Accounts:</strong> The most important information is often buried here — accounting policy changes, contingent liabilities, litigation disclosures.</li>
+        <li><strong>Confusing Profit with Cash:</strong> High PAT with low Operating CF should immediately raise suspicion. Investigate the working capital changes.</li>
+        <li><strong>Memorising formats without understanding flows:</strong> ICAI exams reward format knowledge. Actual articleship work rewards understanding. Invest time in both.</li>
+        <li><strong>Not asking why:</strong> When a number looks unusual, ask your supervisor. The habit of curiosity separates average article clerks from exceptional ones.</li>
+      </ol>
+
+      <div class="section-break"></div>
+
+      <h2 id="conclusion">Putting It All Together</h2>
+      <p>Financial statements are a language. Like any language, you get better with exposure and practice. The best way to accelerate is to pick up a real Indian company's Annual Report — start with a business you're familiar with — and work through it section by section with this guide beside you.</p>
+      <p>Pay attention to what the management says in the MD&amp;A, then verify it against the actual numbers. Does their story match what the statements show? That critical habit is exactly what auditors are trained to develop.</p>
+
+      <div class="callout">
+        <span class="callout-icon">🎓</span>
+        <div class="callout-text">
+          <strong>Want to go deeper?</strong> SkillSphere Edu's upcoming <a href="https://skillsphere-edu.github.io/learn/courses">Financial Statements Analysis course</a> covers ratio analysis, working capital management, and reading Indian annual reports — with a verified certificate included.
+        </div>
+      </div>
+
+      <!-- ── ARTICLE FOOTER ── -->
+      <div class="article-footer">
+        <div class="tags-row">
+          <span class="tags-label">Tags:</span>
+          <span class="tag">Finance</span>
+          <span class="tag">Balance Sheet</span>
+          <span class="tag">Ind AS</span>
+          <span class="tag">CA Students</span>
+          <span class="tag">Articleship</span>
+          <span class="tag">Financial Analysis</span>
+        </div>
+
+        <div class="author-card">
+          <div class="author-avatar-lg">PG</div>
+          <div class="author-card-info">
+            <h4>Priyanshi Goswami</h4>
+            <span class="role">CEO &amp; Founder · SkillSphere Edu · CA Finalist · Audit Executive, RKCA &amp; Co. LLP</span>
+            <p>The visionary behind SkillSphere Edu. Priyanshi writes about financial literacy, the CA journey, and practical skills that bridge the gap between classroom education and professional life.</p>
+            <div class="author-links">
+              <a href="https://www.linkedin.com/in/priyanshi-goswami-229785219/" class="author-link" target="_blank" rel="noopener">LinkedIn ↗</a>
+              <a href="mailto:Priyanshinicasagurugram@gmail.com" class="author-link">Email</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── DESKTOP TOC ── -->
+    <aside class="toc-wrap" id="desktopToc" role="navigation" aria-label="Article table of contents">
+      <div class="toc-card">
+        <div class="toc-header">On This Page</div>
+        <div class="toc-list" id="tocList">
+          <a href="#intro"           class="toc-item">Introduction</a>
+          <a href="#balance-sheet"   class="toc-item">The Balance Sheet</a>
+          <a href="#assets"          class="toc-item sub">↳ Assets</a>
+          <a href="#liabilities"     class="toc-item sub">↳ Liabilities &amp; Equity</a>
+          <a href="#pl"              class="toc-item">Profit &amp; Loss Account</a>
+          <a href="#revenue"         class="toc-item sub">↳ Revenue Line Items</a>
+          <a href="#expenses"        class="toc-item sub">↳ Operating Expenses</a>
+          <a href="#cashflow"        class="toc-item">Cash Flow Statement</a>
+          <a href="#operating"       class="toc-item sub">↳ Operating Activities</a>
+          <a href="#investing"       class="toc-item sub">↳ Investing &amp; Financing</a>
+          <a href="#ratios"          class="toc-item">Key Financial Ratios</a>
+          <a href="#indian-context"  class="toc-item">Indian Business Context</a>
+          <a href="#common-mistakes" class="toc-item">Common Mistakes</a>
+          <a href="#conclusion"      class="toc-item">Conclusion</a>
+        </div>
+        <div class="toc-footer">
+          <div class="toc-prog-label">
+            <span>Reading Progress</span>
+            <span id="progPct">0%</span>
+          </div>
+          <div class="toc-prog-track">
+            <div class="toc-prog-fill" id="progFill"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div><!-- /content-layout -->
+
+  <!-- ═══════════ TICKER TAPE ═══════════ -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-inner">
+      <span class="ticker-item">Balance Sheet <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">P&amp;L Account <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Cash Flow Statement <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Ind AS <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Financial Ratios <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">CA Students <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Articleship Guide <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">SkillSphere Edu <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Balance Sheet <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">P&amp;L Account <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Cash Flow Statement <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Ind AS <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Financial Ratios <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">CA Students <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">Articleship Guide <span class="ticker-sep">///</span></span>
+      <span class="ticker-item">SkillSphere Edu <span class="ticker-sep">///</span></span>
+    </div>
+  </div>
+
+  <!-- ═══════════ RELATED ═══════════ -->
+  <section class="related-section">
+    <div class="related-inner">
+      <span class="related-kicker">You Might Also Like</span>
+      <h2 class="related-title">More From the Files</h2>
+      <div class="related-grid">
+        <a href="https://skillsphere-edu.github.io/learn/blog" class="related-card">
+          <div class="related-thumb rt-career">
+            <span class="thumb-icon">🚀</span>
+          </div>
+          <div class="related-body">
+            <span class="related-cat rc-career">🚀 Career</span>
+            <h4>How to Build a CV That Actually Gets Noticed in 2026</h4>
+            <span>6 min read · Naufil U. Ansari</span>
+          </div>
+        </a>
+        <a href="https://skillsphere-edu.github.io/learn/blog" class="related-card">
+          <div class="related-thumb rt-ca">
+            <span class="thumb-icon">📋</span>
+          </div>
+          <div class="related-body">
+            <span class="related-cat rc-ca">📋 CA Journey</span>
+            <h4>Articleship in 2026: What No One Tells You Before You Start</h4>
+            <span>10 min read · Mishthi Arora</span>
+          </div>
+        </a>
+        <a href="https://skillsphere-edu.github.io/learn/blog" class="related-card">
+          <div class="related-thumb rt-fin">
+            <span class="thumb-icon">💰</span>
+          </div>
+          <div class="related-body">
+            <span class="related-cat rc-fin">💰 Finance</span>
+            <h4>GST Reconciliation Made Simple: A Beginner's Walkthrough</h4>
+            <span>11 min read · Mishthi Arora</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-brand-text">Skill<em>Sphere</em> Edu</span>
+        <p style="margin-bottom:.5rem;font-family:var(--mono);font-size:.68rem;color:var(--ink-muted);letter-spacing:1px">GSTIN: —</p>
+        <p>A student-led upskilling platform delivering certified courses and verified credentials for the next generation of professionals.</p>
+        <div class="footer-socials">
+          <a href="https://www.linkedin.com/company/skillsphere001" class="social-chipft" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://chat.whatsapp.com/GQt3BvX99fr4tcHJg0Is1S" class="social-chipft" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://www.instagram.com/skillsphere.edu_official/" class="social-chipft" target="_blank" rel="noopener">Instagram</a>
+          <a href="mailto:skillsphere.work@gmail.com" class="social-chipft">Mail</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="https://skillsphere-edu.github.io/learn/courses">All Courses</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/#about">About Us</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/terms-and-conditions">Terms &amp; Conditions</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/privacy-policy">Privacy Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="https://skillsphere-edu.github.io/learn/courses/excel-essentials.html">Excel Essentials</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/courses">UI/UX Design</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/courses">Digital Marketing</a></li>
+          <li><a href="https://skillsphere-edu.github.io/learn/courses">Data Analytics</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://skillsphere-edu.github.io/learn/#founders">Talk to a Founder</a></li>
+          <li><a href="mailto:skillsphere.work@gmail.com">Suggest a Course</a></li>
+          <li><a href="mailto:skillsphere.work@gmail.com">Partnerships</a></li>
+          <li><a href="mailto:canaufilansari@gmail.com">Found a Bug?</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="tagline">© 2026 SkillSphere Edu. All rights reserved.</span>
+      <span>Website Designed by Naufil U. Ansari, COO, Co-Founder &amp; Editor.</span>
+      <span class="tagline">Empowering India's Next Generation of Professionals</span>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  /* ── Mobile menu ── */
+  function toggleMenu() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  /* ── Nav shrink on scroll ── */
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    nav.style.height = window.scrollY > 60 ? '56px' : '66px';
+  }, { passive: true });
+
+  /* ── Reading progress ── */
+  function updateProgress() {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    const fill = document.getElementById('progFill');
+    const label = document.getElementById('progPct');
+    if (fill) fill.style.width = pct + '%';
+    if (label) label.textContent = Math.round(pct) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ── */
+  const headings = document.querySelectorAll(
+    '.article-body h2[id], .article-body h3[id], .intro-box[id]'
+  );
+  const tocLinks = document.querySelectorAll('.toc-item');
+
+  const headingObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-10% 0% -80% 0%', threshold: 0 });
+
+  headings.forEach(h => headingObserver.observe(h));
+
+  /* ── Smooth scroll for TOC ── */
+  tocLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - 90,
+          behavior: 'smooth'
+        });
+      }
+      /* Close mobile TOC */
+      const mobileToc = document.getElementById('mobileToc');
+      if (window.innerWidth <= 860 && mobileToc.classList.contains('open')) {
+        mobileToc.classList.remove('open');
+      }
+    });
+  });
+
+  /* ── Copy link ── */
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = document.querySelector('.action-btn');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = orig; }, 1800);
+    });
+  }
+
+  /* ── Scroll reveal ── */
+  document.body.classList.add('js-ready');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.related-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity .6s ease, transform .6s ease';
+    revealObserver.observe(el);
+  });
+</script>
+</body>
+</html>
