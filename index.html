@@ -2547,6 +2547,7 @@ function toggleMenu() {
 
 /* Nav shrink on scroll */
 window.addEventListener('scroll', () => {
+if (window.innerWidth <= 768) return;
   const nav = document.getElementById('main-nav');
   if (window.scrollY > 60) {
     nav.style.height = '56px';
