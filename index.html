@@ -317,7 +317,7 @@ nav {
   display: none;
   position: fixed;
   top: 66px; left: 0; right: 0;
-  background: rgba(240,234,214,0.98);
+  background: var(--ink);
   backdrop-filter: blur(20px);
   border-bottom: 2px solid var(--paper-stain);
   padding: 1.5rem 5%;
@@ -332,7 +332,7 @@ nav {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-faded);
+  color: var(--paper);
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--paper-stain);
 }
@@ -1858,23 +1858,18 @@ footer {
 }
 
 @media(max-width:640px){
-
   .case-file{
     width:100%;
   }
-
   .wanted{
     font-size:58px;
   }
-
   .reward h2{
     font-size:38px;
   }
-
   .bottom-grid{
     grid-template-columns:1fr;
   }
-
   .info-box{
     border-right:none !important;
   }
